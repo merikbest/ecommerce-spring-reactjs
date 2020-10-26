@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="parts/common :: head"></head>
+
+<body>
+<div th:insert="~{parts/common :: scripts}"></div>
+<div th:replace="parts/common :: navbar"></div>
+
+<div class="container">
+    <div th:replace="parts/common :: userNavbar"></div>
+</div>
+
+<div class="container ">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Заказ №</th>
+            <th scope="col">Дата</th>
+            <th scope="col">Заказчик</th>
+            <th scope="col">Адресс</th>
+            <th scope="col">Почтовый индекс</th>
+            <th scope="col">Товары</th>
+            <th scope="col">Сумма, грн.</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+
+        <tbody th:each="order : ${orders}">
+        <tr>
+            <th th:text="${order.getId()}"></th>
+            <th th:text="${order.getDate()}"></th>
+            <th th:text="${order.getFirstName() + ' ' + order.getLastName()}"></th>
+            <th th:text="${order.getCity() + ', ' + order.getAddress()}"></th>
+            <th th:text="${order.getPostIndex()}"></th>
+            <th>
+                <div th:each="product : ${order.getPerfumeList()}">
+                    <p>Id товара:
+                        <a th:href="@{/product/{path} (path = ${product.getId()})}" th:text="${product.getId()}"></a>
+                    </p>
+                </div>
+            </th>
+            <th th:text="${order.getTotalPrice()}"></th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:insert="~{parts/common :: footer}"></footer>
+</body>
+</html>

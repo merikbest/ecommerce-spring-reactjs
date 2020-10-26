@@ -1,0 +1,121 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head th:replace="parts/common :: head"></head>
+
+<body>
+
+<div th:insert="~{parts/common :: scripts}"></div>
+<div th:replace="parts/common :: navbar"></div>
+
+<div id="container">
+    <div class="container">
+        <div th:replace="parts/common :: userNavbar"></div>
+    </div>
+
+    <div class="container mt-5">
+        <form method="post" action="/user/productlist" enctype="multipart/form-data">
+
+        <h5 th:text="${perfume.getId()}"></h5>
+
+        <div th:if="${perfume.getFilename()}" class="col-md-5 mb-3">
+            <div>
+                <img th:src="@{/img/{path} (path = ${perfume.getFilename()})}" class="rounded mx-auto w-100 mb-5">
+            </div>
+            <input type="file" name="file">
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Название парфюма:</label>
+            <div class="col-sm-6">
+                <input type="text" name="perfumeTitle" class="form-control" th:value="${perfume.getPerfumeTitle()}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Парфюмер:</label>
+            <div class="col-sm-6">
+                <input type="text" name="perfumer" class="form-control" th:value="${perfume.getPerfumer()}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Год выпуска:</label>
+            <div class="col-sm-6">
+                <input type="text" name="year" class="form-control" th:value="${perfume.getYear()}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Страна:</label>
+            <div class="col-sm-6">
+                <input type="text" name="country" class="form-control" th:value="${perfume.getCountry()}" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+             <label class="col-sm-2 col-form-label">Тип:</label>
+             <div class="col-sm-6">
+                 <input type="text" name="type" class="form-control" th:value="${perfume.getType()}" />
+             </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Объем:</label>
+            <div class="col-sm-6">
+                <input type="text" name="volume" class="form-control" th:value="${perfume.getVolume()}" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Пол:</label>
+            <div class="col-sm-6">
+                <input type="text" name="perfumeGender" class="form-control" th:value="${perfume.getPerfumeGender()}" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Верхние ноты:</label>
+            <div class="col-sm-6">
+                <input type="text" name="fragranceTopNotes" class="form-control" th:value="${perfume.getFragranceTopNotes()}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Средние ноты:</label>
+            <div class="col-sm-6">
+                <input type="text" name="fragranceMiddleNotes" class="form-control" th:value="${perfume.getFragranceMiddleNotes()}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Базовые ноты:</label>
+            <div class="col-sm-6">
+                <input type="text" name="fragranceBaseNotes" class="form-control" th:value="${perfume.getFragranceBaseNotes()}"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Цена:</label>
+            <div class="col-sm-6">
+                <input type="text" name="price" class="form-control" th:value="${perfume.getPrice()}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Описание</label>
+            <textarea class="form-control col-sm-8" id="exampleFormControlTextarea1" rows="3" th:value="${perfume.getDescription()}"></textarea>
+        </div>
+            <input type="hidden" name="id" th:value="${perfume.getId()}"/>
+            
+        <button type="submit" class="btn btn-dark">Добавить</button>
+
+
+        </form>
+    </div>
+</div>
+
+<footer th:insert="~{parts/common :: footer}"></footer>
+</body>
+</html>

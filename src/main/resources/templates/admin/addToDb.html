@@ -1,0 +1,142 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="parts/common :: head"></head>
+
+<body>
+<div th:insert="~{parts/common :: scripts}"></div>
+<div th:replace="parts/common :: navbar"></div>
+
+<div id="container">
+    <div class="container" >
+        <div th:replace="parts/common :: userNavbar"></div>
+    </div>
+
+    <div class="container mt-5 pb-5">
+        <form method="post" action="/user/add" enctype="multipart/form-data">
+            <h5>Заполните форму</h5>
+            <br>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Название парфюма:</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="perfumeTitle" th:value="${perfume} ? ${perfume.perfumeTitle} : ''"
+                               class="form-control" th:classappend="${perfumeTitleError} ? ' is-invalid'" />
+                        <div th:if="${perfumeTitleError}" class="invalid-feedback" th:text="${perfumeTitleError}"></div>
+                    </div>
+                </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Парфюмер:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="perfumer" th:value="${perfume} ? ${perfume.perfumer} : ''"
+                           class="form-control" th:classappend="${perfumerError} ? ' is-invalid'" />
+                    <div th:if="${perfumerError}" class="invalid-feedback" th:text="${perfumerError}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Год выпуска:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="year" th:value="${perfume} ? ${perfume.year} : ''"
+                           class="form-control" th:classappend="${yearError} ? ' is-invalid'" />
+                    <div th:if="${yearError}" class="invalid-feedback" th:text="${yearError}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Страна:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="country" th:value="${perfume} ? ${perfume.country} : ''"
+                           class="form-control" th:classappend="${countryError} ? ' is-invalid'" />
+                    <div th:if="${countryError}" class="invalid-feedback" th:text="${countryError}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Тип:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="type" th:value="${perfume} ? ${perfume.type} : ''"
+                           class="form-control" th:classappend="${typeError} ? ' is-invalid'" />
+                    <div th:if="${typeError}" class="invalid-feedback" th:text="${typeError}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Объем:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="volume" th:value="${perfume} ? ${perfume.volume} : ''"
+                           class="form-control" th:classappend="${volumeError} ? ' is-invalid'" />
+                    <div th:if="${volumeError}" class="invalid-feedback" th:text="${volumeError}"></div>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Количество:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="count" class="form-control" th:classappend="${countError} ? ' is-invalid'" />
+                    <div th:if="${countError}" class="invalid-feedback" th:text="${countError}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Пол:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="perfumeGender" th:value="${perfume} ? ${perfume.perfumeGender} : ''"
+                           class="form-control" th:classappend="${perfumeGenderError} ? ' is-invalid'" />
+                    <div th:if="${perfumeGenderError}" class="invalid-feedback" th:text="${perfumeGenderError}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Верхние ноты:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="fragranceTopNotes" th:value="${perfume} ? ${perfume.fragranceTopNotes} : ''"
+                           class="form-control" th:classappend="${fragranceTopNotesError} ? ' is-invalid'" />
+                    <div th:if="${fragranceTopNotesError}" class="invalid-feedback" th:text="${fragranceTopNotesError}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Средние ноты:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="fragranceMiddleNotes" th:value="${perfume} ? ${perfume.fragranceMiddleNotes} : ''"
+                           class="form-control" th:classappend="${fragranceMiddleNotesError} ? ' is-invalid'" />
+                    <div th:if="${fragranceMiddleNotesError}" class="invalid-feedback" th:text="${fragranceMiddleNotesError}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Базовые ноты:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="fragranceBaseNotes" th:value="${perfume} ? ${perfume.fragranceBaseNotes} : ''"
+                           class="form-control" th:classappend="${fragranceBaseNotesError} ? ' is-invalid'" />
+                    <div th:if="${fragranceBaseNotesError}" class="invalid-feedback" th:text="${fragranceBaseNotesError}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Цена:</label>
+                <div class="col-sm-6">
+                    <input type="text" name="price" th:value="${perfume} ? ${perfume.price} : ''"
+                           class="form-control" th:classappend="${priceError} ? ' is-invalid'" />
+                    <div th:if="${priceError}" class="invalid-feedback" th:text="${priceError}"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Описание</label>
+                <textarea class="form-control col-sm-8" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-dark">Добавить</button>
+
+            <input type="file" name="file">
+
+        </form>
+    </div>
+</div>
+
+<footer th:insert="~{parts/common :: footer}"></footer>
+</body>
+</html>

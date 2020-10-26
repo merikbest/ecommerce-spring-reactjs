@@ -1,0 +1,78 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="parts/common :: head"></head>
+
+<body>
+<div th:insert="~{parts/common :: scripts}"></div>
+<div th:replace="parts/common :: navbar"></div>
+
+<div id="container">
+    <div class="container mt-5 pb-5">
+
+        <p class="h4 mb-4 text-center">Корзина</p>
+
+        <div class="text-center" th:if="${perfumes.size() == 0}">
+            <p>Корзина пуста</p>
+        </div>
+
+        <div th:if="${perfumes.size() > 0}">
+
+            <div class="card mb-3 mx-auto" style="max-width: 940px;" th:each="perfume : ${perfumes}" >
+                <div class="row no-gutters">
+
+                    <div class="col-3 p-2">
+                        <img th:src="@{/img/{path} (path = ${perfume.getFilename()})}" class="rounded mx-auto w-50">
+                    </div>
+
+                    <div class="col-7">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${perfume.getPerfumer() + ' ' + perfume.getPerfumeTitle()}"></h5>
+                            <p class="card-text" th:text="${perfume.getType()}"></p>
+                            <p class="card-text"><span th:text="${perfume.getVolume()}"></span> мл.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="card-body">
+                            <h5 class="card-title"><span th:text="${perfume.getPrice()}"></span> грн.</h5>
+
+                            <form class="d-inline" action="/cart/remove" method="post">
+                                <button class="btn btn-warning">Удалить</button>
+                                <input type="hidden" name="perfumeId" th:value="${perfume.getId()}">
+                                <div class="from-group mb-2">
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-3"/>
+
+            <div class="row">
+                <div class="col-9 ">
+                    <p class="h5 text-right">Итого: <span th:text="${#aggregates.sum(perfumes.![price])}"></span> грн.</p>
+                </div>
+
+                <div class="col-3">
+                    <form action="/order" method="get" class="ml-3">
+                        <div class="form-row">
+                            <div class="col-6">
+                                <button class="btn btn-success" >Оформить заказ</button>
+                            </div>
+                        </div>
+<!--                        <input type="hidden" name="totalPrice" th:value="${#aggregates.sum(perfumes.![price])}">-->
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<footer th:insert="~{parts/common :: footer}"></footer>
+</body>
+</html>

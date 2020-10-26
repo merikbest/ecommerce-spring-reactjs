@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Thymeleaf</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <script th:src="@{/js/libs/jquery.min.js}"></script>
+
+</head>
+
+<body>
+<div class="container">
+    <div class="container">
+        <h3 style="color: green" class="text-center display-4 font-weight-bold pt-5 ">Thymeleaf course</h3>
+    </div>
+
+    <div class="container">
+        <!-- 1. Example with th:text="${defaultName}" -->
+        <label for="defaultName">1. Example with th:text="${...}"</label>
+        <input id="defaultName" style="color: blue" type="text" name="userName" value="James Carrot"  th:value="${defaultName}"/>
+
+        <br>
+        <hr>
+
+        <!-- 2. Example with String greetings = "Hello world"-->
+        <b>2. Variable expression ${...} </b>
+        <p th:text="${greetings}">Nothing</p>
+
+        <br>
+        <br>
+        <hr>
+
+        <!-- 3. Example with object EmployeeDto -->
+        <b>3. Example with object EmployeeDto</b>
+        <p th:text="${employee.firstName}">Nothing</p>
+        <p th:text="${employee.getFullName()}">Nothing</p>
+        <p th:text="${employee['firstName']}">Nothing</p>
+
+        <br>
+        <br>
+        <hr>
+
+        <!-- 4. Example with Map-->
+        <b>4. Example with Map</b>
+        <p th:text="${employeeMap['Peter'].email}">Nothing</p>
+        <p th:text="${employeeMap.Peter.email}">Nothing</p>
+
+        <br>
+        <br>
+        <hr>
+
+        <!-- 5. Example with List -->
+        <b>5. Example with List</b>
+        <p th:text="${employeeList[0].email}">Nothing</p>
+
+        <br>
+        <br>
+        <hr>
+
+        <!-- Select expression-->
+        <b>6. Asterisk syntax *{...} </b>
+        <div th:object="${employeeObject}">
+        <div class="form-group py-2">
+        <label for="firstName">First name:</label>
+        <span id="firstName" style="color: blue" th:text="*{firstName}"></span>
+        </div>
+        <div class="form-group py-2">
+        <label for="lastName">Last name:</label>
+        <span id="lastName" style="color: blue" th:text="*{lastName}"></span>
+        </div>
+        <div class="form-group py-2">
+        <label for="email">Email:</label>
+        <span id="email" style="color: blue" th:text="*{email}"></span>
+        </div>
+        </div>
+
+        <br>
+        <br>
+        <hr>
+
+        <!-- Link Expression -->
+        <b>7. Link Expression @{...}</b>
+        <a th:href="@{http://localhost:8081/syntax/example/link-expression}">absolute link</a>.
+
+        <br>
+        <label for="relativeLink">Relative link</label>
+        <a id="relativeLink" th:href="@{/syntax/example/context-relative}">relative link</a>
+
+        <br>
+        <label for="linkWithParams">Context-relative</label>
+        <a id="linkWithParams" th:href="@{http://localhost:8081/syntax/example/link-expression(status=${'test'})}">link expression with params</a>.
+
+        <br>
+        <label for="severalParams">Several params: </label>
+        <a id="severalParams" th:href="@{http://localhost:8081/syntax/example/link-expression(status=${'test'}, position=${'center'})}">link expression with params</a>.
+
+        <br>
+        <label for="pathExample">Example with "path"</label>
+        <a id="pathExample" th:href="@{http://localhost:8081/syntax/example/{path}(path=${'link-expression'})}">link expression with path</a>
+
+
+        <br>
+        <br>
+        <hr>
+        <!-- Message Expression -->
+        <!-- Для property файлов -->
+        <b>8. Message Expressions #{...}</b>
+        <p th:text="#{home.welcome}">You're see default message!</p>
+
+        <label for="escape">Escape</label>
+        <p id="escape" th:text="#{home.welcome.tag}">You're see default message!</p>
+
+        <label for="unescape">Unescape</label>
+        <p id="unescape" th:utext="#{home.welcome.tag}">You're see default message!</p>
+
+        <br>
+        <br>
+        <hr>
+        <!-- Fragment Expression -->
+        <b> 9. Fragment expressions ~{...} </b>
+        <!--<div class="row" th:insert="~{company/footer :: footer(true)}"></div>-->
+
+        <br>
+        <br>
+        <hr>
+        <!-- Literals -->
+        <b> 10. Literals </b>
+        <div class="container">
+        <p> Text operations </p>
+        <span style="color: green; margin-right: 10em" th:text="${'some text concat to' + 'another text'}"></span>
+        <span style="color: green;" th:text="|${greetings}|"></span>
+        </div>
+
+        <br>
+        <div class="container">
+        <p> Comparisons and equality </p>
+        <span style="color: green; margin-right: 10em" th:text="${5 > 3}"></span>
+        <span style="color: green; margin-right: 10em" th:text="${6 gt 9}"></span>
+        <span style="color: green;" th:text="${3 == 3}"></span>
+        </div>
+
+        <br>
+        <div class="container">
+        <p> Arithmetic operations </p>
+        <span style="color: green; margin-right: 10em" th:text="${5 * 3}"></span>
+        <span style="color: green; margin-right: 10em" th:text="${6 / 9}"></span>
+        <span style="color: green;" th:text="${3 % 3}"></span>
+        </div>
+
+        <br>
+        <div class="container">
+        <p> Condition operations </p>
+        <label for="ifthen"> Ternary expression </label>
+        <span id="ifthen" style="color: green; margin-right: 10em" th:text="${greetings != null ? greetings : null}"></span>
+        <label for="Default"> Default</label>
+        <span id="Default" style="color: green; margin-right: 10em" th:text="${false ? _ : 'Deafault Message'}"></span>
+        </div>
+
+        <br>
+        <br>
+        <hr>
+
+        <!-- Attributes -->
+        <b> 11. Attributes </b>
+        <br>
+        <!-- th:attr -->
+        <br>
+        <label for="thatter"> th:atter :  </label>
+        <input id="thatter" th:attr="value=${defaultName}"/>
+        <br>
+        <label for="thatter2"> th:atter :  </label>
+        <input id="thatter2" th:attr="value=${defaultName}, style='color: blue'"/>
+
+        <!-- th:classappend and th:attrappend-->
+        <br>
+        <br>
+        <label for="attrappend">th:attrappend: </label>
+        <input id="attrappend" type="button" value="Do it!" class="btn" th:attrappend="class=${' ' +'btn-success'}"/>.
+
+        <!-- th:each -->
+        <br>
+        <br>
+        <div class="container">
+        <div class="row">
+        <label style="margin-right: 1.5em" for="each"> th:each : </label>
+        <table style="color: green" id="each">
+        <tr th:each="employee : ${employeeList}">
+        <td th:text="${employee.firstName}"></td>
+        <td th:text="${employee.lastName}"></td>
+        <td th:text="${employee.isMan()}? 'Man' : 'Woman'"></td>
+        <!--<td th:text="${index}"></td>-->
+        </tr>
+        </table>
+        </div>
+        </div>
+
+
+        <!-- th:if -->
+        <br>
+        <div class="container">
+        <div class="row" th:if="${employeeList.size() > 2}">
+        <label style="margin-right: 1.5em" for="thif"> th:if : </label>
+        <p id="thif" th:text=${employeeList[2]}></p>
+        </div>
+
+        <br>
+        <div class="row" th:unless="${employeeList.size() > 2}">
+        <label style="margin-right: 1.5em" for="thunless"> th:if : </label>
+        <p id="thunless" th:text=${employeeList[2]}></p>
+        </div>
+        </div>
+
+        <!-- th:switch -->
+        <div class="container">
+        <div class="row">
+        <label for="thswith" style="margin-right: 1.5em"> th:swith : </label>
+        <div style="color: green" id="thswith" th:switch="${employeeList[0].gender.toString()}">
+        <p th:case="'MALE'"> Employee is a man</p>
+        <p th:case="'FAMALE'"> Employee is a woman</p>
+        </div>
+        </div>
+        </div>
+
+        <!-- th:onclick -->
+        <div class="row">
+        <label style="margin-right: 1.5em" for="thonlick"> th:onclick : </label>
+        <button class="btn btn-info" id="thonlick"
+        th:onclick="'javascript:substituteOnClick(\''+ ${'ONCLICK EXAMPLE'}+ '\');'">Click
+        </button>
+        </div>
+
+        <!-- th:block -->
+        <br>
+        <hr>
+        <th:block th:if="${employeeList.size() > 1}">
+        <div class="container">
+        <label style="margin-right: 2em" for="thblock"> th:block : </label>
+        <th:block th:each="em : ${employeeList}">
+        <span id="thblock" style="color: green; margin-right: 2em" th:text="${em.getFullName()}"></span>
+        </th:block>
+        </div>
+        </th:block>
+
+        <br>
+         Link to inline examples
+        <a th:href="@{/syntax/example/inlining}"> to inlining examples</a>
+    </div>
+</div>
+
+<script th:src="@{/js/app/index.js}"></script>
+</body>
+</html>

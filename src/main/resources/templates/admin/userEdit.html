@@ -1,0 +1,28 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="parts/common :: head"></head>
+
+<body>
+<div th:insert="~{parts/common :: scripts}"></div>
+<div th:replace="parts/common :: navbar"></div>
+
+<div class="container">
+    <div th:replace="parts/common :: userNavbar"></div>
+</div>
+
+<div class="container">
+    <form action="/user" method="post" >
+        <input type="text" name="username" th:value="${user.getUsername()}">
+        <div th:each="role : ${roles}">
+            <input type="checkbox" th:name="${role}" th:checked="${#lists.contains(user.roles, role)}">
+            <label th:text="${role}" /></label>
+        </div>
+        <input type="hidden" th:value="${user.getId()}" name="userId">
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+
+<footer th:insert="~{parts/common :: footer}"></footer>
+</body>
+</html>

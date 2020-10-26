@@ -1,0 +1,60 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="parts/common :: head"></head>
+
+<body>
+<div th:insert="~{parts/common :: scripts}"></div>
+<div th:replace="parts/common :: navbar"></div>
+
+<div id="container">
+    <div class="container mt-5 pb-5">
+        <div class="row">
+
+            <div class="col-md-5">
+                <div>
+                    <img th:src="@{/img/{path} (path = ${perfume.getFilename()})}" class="rounded mx-auto w-100">
+                </div>
+            </div>
+
+            <div class="col-md-7">
+                <h2 th:text="${perfume.getPerfumeTitle()}"></h2>
+                <h3 th:text="${perfume.getPerfumer()}"></h3>
+                <p>Код товара: <span th:text="${perfume.getId()}"></span></p>
+                <p style="color: #54C0A1">Есть в наличии</p>
+
+                <div class="row ml-1">
+                    <h6 class="mr-5"><span th:text="${perfume.getPrice()}"></span>,00 грн.</h6>
+<!--                    <label class="px-3">Количество:</label>-->
+
+                    <form action="/cart/add" method="post">
+<!--                        <input type="text" name="amount" placeholder="1">-->
+                        <button type="submit" name="add" class="btn btn-dark mx-3"
+                                th:value="${perfume.getId()}">В корзину</button>
+                    </form>
+<!--                    <input type="text" value="1">-->
+<!--                    <button type="submit" class="btn btn-dark mx-3">В корзину</button>-->
+                </div>
+                <br>
+                <table class="table">
+                    <tbody>
+                        <tr><td>Название парфюма:</td><td th:text="${perfume.getPerfumeTitle()}"></td></tr>
+                        <tr><td>Парфюмер:</td><td th:text="${perfume.getPerfumer()}"></td></tr>
+                        <tr><td >Тип:</td><td th:text="${perfume.getType()}"></td></tr>
+                        <tr><td>Год выпуска:</td><td th:text="${perfume.getYear()}"></td></tr>
+                        <tr><td>Объем:</td><td><span th:text="${perfume.getVolume()}"></span> мл.</td></tr>
+                        <tr><td>Страна производитель: </td><td th:text="${perfume.getCountry()}"></td></tr>
+                        <tr><td>Пол: </td><td th:text="${perfume.getPerfumeGender()}"></td></tr>
+                        <tr><td>Верхние ноты: </td><td th:text="${perfume.getFragranceTopNotes()}"></td></tr>
+                        <tr><td>Средние ноты: </td><td th:text="${perfume.getFragranceMiddleNotes()}"></td></tr>
+                        <tr><td>Базовые ноты: </td><td th:text="${perfume.getFragranceBaseNotes()}"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:insert="~{parts/common :: footer}"></footer>
+</body>
+</html>

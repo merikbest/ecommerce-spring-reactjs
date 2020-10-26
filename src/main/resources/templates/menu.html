@@ -1,0 +1,329 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="parts/common :: head"></head>
+
+<body>
+<div th:insert="~{parts/common :: scripts}"></div>
+<div th:replace="parts/common :: navbar"></div>
+
+
+
+<div id="container">
+    <div class="container">
+        <div class="d-flex">
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>Парфюмерия</h3>
+                </div>
+
+                <form action="/menu/search" method="get">
+<!--                <form th:action="@{/menu/price/{path} (path = ${search})}" method="get">-->
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary ml-auto d-inline-block bg-success" style="width: 80px;">Найти</button>
+                    <a href="/menu" class="btn btn-secondary ml-2 d-inline-block" role="button" style="width: 100px;">Обновить</a>
+                </div>
+
+                <ul class="list-unstyled components">
+
+                    <li class="active">
+                        <a href="#homeSubmenu1" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Цена</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu1" >
+                            <li>
+                                <div class="form-row form-group">
+                                    <div class="col">
+                                        <input type="text" name="startingPrice" class="form-control"  id="value" th:value="${minPerfumePrice}"/>
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" name="endingPrice" class="form-control" th:value="${maxPerfumePrice}" />
+                                    </div>
+                                </div>
+                                <input type="range" th:min="${minPerfumePrice}" th:max="${maxPerfumePrice}" th:value="${minPerfumePrice}"
+                                       class="custom-range" oninput="updateTextInput(this.value);">
+                                <script>
+                                    function updateTextInput(val) {
+                                        document.getElementById('value').value=val;
+                                    }
+                                </script>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="active">
+                        <a href="#homeSubmenu2" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Бренд</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu2">
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" th:name="${'perfumers'}" th:value="${'Burberry'}" >
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Burberry
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Bvlgari">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Bvlgari
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Calvin Klein">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Calvin Klein
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Carolina Herrera">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Carolina Herrera
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Chanel">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Chanel
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Creed">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Creed
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Dior">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Dior
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Dolce&Gabbana">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Dolce & Gabbana
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Este Lauder">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Este Lauder
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Giorgio Armani">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Giorgio Armani
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Givency">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Givency
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Gucci">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Gucci
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Guerlain">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Guerlain
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Hermes">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Hermes
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Hugo Boss">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Hugo Boss
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Jean Paul Gaultier">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Jean Paul Gaultier
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Lancome">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Lancome
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Nina Ricci">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Nina Ricci
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Paco Rabanne">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Paco Rabanne
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Prada">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Prada
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Tom Ford">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Tom Ford
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Valentino">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Valentino
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Versace">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Versace
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="perfumers" value="Victoria`s Secret">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        Victoria`s Secret
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="active">
+                        <a href="#homeSubmenu3" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Пол</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu3">
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="gender" th:value="${'женский'}">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        для женщин
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox ml-3">
+                                    <label>
+                                        <input type="checkbox" name="gender" th:value="${'мужской'}">
+                                        <span class="cr"><i class="cr-icon fas fa-check"></i></span>
+                                        для мужчин
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                </form>
+            </nav>
+
+            <div class="row mt-5 ml-5">
+                <div th:insert="~{parts/common :: pagination}"></div>
+                    <div class="container-fluid mt-5">
+                        <div class="row" th:fragment="list">
+                            <div class="col-lg-3 d-flex align-items-stretch" th:each="perfume : ${page.getContent()}">
+                                <div class="card mb-5" th:if="${perfume.getFilename()}">
+                                    <img th:src="@{/img/{path} (path = ${perfume.getFilename()})}" class="rounded mx-auto w-50">
+                                    <div class="card-body text-center">
+                                        <h5 th:text="${perfume.getPerfumeTitle()}"></h5>
+                                        <h6 th:text="${perfume.getPerfumer()}"></h6>
+                                        <h6><span th:text="${perfume.getPrice()}"></span>,00 грн.</h6>
+                                    </div>
+                                    <div class="text-center align-items-end mb-3">
+                                        <a th:href="@{/product/{path} (path = ${perfume.getId()})}" class="btn btn-dark">Купить</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+<footer th:insert="~{parts/common :: footer}"></footer>
+
+</body>
+</html>

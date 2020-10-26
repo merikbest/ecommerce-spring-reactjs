@@ -1,0 +1,39 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="parts/common :: head"></head>
+
+<body>
+<div th:insert="~{parts/common :: scripts}"></div>
+<div th:replace="parts/common :: navbar"></div>
+
+<div class="container">
+    <div th:replace="parts/common :: userNavbar"></div>
+</div>
+
+<div class="container mt-5">
+    <h5>Изменение пароля</h5>
+    <h5 th:text="${username}"></h5>
+
+    <form action="/user/edit" method="post">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Введите новый пароль: </label>
+            <div class="col-sm-4">
+                <input type="password" name="password" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Введите Email: </label>
+            <div class="col-sm-4">
+                <input type="email" name="email" class="form-control" th:value="${email}"/>
+            </div>
+        </div>
+        <div>
+            <input type="submit" value="Продолжить"/>
+        </div>
+    </form>
+</div>
+
+<footer th:insert="~{parts/common :: footer}"></footer>
+</body>
+</html>

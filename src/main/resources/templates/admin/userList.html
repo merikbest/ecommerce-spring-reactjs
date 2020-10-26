@@ -1,0 +1,40 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="parts/common :: head"></head>
+
+<body>
+<div th:insert="~{parts/common :: scripts}"></div>
+<div th:replace="parts/common :: navbar"></div>
+
+<div class="container">
+    <div th:replace="parts/common :: userNavbar"></div>
+</div>
+
+<div class="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Имя</th>
+            <th scope="col">Роль</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody th:each="user : ${users}">
+        <tr>
+            <th th:text="${user.username}"></th>
+            <th>
+                <div th:each="userRole : ${user.getRoles()}">
+                    <p th:text="${userRole}"></p>
+                </div>
+            </th>
+            <th><a th:href="@{/user/{path} (path = ${user.getId()})}">edit</a></th>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<footer th:insert="~{parts/common :: footer}"></footer>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head th:replace="parts/common :: head"></head>
+
+<body>
+
+<div th:insert="~{parts/common :: scripts}"></div>
+<div th:replace="parts/common :: navbar"></div>
+
+<div id="container">
+    <div class="container">
+        <div th:replace="parts/common :: userNavbar"></div>
+    </div>
+
+    <div class="container mt-5">
+        <div th:insert="~{parts/common :: pagination}"></div>
+
+        <form method="get" action="/user/productlist">
+            <div class="container-fluid mt-5">
+                <form method="get" action="/">
+                    <div class="row" th:fragment="list">
+                        <div class="col-lg-2 d-flex align-items-stretch" th:each="perfume : ${page.getContent()}">
+                            <div class="card mb-5" th:if="${perfume.getFilename()}">
+                                <img th:src="@{/img/{path} (path = ${perfume.getFilename()})}" class="rounded mx-auto w-50">
+                                <div class="card-body text-center">
+                                    <h5 th:text="${perfume.getPerfumeTitle()}"></h5>
+                                    <h6 th:text="${perfume.getPerfumer()}"></h6>
+                                    <h6><span th:text="${perfume.getPrice()}"></span>,00 грн.</h6>
+                                </div>
+                                <div class="text-center align-items-end mb-3">
+                                    <a th:href="@{/user/productlist/{path} (path = ${perfume.getId()})}" class="btn btn-dark">EDIT</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer th:insert="~{parts/common :: footer}"></footer>
+</body>
+</html>

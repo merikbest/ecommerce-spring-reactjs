@@ -1,0 +1,29 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="parts/common :: head"></head>
+
+<body>
+
+<div th:insert="~{parts/common :: scripts}"></div>
+<div th:replace="parts/common :: navbar"></div>
+
+<div id="container" class="container mt-5">
+    <h5>Контактная информация</h5>
+    <br>
+    <p><b>Телефон:</b> (066) 573-89-96<br/>
+        <b>E-mail:</b> merikbest2015@gmail.com</p>
+    <br>
+    <h6>Режим работы</h6>
+    <p>Интернет магазин работает c 08:00 до 20:00 без перерыва и выходных. <br/>
+        Онлайн заказы принимаются круглосуточно.</p>
+    <br>
+    <h6>Доставка</h6>
+    <p>Доставка заказов происходит через курьерскую службу</p>
+
+</div>
+
+<footer th:insert="~{parts/common :: footer}"></footer>
+
+</body>
+</html>

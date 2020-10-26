@@ -1,0 +1,56 @@
+<div th:fragment="login(path)" xmlns:th="http://www.thymeleaf.org">
+    <form method="post" th:attr="action=${path}">
+        <div class="container mt-5">
+            <h4 th:text="${path} == '/registration' ? 'Регистрация' : 'Вход в личный кабинет'"></h4>
+            <hr align="left" width="550"/>
+
+            <div class="form-group row" th:if="${path} == '/registration'">
+                <label class="col-sm-2 col-form-label">Электронная почта: </label>
+                <div class="col-sm-4">
+                    <input type="email" name="email" th:value="${user} ? ${user.email} : ''" class="form-control"
+                           th:classappend="${emailError} ? ' is-invalid'"/>
+                    <div th:if="${emailError}" class="invalid-feedback" th:text="${emailError}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Имя пользователя: </label>
+                <div class="col-sm-4">
+                    <input type="text" name="username" th:value="${user} ? ${user.username} : ''"
+                           class="form-control" th:classappend="${usernameError} ? ' is-invalid'"/>
+                    <div th:if="${usernameError}" class="invalid-feedback" th:text="${usernameError}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Пароль: </label>
+                <div class="col-sm-4">
+                    <input type="password" name="password" class="form-control"
+                           th:classappend="${passwordError} ? ' is-invalid'"/>
+                    <div th:if="${passwordError}" class="invalid-feedback" th:text="${passwordError}"></div>
+                </div>
+            </div>
+
+            <div class="form-group row" th:if="${path} == '/registration'">
+                <label class="col-sm-2 col-form-label">Повторите пароль: </label>
+                <div class="col-sm-4">
+                    <input type="password" name="password2" class="form-control"
+                           th:classappend="${password2Error} ? ' is-invalid'"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <button type="submit" class="btn btn-dark mx-3"
+                        th:text="${path} == '/registration' ? 'Регистрация' : 'Вход'"></button>
+                <div th:if="${path} != '/registration'">
+                    <a href="/registration" class="btn btn-dark">Регистрация</a>
+                </div>
+            </div>
+
+            <div th:if="${path} == '/registration'">
+                <div class="g-recaptcha" data-sitekey="6Lc5cLkZAAAAAN8mFk85HQieB9toPcWFoW0RXCNR"></div>
+                <div th:if="${captchaError}" class="alert-danger" th:text="${captchaError}" role="alert"></div>
+            </div>
+        </div>
+    </form>
+</div>
