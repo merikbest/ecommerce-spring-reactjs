@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The service layer interface describes a set of methods for working with objects of the {@link Perfume} class.
@@ -164,4 +165,7 @@ public interface PerfumeService {
      * @return The {@link Perfume} class object which will be saved in the database.
      */
     Perfume save(Perfume perfume);
+
+    //doc
+    Optional<Perfume> findById(Long id);
 }

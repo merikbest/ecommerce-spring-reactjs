@@ -6,7 +6,6 @@ import com.gmail.merikbest2015.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -24,12 +23,12 @@ import java.util.UUID;
 @RequestMapping("/api/v1/rest")
 public class AdminRestController {
 
+    @Value("${upload.path}")
+    private String uploadPath;
+
     private final UserService userService;
 
     private final PerfumeService perfumeService;
-
-    @Value("${upload.path}")
-    private String uploadPath;
 
     @Autowired
     public AdminRestController(UserService userService, PerfumeService perfumeService) {
@@ -38,7 +37,7 @@ public class AdminRestController {
     }
 
     @PostMapping(value = "/admin/add")
-    public ResponseEntity<?> addProductToBd(
+    public ResponseEntity<?> addPerfumeToBd(
             @Valid Perfume perfume,
             BindingResult bindingResult,
             @RequestPart(name = "file", required = false) MultipartFile file
@@ -53,6 +52,28 @@ public class AdminRestController {
             Perfume savedPerfume = perfumeService.save(perfume);
 
             return ResponseEntity.ok(savedPerfume);
+        }
+    }
+
+    @PostMapping(value = "/admin/edit")
+    public ResponseEntity<?> saveEditedPerfume(
+            @Valid Perfume perfume,
+            BindingResult bindingResult,
+            @RequestPart(name = "file", required = false) MultipartFile file
+    ) throws IOException {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+
+            return new ResponseEntity<>(errorsMap, HttpStatus.BAD_REQUEST);
+        } else {
+            saveFile(perfume, file);
+
+            perfumeService.saveProductInfoById(perfume.getPerfumeTitle(), perfume.getPerfumer(), perfume.getYear(),
+                    perfume.getCountry(), perfume.getPerfumeGender(), perfume.getFragranceTopNotes(), perfume.getFragranceMiddleNotes(),
+                    perfume.getFragranceBaseNotes(), perfume.getDescription(), perfume.getFilename(), perfume.getPrice(),
+                    perfume.getVolume(), perfume.getType(), perfume.getId());
+
+            return ResponseEntity.ok("OK");
         }
     }
 

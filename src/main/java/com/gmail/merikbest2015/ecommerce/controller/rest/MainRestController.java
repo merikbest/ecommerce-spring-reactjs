@@ -1,7 +1,6 @@
 package com.gmail.merikbest2015.ecommerce.controller.rest;
 
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
-import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +17,9 @@ public class MainRestController {
 
     private final PerfumeService perfumeService;
 
-    private final PerfumeRepository perfumeRepository;
-
     @Autowired
-    public MainRestController(PerfumeService perfumeService, PerfumeRepository perfumeRepository) {
+    public MainRestController(PerfumeService perfumeService) {
         this.perfumeService = perfumeService;
-        this.perfumeRepository = perfumeRepository;
     }
 
     @GetMapping
@@ -33,6 +29,6 @@ public class MainRestController {
 
     @GetMapping("/product/{id}")
     public Optional<Perfume> getProduct(@PathVariable("id") Long perfumeId) {
-        return perfumeRepository.findById(perfumeId);
+        return perfumeService.findById(perfumeId);
     }
 }

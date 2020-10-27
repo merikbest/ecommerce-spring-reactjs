@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The service layer class implements the accessor methods of {@link Perfume} objects
@@ -235,5 +236,11 @@ public class PerfumeServiceImpl implements PerfumeService {
     @Override
     public Perfume save(Perfume perfume) {
         return perfumeRepository.save(perfume);
+    }
+
+    //doc
+    @Override
+    public Optional<Perfume> findById(Long id) {
+        return perfumeRepository.findById(id);
     }
 }

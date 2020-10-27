@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A repository for {@link Perfume} objects providing a set of JPA methods for working with the database.
@@ -167,4 +168,7 @@ public interface PerfumeRepository extends JpaRepository<Perfume, Long> {
     void saveProductInfoById(String perfumeTitle, String perfumer, Integer year, String country, String perfumeGender,
                              String fragranceTopNotes, String fragranceMiddleNotes, String fragranceBaseNotes, String description,
                              String filename, Integer price, String volume, String type, Long id);
+
+    //doc
+    Optional<Perfume> findById(Long id);
 }
