@@ -41,12 +41,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .csrf()
+                .disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //7.1
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/rest",
                         "/api/v1/rest/product/*",
+                        "/api/v1/rest/admin/*",
                         "/img/**",
                         "/static/**",
                         "/activate/*",

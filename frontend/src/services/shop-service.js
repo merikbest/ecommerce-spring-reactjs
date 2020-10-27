@@ -16,6 +16,22 @@ class ShopService {
         return axios.post(API_BASE_URL + "/login", user);
     }
 
+    addProductToBd2(data) {
+        return axios.post(API_BASE_URL + "/admin/add", data);
+    }
+
+    //работает
+    addProductToBd(data) {
+        return axios({
+            method: "post",
+            url: API_BASE_URL + "/admin/add",
+            data: data,
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+    }
 }
 
 export default new ShopService();

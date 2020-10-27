@@ -35,18 +35,18 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public RestTemplate getRestTemplate() {
         return new RestTemplate();
     }
-
-    /**
-     * Setting up a login controller.
-     * Configure simple automated controllers pre-configured with the response
-     * status code and/or a view to render the response body.
-     *
-     * @param registry assists with the registration of simple automated controllers
-     *                 pre-configured with status code and/or a view.
-     */
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/login").setViewName("login");
-    }
+//
+//    /**
+//     * Setting up a login controller.
+//     * Configure simple automated controllers pre-configured with the response
+//     * status code and/or a view to render the response body.
+//     *
+//     * @param registry assists with the registration of simple automated controllers
+//     *                 pre-configured with status code and/or a view.
+//     */
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//        registry.addViewController("/login").setViewName("login");
+//    }
 
     /**
      * Specifies where the resources will be stored.
@@ -65,14 +65,11 @@ public class MvcConfiguration implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/");
     }
 
-    private final long MAX_AGE_SECS = 3600;
-
     @Override
      public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
-                .allowedMethods("*")
-                .allowedHeaders("*")
-                .maxAge(MAX_AGE_SECS);
+                .allowedOrigins("*")
+                .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
+                .allowedHeaders("*");
     }
 }
