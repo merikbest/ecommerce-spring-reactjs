@@ -9,7 +9,6 @@ export default class AddProduct extends Component {
 
         this.state = {
             perfume: {},
-            completed: false,
             perfumeTitle: "",
             perfumer: "",
             year: "",

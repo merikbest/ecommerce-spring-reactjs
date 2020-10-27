@@ -17,10 +17,6 @@ class SliderCards extends Component {
             .then((response) => {
                 this.setState({perfumes: response.data})
             });
-
-        // const response = await fetch("/rest")
-        // const body = await response.json();
-        // this.setState({perfumes: body});
     }
 
     addCarouselItems(array, counter) {
@@ -41,7 +37,6 @@ class SliderCards extends Component {
                                             <h6>{perfume.perfumer}</h6>
                                             <h6><span>{perfume.price}</span>,00 грн.
                                             </h6>
-                                            {/*shopService.getProductById(perfume.id)*/}
                                             <Link to={`/rest/product/${perfume.id}`}>
                                                 <span className="btn btn-dark">
                                                     Купить

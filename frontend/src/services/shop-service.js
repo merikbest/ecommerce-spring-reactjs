@@ -12,12 +12,12 @@ class ShopService {
         return axios.get(API_BASE_URL + "/product/" + id);
     }
 
-    login(user) {
-        return axios.post(API_BASE_URL + "/login", user);
+    getAllProducts() {
+        return axios.get(API_BASE_URL + "/product/list");
     }
 
-    addProductToBd2(data) {
-        return axios.post(API_BASE_URL + "/admin/add", data);
+    login(user) {
+        return axios.post(API_BASE_URL + "/login", user);
     }
 
     //работает
@@ -25,6 +25,18 @@ class ShopService {
         return axios({
             method: "post",
             url: API_BASE_URL + "/admin/add",
+            data: data,
+            headers: {
+                "Content-Type": "multipart/form-data",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+    }
+
+    saveEditedProductToBd(data) {
+        return axios({
+            method: "post",
+            url: API_BASE_URL + "/admin/edit",
             data: data,
             headers: {
                 "Content-Type": "multipart/form-data",
