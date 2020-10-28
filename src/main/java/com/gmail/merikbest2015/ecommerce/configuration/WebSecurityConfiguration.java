@@ -49,6 +49,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/rest",
                         "/api/v1/rest/product/*",
                         "/api/v1/rest/admin/*",
+                        "/api/v1/rest/registration",
+                        "/api/v1/rest/activate/*",
                         "/img/**",
                         "/static/**",
                         "/activate/*",

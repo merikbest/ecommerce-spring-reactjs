@@ -78,7 +78,9 @@ public class AdminRestController {
     }
 
     private void saveFile(Perfume perfume, @RequestParam("file") MultipartFile file) throws IOException {
-        if (file != null && !file.getOriginalFilename().isEmpty()) {
+        if (file == null) {
+            perfume.setFilename("empty.jpg");
+        } else {
             File uploadDir = new File(uploadPath);
 
             if (!uploadDir.exists()) {
