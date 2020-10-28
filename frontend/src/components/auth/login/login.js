@@ -13,11 +13,11 @@ export default class Login extends Component {
             password: ""
         };
 
-        this.onClickSignUp = this.onClickSignUp.bind(this);
+        this.onClickSignIn = this.onClickSignIn.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    onClickSignUp = (event) => {
+    onClickSignIn = (event) => {
         event.preventDefault();
 
         const {email, password} = this.state;
@@ -73,7 +73,7 @@ export default class Login extends Component {
                 </div>
 
                 <div className="form-group row">
-                    <button className="btn btn-dark mx-3" onClick={this.onClickSignUp}>Вход</button>
+                    <button className="btn btn-dark mx-3" onClick={this.onClickSignIn}>Вход</button>
                 </div>
 
             </div>

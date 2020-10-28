@@ -16,7 +16,8 @@
     "reactstrap": "^8.6.0",
     "styled-components": "^5.2.0",
     "react-list": "^0.8.16",
-    "axios": "^0.21.0"
+    "axios": "^0.21.0",
+    "react-google-recaptcha": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",

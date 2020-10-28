@@ -16,11 +16,14 @@ class ShopService {
         return axios.get(API_BASE_URL + "/product/list");
     }
 
-    login(user) {
-        return axios.post(API_BASE_URL + "/login", user);
+    login(data) {
+        return axios.post(API_BASE_URL + "/login", data);
     }
 
-    //работает
+    registration(data) {
+        return axios.post(API_BASE_URL + "/registration", data);
+    }
+
     addProductToBd(data) {
         return axios({
             method: "post",

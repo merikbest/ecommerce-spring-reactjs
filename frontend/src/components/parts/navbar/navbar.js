@@ -22,16 +22,21 @@ export default class NavBar extends Component {
             signOut = (
                 <div>
                     <Link to={"/rest"} onClick={this.handleLogout}>
-                        <input type="submit" className="bg-black" style={{color:"white"}} value="Выход"/>
+                        <input type="submit" className="bg-black" style={{color: "white"}} value="Выход"/>
                     </Link>
                 </div>
             );
 
         } else {
             links = (
-                <li className="nav-item">
-                    <Link to={"/rest/login"}><a className="nav-link text-light ">Вход в личный кабинет</a></Link>
-                </li>
+                <>
+                    <li className="nav-item">
+                        <Link to={"/rest/login"}><a className="nav-link text-light ">Вход</a></Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to={"/rest/registration"}><a className="nav-link text-light ">Регистрация</a></Link>
+                    </li>
+                </>
             );
         }
 
@@ -65,17 +70,6 @@ export default class NavBar extends Component {
                             </ul>
 
                             <ul className="navbar-nav ml-auto">
-
-                                <form className="form-inline d-flex justify-content-center md-form form-sm mr-3"
-                                      method="get" action="/search">
-                                    <input className="form-control form-control-sm mr-3 w-75 rounded-0" type="text"
-                                           name="filter" placeholder="Поиск"
-                                           aria-label="Search"/>
-                                    <button type="submit" className="bg-black">
-                                        <i className="fas fa-search fa-1x"
-                                           aria-hidden="true"
-                                           style={{color: "white"}}></i></button>
-                                </form>
 
                                 <li className="nav-item">
                                     <a className="nav-link" href="/cart">

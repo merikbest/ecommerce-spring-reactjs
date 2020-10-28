@@ -7,6 +7,7 @@ import Contacts from "../contacts/contacts";
 import Product from "../product/product";
 import Login from "../auth/login/login";
 import Account from "../account/account";
+import Registration from "../auth/registration/registration";
 
 export default class App extends Component {
     constructor(props) {
@@ -45,6 +46,7 @@ export default class App extends Component {
                 <Route exact path="/rest/contacts" component={Contacts}/>
                 <Route exact path="/rest/product/:id" component={Product}/>
                 <Route exact path="/rest/login" component={() => <Login setLoggedIn={this.setLoggedIn}/>}/>
+                <Route exact path="/rest/registration" component={Registration}/>
                 <Route exact path="/rest/account" component={Account}/>
                 {links}
                 <Footer/>

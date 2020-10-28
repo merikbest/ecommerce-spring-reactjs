@@ -48,7 +48,6 @@ export default class AddProduct extends Component {
 
         const bodyFormData = new FormData();
         bodyFormData.append("file", this.state.file);
-        // bodyFormData.append("perfume", this.state.perfume);
         bodyFormData.append("perfumeTitle", perfumeTitle);
         bodyFormData.append("perfumer", perfumer);
         bodyFormData.append("year", year);
