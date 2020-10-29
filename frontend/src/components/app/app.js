@@ -3,11 +3,12 @@ import NavBar from "../parts/navbar/navbar";
 import Footer from "../parts/footer/footer";
 import {BrowserRouter, Link, Redirect, Route, Switch} from "react-router-dom";
 import Home from "../home/home";
-import Contacts from "../contacts/contacts";
+import Contacts from "../parts/contacts/contacts";
 import Product from "../product/product";
-import Login from "../auth/login/login";
+import Login from "../auth/login";
 import Account from "../account/account";
-import Registration from "../auth/registration/registration";
+import Registration from "../auth/registration";
+import Menu from "../menu/menu";
 
 export default class App extends Component {
     constructor(props) {
@@ -31,14 +32,6 @@ export default class App extends Component {
     }
 
     render() {
-        let links;
-
-        // if (!this.state.isLoggedIn) {
-        //     links = <Redirect to="/rest/login"/>
-        // } else {
-        //     links = null
-        // }
-
         return (
             <BrowserRouter>
                 <NavBar isLoggedIn={this.state.isLoggedIn} setLoggedIn={this.setLoggedIn}/>
@@ -46,9 +39,15 @@ export default class App extends Component {
                 <Route exact path="/rest/contacts" component={Contacts}/>
                 <Route exact path="/rest/product/:id" component={Product}/>
                 <Route exact path="/rest/login" component={() => <Login setLoggedIn={this.setLoggedIn}/>}/>
+                <Route exact path="/rest/activate/:code"
+                       render={(match) => {
+                           const {code} = match.params;
+                           return <Login code={code} setLoggedIn={this.setLoggedIn}/>
+                       }
+                       }/>
                 <Route exact path="/rest/registration" component={Registration}/>
                 <Route exact path="/rest/account" component={Account}/>
-                {links}
+                <Route exact path="/rest/menu" component={Menu}/>
                 <Footer/>
             </BrowserRouter>
         );

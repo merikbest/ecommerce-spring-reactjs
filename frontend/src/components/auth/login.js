@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import ShopService from "../../../services/shop-service";
+import ShopService from "../../services/shop-service";
 import {Redirect} from "react-router-dom";
-
 
 export default class Login extends Component {
     constructor(props) {
@@ -10,11 +9,23 @@ export default class Login extends Component {
         this.state = {
             logged: false,
             email: "",
-            password: ""
+            password: "",
+            message: "",
+            messageType: ""
         };
 
         this.onClickSignIn = this.onClickSignIn.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    componentDidMount() {
+        ShopService.activateEmailCode(this.props.code)
+            .then((response) => {
+                this.setState({
+                    message: response.data,
+                    messageType: response.data
+                })
+            });
     }
 
     onClickSignIn = (event) => {
@@ -47,7 +58,7 @@ export default class Login extends Component {
     }
 
     render() {
-        const {email, password} = this.state;
+        const {email, password, message, messageType} = this.state;
 
         if (this.state.logged) {
             return <Redirect to="/rest/account"/>
@@ -55,20 +66,27 @@ export default class Login extends Component {
 
         return (
             <div className="container mt-5">
+
+                <div className={`alert ${messageType}`} role="alert">
+                    {message}
+                </div>
+
                 <h4>Вход в личный кабинет</h4>
                 <hr align="left" width="550"/>
 
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Электронная почта: </label>
                     <div className="col-sm-4">
-                        <input className="form-control" type="email" name="email" value={email} onChange={this.handleInputChange}/>
+                        <input className="form-control" type="email" name="email" value={email}
+                               onChange={this.handleInputChange}/>
                     </div>
                 </div>
 
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Пароль: </label>
                     <div className="col-sm-4">
-                        <input className="form-control" type="password" name="password" value={password} onChange={this.handleInputChange}/>
+                        <input className="form-control" type="password" name="password" value={password}
+                               onChange={this.handleInputChange}/>
                     </div>
                 </div>
 

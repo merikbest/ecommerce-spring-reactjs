@@ -71,7 +71,16 @@ export default class Account extends Component {
                         {links}
                     </nav>
                     <Route exact path="/rest/admin/add" component={AddProduct}/>
-                    <Route exact path="/rest/product/list/edit" component={() => <EditProducts data={this.state.products} itemsPerPage={24}/>}/>
+                    <Route exact path="/rest/product/list/edit" component={() =>
+                        <EditProducts
+                            data={this.state.products}
+                            itemsPerPage={24}
+                            searchByData={[
+                                {label: 'Парфюмер', value: 'perfumer'},
+                                {label: 'Название парфюма', value: 'perfumeTitle'},
+                                {label: 'Страна производитель', value: 'country'},
+                                {label: 'Пол', value: 'perfumeGender'}
+                            ]}/>}/>
                     <Route exact path="/rest/product/list/edit/:id" component={EditProduct}/>
                 </div>
             </BrowserRouter>

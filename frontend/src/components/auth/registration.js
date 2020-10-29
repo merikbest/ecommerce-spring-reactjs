@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ShopService from "../../../services/shop-service";
+import ShopService from "../../services/shop-service";
 import ReCAPTCHA from "react-google-recaptcha";
 
 class Registration extends Component {

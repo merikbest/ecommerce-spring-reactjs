@@ -61,7 +61,8 @@ export default class NavBar extends Component {
                                         className="nav-link text-light pl-5 pr-5">Главная</span></Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link text-light pl-5 pr-5" href="/menu">Парфюмерия</a>
+                                    <Link to={"/rest/menu"}><span
+                                        className="nav-link text-light pl-5 pr-5">Парфюмерия</span></Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link to={"/rest/contacts"}><span

@@ -35,8 +35,7 @@ class SliderCards extends Component {
                                         <div className="card-body text-center">
                                             <h5>{perfume.perfumeTitle}</h5>
                                             <h6>{perfume.perfumer}</h6>
-                                            <h6><span>{perfume.price}</span>,00 грн.
-                                            </h6>
+                                            <h6><span>{perfume.price}</span>,00 грн.</h6>
                                             <Link to={`/rest/product/${perfume.id}`}>
                                                 <span className="btn btn-dark">
                                                     Купить

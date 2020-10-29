@@ -1,14 +1,40 @@
-import React from 'react';
+import React, {useState} from 'react';
 import usePagination from "../../parts/pagination/usePagination";
 import {Link} from "react-router-dom";
 
-const EditProducts = ({data, itemsPerPage, startFrom}) => {
-    const {slicedData, pagination, prevPage, nextPage, changePage} = usePagination({itemsPerPage, data, startFrom});
+const EditProducts = ({data, itemsPerPage, startFrom, searchByData}) => {
+    const [search, setSearch] = useState('');
+    const [searchBy, setSearchBy] = useState(searchByData && searchByData.length > 0 ? searchByData[0].value : '');
+    const [searchFor, setSearchFor] = useState('');
+    const {slicedData, pagination, prevPage, nextPage, changePage, setFilteredData, setSearching} = usePagination({
+        itemsPerPage,
+        data,
+        startFrom
+    });
+
+    const submitHandler = (e) => {
+        e.preventDefault();
+        if (search.trim() !== '') {
+            setSearching(true);
+            const copiedData = [...data];
+            const filtered = copiedData.filter(perfumer => {
+                let searchKey = 'perfumer';
+                if (searchByData && searchByData.length > 0) {
+                    searchKey = searchBy;
+                }
+                return perfumer[searchKey].toLowerCase().includes(search.trim().toLowerCase());
+            });
+            setFilteredData(filtered);
+        } else {
+            setFilteredData(data);
+        }
+        setSearchFor(search);
+    }
 
     const paginationItem = (
         <ul className="pagination">
             <li className="page-item disabled">
-                <a className="page-link " href="#" tabIndex="-1">Страницы</a>
+                <a className="page-link" href="#" tabIndex="-1">Страницы</a>
             </li>
             <li className="page-item">
                 <a className="page-link text-dark" href="#" aria-label="Previous" onClick={prevPage}>
@@ -59,8 +85,32 @@ const EditProducts = ({data, itemsPerPage, startFrom}) => {
 
     return (
         <div className="container mt-5">
-            {paginationItem}
-
+            <div className="form row">
+                {paginationItem}
+                <form onSubmit={submitHandler} style={{justifyContent: 'center'}}>
+                    <div className="form row ml-5">
+                    {searchByData && searchByData.length > 0 &&
+                    <div className="col-sm-6">
+                        <select className="form-control" value={searchBy} onChange={(e) => setSearchBy(e.target.value)}>
+                            {searchByData.map((data, index) => (
+                                <option key={index} value={data.value}>{data.label}</option>
+                            ))}
+                        </select>
+                    </div>
+                    }
+                    <div className="col">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Поиск..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                    </div>
+                    <button type="submit" className="btn btn-dark">Поиск</button>
+                    </div>
+                </form>
+            </div>
             <div className="container-fluid mt-5">
                 <div className="row">
                     {slicedData.map((perfume) => {
@@ -87,7 +137,6 @@ const EditProducts = ({data, itemsPerPage, startFrom}) => {
                     })}
                 </div>
             </div>
-
             {paginationItem}
         </div>
     );

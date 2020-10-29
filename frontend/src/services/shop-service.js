@@ -24,6 +24,10 @@ class ShopService {
         return axios.post(API_BASE_URL + "/registration", data);
     }
 
+    activateEmailCode(code) {
+        return axios.get(API_BASE_URL + "/activate/" + code);
+    }
+
     addProductToBd(data) {
         return axios({
             method: "post",
