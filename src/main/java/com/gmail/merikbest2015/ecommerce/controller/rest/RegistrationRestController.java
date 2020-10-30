@@ -6,7 +6,6 @@ import com.gmail.merikbest2015.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -89,8 +88,10 @@ public class RegistrationRestController {
         Map<String, String> response = new HashMap<>();
 
         if (isActivated) {
+            response.put("messageType", "alert-success");
             response.put("message", "Пользователь успешно активирован");
         } else {
+            response.put("messageType", "alert-danger");
             response.put("message", "Код активации не найден");
         }
 

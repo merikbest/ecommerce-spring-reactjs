@@ -168,4 +168,7 @@ public interface PerfumeService {
 
     //doc
     Optional<Perfume> findById(Long id);
+
+    //doc
+    List<Perfume> findByPerfumerIn(List<String> perfumer);
 }

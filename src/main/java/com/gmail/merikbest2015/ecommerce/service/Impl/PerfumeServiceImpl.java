@@ -243,4 +243,10 @@ public class PerfumeServiceImpl implements PerfumeService {
     public Optional<Perfume> findById(Long id) {
         return perfumeRepository.findById(id);
     }
+
+    //doc
+    @Override
+    public List<Perfume> findByPerfumerIn(List<String> perfumer) {
+        return perfumeRepository.findByPerfumerIn(perfumer);
+    }
 }
