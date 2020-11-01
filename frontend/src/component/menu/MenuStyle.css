@@ -6,11 +6,10 @@
     transition: all 0.3s;
 }
 
-#homeSubmenu2 {
+#homeSubmenu {
     overflow-y: scroll !important;
     max-height: 250px !important;
 }
-
 
 #sidebar .sidebar-header {
     padding: 20px;
@@ -67,6 +66,10 @@ ul ul a{
 
 /* Checkbox */
 
+h5 {
+    margin-left: 13px;
+}
+
 .checkbox label:after,
 .radio label:after {
     content: '';
@@ -117,5 +120,24 @@ ul ul a{
 }
 
 .checkbox label input[type="checkbox"]:disabled + .cr {
+    opacity: .5;
+}
+
+.checkbox label input[type="radio"] {
+    display: none;
+}
+
+.checkbox label input[type="radio"] + .cr > .cr-icon {
+    transform: scale(3) rotateZ(-20deg);
+    opacity: 0;
+    transition: all .3s ease-in;
+}
+
+.checkbox label input[type="radio"]:checked + .cr > .cr-icon {
+    transform: scale(1) rotateZ(0deg);
+    opacity: 1;
+}
+
+.checkbox label input[type="radio"]:disabled + .cr {
     opacity: .5;
 }

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import "./MenuStyle.css";
+import "../MenuStyle.css";
 
 function CheckBox(props) {
 
@@ -28,7 +28,6 @@ function CheckBox(props) {
                     <input
                         onChange={() => handleToggle(value.name)}
                         type="checkbox"
-                        // name="perfumer"
                         checked={Checked.indexOf(value.name) === -1 ? false : true}
                     />
                     <span className="cr">
@@ -40,7 +39,7 @@ function CheckBox(props) {
     ))
 
     return (
-        <ul className="list-unstyled" id="homeSubmenu2">
+        <ul className="list-unstyled">
             {renderCheckboxLists()}
         </ul>
     )

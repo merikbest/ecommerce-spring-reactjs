@@ -17,7 +17,7 @@ class ShopService {
     }
 
     getProductsByFilterParams(filter) {
-        return axios.get(API_BASE_URL + "/menu/search", filter);
+        return axios.post(API_BASE_URL + "/menu/search", filter);
     }
 
     login(data) {

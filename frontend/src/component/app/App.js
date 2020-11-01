@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Route, Switch} from "react-router-dom";
-import LandingPage from "../menu/Menu";
+import {Route} from "react-router-dom";
+import Menu from "../menu/Menu";
 import Contacts from "../parts/contacts/Contacts";
 import Footer from "../parts/footer/Footer";
 import Home from "../home/Home";
@@ -10,7 +10,7 @@ import Registration from "../auth/registration/Registration";
 import Product from "../shopping/product/Product";
 import Account from "../account/Account";
 
-function App() {
+function App(props) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
@@ -29,7 +29,7 @@ function App() {
             <Route exact path="/rest" component={Home}/>
             <Route exact path="/rest/login" component={() => <Login setLoggedIn={setLoggedIn}/>}/>
             <Route exact path="/rest/registration" component={Registration}/>
-            <Route exact path="/rest/menu" component={LandingPage}/>
+            <Route exact path="/rest/menu" component={Menu}/>
             <Route exact path="/rest/product/:id" component={Product}/>
             <Route exact path="/rest/contacts" component={Contacts}/>
             <Route exact path="/rest/account" component={Account}/>
