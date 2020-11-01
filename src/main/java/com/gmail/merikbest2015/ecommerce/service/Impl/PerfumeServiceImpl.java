@@ -9,8 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * The service layer class implements the accessor methods of {@link Perfume} objects
@@ -38,7 +40,7 @@ public class PerfumeServiceImpl implements PerfumeService {
      * The @Autowired annotation will allow Spring to automatically initialize objects.
      *
      * @param perfumeRepository implementation of the {@link PerfumeRepository} interface
-     *                        for working with perfumes with a database.
+     *                          for working with perfumes with a database.
      */
     @Autowired
     public PerfumeServiceImpl(PerfumeRepository perfumeRepository) {
@@ -112,7 +114,7 @@ public class PerfumeServiceImpl implements PerfumeService {
      * A {@link Page} is a sublist of a list of objects.
      *
      * @param perfumeGenders perfume genders to return.
-     * @param pageable      object that specifies the information of the requested page.
+     * @param pageable       object that specifies the information of the requested page.
      * @return list of {@link Perfume}.
      */
     @Override
@@ -125,9 +127,9 @@ public class PerfumeServiceImpl implements PerfumeService {
      * with the value of the input parameter.
      * A {@link Page} is a sublist of a list of objects.
      *
-     * @param perfumer      perfume manufacturer to return.
-     * @param perfumeTitle  perfume title to return.
-     * @param pageable      object that specifies the information of the requested page.
+     * @param perfumer     perfume manufacturer to return.
+     * @param perfumeTitle perfume title to return.
+     * @param pageable     object that specifies the information of the requested page.
      * @return list of {@link Perfume}.
      */
     @Override
@@ -202,20 +204,20 @@ public class PerfumeServiceImpl implements PerfumeService {
     /**
      * Save updated perfume.
      *
-     * @param perfumeTitle          perfume title to update.
-     * @param perfumer              perfume manufacturer to update.
-     * @param year                  the year the perfume was released to update.
-     * @param country               manufacturer country to update.
-     * @param perfumeGender         gender to update to update.
-     * @param fragranceTopNotes     fragrance top notes to update.
-     * @param fragranceMiddleNotes  fragrance middle notes to update.
-     * @param fragranceBaseNotes    fragrance base notes to update.
-     * @param description           perfume description to update.
-     * @param filename              perfume image to update.
-     * @param price                 perfume price to update.
-     * @param volume                perfume volume to update.
-     * @param type                  type of fragrance to update.
-     * @param id                    the unique code of the perfume to update.
+     * @param perfumeTitle         perfume title to update.
+     * @param perfumer             perfume manufacturer to update.
+     * @param year                 the year the perfume was released to update.
+     * @param country              manufacturer country to update.
+     * @param perfumeGender        gender to update to update.
+     * @param fragranceTopNotes    fragrance top notes to update.
+     * @param fragranceMiddleNotes fragrance middle notes to update.
+     * @param fragranceBaseNotes   fragrance base notes to update.
+     * @param description          perfume description to update.
+     * @param filename             perfume image to update.
+     * @param price                perfume price to update.
+     * @param volume               perfume volume to update.
+     * @param type                 type of fragrance to update.
+     * @param id                   the unique code of the perfume to update.
      */
     @Override
     public void saveProductInfoById(String perfumeTitle, String perfumer, Integer year, String country,
@@ -246,7 +248,19 @@ public class PerfumeServiceImpl implements PerfumeService {
 
     //doc
     @Override
-    public List<Perfume> findByPerfumerIn(List<String> perfumer) {
-        return perfumeRepository.findByPerfumerIn(perfumer);
+    public List<Perfume> filter(List<String> perfumer, List<String> gender, List<Integer> price) {
+        List<Perfume> perfumeList;
+
+        if (!price.isEmpty()) {
+            perfumeList = perfumeRepository.findByPriceBetweenOrderByPriceDesc(price.get(0), price.get(1));
+        } else if (!perfumer.isEmpty() && !gender.isEmpty()) {
+            perfumeList = perfumeRepository.findByPerfumerInAndPerfumeGenderInOrderByPriceDesc(perfumer, gender);
+        } else if (!perfumer.isEmpty() || !gender.isEmpty()) {
+            perfumeList = perfumeRepository.findByPerfumerInOrPerfumeGenderInOrderByPriceDesc(perfumer, gender);
+        } else {
+            perfumeList = perfumeRepository.findAll();
+        }
+
+        return perfumeList;
     }
 }
