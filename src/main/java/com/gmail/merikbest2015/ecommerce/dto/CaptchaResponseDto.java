@@ -1,4 +1,4 @@
-package com.gmail.merikbest2015.ecommerce.domain.dto;
+package com.gmail.merikbest2015.ecommerce.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

@@ -170,5 +170,7 @@ public interface PerfumeService {
     Optional<Perfume> findById(Long id);
 
     //doc
-    List<Perfume> filter(List<String> perfumer, List<String> gender, List<Integer> priceRange);
+    List<Perfume> filter(List<String> perfumers, List<String> genders, List<Integer> prices);
+    List<Perfume> findByPerfumerOrderByPriceDesc(String perfumer);
+    List<Perfume> findByPerfumeGenderOrderByPriceDesc(String perfumeGender);
 }

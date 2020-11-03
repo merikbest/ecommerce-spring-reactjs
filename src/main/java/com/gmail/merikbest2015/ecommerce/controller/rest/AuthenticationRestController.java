@@ -1,7 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.controller.rest;
 
 import com.gmail.merikbest2015.ecommerce.domain.User;
-import com.gmail.merikbest2015.ecommerce.domain.dto.AuthenticationRequestDTO;
+import com.gmail.merikbest2015.ecommerce.dto.AuthenticationRequestDTO;
 import com.gmail.merikbest2015.ecommerce.security.JwtProvider;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

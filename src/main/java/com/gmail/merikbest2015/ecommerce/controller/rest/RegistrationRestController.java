@@ -1,7 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.controller.rest;
 
 import com.gmail.merikbest2015.ecommerce.domain.User;
-import com.gmail.merikbest2015.ecommerce.domain.dto.CaptchaResponseDto;
+import com.gmail.merikbest2015.ecommerce.dto.CaptchaResponseDto;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

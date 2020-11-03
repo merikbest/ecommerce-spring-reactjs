@@ -248,19 +248,31 @@ public class PerfumeServiceImpl implements PerfumeService {
 
     //doc
     @Override
-    public List<Perfume> filter(List<String> perfumer, List<String> gender, List<Integer> price) {
+    public List<Perfume> filter(List<String> perfumers, List<String> genders, List<Integer> prices) {
         List<Perfume> perfumeList;
 
-        if (!price.isEmpty()) {
-            perfumeList = perfumeRepository.findByPriceBetweenOrderByPriceDesc(price.get(0), price.get(1));
-        } else if (!perfumer.isEmpty() && !gender.isEmpty()) {
-            perfumeList = perfumeRepository.findByPerfumerInAndPerfumeGenderInOrderByPriceDesc(perfumer, gender);
-        } else if (!perfumer.isEmpty() || !gender.isEmpty()) {
-            perfumeList = perfumeRepository.findByPerfumerInOrPerfumeGenderInOrderByPriceDesc(perfumer, gender);
+        if (!prices.isEmpty()) {
+            perfumeList = perfumeRepository.findByPriceBetweenOrderByPriceDesc(prices.get(0), prices.get(1));
+        } else if (!perfumers.isEmpty() && !genders.isEmpty()) {
+            perfumeList = perfumeRepository.findByPerfumerInAndPerfumeGenderInOrderByPriceDesc(perfumers, genders);
+        } else if (!perfumers.isEmpty() || !genders.isEmpty()) {
+            perfumeList = perfumeRepository.findByPerfumerInOrPerfumeGenderInOrderByPriceDesc(perfumers, genders);
         } else {
             perfumeList = perfumeRepository.findAll();
         }
 
         return perfumeList;
+    }
+
+    //doc
+    @Override
+    public List<Perfume> findByPerfumerOrderByPriceDesc(String perfumer) {
+        return perfumeRepository.findByPerfumerOrderByPriceDesc(perfumer);
+    }
+
+    //doc
+    @Override
+    public List<Perfume> findByPerfumeGenderOrderByPriceDesc(String perfumeGender) {
+        return perfumeRepository.findByPerfumeGenderOrderByPriceDesc(perfumeGender);
     }
 }

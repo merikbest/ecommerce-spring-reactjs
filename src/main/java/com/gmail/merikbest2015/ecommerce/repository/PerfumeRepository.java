@@ -175,4 +175,6 @@ public interface PerfumeRepository extends JpaRepository<Perfume, Long> {
     List<Perfume> findByPerfumerInAndPerfumeGenderInOrderByPriceDesc(List<String> perfumers, List<String> genders);
     List<Perfume> findByPerfumerInOrPerfumeGenderInOrderByPriceDesc(List<String> perfumers, List<String> genders);
     List<Perfume> findByPriceBetweenOrderByPriceDesc(Integer startingPrice, Integer endingPrice);
+    List<Perfume> findByPerfumerOrderByPriceDesc(String perfumer);
+    List<Perfume> findByPerfumeGenderOrderByPriceDesc(String perfumeGender);
 }

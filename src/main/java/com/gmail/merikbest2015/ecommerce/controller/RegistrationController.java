@@ -1,7 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.gmail.merikbest2015.ecommerce.domain.User;
-import com.gmail.merikbest2015.ecommerce.domain.dto.CaptchaResponseDto;
+import com.gmail.merikbest2015.ecommerce.dto.CaptchaResponseDto;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
