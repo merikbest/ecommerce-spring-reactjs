@@ -1,16 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import ShopService from "../../../services/ShopService";
+import {Redirect} from "react-router-dom";
 
 function Product(props) {
     const [id, setId] = useState(props.match.params.id);
     const [perfume, setPerfume] = useState({});
 
     useEffect(() => {
-        ShopService.getProductById(id)
+        ShopService.getPerfumeById(id)
             .then((response) => {
                 setPerfume(response.data)
             });
-    })
+    }, [])
+
+    const addToCart = () => {
+        ShopService.addToCart(perfume)
+            .then((response) => {
+                props.history.push("/rest/cart");
+            });
+    }
 
     return (
         <div>
@@ -18,7 +26,8 @@ function Product(props) {
                 <div className="row">
                     <div className="col-md-5">
                         <div>
-                            <img src={`http://localhost:8080/img/${perfume.filename}`} className="rounded mx-auto w-100"/>
+                            <img src={`http://localhost:8080/img/${perfume.filename}`}
+                                 className="rounded mx-auto w-100"/>
                         </div>
                     </div>
                     <div className="col-md-7">
@@ -28,13 +37,10 @@ function Product(props) {
                         <p style={{color: "#54C0A1"}}>Есть в наличии</p>
                         <div className="row ml-1">
                             <h6 className="mr-5"><span>{perfume.price}</span>,00 грн.</h6>
-                            <form action="/cart/add" method="post">
-                                <button type="submit"
-                                        name="add"
-                                        className="btn btn-dark mx-3"
-                                        value={perfume.id}>В корзину
-                                </button>
-                            </form>
+                            <button type="submit"
+                                    className="btn btn-dark mx-3"
+                                    onClick={addToCart}>В корзину
+                            </button>
                         </div>
                         <br/>
                         <table className="table">

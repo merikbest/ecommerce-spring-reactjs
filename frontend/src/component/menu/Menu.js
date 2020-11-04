@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
 import {gender, perfumer, price} from "./MenuData";
-import {Collapse} from "reactstrap";
 import {Route} from "react-router-dom";
 import Checkbox from "./sections/Checkbox";
 import ShopService from "../../services/ShopService";
@@ -9,25 +8,35 @@ import RadioCheckbox from "./sections/RadioCheckbox";
 import MenuCards from "./sections/MenuCards";
 
 function Menu(props) {
-    const [isOpen1, setIsOpen1] = useState(false)
-    const [isOpen2, setIsOpen2] = useState(false)
-    const [isOpen3, setIsOpen3] = useState(false)
-    const [Products, setProducts] = useState([])
+    const [allProducts, setAll] = useState(props.location.state.id)
+    const [products, setProducts] = useState([])
     const [Filters, setFilters] = useState({
-        perfumer: [],
-        gender: [],
-        price: []
+        perfumers: [],
+        genders: [],
+        prices: []
     })
 
     useEffect(() => {
-        ShopService.getProducts()
-            .then((response) => {
-                setProducts(response.data)
-            })
+        if (allProducts === "женский" || allProducts === "мужской") {
+            ShopService.findPerfumeByGender({perfumeGender: props.location.state.id})
+                .then((response) => {
+                    setProducts(response.data)
+                })
+        } else if (allProducts === "all") {
+            ShopService.getPerfumes()
+                .then((response) => {
+                    setProducts(response.data)
+                })
+        } else {
+            ShopService.findPerfumeByPerfumer({perfumer: props.location.state.id})
+                .then((response) => {
+                    setProducts(response.data)
+                })
+        }
     }, [])
 
     const getProducts = (variables) => {
-        ShopService.getProductsByFilterParams(variables)
+        ShopService.getPerfumeByFilterParams(variables)
             .then((response) => {
                 setProducts(response.data)
             })
@@ -50,7 +59,7 @@ function Menu(props) {
         const newFilters = {...Filters}
         newFilters[category] = filters
 
-        if (category === "price") {
+        if (category === "prices") {
             let priceValues = handlePrice(filters)
             newFilters[category] = priceValues
         }
@@ -70,22 +79,25 @@ function Menu(props) {
 
                         <h5>Бренд</h5>
                         <li className="active mb-2" id="homeSubmenu">
-                            <Checkbox list={perfumer} handleFilters={(filters) => handleFilters(filters, "perfumer")}/>
+                            <Checkbox list={perfumer}
+                                      handleFilters={(filters) => handleFilters(filters, "perfumers")}/>
                         </li>
 
                         <h5>Пол</h5>
                         <li className="active mb-2">
-                            <Checkbox list={gender} handleFilters={(filters) => handleFilters(filters, "gender")}/>
+                            <Checkbox list={gender}
+                                      handleFilters={(filters) => handleFilters(filters, "genders")}/>
                         </li>
 
                         <h5>Цена</h5>
                         <li className="active mb-2">
-                            <RadioCheckbox list={price} handleFilters={(filters) => handleFilters(filters, "price")}/>
+                            <RadioCheckbox list={price}
+                                           handleFilters={(filters) => handleFilters(filters, "prices")}/>
                         </li>
                     </ul>
                 </nav>
 
-                <Route component={() => <MenuCards data={Products} itemsPerPage={16} searchByData={[
+                <Route exact component={() => <MenuCards data={products} itemsPerPage={16} searchByData={[
                     {label: 'Парфюмер', value: 'perfumer'},
                     {label: 'Название парфюма', value: 'perfumeTitle'},
                     {label: 'Страна производитель', value: 'country'}]}/>}

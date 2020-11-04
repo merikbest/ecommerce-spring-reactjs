@@ -4,20 +4,59 @@ const API_BASE_URL = "http://localhost:8080/api/v1/rest";
 
 class ShopService {
 
-    getProducts() {
+    getPerfumes() {
         return axios.get(API_BASE_URL);
     }
 
-    getProductById(id) {
+    getPerfumeById(id) {
         return axios.get(API_BASE_URL + "/product/" + id);
     }
 
-    getAllProducts() {
-        return axios.get(API_BASE_URL + "/product/list");
+    findPerfumeByGender(gender) {
+        return axios.post(API_BASE_URL + "/menu/gender", gender);
     }
 
-    getProductsByFilterParams(filter) {
+    findPerfumeByPerfumer(perfumer) {
+        return axios.post(API_BASE_URL + "/menu/perfumer", perfumer);
+    }
+
+    getPerfumeByFilterParams(filter) {
         return axios.post(API_BASE_URL + "/menu/search", filter);
+    }
+
+    getCart() {
+        return axios({
+            method: "get",
+            url: API_BASE_URL + "/cart",
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+    }
+
+    addToCart(id) {
+        return axios({
+            method: "post",
+            url: API_BASE_URL + "/cart/add",
+            data: id,
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+    }
+
+    removeFromCart(perfume) {
+        return axios({
+            method: "post",
+            url: API_BASE_URL + "/cart/remove",
+            data: perfume,
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
     }
 
     login(data) {
@@ -32,7 +71,7 @@ class ShopService {
         return axios.get(API_BASE_URL + "/activate/" + code);
     }
 
-    addProductToBd(data) {
+    addPerfumeToBd(data) {
         return axios({
             method: "post",
             url: API_BASE_URL + "/admin/add",
@@ -44,7 +83,7 @@ class ShopService {
         });
     }
 
-    saveEditedProductToBd(data) {
+    saveEditedPerfumeToBd(data) {
         return axios({
             method: "post",
             url: API_BASE_URL + "/admin/edit",

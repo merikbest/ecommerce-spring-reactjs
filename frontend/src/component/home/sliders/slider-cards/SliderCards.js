@@ -10,7 +10,7 @@ function SliderCards(props) {
     const [perfumes, setPerfumes] = useState([]);
 
     useEffect(() => {
-        ShopService.getProducts()
+        ShopService.getPerfumes()
             .then((response) => {
                 setPerfumes(response.data)
             });

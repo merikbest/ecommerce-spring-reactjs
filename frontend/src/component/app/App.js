@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Route} from "react-router-dom";
+import {Route, Redirect, withRouter} from "react-router-dom";
 import Menu from "../menu/Menu";
 import Contacts from "../parts/contacts/Contacts";
 import Footer from "../parts/footer/Footer";
@@ -9,6 +9,7 @@ import Login from "../auth/login/Login";
 import Registration from "../auth/registration/Registration";
 import Product from "../shopping/product/Product";
 import Account from "../account/Account";
+import Cart from "../shopping/cart/Cart";
 
 function App(props) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,10 +30,11 @@ function App(props) {
             <Route exact path="/rest" component={Home}/>
             <Route exact path="/rest/login" component={() => <Login setLoggedIn={setLoggedIn}/>}/>
             <Route exact path="/rest/registration" component={Registration}/>
-            <Route exact path="/rest/menu" component={Menu}/>
+            <Route exact path="/rest/menu" component={(props) => <Menu {...props}/>}/>
             <Route exact path="/rest/product/:id" component={Product}/>
             <Route exact path="/rest/contacts" component={Contacts}/>
             <Route exact path="/rest/account" component={Account}/>
+            <Route exact path="/rest/cart" component={Cart}/>
             <Footer/>
         </div>
     );

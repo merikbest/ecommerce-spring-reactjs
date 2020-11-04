@@ -21,7 +21,7 @@ function EditProduct(props) {
 
 
     useEffect(() => {
-        ShopService.getProductById(id)
+        ShopService.getPerfumeById(id)
             .then((response) => {
                 setPerfumeTitle(response.data.perfumeTitle);
                 setPerfumer(response.data.perfumer);
@@ -68,7 +68,7 @@ function EditProduct(props) {
         bodyFormData.append("fragranceBaseNotes", fragranceBaseNotes);
         bodyFormData.append("price", price);
 
-        ShopService.saveEditedProductToBd(bodyFormData)
+        ShopService.saveEditedPerfumeToBd(bodyFormData)
             .then((response) => {
                 props.history.push("/rest/account")
             })

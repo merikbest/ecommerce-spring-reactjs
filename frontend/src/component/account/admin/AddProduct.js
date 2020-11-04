@@ -41,7 +41,7 @@ function AddProduct(props) {
         bodyFormData.append("fragranceBaseNotes", fragranceBaseNotes);
         bodyFormData.append("price", price);
 
-        ShopService.addProductToBd(bodyFormData)
+        ShopService.addPerfumeToBd(bodyFormData)
             .then((response) => {
                 props.history.push("/rest/account")
             })

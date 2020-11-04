@@ -9,7 +9,7 @@ function Account(props) {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        ShopService.getProducts()
+        ShopService.getPerfumes()
             .then((response) => {
                 setProducts(response.data)
             });

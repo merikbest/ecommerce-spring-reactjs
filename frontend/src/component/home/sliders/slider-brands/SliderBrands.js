@@ -2,6 +2,7 @@ import React from 'react';
 import Carousel from "react-bootstrap/Carousel";
 import {brandsItem1, brandsItem2, brandsItem3} from "./SliderBrandsData";
 import "./SliderBrands.css";
+import {Link} from "react-router-dom";
 
 function SliderBrands(props) {
 
@@ -18,9 +19,9 @@ function SliderBrands(props) {
                     {brandsItem1.map((brand) => {
                         return (
                             <div className="col-2 float-left">
-                                <a href={`/menu/${brand.name}`}>
+                                <Link to={{pathname: "/rest/menu", state: {id: brand.name}}}>
                                     <img className="img-fluid" src={brand.url} alt={brand.name}/>
-                                </a>
+                                </Link>
                             </div>
                         )
                     })}
@@ -29,9 +30,9 @@ function SliderBrands(props) {
                     {brandsItem2.map((brand) => {
                         return (
                             <div className="col-2 float-left">
-                                <a href={`/menu/${brand.name}`}>
+                                <Link to={{pathname: "/rest/menu", state: {id: brand.name}}}>
                                     <img className="img-fluid" src={brand.url} alt={brand.name}/>
-                                </a>
+                                </Link>
                             </div>
                         )
                     })}
@@ -40,9 +41,9 @@ function SliderBrands(props) {
                     {brandsItem3.map((brand) => {
                         return (
                             <div className="col-2 float-left">
-                                <a href={`/menu/${brand.name}`}>
+                                <Link to={{pathname: "/rest/menu", state: {id: brand.name}}}>
                                     <img className="img-fluid" src={brand.url} alt={brand.name}/>
-                                </a>
+                                </Link>
                             </div>
                         )
                     })}

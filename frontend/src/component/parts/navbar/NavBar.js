@@ -55,25 +55,22 @@ function NavBar(props) {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mr-auto ">
                             <li className="nav-item">
-                                <Link to={"/rest"}><span
-                                    className="nav-link text-light pl-5 pr-5">Главная</span></Link>
+                                <Link to={"/rest"}><span className="nav-link text-light pl-5 pr-5">Главная</span></Link>
                             </li>
                             <li className="nav-item">
-                                <Link to={"/rest/menu"}><span
-                                    className="nav-link text-light pl-5 pr-5">Парфюмерия</span></Link>
+                                <Link to={{pathname: "/rest/menu", state: { id: "all" }}}>
+                                    <span className="nav-link text-light pl-5 pr-5">Парфюмерия</span></Link>
                             </li>
                             <li className="nav-item">
-                                {/*<a href="/rest/contacts"><span*/}
-                                {/*    className="nav-link text-light pl-5 pr-5">Контакты</span></a>*/}
-                                <Link to={"/rest/contacts"}><span
-                                    className="nav-link text-light pl-5 pr-5">Контакты</span></Link>
+                                <Link to={"/rest/contacts"}><span className="nav-link text-light pl-5 pr-5">Контакты</span></Link>
                             </li>
                         </ul>
 
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item">
-                                <a className="nav-link" href="/cart">
-                                    <i className="fas fa-shopping-cart fa-1 pl-2 pr-2" style={{color: "white"}}></i></a>
+                                <Link className="nav-link" to={"/rest/cart"}>
+                                    <i className="fas fa-shopping-cart fa-1 pl-2 pr-2" style={{color: "white"}}></i>
+                                </Link>
                             </li>
                             {links}
                         </ul>
