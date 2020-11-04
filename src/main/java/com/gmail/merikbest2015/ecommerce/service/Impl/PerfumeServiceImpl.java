@@ -275,4 +275,9 @@ public class PerfumeServiceImpl implements PerfumeService {
     public List<Perfume> findByPerfumeGenderOrderByPriceDesc(String perfumeGender) {
         return perfumeRepository.findByPerfumeGenderOrderByPriceDesc(perfumeGender);
     }
+    //doc
+    @Override
+    public Perfume getOne(Long id) {
+        return perfumeRepository.getOne(id);
+    }
 }

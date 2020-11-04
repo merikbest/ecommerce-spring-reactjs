@@ -171,6 +171,7 @@ public interface PerfumeRepository extends JpaRepository<Perfume, Long> {
 
     //doc
     Optional<Perfume> findById(Long id);
+
     //doc
     List<Perfume> findByPerfumerInAndPerfumeGenderInOrderByPriceDesc(List<String> perfumers, List<String> genders);
     List<Perfume> findByPerfumerInOrPerfumeGenderInOrderByPriceDesc(List<String> perfumers, List<String> genders);
