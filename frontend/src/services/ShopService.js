@@ -59,6 +59,21 @@ class ShopService {
         });
     }
 
+    getOrder() {
+        return axios({
+            method: "get",
+            url: API_BASE_URL + "/order",
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+    }
+
+    postOrder(data) {
+        return axios.post(API_BASE_URL + "/order", data);
+    }
+
     login(data) {
         return axios.post(API_BASE_URL + "/login", data);
     }

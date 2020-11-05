@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import ShopService from "../../../services/ShopService";
 
 function Cart(props) {
@@ -66,18 +66,16 @@ function Cart(props) {
                     </p>
                 </div>
 
-                <div className="col-3">
-                    <form action="/order" method="get" className="ml-3">
-                        <div className="form-row">
-                            <div className="col-6">
+                <div className="col-3 ml-3">
+                    <div className="form-row">
+                        <div className="col-6">
+                            <Link to={"/rest/order"}>
                                 <button className="btn btn-success">Оформить заказ</button>
-                            </div>
+                            </Link>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-
-
         </div>
     );
 }

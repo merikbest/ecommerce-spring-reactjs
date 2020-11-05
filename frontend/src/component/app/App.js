@@ -10,6 +10,7 @@ import Registration from "../auth/registration/Registration";
 import Product from "../shopping/product/Product";
 import Account from "../account/Account";
 import Cart from "../shopping/cart/Cart";
+import Order from "../shopping/order/Order";
 
 function App(props) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -35,6 +36,7 @@ function App(props) {
             <Route exact path="/rest/contacts" component={Contacts}/>
             <Route exact path="/rest/account" component={Account}/>
             <Route exact path="/rest/cart" component={Cart}/>
+            <Route exact path="/rest/order" component={Order}/>
             <Footer/>
         </div>
     );
