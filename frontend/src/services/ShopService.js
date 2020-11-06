@@ -70,8 +70,20 @@ class ShopService {
         });
     }
 
-    postOrder(data) {
-        return axios.post(API_BASE_URL + "/order", data);
+    postOrder(validOrder) {
+        return axios({
+            method: "post",
+            url: API_BASE_URL + "/order",
+            data: validOrder,
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+    }
+
+    finalizeOrder() {
+        return axios.get(API_BASE_URL + "/order/finalize");
     }
 
     login(data) {

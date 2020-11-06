@@ -9,27 +9,27 @@ function Order(props) {
     const [postIndex, setPostIndex] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [email, setEmail] = useState("");
-    const [perfumes, setPerfumes] = useState([]);
+    const [perfumeList, setPerfumeList] = useState([]);
     const [errors, setErrors] = useState({});
     const {firstNameError, lastNameError, cityError, addressError, postIndexError, phoneNumberError, emailError} = errors;
     let totalPrice = 0;
-    perfumes.map(perfume => totalPrice = totalPrice + perfume.price)
+    perfumeList.map(perfume => totalPrice = totalPrice + perfume.price)
 
     useEffect(() => {
         ShopService.getOrder()
             .then((response) => {
-                setPerfumes(response.data)
+                setPerfumeList(response.data)
             })
     }, [])
 
     const onFormSubmit = (event) => {
         event.preventDefault();
 
-        const data = {firstName, lastName, city, address, postIndex, phoneNumber, email, perfumes, totalPrice}
+        const validOrder = {firstName, lastName, city, address, postIndex, phoneNumber, email, perfumeList, totalPrice}
 
-        ShopService.postOrder(data)
+        ShopService.postOrder(validOrder)
             .then((response) => {
-                props.history.push("/rest/account")
+                props.history.push("/rest/order/finalize")
             })
             .catch((errors) => {
                 setErrors(errors.response.data)
@@ -140,9 +140,10 @@ function Order(props) {
                 <div className="col-lg-6">
                     <div className="container-fluid">
                         <div className="row">
-                            <div className="col-lg-6 d-flex align-items-stretch">
-                                {perfumes.map((perfume) => {
-                                    return (
+
+                            {perfumeList.map((perfume) => {
+                                return (
+                                    <div className="col-lg-6 d-flex align-items-stretch">
                                         <div className="card mb-5">
                                             <img src={`http://localhost:8080/img/${perfume.filename}`}
                                                  className="rounded mx-auto w-50"/>
@@ -152,9 +153,10 @@ function Order(props) {
                                                 <h6><span>{perfume.price}</span>,00 грн.</h6>
                                             </div>
                                         </div>
-                                    )
-                                })}
-                            </div>
+                                    </div>
+                                )
+
+                            })}
                         </div>
                     </div>
                     <button className="btn btn-primary btn-lg btn-success px-5 float-right"
