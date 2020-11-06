@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,6 +21,7 @@ import java.util.Map;
 public class OrderRestController {
 
     private final UserService userService;
+
     private final OrderService orderService;
 
     @Autowired
@@ -41,8 +39,12 @@ public class OrderRestController {
     }
 
     @PostMapping("/order")
-    public ResponseEntity<?> postOrder(@AuthenticationPrincipal User userSession, @Valid Order validOrder, BindingResult bindingResult) {
-        User user = userService.findByUsername(userSession.getUsername());
+    public ResponseEntity<?> postOrder(
+            @AuthenticationPrincipal User userSession,
+            @Valid @RequestBody Order validOrder,
+            BindingResult bindingResult
+    ) {
+        User user = userService.findByEmail(userSession.getEmail());
         Order order = new Order(user);
 
         if (bindingResult.hasErrors()) {
@@ -78,15 +80,8 @@ public class OrderRestController {
 
     @GetMapping("/order/list")
     public ResponseEntity<?> getUserOrdersList(@AuthenticationPrincipal User userSession) {
-        User user = userService.findByUsername(userSession.getUsername());
+        User user = userService.findByEmail(userSession.getEmail());
         List<Order> orders = orderService.findOrderByUser(user);
-
-        return ResponseEntity.ok(orders);
-    }
-
-    @GetMapping("/orders")
-    public ResponseEntity<?> getAllOrdersList() {
-        List<Order> orders = orderService.findAll();
 
         return ResponseEntity.ok(orders);
     }

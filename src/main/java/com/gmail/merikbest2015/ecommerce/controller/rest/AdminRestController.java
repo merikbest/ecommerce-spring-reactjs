@@ -1,6 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.controller.rest;
 
+import com.gmail.merikbest2015.ecommerce.domain.Order;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import com.gmail.merikbest2015.ecommerce.service.OrderService;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -30,10 +33,13 @@ public class AdminRestController {
 
     private final PerfumeService perfumeService;
 
+    private final OrderService orderService;
+
     @Autowired
-    public AdminRestController(UserService userService, PerfumeService perfumeService) {
+    public AdminRestController(UserService userService, PerfumeService perfumeService, OrderService orderService) {
         this.userService = userService;
         this.perfumeService = perfumeService;
+        this.orderService = orderService;
     }
 
     @PostMapping(value = "/admin/add")
@@ -75,6 +81,13 @@ public class AdminRestController {
 
             return ResponseEntity.ok("OK");
         }
+    }
+
+    @GetMapping("/admin/orders")
+    public ResponseEntity<?> getAllOrdersList() {
+        List<Order> orders = orderService.findAll();
+
+        return ResponseEntity.ok(orders);
     }
 
     private void saveFile(Perfume perfume, @RequestParam("file") MultipartFile file) throws IOException {
