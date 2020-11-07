@@ -39,6 +39,11 @@ function App(props) {
             <Route exact path="/rest/cart" component={Cart}/>
             <Route exact path="/rest/order" component={Order}/>
             <Route exact path="/rest/order/finalize" component={OrderFinalize}/>
+
+            {/*<Route exact path="/rest/admin/add" component={AddProduct}/>*/}
+            {/*<Route exact path="/rest/admin/orders" component={OrdersList}/>*/}
+            {/*<Route exact path="/rest/product/list/edit/:id" component={EditProduct}/>*/}
+
             <Footer/>
         </div>
     );

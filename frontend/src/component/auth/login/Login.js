@@ -29,7 +29,7 @@ function Login(props) {
     }
 
     return (
-        <div className="container mt-5">
+        <div id="container" className="container mt-5">
             <h4>Вход в личный кабинет</h4>
             <hr align="left" width="550"/>
 

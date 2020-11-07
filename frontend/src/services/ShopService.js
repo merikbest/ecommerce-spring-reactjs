@@ -121,6 +121,17 @@ class ShopService {
             }
         });
     }
+
+    getOrders() {
+        return axios({
+            method: "get",
+            url: API_BASE_URL + "/admin/orders",
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+    }
 }
 
 export default new ShopService();

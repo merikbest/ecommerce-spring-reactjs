@@ -4,6 +4,9 @@ import {BrowserRouter, Link, Route} from "react-router-dom";
 import AddProduct from "./admin/AddProduct";
 import EditProducts from "./admin/EditProducts";
 import EditProduct from "./admin/EditProduct";
+import OrdersList from "./admin/OrdersList";
+import Switch from "react-bootstrap/Switch";
+import Product from "../shopping/product/Product";
 
 function Account(props) {
     const [products, setProducts] = useState([]);
@@ -20,9 +23,9 @@ function Account(props) {
     if (localStorage.getItem("userRole") === "ADMIN") {
         links = (
             <ul className="navbar-nav">
-                {/*<li className="nav-item">*/}
-                {/*    <a className="nav-link text-light mx-3" href="/orders">Список всех заказов</a>*/}
-                {/*</li>*/}
+                <li className="nav-item">
+                    <Link to={"/rest/admin/orders"}><a className="nav-link text-light mx-3">Список всех заказов</a></Link>
+                </li>
                 {/*<li className="nav-item">*/}
                 {/*    <form action="/#" method="get">*/}
                 {/*        <a className="nav-link text-light mx-3" href="/user">Список пользователей</a>*/}
@@ -61,6 +64,7 @@ function Account(props) {
                     {links}
                 </nav>
                 <Route exact path="/rest/admin/add" component={AddProduct}/>
+                <Route exact path="/rest/admin/orders" component={OrdersList}/>
                 <Route exact path="/rest/product/list/edit" component={() =>
                     <EditProducts
                         data={products}
@@ -72,6 +76,7 @@ function Account(props) {
                             {label: 'Пол', value: 'perfumeGender'}
                         ]}/>}/>
                 <Route exact path="/rest/product/list/edit/:id" component={EditProduct}/>
+                <Route exact path="/rest/product/:id" component={Product}/>
             </div>
         </BrowserRouter>
     );

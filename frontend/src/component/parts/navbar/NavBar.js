@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
+import "./NavBar.css";
 
 function NavBar(props) {
     let links;
@@ -20,7 +21,7 @@ function NavBar(props) {
         signOut = (
             <div>
                 <Link to={"/rest"} onClick={handleLogout}>
-                    <input type="submit" className="bg-black" style={{color: "white"}} value="Выход"/>
+                    <button className="btn btn-dark" style={{color: "white"}}>Выход</button>
                 </Link>
             </div>
         );
