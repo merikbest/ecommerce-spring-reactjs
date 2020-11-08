@@ -25,9 +25,8 @@ function SliderCards(props) {
                             if (perfume.id === perfumesId[i]) {
                                 return (
                                     <div className="card">
-                                        <img
-                                            className="d-block mx-auto w-50"
-                                            src={`http://localhost:8080/img/${perfume.filename}`}/>
+                                        <img className="d-block mx-auto w-50"
+                                             src={`http://localhost:8080/img/${perfume.filename}`}/>
                                         <div className="card-body text-center">
                                             <h5>{perfume.perfumeTitle}</h5>
                                             <h6>{perfume.perfumer}</h6>

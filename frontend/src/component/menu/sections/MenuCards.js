@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import usePagination from "../../parts/pagination/usePagination";
+import "./style.css"
 
 function MenuCards({data, itemsPerPage, startFrom, searchByData}) {
     const [search, setSearch] = useState('');
@@ -90,7 +91,8 @@ function MenuCards({data, itemsPerPage, startFrom, searchByData}) {
                     <div className="form row">
                         {searchByData && searchByData.length > 0 &&
                         <div className="col-sm-6">
-                            <select className="form-control" value={searchBy} onChange={(event) => setSearchBy(event.target.value)}>
+                            <select className="form-control" value={searchBy}
+                                    onChange={(event) => setSearchBy(event.target.value)}>
                                 {searchByData.map((data, index) => (
                                     <option key={index} value={data.value}>{data.label}</option>
                                 ))}
@@ -119,7 +121,8 @@ function MenuCards({data, itemsPerPage, startFrom, searchByData}) {
                             return (
                                 <div className="col-lg-3 d-flex align-items-stretch">
                                     <div className="card mb-5">
-                                        <img className="d-block mx-auto w-50"
+                                        <img onLoad={() => setLoad(true)}
+                                            style={style} className="d-block mx-auto w-50"
                                              src={`http://localhost:8080/img/${perfume.filename}`}/>
                                         <div className="card-body text-center">
                                             <h5>{perfume.perfumeTitle}</h5>
