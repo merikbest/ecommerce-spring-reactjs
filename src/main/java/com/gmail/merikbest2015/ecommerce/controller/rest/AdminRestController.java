@@ -2,6 +2,7 @@ package com.gmail.merikbest2015.ecommerce.controller.rest;
 
 import com.gmail.merikbest2015.ecommerce.domain.Order;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.service.OrderService;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
@@ -42,8 +43,8 @@ public class AdminRestController {
         this.orderService = orderService;
     }
 
-    @PostMapping(value = "/admin/add")
-    public ResponseEntity<?> addPerfumeToBd(
+    @PostMapping("/admin/add")
+    public ResponseEntity<?> addPerfume(
             @Valid Perfume perfume,
             BindingResult bindingResult,
             @RequestPart(name = "file", required = false) MultipartFile file
@@ -61,8 +62,8 @@ public class AdminRestController {
         }
     }
 
-    @PostMapping(value = "/admin/edit")
-    public ResponseEntity<?> saveEditedPerfume(
+    @PostMapping("/admin/edit")
+    public ResponseEntity<?> updatePerfume(
             @Valid Perfume perfume,
             BindingResult bindingResult,
             @RequestPart(name = "file", required = false) MultipartFile file
@@ -84,10 +85,35 @@ public class AdminRestController {
     }
 
     @GetMapping("/admin/orders")
-    public ResponseEntity<?> getAllOrdersList() {
+    public ResponseEntity<?> getAllOrders() {
         List<Order> orders = orderService.findAll();
 
         return ResponseEntity.ok(orders);
+    }
+
+    @GetMapping("/admin/user/{id}")
+    public ResponseEntity<?> getUser(@PathVariable("id") Long userId) {
+        User user = userService.getOne(userId);
+
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/admin/user/all")
+    public ResponseEntity<?> getAllUsers() {
+        List<User> users = userService.findAll();
+
+        return ResponseEntity.ok(users);
+    }
+
+    @PostMapping("/admin/user/edit")
+    public ResponseEntity<?> updateUser(
+            @RequestParam String username,
+            @RequestParam Map<String, String> form,
+            @RequestParam("userId") User user
+    ) {
+        userService.userSave(username, form, user);
+
+        return ResponseEntity.ok("OK");
     }
 
     private void saveFile(Perfume perfume, @RequestParam("file") MultipartFile file) throws IOException {

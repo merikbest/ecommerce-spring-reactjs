@@ -271,4 +271,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    @Override
+    public User getOne(Long id) {
+        return userRepository.getOne(id);
+    }
 }
