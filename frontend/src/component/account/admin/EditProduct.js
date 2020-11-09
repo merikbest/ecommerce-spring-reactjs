@@ -38,23 +38,13 @@ function EditProduct(props) {
                 setPrice(response.data.price);
                 setPerfume(response.data);
             });
-    })
+    },[])
 
     const onFormSubmit = (event) => {
         event.preventDefault();
 
-        // const data = {
-        //     perfumeTitle, perfumer, year, country, type, volume, perfumeGender, fragranceTopNotes,
-        //     fragranceMiddleNotes, fragranceBaseNotes, price
-        // }
-        //
-        // this.setState({
-        //     perfume: data
-        // })
-
         const bodyFormData = new FormData();
         bodyFormData.append("file", file);
-        // bodyFormData.append("perfume", this.state.perfume);
         bodyFormData.append("id", id);
         bodyFormData.append("perfumeTitle", perfumeTitle);
         bodyFormData.append("perfumer", perfumer);

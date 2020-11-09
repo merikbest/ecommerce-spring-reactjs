@@ -132,6 +132,51 @@ class ShopService {
             }
         });
     }
+
+    getUserOrders() {
+        return axios({
+            method: "get",
+            url: API_BASE_URL + "/user/orders",
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+    }
+
+    getAllUsers() {
+        return axios({
+            method: "get",
+            url: API_BASE_URL + "/admin/user/all",
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+    }
+
+    getUser(id) {
+        return axios({
+            method: "get",
+            url: API_BASE_URL + "/admin/user/" + id,
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+    }
+
+    updateUserInfo(user) {
+        return axios({
+            method: "post",
+            url: API_BASE_URL + "/user/edit",
+            data: user,
+            headers: {
+                "Content-Type" : "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+    }
 }
 
 export default new ShopService();

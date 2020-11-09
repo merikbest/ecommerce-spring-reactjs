@@ -6,11 +6,18 @@ function OrdersList(props) {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        ShopService.getOrders()
-            .then((response) => {
-                setOrders(response.data);
-            })
-    }, [])
+        if (localStorage.getItem("userRole") === "ADMIN") {
+            ShopService.getOrders()
+                .then((response) => {
+                    setOrders(response.data);
+                });
+        } else {
+            ShopService.getUserOrders()
+                .then((response) => {
+                    setOrders(response.data);
+                });
+        }
+    }, []);
 
     return (
         <div className="container ">

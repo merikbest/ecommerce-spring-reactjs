@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import usePagination from "../../parts/pagination/usePagination";
-import "./style.css"
+import Spinner from "../../spinner/Spinner";
 
 function MenuCards({data, itemsPerPage, startFrom, searchByData}) {
+    const [load, setLoad] = React.useState(false);
     const [search, setSearch] = useState('');
     const [searchBy, setSearchBy] = useState(searchByData && searchByData.length > 0 ? searchByData[0].value : '');
     const [searchFor, setSearchFor] = useState('');
@@ -121,8 +122,14 @@ function MenuCards({data, itemsPerPage, startFrom, searchByData}) {
                             return (
                                 <div className="col-lg-3 d-flex align-items-stretch">
                                     <div className="card mb-5">
+                                        {load ? null :
+                                            <div className="d-block mx-auto w-50">
+                                                <Spinner/>
+                                            </div>
+                                        }
                                         <img onLoad={() => setLoad(true)}
-                                            style={style} className="d-block mx-auto w-50"
+                                             style={{display: load ? "block" : "none"}}
+                                             className="mx-auto w-50"
                                              src={`http://localhost:8080/img/${perfume.filename}`}/>
                                         <div className="card-body text-center">
                                             <h5>{perfume.perfumeTitle}</h5>

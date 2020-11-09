@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import usePagination from "../../parts/pagination/usePagination";
 import {Link} from "react-router-dom";
+import Spinner from "../../spinner/Spinner";
 
 function EditProducts({data, itemsPerPage, startFrom, searchByData}) {
+    const [load, setLoad] = React.useState(false);
     const [search, setSearch] = useState('');
     const [searchBy, setSearchBy] = useState(searchByData && searchByData.length > 0 ? searchByData[0].value : '');
     const [searchFor, setSearchFor] = useState('');
@@ -91,7 +93,8 @@ function EditProducts({data, itemsPerPage, startFrom, searchByData}) {
                     <div className="form row ml-5">
                         {searchByData && searchByData.length > 0 &&
                         <div className="col-sm-6">
-                            <select className="form-control" value={searchBy} onChange={(event) => setSearchBy(event.target.value)}>
+                            <select className="form-control" value={searchBy}
+                                    onChange={(event) => setSearchBy(event.target.value)}>
                                 {searchByData.map((data, index) => (
                                     <option key={index} value={data.value}>{data.label}</option>
                                 ))}
@@ -117,9 +120,17 @@ function EditProducts({data, itemsPerPage, startFrom, searchByData}) {
                         return (
                             <div className="col-lg-2 d-flex align-items-stretch">
                                 <div key={perfume.id} className="card mb-5">
+                                    {load ? null :
+                                        <div className="d-block mx-auto w-50">
+                                            <Spinner/>
+                                        </div>
+                                    }
                                     <div>
-                                        <img src={`http://localhost:8080/img/${perfume.filename}`}
-                                             className="rounded mx-auto w-100"/>
+                                        <img onLoad={() => setLoad(true)}
+                                             style={{display: load ? "block" : "none"}}
+                                             src={`http://localhost:8080/img/${perfume.filename}`}
+                                             className="rounded mx-auto w-100"
+                                        />
                                     </div>
                                     <div className="card-body text-center">
                                         <h5>{perfume.perfumeTitle}</h5>
