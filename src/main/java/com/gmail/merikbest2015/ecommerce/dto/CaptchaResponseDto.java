@@ -8,7 +8,6 @@ import java.util.Set;
 /**
  * Data Transfer Object class which receives responses from google services.
  * The response is a JSON object.
- * The @Value annotation generates getters and setters.
  * The @JsonIgnoreProperties annotation indicate that any properties not bound in this type should be ignored.
  *
  * @author Miroslav Khotinskiy (merikbest2015@gmail.com)

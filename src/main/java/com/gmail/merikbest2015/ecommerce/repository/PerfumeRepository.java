@@ -1,141 +1,69 @@
 package com.gmail.merikbest2015.ecommerce.repository;
 
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * A repository for {@link Perfume} objects providing a set of JPA methods for working with the database.
  * Inherits interface {@link JpaRepository}.
  *
  * @author Miroslav Khotinskiy (merikbest2015@gmail.com)
- * @version 1.0
+ * @version 2.0
  * @see Perfume
  * @see JpaRepository
  */
 public interface PerfumeRepository extends JpaRepository<Perfume, Long> {
     /**
-     * Returns list of perfumes from the database.
-     * A {@link Page} is a sublist of a list of objects.
+     * Returns list of perfumes from the database which has the same perfume manufacturers and genders
+     * with the value of the input parameter.
      *
-     * @param pageable object that specifies the information of the requested page.
+     * @param perfumers perfume manufacturers to return.
+     * @param genders   genders to return.
      * @return list of {@link Perfume}.
      */
-    Page<Perfume> findAll(Pageable pageable);
+    List<Perfume> findByPerfumerInAndPerfumeGenderInOrderByPriceDesc(List<String> perfumers, List<String> genders);
 
     /**
-     * Returns list of perfumes from the database in which the price is in the range between of starting price and ending price.
-     * A {@link Page} is a sublist of a list of objects.
+     * Returns list of perfumes from the database which has the same perfume manufacturers or genders
+     * with the value of the input parameter.
      *
-     * @param startingPrice The starting price of the product that the user enters.
-     * @param endingPrice   The ending price of the product that the user enters.
-     * @param pageable      object that specifies the information of the requested page.
+     * @param perfumers perfume manufacturers to return.
+     * @param genders   genders to return.
      * @return list of {@link Perfume}.
      */
-    Page<Perfume> findByPriceBetween(Integer startingPrice, Integer endingPrice, Pageable pageable);
+    List<Perfume> findByPerfumerInOrPerfumeGenderInOrderByPriceDesc(List<String> perfumers, List<String> genders);
 
     /**
-     * Returns list of perfumes from the database which has the same perfume manufacturer with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
+     * Returns list of perfumes from the database in which the price is in the range between of starting price
+     * and ending price.
+     *
+     * @param startingPrice the starting price of the product that the user enters.
+     * @param endingPrice   the ending price of the product that the user enters.
+     * @return list of {@link Perfume}.
+     */
+    List<Perfume> findByPriceBetweenOrderByPriceDesc(Integer startingPrice, Integer endingPrice);
+
+    /**
+     * Returns list of perfumes from the database which has the same perfume manufacturer with the value of
+     * the input parameter.
      *
      * @param perfumer perfume manufacturer to return.
-     * @param pageable object that specifies the information of the requested page.
      * @return list of {@link Perfume}.
      */
-    Page<Perfume> findByPerfumer(String perfumer, Pageable pageable);
+    List<Perfume> findByPerfumerOrderByPriceDesc(String perfumer);
 
     /**
      * Returns list of perfumes from the database which has the same gender with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
      *
      * @param perfumeGender perfume gender to return.
-     * @param pageable      object that specifies the information of the requested page.
      * @return list of {@link Perfume}.
      */
-    Page<Perfume> findByPerfumeGender(String perfumeGender, Pageable pageable);
-
-    /**
-     * Returns list of perfumes from the database which has the same genders with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumeGenders perfume genders to return.
-     * @param pageable      object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    Page<Perfume> findByPerfumeGenderIn(List<String> perfumeGenders, Pageable pageable);
-
-    /**
-     * Returns list of perfumes from the database which has the same perfume manufacturer or perfume title
-     * with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumer      perfume manufacturer to return.
-     * @param perfumeTitle  perfume title to return.
-     * @param pageable      object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    Page<Perfume> findByPerfumerOrPerfumeTitle(String perfumer, String perfumeTitle, Pageable pageable);
-
-    /**
-     * Returns list of perfumes from the database which has the same perfume manufacturers and genders
-     * with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumers perfume manufacturers to return.
-     * @param genders   genders to return.
-     * @param pageable  object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    Page<Perfume> findByPerfumerInAndPerfumeGenderIn(List<String> perfumers, List<String> genders, Pageable pageable);
-
-    /**
-     * Returns list of perfumes from the database which has the same perfume manufacturers and genders
-     * with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumers perfume manufacturers to return.
-     * @param genders   genders to return.
-     * @param pageable  object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    Page<Perfume> findByPerfumerInOrPerfumeGenderIn (List<String> perfumers, List<String> genders, Pageable pageable);
-
-    /**
-     * Returns list of perfumes from the database which has the same perfume manufacturers
-     * with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumers perfume manufacturers to return.
-     * @param pageable  object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    Page<Perfume> findByPerfumerIn (List<String> perfumers, Pageable pageable);
-
-    /**
-     * Returns minimum price of perfume from the database.
-     * The @Query annotation to declare finder queries directly on repository methods.
-     *
-     * @return minimum price {@link Perfume}.
-     */
-    @Query(value = "SELECT min(price) FROM Perfume ")
-    BigDecimal minPerfumePrice();
-
-    /**
-     * Returns maximum price of perfume from the database.
-     * The @Query annotation to declare finder queries directly on repository methods.
-     *
-     * @return maximum price {@link Perfume}.
-     */
-    @Query(value = "SELECT max(price) FROM Perfume ")
-    BigDecimal maxPerfumePrice();
+    List<Perfume> findByPerfumeGenderOrderByPriceDesc(String perfumeGender);
 
     /**
      * Save updated perfume to the database.
@@ -168,14 +96,4 @@ public interface PerfumeRepository extends JpaRepository<Perfume, Long> {
     void saveProductInfoById(String perfumeTitle, String perfumer, Integer year, String country, String perfumeGender,
                              String fragranceTopNotes, String fragranceMiddleNotes, String fragranceBaseNotes, String description,
                              String filename, Integer price, String volume, String type, Long id);
-
-    //doc
-    Optional<Perfume> findById(Long id);
-
-    //doc
-    List<Perfume> findByPerfumerInAndPerfumeGenderInOrderByPriceDesc(List<String> perfumers, List<String> genders);
-    List<Perfume> findByPerfumerInOrPerfumeGenderInOrderByPriceDesc(List<String> perfumers, List<String> genders);
-    List<Perfume> findByPriceBetweenOrderByPriceDesc(Integer startingPrice, Integer endingPrice);
-    List<Perfume> findByPerfumerOrderByPriceDesc(String perfumer);
-    List<Perfume> findByPerfumeGenderOrderByPriceDesc(String perfumeGender);
 }

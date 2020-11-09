@@ -77,9 +77,31 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     /**
-     * Locates the user based on the username.
+     * Retrieves an User by its id.
      *
-     * @param username the username identifying the user whose data is required.
+     * @param id must not be null.
+     * @return User with the given id.
+     */
+    @Override
+    public User getOne(Long id) {
+        return userRepository.getOne(id);
+    }
+
+    /**
+     * Returns the user with the same email as the value of the input parameter.
+     *
+     * @param email user name to return.
+     * @return The {@link User} class object.
+     */
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    /**
+     * Locates the user based on the email.
+     *
+     * @param email the email identifying the user whose data is required.
      *
      * @return a fully populated user record.
      *
@@ -265,15 +287,5 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public User save(User user) {
         return userRepository.save(user);
-    }
-
-    @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public User getOne(Long id) {
-        return userRepository.getOne(id);
     }
 }

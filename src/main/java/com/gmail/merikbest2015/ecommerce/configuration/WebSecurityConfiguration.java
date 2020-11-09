@@ -21,7 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * works to provide authentication.
  *
  * @author Miroslav Khotinskiy (merikbest2015@gmail.com)
- * @version 1.0
+ * @version 2.0
  * @see UserServiceImpl
  * @see PasswordEncoder
  */
@@ -29,21 +29,35 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-    //7
+    /**
+     * Class for configure JWT.
+     */
     private final JwtConfigurer jwtConfigurer;
 
+    /**
+     * Constructor for initializing the main variables of the WebSecurityConfiguration class.
+     * The @Autowired annotation will allow Spring to automatically initialize objects.
+     *
+     * @param jwtConfigurer class for configure JWT.
+     */
     @Autowired
     public WebSecurityConfiguration(JwtConfigurer jwtConfigurer) {
         this.jwtConfigurer = jwtConfigurer;
     }
 
+    /**
+     * Configuring rules for user access to site pages.
+     * The addresses of resources with limited access are indicated.
+     *
+     * @param http object of the {@link HttpSecurity} for setting access rights to pages.
+     * @throws Exception exception methods of the {@link HttpSecurity} class.
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf()
                 .disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) //7.1
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/v1/rest",
@@ -62,82 +76,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/static/**",
                         "/activate/*",
                         "/menu/**").permitAll()
-                .antMatchers("/api/v1/rest/login").permitAll() //7.3
+                .antMatchers("/api/v1/rest/login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .apply(jwtConfigurer); //7.2
+                .apply(jwtConfigurer);
     }
 
-    //7.5
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 }
-
-
-//
-//    /**
-//     * Service object for working with registered users.
-//     * The @Autowired annotation will allow Spring to automatically initialize objects.
-//     */
-//    @Autowired
-//    private UserServiceImpl userService;
-//
-//    /**
-//     * Service object for encoding passwords.
-//     * The @Autowired annotation will allow Spring to automatically initialize objects.
-//     */
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-//
-//    /**
-//     * Configuring rules for user access to site pages.
-//     * The addresses of resources with limited access are indicated.
-//     *
-//     * @param http object of the {@link HttpSecurity} for setting access rights to pages.
-//     * @throws Exception exception methods of the {@link HttpSecurity} class.
-//     */
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests()
-//                .antMatchers("/",
-//                        "/rest/**",
-////                            "/**/*.png",
-////                            "/**/*.gif",
-////                            "/**/*.svg",
-////                            "/**/*.jpg",
-//                        "/search",
-//                        "/registration",
-//                        "/contacts",
-//                        "/img/**",
-//                        "/static/**",
-//                        "/activate/*",
-//                        "/product/*",
-//                        "/menu/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/rest/login")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll()
-//                .and().csrf().disable();
-//    }
-//
-//    /**
-//     * Setting up users with their roles. Users will be loaded from the database
-//     * using the implementation of the {@link UserDetailsService} interface methods.
-//     *
-//     * @param auth object of the {@link AuthenticationManagerBuilder}.
-//     * @throws Exception exception methods of the {@link AuthenticationManagerBuilder}.
-//     */
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userService)
-//                .passwordEncoder(passwordEncoder);
-//    }

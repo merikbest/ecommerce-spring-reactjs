@@ -2,12 +2,8 @@ package com.gmail.merikbest2015.ecommerce.service;
 
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.service.Impl.PerfumeServiceImpl;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * The service layer interface describes a set of methods for working with objects of the {@link Perfume} class.
@@ -19,6 +15,14 @@ import java.util.Optional;
  */
 public interface PerfumeService {
     /**
+     * Retrieves an Perfume by its id.
+     *
+     * @param id must not be null.
+     * @return the Perfume with the given id.
+     */
+    Perfume getOne(Long id);
+
+    /**
      * Return list of all perfumes.
      *
      * @return list of {@link Perfume}.
@@ -26,115 +30,31 @@ public interface PerfumeService {
     List<Perfume> findAll();
 
     /**
-     * Returns list of perfumes.
-     * A {@link Page} is a sublist of a list of objects.
+     * Returns list of perfumes which has the same perfume manufacturers, perfume genders and
+     * the price is in the range between of starting price and ending price with the value of
+     * the input parameter.
      *
-     * @param pageable object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
+     * @param perfumers perfume manufacturers to return.
+     * @param genders   perfume genders to return.
+     * @param prices    perfume price range
      */
-    Page<Perfume> findAll(Pageable pageable);
-
-    /**
-     * Returns list of perfumes in which the price is in the range between of starting price and ending price.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param startingPrice The starting price of the product that the user enters.
-     * @param endingPrice   The ending price of the product that the user enters.
-     * @param pageable      object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    Page<Perfume> findByPriceBetween(Integer startingPrice, Integer endingPrice, Pageable pageable);
+    List<Perfume> filter(List<String> perfumers, List<String> genders, List<Integer> prices);
 
     /**
      * Returns list of perfumes which has the same perfume manufacturer with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
      *
      * @param perfumer perfume manufacturer to return.
-     * @param pageable object that specifies the information of the requested page.
      * @return list of {@link Perfume}.
      */
-    Page<Perfume> findByPerfumer(String perfumer, Pageable pageable);
+    List<Perfume> findByPerfumerOrderByPriceDesc(String perfumer);
 
     /**
      * Returns list of perfumes which has the same gender with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
      *
      * @param perfumeGender perfume gender to return.
-     * @param pageable      object that specifies the information of the requested page.
      * @return list of {@link Perfume}.
      */
-    Page<Perfume> findByPerfumeGender(String perfumeGender, Pageable pageable);
-
-    /**
-     * Returns list of perfumes which has the same genders with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumeGenders perfume genders to return.
-     * @param pageable      object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    Page<Perfume> findByPerfumeGenderIn(List<String> perfumeGenders, Pageable pageable);
-
-    /**
-     * Returns list of perfumes which has the same perfume manufacturer or perfume title
-     * with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumer      perfume manufacturer to return.
-     * @param perfumeTitle  perfume title to return.
-     * @param pageable      object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    Page<Perfume> findByPerfumerOrPerfumeTitle(String perfumer, String perfumeTitle, Pageable pageable);
-
-    /**
-     * Returns list of perfumes which has the same perfume manufacturers and genders
-     * with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumers perfume manufacturers to return.
-     * @param genders   genders to return.
-     * @param pageable  object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    Page<Perfume> findByPerfumerInAndPerfumeGenderIn(List<String> perfumers, List<String> genders, Pageable pageable);
-
-    /**
-     * Returns list of perfumes which has the same perfume manufacturers and genders
-     * with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumers perfume manufacturers to return.
-     * @param genders   genders to return.
-     * @param pageable  object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    Page<Perfume> findByPerfumerInOrPerfumeGenderIn (List<String> perfumers, List<String> genders, Pageable pageable);
-
-    /**
-     * Returns list of perfumes which has the same perfume manufacturers
-     * with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumers perfume manufacturers to return.
-     * @param pageable  object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    Page<Perfume> findByPerfumerIn (List<String> perfumers, Pageable pageable);
-
-    /**
-     * Returns minimum price of perfume.
-     *
-     * @return minimum price {@link Perfume}.
-     */
-    BigDecimal minPerfumePrice();
-
-    /**
-     * Returns maximum price of perfume from the database.
-     *
-     * @return maximum price {@link Perfume}.
-     */
-    BigDecimal maxPerfumePrice();
+    List<Perfume> findByPerfumeGenderOrderByPriceDesc(String perfumeGender);
 
     /**
      * Save updated perfume.
@@ -165,12 +85,4 @@ public interface PerfumeService {
      * @return The {@link Perfume} class object which will be saved in the database.
      */
     Perfume save(Perfume perfume);
-
-    //doc
-    Optional<Perfume> findById(Long id);
-    Perfume getOne(Long id);
-    //doc
-    List<Perfume> filter(List<String> perfumers, List<String> genders, List<Integer> prices);
-    List<Perfume> findByPerfumerOrderByPriceDesc(String perfumer);
-    List<Perfume> findByPerfumeGenderOrderByPriceDesc(String perfumeGender);
 }

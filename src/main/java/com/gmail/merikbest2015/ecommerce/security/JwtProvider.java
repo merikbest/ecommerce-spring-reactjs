@@ -16,34 +16,67 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 
-// 3
+/**
+ * Class for generating and verifying JWT.
+ * The following utility class will be used for generating a JWT after a user logs in successfully,
+ * and validating the JWT sent in the Authorization header of the requests.
+ * The @Component annotation indicates that this class is a "component". Such classes are considered
+ * as candidates for auto-detection when using annotation-based configuration and classpath scanning.
+ *
+ * @author Miroslav Khotinskiy (merikbest2015@gmail.com)
+ * @version 1.0
+ */
 @Component
 public class JwtProvider {
-
-    //3.5.2
+    /**
+     * Interface which loads user-specific data.
+     */
     private final UserDetailsService userDetailsService;
-    // 3.1
+
+    /**
+     * Request header where the JWT is stored.
+     */
     @Value("${jwt.header}")
     private String authorizationHeader;
 
+    /**
+     * Secret key for signature algorithm.
+     */
     @Value("${jwt.secret}")
     private String secretKey;
 
+    /**
+     * Validity JWT in milliseconds.
+     */
     @Value("${jwt.expiration}")
     private long validityInMilliseconds;
 
+    /**
+     * Constructor for initializing the main variables of the JWT provider class.
+     * The @Autowired annotation will allow Spring to automatically initialize objects.
+     *
+     * @param userDetailsService interface which loads user-specific data.
+     */
     @Autowired
     public JwtProvider(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
-    //3.4
+    /**
+     * Encode secret key by Base64 encoding scheme.
+     */
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    // 3.2
+    /**
+     * Create JWT based on data to transfer.
+     *
+     * @param username  user name.
+     * @param role      user role.
+     * @return JWT with claims, date and sign algorithm.
+     * */
     public String createToken(String username, String role) {
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("role", role);
@@ -58,7 +91,12 @@ public class JwtProvider {
                 .compact();
     }
 
-    //3.3
+    /**
+     * Validate JWT expiration timestamp.
+     *
+     * @param token JWT.
+     * @return true if JWT is not expired and return JwtAuthenticationException if JWT expired.
+     */
     public boolean validateToken(String token) {
 
         try {
@@ -70,18 +108,33 @@ public class JwtProvider {
         }
     }
 
-    //3.5
+    /**
+     * Get authentication user from JWT.
+     *
+     * @param token JWT.
+     * @return authenticated user from JWT.
+     */
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    //3.5.1
+    /**
+     * Get username from JWT.
+     *
+     * @param token JWT.
+     * @return username from JWT.
+     */
     public String getUsername(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    //3.6
+    /**
+     * Resolve JWT.
+     *
+     * @param request HTTP request.
+     * @return request header where the JWT is stored.
+     */
     public String resolveToken(HttpServletRequest request) {
         return request.getHeader(authorizationHeader);
     }

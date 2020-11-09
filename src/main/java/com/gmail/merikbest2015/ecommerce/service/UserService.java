@@ -16,6 +16,22 @@ import java.util.Map;
  */
 public interface UserService {
     /**
+     * Retrieves an User by its id.
+     *
+     * @param id must not be null.
+     * @return User with the given id.
+     */
+    User getOne(Long id);
+
+    /**
+     * Returns the user with the same email as the value of the input parameter.
+     *
+     * @param email user email to return.
+     * @return The {@link User} class object.
+     */
+    User findByEmail(String email);
+
+    /**
      * Return true if user is not exists.
      *
      * @param user user who has registered.
@@ -86,8 +102,4 @@ public interface UserService {
      * @return The {@link User} class object which will be saved in the database.
      */
     User save(User user);
-
-    User findByEmail(String email);
-
-    User getOne(Long id);
 }

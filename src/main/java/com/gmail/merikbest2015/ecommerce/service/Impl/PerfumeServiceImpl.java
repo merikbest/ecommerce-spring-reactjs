@@ -4,15 +4,9 @@ import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * The service layer class implements the accessor methods of {@link Perfume} objects
@@ -22,7 +16,7 @@ import java.util.stream.Collectors;
  * Using this annotation will automatically search for service beans.
  *
  * @author Miroslav Khotinskiy (merikbest2015@gmail.com)
- * @version 1.0
+ * @version 2.0
  * @see Perfume
  * @see PerfumeService
  * @see PerfumeRepository
@@ -36,7 +30,7 @@ public class PerfumeServiceImpl implements PerfumeService {
     private final PerfumeRepository perfumeRepository;
 
     /**
-     * Constructor for initializing the main variables of the order service.
+     * Constructor for initializing the main variables of the perfume service.
      * The @Autowired annotation will allow Spring to automatically initialize objects.
      *
      * @param perfumeRepository implementation of the {@link PerfumeRepository} interface
@@ -45,6 +39,17 @@ public class PerfumeServiceImpl implements PerfumeService {
     @Autowired
     public PerfumeServiceImpl(PerfumeRepository perfumeRepository) {
         this.perfumeRepository = perfumeRepository;
+    }
+
+    /**
+     * Retrieves an Perfume by its id.
+     *
+     * @param id must not be null.
+     * @return the Perfume with the given id.
+     */
+    @Override
+    public Perfume getOne(Long id) {
+        return perfumeRepository.getOne(id);
     }
 
     /**
@@ -58,147 +63,53 @@ public class PerfumeServiceImpl implements PerfumeService {
     }
 
     /**
-     * Returns list of perfumes.
-     * A {@link Page} is a sublist of a list of objects.
+     * Returns list of perfumes which has the same perfume manufacturers, perfume genders and
+     * the price is in the range between of starting price and ending price with the value of
+     * the input parameter.
      *
-     * @param pageable object that specifies the information of the requested page.
+     * @param perfumers perfume manufacturers to return.
+     * @param genders   perfume genders to return.
+     * @param prices    perfume price range
      * @return list of {@link Perfume}.
      */
+    //TODO rewrite filter logic
     @Override
-    public Page<Perfume> findAll(Pageable pageable) {
-        return perfumeRepository.findAll(pageable);
-    }
+    public List<Perfume> filter(List<String> perfumers, List<String> genders, List<Integer> prices) {
+        List<Perfume> perfumeList;
 
-    /**
-     * Returns list of perfumes in which the price is in the range between of starting price and ending price.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param startingPrice The starting price of the product that the user enters.
-     * @param endingPrice   The ending price of the product that the user enters.
-     * @param pageable      object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    @Override
-    public Page<Perfume> findByPriceBetween(Integer startingPrice, Integer endingPrice, Pageable pageable) {
-        return perfumeRepository.findByPriceBetween(startingPrice, endingPrice, pageable);
+        if (!prices.isEmpty()) {
+            perfumeList = perfumeRepository.findByPriceBetweenOrderByPriceDesc(prices.get(0), prices.get(1));
+        } else if (!perfumers.isEmpty() && !genders.isEmpty()) {
+            perfumeList = perfumeRepository.findByPerfumerInAndPerfumeGenderInOrderByPriceDesc(perfumers, genders);
+        } else if (!perfumers.isEmpty() || !genders.isEmpty()) {
+            perfumeList = perfumeRepository.findByPerfumerInOrPerfumeGenderInOrderByPriceDesc(perfumers, genders);
+        } else {
+            perfumeList = perfumeRepository.findAll();
+        }
+
+        return perfumeList;
     }
 
     /**
      * Returns list of perfumes which has the same perfume manufacturer with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
      *
      * @param perfumer perfume manufacturer to return.
-     * @param pageable object that specifies the information of the requested page.
      * @return list of {@link Perfume}.
      */
     @Override
-    public Page<Perfume> findByPerfumer(String perfumer, Pageable pageable) {
-        return perfumeRepository.findByPerfumer(perfumer, pageable);
+    public List<Perfume> findByPerfumerOrderByPriceDesc(String perfumer) {
+        return perfumeRepository.findByPerfumerOrderByPriceDesc(perfumer);
     }
 
     /**
      * Returns list of perfumes which has the same gender with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
      *
      * @param perfumeGender perfume gender to return.
-     * @param pageable      object that specifies the information of the requested page.
      * @return list of {@link Perfume}.
      */
     @Override
-    public Page<Perfume> findByPerfumeGender(String perfumeGender, Pageable pageable) {
-        return perfumeRepository.findByPerfumeGender(perfumeGender, pageable);
-    }
-
-    /**
-     * Returns list of perfumes which has the same genders with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumeGenders perfume genders to return.
-     * @param pageable       object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    @Override
-    public Page<Perfume> findByPerfumeGenderIn(List<String> perfumeGenders, Pageable pageable) {
-        return perfumeRepository.findByPerfumeGenderIn(perfumeGenders, pageable);
-    }
-
-    /**
-     * Returns list of perfumes which has the same perfume manufacturer or perfume title
-     * with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumer     perfume manufacturer to return.
-     * @param perfumeTitle perfume title to return.
-     * @param pageable     object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    @Override
-    public Page<Perfume> findByPerfumerOrPerfumeTitle(String perfumer, String perfumeTitle, Pageable pageable) {
-        return perfumeRepository.findByPerfumerOrPerfumeTitle(perfumer, perfumeTitle, pageable);
-    }
-
-    /**
-     * Returns list of perfumes which has the same perfume manufacturers and genders
-     * with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumers perfume manufacturers to return.
-     * @param genders   genders to return.
-     * @param pageable  object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    @Override
-    public Page<Perfume> findByPerfumerInAndPerfumeGenderIn(List<String> perfumers, List<String> genders, Pageable pageable) {
-        return perfumeRepository.findByPerfumerInAndPerfumeGenderIn(perfumers, genders, pageable);
-    }
-
-    /**
-     * Returns list of perfumes which has the same perfume manufacturers and genders
-     * with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumers perfume manufacturers to return.
-     * @param genders   genders to return.
-     * @param pageable  object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    @Override
-    public Page<Perfume> findByPerfumerInOrPerfumeGenderIn(List<String> perfumers, List<String> genders, Pageable pageable) {
-        return perfumeRepository.findByPerfumerInOrPerfumeGenderIn(perfumers, genders, pageable);
-    }
-
-    /**
-     * Returns list of perfumes which has the same perfume manufacturers
-     * with the value of the input parameter.
-     * A {@link Page} is a sublist of a list of objects.
-     *
-     * @param perfumers perfume manufacturers to return.
-     * @param pageable  object that specifies the information of the requested page.
-     * @return list of {@link Perfume}.
-     */
-    @Override
-    public Page<Perfume> findByPerfumerIn(List<String> perfumers, Pageable pageable) {
-        return perfumeRepository.findByPerfumerIn(perfumers, pageable);
-    }
-
-    /**
-     * Returns minimum price of perfume.
-     *
-     * @return minimum price {@link Perfume}.
-     */
-    @Override
-    public BigDecimal minPerfumePrice() {
-        return perfumeRepository.minPerfumePrice();
-    }
-
-    /**
-     * Returns maximum price of perfume from the database.
-     *
-     * @return maximum price {@link Perfume}.
-     */
-    @Override
-    public BigDecimal maxPerfumePrice() {
-        return perfumeRepository.maxPerfumePrice();
+    public List<Perfume> findByPerfumeGenderOrderByPriceDesc(String perfumeGender) {
+        return perfumeRepository.findByPerfumeGenderOrderByPriceDesc(perfumeGender);
     }
 
     /**
@@ -238,46 +149,5 @@ public class PerfumeServiceImpl implements PerfumeService {
     @Override
     public Perfume save(Perfume perfume) {
         return perfumeRepository.save(perfume);
-    }
-
-    //doc
-    @Override
-    public Optional<Perfume> findById(Long id) {
-        return perfumeRepository.findById(id);
-    }
-
-    //doc
-    @Override
-    public List<Perfume> filter(List<String> perfumers, List<String> genders, List<Integer> prices) {
-        List<Perfume> perfumeList;
-
-        if (!prices.isEmpty()) {
-            perfumeList = perfumeRepository.findByPriceBetweenOrderByPriceDesc(prices.get(0), prices.get(1));
-        } else if (!perfumers.isEmpty() && !genders.isEmpty()) {
-            perfumeList = perfumeRepository.findByPerfumerInAndPerfumeGenderInOrderByPriceDesc(perfumers, genders);
-        } else if (!perfumers.isEmpty() || !genders.isEmpty()) {
-            perfumeList = perfumeRepository.findByPerfumerInOrPerfumeGenderInOrderByPriceDesc(perfumers, genders);
-        } else {
-            perfumeList = perfumeRepository.findAll();
-        }
-
-        return perfumeList;
-    }
-
-    //doc
-    @Override
-    public List<Perfume> findByPerfumerOrderByPriceDesc(String perfumer) {
-        return perfumeRepository.findByPerfumerOrderByPriceDesc(perfumer);
-    }
-
-    //doc
-    @Override
-    public List<Perfume> findByPerfumeGenderOrderByPriceDesc(String perfumeGender) {
-        return perfumeRepository.findByPerfumeGenderOrderByPriceDesc(perfumeGender);
-    }
-    //doc
-    @Override
-    public Perfume getOne(Long id) {
-        return perfumeRepository.getOne(id);
     }
 }

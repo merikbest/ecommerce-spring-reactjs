@@ -1,5 +1,6 @@
 package com.gmail.merikbest2015.ecommerce.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -28,6 +29,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id", "perfumer", "perfumeTitle", "perfumeGender", "price"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Perfume {
     /**
      * The unique code of the object.

@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -16,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * Marked with @Configuration annotation - the class is the source of the bean definition.
  *
  * @author Miroslav Khotinskiy (merikbest2015@gmail.com)
- * @version 1.0
+ * @version 2.0
  */
 @Configuration
 public class MvcConfiguration implements WebMvcConfigurer {
@@ -35,18 +34,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public RestTemplate getRestTemplate() {
         return new RestTemplate();
     }
-//
-//    /**
-//     * Setting up a login controller.
-//     * Configure simple automated controllers pre-configured with the response
-//     * status code and/or a view to render the response body.
-//     *
-//     * @param registry assists with the registration of simple automated controllers
-//     *                 pre-configured with status code and/or a view.
-//     */
-//    public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/login").setViewName("login");
-//    }
 
     /**
      * Specifies where the resources will be stored.
@@ -65,8 +52,13 @@ public class MvcConfiguration implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/");
     }
 
+    /**
+     * Configure cross origin requests processing.
+     *
+     * @param registry registration of global, URL pattern based CORS configuration mappings.
+     */
     @Override
-     public void addCorsMappings(CorsRegistry registry) {
+    public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")

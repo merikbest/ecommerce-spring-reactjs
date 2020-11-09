@@ -29,5 +29,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     User findByActivationCode(String code);
 
+    /**
+     * Returns the user from the database that has the same email as the value of the input parameter.
+     *
+     * @param email user email to return.
+     * @return The {@link User} class object.
+     */
     User findByEmail(String email);
 }

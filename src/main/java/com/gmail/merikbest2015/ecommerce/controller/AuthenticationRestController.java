@@ -1,4 +1,4 @@
-package com.gmail.merikbest2015.ecommerce.controller.rest;
+package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.AuthenticationRequestDTO;
@@ -22,15 +22,46 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
-//1
+/**
+ * Authentication controller class.
+ * This controller and related pages can be accessed by all users, regardless of their roles.
+ * The @RestController it's a convenience annotation that combines @Controller and @ResponseBody. Annotation serves to
+ * inform Spring that this class is a bean and must be loaded when the application starts.
+ * The @RequestMapping("/api/v1/rest") annotation informs that this controller will process requests whose URI begins
+ * with "/api/v1/rest".
+ *
+ * @author Miroslav Khotinskiy (merikbest2015@gmail.com)
+ * @version 1.0
+ * @see AuthenticationManager
+ * @see UserService
+ * @see JwtProvider
+ */
 @RestController
 @RequestMapping("/api/v1/rest")
 public class AuthenticationRestController {
-
+    /**
+     * Authenticate the passed authentication object.
+     */
     private final AuthenticationManager authenticationManager;
+
+    /**
+     * Service object for working with users.
+     */
     private final UserService userService;
+
+    /**
+     * Generating and verifying JWT.
+     */
     private final JwtProvider jwtProvider;
 
+    /**
+     * Constructor for initializing the main variables of the authentication controller.
+     * The @Autowired annotation will allow Spring to automatically initialize objects.
+     *
+     * @param authenticationManager authenticate the passed authentication object.
+     * @param userService           service object for working with users.
+     * @param jwtProvider           generating and verifying JWT.
+     */
     @Autowired
     public AuthenticationRestController(AuthenticationManager authenticationManager, UserService userService, JwtProvider jwtProvider) {
         this.authenticationManager = authenticationManager;
@@ -38,9 +69,15 @@ public class AuthenticationRestController {
         this.jwtProvider = jwtProvider;
     }
 
+    /**
+     * Authenticate user in system.
+     * URL request {"/login"}, method POST.
+     *
+     * @param request data transfer object with user email and password.
+     * @return ResponseEntity with HTTP response: status code, headers, and body.
+     */
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) {
-        //6
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
@@ -58,7 +95,7 @@ public class AuthenticationRestController {
             response.put("token", token);
             response.put("userRole", userRole);
 
-            return ResponseEntity.ok(response);
+            return new ResponseEntity<>(response, HttpStatus.OK);
 
         } catch (AuthenticationException e) {
             return new ResponseEntity<>("Invalid email/password combination", HttpStatus.FORBIDDEN);
