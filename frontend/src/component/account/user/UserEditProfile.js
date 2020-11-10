@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ShopService from "../../../services/ShopService";
+import AccountNavbar from "../../parts/account-navbar/AccountNavbar";
 
 function UserEditProfile(props) {
     const [password, setPassword] = useState("");
@@ -14,6 +15,7 @@ function UserEditProfile(props) {
 
     return (
         <div className="container mt-5">
+            <AccountNavbar/>
             <h5>Изменение пароля</h5>
 
             <div className="form-group row mt-5">

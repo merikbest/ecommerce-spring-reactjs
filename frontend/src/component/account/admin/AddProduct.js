@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import ShopService from "../../../services/ShopService"
+import AccountNavbar from "../../parts/account-navbar/AccountNavbar";
+import ToastShow from "../../parts/toasts/ToastShow";
 
 function AddProduct(props) {
     const [perfume, setPerfume] = useState({});
@@ -41,7 +43,7 @@ function AddProduct(props) {
         bodyFormData.append("fragranceBaseNotes", fragranceBaseNotes);
         bodyFormData.append("price", price);
 
-        ShopService.addPerfumeToBd(bodyFormData)
+        ShopService.addPerfume(bodyFormData)
             .then((response) => {
                 props.history.push("/rest/account")
             })
@@ -58,7 +60,11 @@ function AddProduct(props) {
 
     return (
         <div id="container">
+            <AccountNavbar/>
             <div className="container mt-5 pb-5">
+                <div>
+                    <ToastShow/>
+                </div>
                 <h5>Заполните форму</h5>
                 <br/>
 

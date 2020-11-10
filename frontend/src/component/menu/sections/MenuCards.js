@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import usePagination from "../../parts/pagination/usePagination";
-import Spinner from "../../spinner/Spinner";
+import Spinner from "../../parts/spinner/Spinner";
 
 function MenuCards({data, itemsPerPage, startFrom, searchByData}) {
     const [load, setLoad] = React.useState(false);

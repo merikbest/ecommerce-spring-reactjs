@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ShopService from "../../../services/ShopService";
+import AccountNavbar from "../../parts/account-navbar/AccountNavbar";
 
 function EditProduct(props) {
     const [id, setId] = useState(props.match.params.id);
@@ -38,7 +39,7 @@ function EditProduct(props) {
                 setPrice(response.data.price);
                 setPerfume(response.data);
             });
-    },[])
+    }, [])
 
     const onFormSubmit = (event) => {
         event.preventDefault();
@@ -58,7 +59,7 @@ function EditProduct(props) {
         bodyFormData.append("fragranceBaseNotes", fragranceBaseNotes);
         bodyFormData.append("price", price);
 
-        ShopService.saveEditedPerfumeToBd(bodyFormData)
+        ShopService.updatePerfume(bodyFormData)
             .then((response) => {
                 props.history.push("/rest/account")
             })
@@ -74,168 +75,172 @@ function EditProduct(props) {
     } = errors;
 
     return (
-        <div className="container mt-5">
-            <div className="col-md-5 mb-5">
-                <img src={`http://localhost:8080/img/${filename}`}
-                     className="rounded mx-auto w-100 mb-2"/>
-                <input type="file" name="file" onChange={(event) => setFile(event.target.files[0])}/>
-            </div>
+        <div>
+            <AccountNavbar/>
+            <div className="container mt-5">
 
-            <div className="form-group row">
-                <label className="col-sm-2 col-form-label">Название парфюма: </label>
-                <div className="col-sm-6">
-                    <input
-                        type="text"
-                        className={perfumeTitleError ? "form-control is-invalid" : "form-control"}
-                        name="perfumeTitle"
-                        value={perfumeTitle}
-                        onChange={(event) => setPerfumeTitle(event.target.value)}
-                    />
-                    <div className="invalid-feedback">{perfumeTitleError}</div>
+                <div className="col-md-5 mb-5">
+                    <img src={`http://localhost:8080/img/${filename}`}
+                         className="rounded mx-auto w-100 mb-2"/>
+                    <input type="file" name="file" onChange={(event) => setFile(event.target.files[0])}/>
                 </div>
-            </div>
 
-            <div className="form-group row">
-                <label className="col-sm-2 col-form-label">Парфюмер: </label>
-                <div className="col-sm-6">
-                    <input
-                        type="text"
-                        className={perfumerError ? "form-control is-invalid" : "form-control"}
-                        name="perfumer"
-                        value={perfumer}
-                        onChange={(event) => setPerfumer(event.target.value)}
-                    />
-                    <div className="invalid-feedback">{perfumerError}</div>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Название парфюма: </label>
+                    <div className="col-sm-6">
+                        <input
+                            type="text"
+                            className={perfumeTitleError ? "form-control is-invalid" : "form-control"}
+                            name="perfumeTitle"
+                            value={perfumeTitle}
+                            onChange={(event) => setPerfumeTitle(event.target.value)}
+                        />
+                        <div className="invalid-feedback">{perfumeTitleError}</div>
+                    </div>
                 </div>
-            </div>
 
-            <div className="form-group row">
-                <label className="col-sm-2 col-form-label">Год выпуска: </label>
-                <div className="col-sm-6">
-                    <input
-                        type="text"
-                        className={yearError ? "form-control is-invalid" : "form-control"}
-                        name="year"
-                        value={year}
-                        onChange={(event) => setYear(event.target.value)}
-                    />
-                    <div className="invalid-feedback">{yearError}</div>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Парфюмер: </label>
+                    <div className="col-sm-6">
+                        <input
+                            type="text"
+                            className={perfumerError ? "form-control is-invalid" : "form-control"}
+                            name="perfumer"
+                            value={perfumer}
+                            onChange={(event) => setPerfumer(event.target.value)}
+                        />
+                        <div className="invalid-feedback">{perfumerError}</div>
+                    </div>
                 </div>
-            </div>
 
-            <div className="form-group row">
-                <label className="col-sm-2 col-form-label">Страна: </label>
-                <div className="col-sm-6">
-                    <input
-                        type="text"
-                        className={countryError ? "form-control is-invalid" : "form-control"}
-                        name="country"
-                        value={country}
-                        onChange={(event) => setCountry(event.target.value)}
-                    />
-                    <div className="invalid-feedback">{countryError}</div>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Год выпуска: </label>
+                    <div className="col-sm-6">
+                        <input
+                            type="text"
+                            className={yearError ? "form-control is-invalid" : "form-control"}
+                            name="year"
+                            value={year}
+                            onChange={(event) => setYear(event.target.value)}
+                        />
+                        <div className="invalid-feedback">{yearError}</div>
+                    </div>
                 </div>
-            </div>
 
-            <div className="form-group row">
-                <label className="col-sm-2 col-form-label">Тип: </label>
-                <div className="col-sm-6">
-                    <input
-                        type="text"
-                        className={typeError ? "form-control is-invalid" : "form-control"}
-                        name="type"
-                        value={type}
-                        onChange={(event) => setType(event.target.value)}
-                    />
-                    <div className="invalid-feedback">{typeError}</div>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Страна: </label>
+                    <div className="col-sm-6">
+                        <input
+                            type="text"
+                            className={countryError ? "form-control is-invalid" : "form-control"}
+                            name="country"
+                            value={country}
+                            onChange={(event) => setCountry(event.target.value)}
+                        />
+                        <div className="invalid-feedback">{countryError}</div>
+                    </div>
                 </div>
-            </div>
 
-            <div className="form-group row">
-                <label className="col-sm-2 col-form-label">Объем: </label>
-                <div className="col-sm-6">
-                    <input
-                        type="text"
-                        className={volumeError ? "form-control is-invalid" : "form-control"}
-                        name="volume"
-                        value={volume}
-                        onChange={(event) => setVolume(event.target.value)}
-                    />
-                    <div className="invalid-feedback">{volumeError}</div>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Тип: </label>
+                    <div className="col-sm-6">
+                        <input
+                            type="text"
+                            className={typeError ? "form-control is-invalid" : "form-control"}
+                            name="type"
+                            value={type}
+                            onChange={(event) => setType(event.target.value)}
+                        />
+                        <div className="invalid-feedback">{typeError}</div>
+                    </div>
                 </div>
-            </div>
 
-            <div className="form-group row">
-                <label className="col-sm-2 col-form-label">Пол: </label>
-                <div className="col-sm-6">
-                    <input
-                        type="text"
-                        className={perfumeGenderError ? "form-control is-invalid" : "form-control"}
-                        name="perfumeGender"
-                        value={perfumeGender}
-                        onChange={(event) => setPerfumeGender(event.target.value)}
-                    />
-                    <div className="invalid-feedback">{perfumeGenderError}</div>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Объем: </label>
+                    <div className="col-sm-6">
+                        <input
+                            type="text"
+                            className={volumeError ? "form-control is-invalid" : "form-control"}
+                            name="volume"
+                            value={volume}
+                            onChange={(event) => setVolume(event.target.value)}
+                        />
+                        <div className="invalid-feedback">{volumeError}</div>
+                    </div>
                 </div>
-            </div>
 
-            <div className="form-group row">
-                <label className="col-sm-2 col-form-label">Верхние ноты: </label>
-                <div className="col-sm-6">
-                    <input
-                        type="text"
-                        className={fragranceTopNotesError ? "form-control is-invalid" : "form-control"}
-                        name="fragranceTopNotes"
-                        value={fragranceTopNotes}
-                        onChange={(event) => setFragranceTopNotes(event.target.value)}
-                    />
-                    <div className="invalid-feedback">{fragranceTopNotesError}</div>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Пол: </label>
+                    <div className="col-sm-6">
+                        <input
+                            type="text"
+                            className={perfumeGenderError ? "form-control is-invalid" : "form-control"}
+                            name="perfumeGender"
+                            value={perfumeGender}
+                            onChange={(event) => setPerfumeGender(event.target.value)}
+                        />
+                        <div className="invalid-feedback">{perfumeGenderError}</div>
+                    </div>
                 </div>
-            </div>
 
-            <div className="form-group row">
-                <label className="col-sm-2 col-form-label">Средние ноты: </label>
-                <div className="col-sm-6">
-                    <input
-                        type="text"
-                        className={fragranceMiddleNotesError ? "form-control is-invalid" : "form-control"}
-                        name="fragranceMiddleNotes"
-                        value={fragranceMiddleNotes}
-                        onChange={(event) => setFragranceMiddleNotes(event.target.value)}
-                    />
-                    <div className="invalid-feedback">{fragranceMiddleNotesError}</div>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Верхние ноты: </label>
+                    <div className="col-sm-6">
+                        <input
+                            type="text"
+                            className={fragranceTopNotesError ? "form-control is-invalid" : "form-control"}
+                            name="fragranceTopNotes"
+                            value={fragranceTopNotes}
+                            onChange={(event) => setFragranceTopNotes(event.target.value)}
+                        />
+                        <div className="invalid-feedback">{fragranceTopNotesError}</div>
+                    </div>
                 </div>
-            </div>
 
-            <div className="form-group row">
-                <label className="col-sm-2 col-form-label">Базовые ноты: </label>
-                <div className="col-sm-6">
-                    <input
-                        type="text"
-                        className={fragranceBaseNotesError ? "form-control is-invalid" : "form-control"}
-                        name="fragranceBaseNotes"
-                        value={fragranceBaseNotes}
-                        onChange={(event) => setFragranceBaseNotes(event.target.value)}
-                    />
-                    <div className="invalid-feedback">{fragranceBaseNotesError}</div>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Средние ноты: </label>
+                    <div className="col-sm-6">
+                        <input
+                            type="text"
+                            className={fragranceMiddleNotesError ? "form-control is-invalid" : "form-control"}
+                            name="fragranceMiddleNotes"
+                            value={fragranceMiddleNotes}
+                            onChange={(event) => setFragranceMiddleNotes(event.target.value)}
+                        />
+                        <div className="invalid-feedback">{fragranceMiddleNotesError}</div>
+                    </div>
                 </div>
-            </div>
 
-            <div className="form-group row">
-                <label className="col-sm-2 col-form-label">Цена: </label>
-                <div className="col-sm-6">
-                    <input
-                        type="text"
-                        className={priceError ? "form-control is-invalid" : "form-control"}
-                        name="price"
-                        value={price}
-                        onChange={(event) => setPrice(event.target.value)}
-                    />
-                    <div className="invalid-feedback">{priceError}</div>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Базовые ноты: </label>
+                    <div className="col-sm-6">
+                        <input
+                            type="text"
+                            className={fragranceBaseNotesError ? "form-control is-invalid" : "form-control"}
+                            name="fragranceBaseNotes"
+                            value={fragranceBaseNotes}
+                            onChange={(event) => setFragranceBaseNotes(event.target.value)}
+                        />
+                        <div className="invalid-feedback">{fragranceBaseNotesError}</div>
+                    </div>
                 </div>
-            </div>
 
-            <button className="btn btn-dark" onClick={onFormSubmit}>Добавить</button>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Цена: </label>
+                    <div className="col-sm-6">
+                        <input
+                            type="text"
+                            className={priceError ? "form-control is-invalid" : "form-control"}
+                            name="price"
+                            value={price}
+                            onChange={(event) => setPrice(event.target.value)}
+                        />
+                        <div className="invalid-feedback">{priceError}</div>
+                    </div>
+                </div>
+
+                <button className="btn btn-dark" onClick={onFormSubmit}>Добавить</button>
+            </div>
         </div>
     );
 }

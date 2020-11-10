@@ -26,7 +26,7 @@ class ShopService {
 
     getCart() {
         return axios({
-            method: "get",
+            method: "GET",
             url: API_BASE_URL + "/cart",
             headers: {
                 "Content-Type" : "application/json",
@@ -37,7 +37,7 @@ class ShopService {
 
     addToCart(id) {
         return axios({
-            method: "post",
+            method: "POST",
             url: API_BASE_URL + "/cart/add",
             data: id,
             headers: {
@@ -49,7 +49,7 @@ class ShopService {
 
     removeFromCart(perfume) {
         return axios({
-            method: "post",
+            method: "POST",
             url: API_BASE_URL + "/cart/remove",
             data: perfume,
             headers: {
@@ -61,7 +61,7 @@ class ShopService {
 
     getOrder() {
         return axios({
-            method: "get",
+            method: "GET",
             url: API_BASE_URL + "/order",
             headers: {
                 "Content-Type" : "application/json",
@@ -72,7 +72,7 @@ class ShopService {
 
     postOrder(validOrder) {
         return axios({
-            method: "post",
+            method: "POST",
             url: API_BASE_URL + "/order",
             data: validOrder,
             headers: {
@@ -98,9 +98,9 @@ class ShopService {
         return axios.get(API_BASE_URL + "/activate/" + code);
     }
 
-    addPerfumeToBd(data) {
+    addPerfume(data) {
         return axios({
-            method: "post",
+            method: "POST",
             url: API_BASE_URL + "/admin/add",
             data: data,
             headers: {
@@ -110,9 +110,9 @@ class ShopService {
         });
     }
 
-    saveEditedPerfumeToBd(data) {
+    updatePerfume(data) {
         return axios({
-            method: "post",
+            method: "PUT",
             url: API_BASE_URL + "/admin/edit",
             data: data,
             headers: {
@@ -122,9 +122,9 @@ class ShopService {
         });
     }
 
-    getOrders() {
+    getAllOrders() {
         return axios({
-            method: "get",
+            method: "GET",
             url: API_BASE_URL + "/admin/orders",
             headers: {
                 "Content-Type" : "application/json",
@@ -135,7 +135,7 @@ class ShopService {
 
     getUserOrders() {
         return axios({
-            method: "get",
+            method: "GET",
             url: API_BASE_URL + "/user/orders",
             headers: {
                 "Content-Type" : "application/json",
@@ -146,7 +146,7 @@ class ShopService {
 
     getAllUsers() {
         return axios({
-            method: "get",
+            method: "GET",
             url: API_BASE_URL + "/admin/user/all",
             headers: {
                 "Content-Type" : "application/json",
@@ -157,7 +157,7 @@ class ShopService {
 
     getUser(id) {
         return axios({
-            method: "get",
+            method: "GET",
             url: API_BASE_URL + "/admin/user/" + id,
             headers: {
                 "Content-Type" : "application/json",
@@ -168,7 +168,7 @@ class ShopService {
 
     updateUserInfo(user) {
         return axios({
-            method: "post",
+            method: "PUT",
             url: API_BASE_URL + "/user/edit",
             data: user,
             headers: {

@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import usePagination from "../../parts/pagination/usePagination";
 import {Link} from "react-router-dom";
-import Spinner from "../../spinner/Spinner";
+import Spinner from "../../parts/spinner/Spinner";
+import AccountNavbar from "../../parts/account-navbar/AccountNavbar";
 
 function EditProducts({data, itemsPerPage, startFrom, searchByData}) {
     const [load, setLoad] = React.useState(false);
@@ -86,69 +87,72 @@ function EditProducts({data, itemsPerPage, startFrom, searchByData}) {
     );
 
     return (
-        <div className="container mt-5">
-            <div className="form row">
-                {paginationItem}
-                <form onSubmit={submitHandler} style={{justifyContent: 'center'}}>
-                    <div className="form row ml-5">
-                        {searchByData && searchByData.length > 0 &&
-                        <div className="col-sm-6">
-                            <select className="form-control" value={searchBy}
-                                    onChange={(event) => setSearchBy(event.target.value)}>
-                                {searchByData.map((data, index) => (
-                                    <option key={index} value={data.value}>{data.label}</option>
-                                ))}
-                            </select>
+        <div>
+            <AccountNavbar/>
+            <div className="container mt-5">
+                <div className="container form row">
+                    {paginationItem}
+                    <form onSubmit={submitHandler} style={{justifyContent: 'center'}}>
+                        <div className="form row ml-5">
+                            {searchByData && searchByData.length > 0 &&
+                            <div className="col-sm-6">
+                                <select className="form-control" value={searchBy}
+                                        onChange={(event) => setSearchBy(event.target.value)}>
+                                    {searchByData.map((data, index) => (
+                                        <option key={index} value={data.value}>{data.label}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            }
+                            <div className="col">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Поиск..."
+                                    value={search}
+                                    onChange={(event) => setSearch(event.target.value)}
+                                />
+                            </div>
+                            <button type="submit" className="btn btn-dark">Поиск</button>
                         </div>
-                        }
-                        <div className="col">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Поиск..."
-                                value={search}
-                                onChange={(event) => setSearch(event.target.value)}
-                            />
-                        </div>
-                        <button type="submit" className="btn btn-dark">Поиск</button>
-                    </div>
-                </form>
-            </div>
-            <div className="container-fluid mt-5">
-                <div className="row">
-                    {slicedData.map((perfume) => {
-                        return (
-                            <div className="col-lg-2 d-flex align-items-stretch">
-                                <div key={perfume.id} className="card mb-5">
-                                    {load ? null :
-                                        <div className="d-block mx-auto w-50">
-                                            <Spinner/>
+                    </form>
+                </div>
+                <div className="container-fluid mt-5">
+                    <div className="row">
+                        {slicedData.map((perfume) => {
+                            return (
+                                <div className="col-lg-2 d-flex align-items-stretch">
+                                    <div key={perfume.id} className="card mb-5">
+                                        {load ? null :
+                                            <div className="d-block mx-auto w-50">
+                                                <Spinner/>
+                                            </div>
+                                        }
+                                        <div>
+                                            <img onLoad={() => setLoad(true)}
+                                                 style={{display: load ? "block" : "none"}}
+                                                 src={`http://localhost:8080/img/${perfume.filename}`}
+                                                 className="rounded mx-auto w-100"
+                                            />
                                         </div>
-                                    }
-                                    <div>
-                                        <img onLoad={() => setLoad(true)}
-                                             style={{display: load ? "block" : "none"}}
-                                             src={`http://localhost:8080/img/${perfume.filename}`}
-                                             className="rounded mx-auto w-100"
-                                        />
-                                    </div>
-                                    <div className="card-body text-center">
-                                        <h5>{perfume.perfumeTitle}</h5>
-                                        <h6>{perfume.perfumer}</h6>
-                                        <h6><span>{perfume.price}</span>,00 грн.</h6>
-                                    </div>
-                                    <div className="text-center align-items-end mb-3">
-                                        <Link to={`/rest/product/list/edit/${perfume.id}`}>
-                                            <span className="btn btn-dark">EDIT</span>
-                                        </Link>
+                                        <div className="card-body text-center">
+                                            <h5>{perfume.perfumeTitle}</h5>
+                                            <h6>{perfume.perfumer}</h6>
+                                            <h6><span>{perfume.price}</span>,00 грн.</h6>
+                                        </div>
+                                        <div className="text-center align-items-end mb-3">
+                                            <Link to={`/rest/product/list/edit/${perfume.id}`}>
+                                                <span className="btn btn-dark">EDIT</span>
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
                 </div>
+                {paginationItem}
             </div>
-            {paginationItem}
         </div>
     );
 }
