@@ -1,5 +1,6 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
+import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.AuthenticationRequestDTO;
 import com.gmail.merikbest2015.ecommerce.security.JwtProvider;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,23 +84,20 @@ public class AuthenticationRestController {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
             User user = userService.findByEmail(request.getEmail());
-
-            if (user == null) {
-                throw new UsernameNotFoundException("User doesn't exist");
-            }
-
             String userRole = user.getRoles().iterator().next().name();
             String token = jwtProvider.createToken(request.getEmail(), userRole);
+            List<Perfume> perfumeList = user.getPerfumeList();
 
             Map<Object, Object> response = new HashMap<>();
             response.put("email", request.getEmail());
             response.put("token", token);
             response.put("userRole", userRole);
+            response.put("perfumeList", perfumeList);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
 
         } catch (AuthenticationException e) {
-            return new ResponseEntity<>("Invalid email/password combination", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Неверный пароль или email", HttpStatus.FORBIDDEN);
         }
     }
 
