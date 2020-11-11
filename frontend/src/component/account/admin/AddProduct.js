@@ -4,7 +4,6 @@ import AccountNavbar from "../../parts/account-navbar/AccountNavbar";
 import ToastShow from "../../parts/toasts/ToastShow";
 
 function AddProduct(props) {
-    const [perfume, setPerfume] = useState({});
     const [perfumeTitle, setPerfumeTitle] = useState("");
     const [perfumer, setPerfumer] = useState("");
     const [year, setYear] = useState("");
@@ -18,16 +17,10 @@ function AddProduct(props) {
     const [price, setPrice] = useState("");
     const [file, setFile] = useState(null);
     const [errors, setErrors] = useState({});
+    const [showToast, setShowToast] = useState(false);
 
     const onFormSubmit = (event) => {
         event.preventDefault();
-
-        const data = {
-            perfumeTitle, perfumer, year, country, type, volume, perfumeGender, fragranceTopNotes,
-            fragranceMiddleNotes, fragranceBaseNotes, price, file
-        }
-
-        setPerfume(data);
 
         const bodyFormData = new FormData();
         bodyFormData.append("file", file);
@@ -45,7 +38,22 @@ function AddProduct(props) {
 
         ShopService.addPerfume(bodyFormData)
             .then((response) => {
-                props.history.push("/rest/account")
+                setShowToast(true);
+                setTimeout(() => setShowToast(false), 5000);
+                setPerfumeTitle("");
+                setPerfumer("");
+                setYear("");
+                setCountry("");
+                setType("");
+                setVolume("");
+                setPerfumeGender("");
+                setFragranceTopNotes("");
+                setFragranceMiddleNotes("");
+                setFragranceBaseNotes("");
+                setPrice("");
+                setFile(null);
+                setErrors({});
+                window.scrollTo(0, 0);
             })
             .catch((error) => {
                 setErrors(error.response.data)
@@ -59,12 +67,12 @@ function AddProduct(props) {
     } = errors;
 
     return (
-        <div id="container">
+        <div>
             <AccountNavbar/>
+            <div className="container" style={{"display" : showToast ? "block" : "none"}}>
+                <ToastShow showToast={showToast} message={"Товар успешно сохранен!"}/>
+            </div>
             <div className="container mt-5 pb-5">
-                <div>
-                    <ToastShow/>
-                </div>
                 <h5>Заполните форму</h5>
                 <br/>
 
@@ -222,7 +230,7 @@ function AddProduct(props) {
                     </div>
                 </div>
 
-                <button className="btn btn-dark" onClick={onFormSubmit}>Добавить</button>
+                <button className="btn btn-dark mr-5" onClick={onFormSubmit}>Добавить</button>
                 <input type="file" name="file" onChange={(event) => setFile(event.target.files[0])}/>
             </div>
         </div>

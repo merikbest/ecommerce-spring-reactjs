@@ -7,6 +7,7 @@ function Product(props) {
     const [perfume, setPerfume] = useState({});
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         ShopService.getPerfumeById(id)
             .then((response) => {
                 setPerfume(response.data)

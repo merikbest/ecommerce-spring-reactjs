@@ -61,7 +61,7 @@ function EditProduct(props) {
 
         ShopService.updatePerfume(bodyFormData)
             .then((response) => {
-                props.history.push("/rest/account")
+                props.history.push("/rest/product/list/edit")
             })
             .catch((error) => {
                 setErrors(error.response.data)

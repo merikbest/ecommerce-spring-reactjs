@@ -12,6 +12,7 @@ function Cart(props) {
         ShopService.getCart()
             .then((response) => {
                 setPerfumes(response.data)
+                props.setCartItems(response.data.length)
             });
     }, [])
 
@@ -21,6 +22,7 @@ function Cart(props) {
         ShopService.removeFromCart(perfume)
             .then((response) => {
                 setPerfumes(response.data)
+                props.setCartItems(response.data.length)
             });
     }
 
@@ -40,11 +42,11 @@ function Cart(props) {
                         return (
                             <div className="card mb-3 mx-auto" style={{maxWidth: "940px"}}>
                                 <div className="row no-gutters">
-                                    <div className="col-3 p-2">
+                                    <div className="col-3 ml-3 mt-3">
                                         <img src={`http://localhost:8080/img/${perfume.filename}`}
                                              className="rounded mx-auto w-50"/>
                                     </div>
-                                    <div className="col-7">
+                                    <div className="col-6">
                                         <div className="card-body">
                                             <h5 className="card-title">{perfume.perfumer + " " + perfume.perfumeTitle}</h5>
                                             <p className="card-text">{perfume.type}</p>
@@ -66,12 +68,12 @@ function Cart(props) {
                     <hr className="my-3"/>
 
                     <div className="row">
-                        <div className="col-9 ">
+                        <div className="col-8">
                             <p className="h5 text-right">Итого: <span>{totalCartPrice}</span> грн.
                             </p>
                         </div>
 
-                        <div className="col-3 ml-3">
+                        <div className="col-3">
                             <div className="form-row">
                                 <div className="col-6">
                                     <Link to={"/rest/order"}>

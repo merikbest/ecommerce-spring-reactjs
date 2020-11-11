@@ -24,6 +24,7 @@ import ShopService from "../../services/ShopService";
 function App(props) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [products, setProducts] = useState([]);
+    const [cartItemsCount, setCartItemsCount] = useState(null);
 
     useEffect(() => {
         ShopService.getPerfumes()
@@ -40,19 +41,24 @@ function App(props) {
 
     const setLoggedIn = (event) => {
         setIsLoggedIn(event)
+        setCartItemsCount(event)
+    }
+
+    const setCartItems = (event) => {
+        setCartItemsCount(event)
     }
 
     return (
         <div>
-            <NavBar isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn}/>
+            <NavBar setCartItems={cartItemsCount} isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn}/>
             <Route exact path="/rest" component={Home}/>
-            <Route exact path="/rest/login" component={() => <Login setLoggedIn={setLoggedIn}/>}/>
+            <Route exact path="/rest/login" component={() => <Login setCartItems={setCartItems} setLoggedIn={setLoggedIn}/>}/>
             <Route exact path="/rest/registration" component={Registration}/>
             <Route exact path="/rest/menu" component={(props) => <Menu {...props}/>}/>
             <Route exact path="/rest/product/:id" component={Product}/>
             <Route exact path="/rest/contacts" component={Contacts}/>
             <Route exact path="/rest/account" component={Account}/>
-            <Route exact path="/rest/cart" component={Cart}/>
+            <Route exact path="/rest/cart" component={() => <Cart setCartItems={setCartItems}/>}/>
             <Route exact path="/rest/order" component={Order}/>
             <Route exact path="/rest/order/finalize" component={OrderFinalize}/>
             <Route exact path="/rest/admin/add" component={AddProduct}/>

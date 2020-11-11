@@ -1,3 +1,13 @@
 .bg-black {
     background-color: black;
 }
+
+#navbar-main a {
+    color: white;
+    transition: .3s;
+}
+
+#navbar-main a:hover {
+    color: #00A1DF;
+    text-decoration: none;
+}

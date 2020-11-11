@@ -18,16 +18,19 @@ function Menu(props) {
 
     useEffect(() => {
         if (allProducts === "женский" || allProducts === "мужской") {
+            window.scrollTo(0, 0);
             ShopService.findPerfumeByGender({perfumeGender: props.location.state.id})
                 .then((response) => {
                     setProducts(response.data)
                 })
         } else if (allProducts === "all") {
+            window.scrollTo(0, 0);
             ShopService.getPerfumes()
                 .then((response) => {
                     setProducts(response.data)
                 })
         } else {
+            window.scrollTo(0, 0);
             ShopService.findPerfumeByPerfumer({perfumer: props.location.state.id})
                 .then((response) => {
                     setProducts(response.data)
