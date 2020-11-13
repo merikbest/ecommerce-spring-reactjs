@@ -50,7 +50,7 @@ function OrdersList(props) {
                                     {order.perfumeList.map((perfume) => {
                                         return (
                                             <p>Id товара:
-                                                <Link to={`/rest/product/${perfume.id}`}>{perfume.id}</Link>
+                                                <Link to={`/product/${perfume.id}`}>{perfume.id}</Link>
                                             </p>
                                         )
                                     })}

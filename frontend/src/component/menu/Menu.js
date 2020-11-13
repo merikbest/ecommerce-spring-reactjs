@@ -72,41 +72,38 @@ function Menu(props) {
     }
 
     return (
-        <div className="container">
-            <div className="d-flex">
-                <nav id="sidebar">
-                    <div className="sidebar-header">
-                        <h3>Парфюмерия</h3>
-                    </div>
-                    <ul className="list-unstyled components">
+        <div className="container d-flex">
+            <nav id="sidebar">
+                <div className="sidebar-header">
+                    <h3>Парфюмерия</h3>
+                </div>
+                <ul className="list-unstyled components">
 
-                        <h5>Бренд</h5>
-                        <li className="active mb-2" id="homeSubmenu">
-                            <Checkbox list={perfumer}
-                                      handleFilters={(filters) => handleFilters(filters, "perfumers")}/>
-                        </li>
+                    <h5>Бренд</h5>
+                    <li className="active mb-2" id="homeSubmenu">
+                        <Checkbox list={perfumer}
+                                  handleFilters={(filters) => handleFilters(filters, "perfumers")}/>
+                    </li>
 
-                        <h5>Пол</h5>
-                        <li className="active mb-2">
-                            <Checkbox list={gender}
-                                      handleFilters={(filters) => handleFilters(filters, "genders")}/>
-                        </li>
+                    <h5>Пол</h5>
+                    <li className="active mb-2">
+                        <Checkbox list={gender}
+                                  handleFilters={(filters) => handleFilters(filters, "genders")}/>
+                    </li>
 
-                        <h5>Цена</h5>
-                        <li className="active mb-2">
-                            <RadioCheckbox list={price}
-                                           handleFilters={(filters) => handleFilters(filters, "prices")}/>
-                        </li>
-                    </ul>
-                </nav>
+                    <h5>Цена</h5>
+                    <li className="active mb-2">
+                        <RadioCheckbox list={price}
+                                       handleFilters={(filters) => handleFilters(filters, "prices")}/>
+                    </li>
+                </ul>
+            </nav>
 
-                <Route exact component={() => <MenuCards data={products} itemsPerPage={16} searchByData={[
-                    {label: 'Парфюмер', value: 'perfumer'},
-                    {label: 'Название парфюма', value: 'perfumeTitle'},
-                    {label: 'Страна производитель', value: 'country'}]}/>}
-                />
-
-            </div>
+            <Route exact component={() => <MenuCards data={products} itemsPerPage={16} searchByData={[
+                {label: 'Парфюмер', value: 'perfumer'},
+                {label: 'Название парфюма', value: 'perfumeTitle'},
+                {label: 'Страна производитель', value: 'country'}]}/>}
+            />
         </div>
     )
 }

@@ -6,6 +6,22 @@
     transition: all 0.3s;
 }
 
+#sidebar ::-webkit-scrollbar {
+    width: 10px;
+}
+
+#sidebar ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+#sidebar ::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+#sidebar ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 #homeSubmenu {
     overflow-y: scroll !important;
     max-height: 250px !important;

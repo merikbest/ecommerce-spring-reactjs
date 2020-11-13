@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ShopService from "../../../services/ShopService";
 import AccountNavbar from "../../parts/account-navbar/AccountNavbar";
+import {IMG_URL} from "../../../constants";
 
 function EditProduct(props) {
     const [id, setId] = useState(props.match.params.id);
@@ -19,7 +20,6 @@ function EditProduct(props) {
     const [filename, setFilename] = useState("");
     const [file, setFile] = useState(null);
     const [errors, setErrors] = useState({});
-
 
     useEffect(() => {
         ShopService.getPerfumeById(id)
@@ -61,7 +61,7 @@ function EditProduct(props) {
 
         ShopService.updatePerfume(bodyFormData)
             .then((response) => {
-                props.history.push("/rest/product/list/edit")
+                props.history.push("/product/list/edit")
             })
             .catch((error) => {
                 setErrors(error.response.data)
@@ -80,7 +80,7 @@ function EditProduct(props) {
             <div className="container mt-5">
 
                 <div className="col-md-5 mb-5">
-                    <img src={`http://localhost:8080/img/${filename}`}
+                    <img src={IMG_URL + `${filename}`}
                          className="rounded mx-auto w-100 mb-2"/>
                     <input type="file" name="file" onChange={(event) => setFile(event.target.files[0])}/>
                 </div>

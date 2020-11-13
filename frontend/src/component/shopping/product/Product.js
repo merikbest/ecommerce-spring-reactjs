@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import ShopService from "../../../services/ShopService";
-import {Redirect} from "react-router-dom";
+import {IMG_URL} from "../../../constants/index";
 
 function Product(props) {
-    const [id, setId] = useState(props.match.params.id);
+    const [id] = useState(props.match.params.id);
     const [perfume, setPerfume] = useState({});
 
     useEffect(() => {
@@ -15,10 +15,14 @@ function Product(props) {
     }, [])
 
     const addToCart = () => {
-        ShopService.addToCart(perfume)
-            .then((response) => {
-                props.history.push("/rest/cart");
-            });
+        if (!localStorage.getItem("isLoggedIn")) {
+            props.history.push("/login");
+        } else {
+            ShopService.addToCart(perfume)
+                .then((response) => {
+                    props.history.push("/cart");
+                });
+        }
     }
 
     return (
@@ -27,7 +31,7 @@ function Product(props) {
                 <div className="row">
                     <div className="col-md-5">
                         <div>
-                            <img src={`http://localhost:8080/img/${perfume.filename}`}
+                            <img src={IMG_URL + `${perfume.filename}`}
                                  className="rounded mx-auto w-100"/>
                         </div>
                     </div>

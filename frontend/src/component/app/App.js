@@ -51,22 +51,22 @@ function App(props) {
     return (
         <div>
             <NavBar setCartItems={cartItemsCount} isLoggedIn={isLoggedIn} setLoggedIn={setLoggedIn}/>
-            <Route exact path="/rest" component={Home}/>
-            <Route exact path="/rest/login" component={() => <Login setCartItems={setCartItems} setLoggedIn={setLoggedIn}/>}/>
-            <Route exact path="/rest/registration" component={Registration}/>
-            <Route exact path="/rest/menu" component={(props) => <Menu {...props}/>}/>
-            <Route exact path="/rest/product/:id" component={Product}/>
-            <Route exact path="/rest/contacts" component={Contacts}/>
-            <Route exact path="/rest/account" component={Account}/>
-            <Route exact path="/rest/cart" component={() => <Cart setCartItems={setCartItems}/>}/>
-            <Route exact path="/rest/order" component={Order}/>
-            <Route exact path="/rest/order/finalize" component={OrderFinalize}/>
-            <Route exact path="/rest/admin/add" component={AddProduct}/>
-            <Route exact path="/rest/admin/orders" component={OrdersList}/>
-            <Route exact path="/rest/admin/users/all" component={UserList}/>
-            <Route exact path="/rest/admin/user/:id" component={EditUser}/>
-            <Route exact path="/rest/user/edit" component={UserEditProfile}/>
-            <Route exact path="/rest/product/list/edit" component={() =>
+            <Route exact path="/" component={Home}/>
+            <Route exact path="/login" component={() => <Login setCartItems={setCartItems} setLoggedIn={setLoggedIn}/>}/>
+            <Route exact path="/registration" component={Registration}/>
+            <Route exact path="/menu" component={(props) => <Menu {...props}/>}/>
+            <Route exact path="/product/:id" component={Product}/>
+            <Route exact path="/contacts" component={Contacts}/>
+            <Route exact path="/account" component={Account}/>
+            <Route exact path="/cart" component={() => <Cart setCartItems={setCartItems}/>}/>
+            <Route exact path="/order" component={Order}/>
+            <Route exact path="/order/finalize" component={OrderFinalize}/>
+            <Route exact path="/admin/add" component={AddProduct}/>
+            <Route exact path="/admin/orders" component={OrdersList}/>
+            <Route exact path="/admin/users/all" component={UserList}/>
+            <Route exact path="/admin/user/:id" component={EditUser}/>
+            <Route exact path="/user/edit" component={UserEditProfile}/>
+            <Route exact path="/product/list/edit" component={() =>
                 <EditProducts
                     data={products}
                     itemsPerPage={24}
@@ -76,7 +76,7 @@ function App(props) {
                         {label: 'Страна производитель', value: 'country'},
                         {label: 'Пол', value: 'perfumeGender'}
                     ]}/>}/>
-            <Route exact path="/rest/product/list/edit/:id" component={EditProduct}/>
+            <Route exact path="/product/list/edit/:id" component={EditProduct}/>
             <Footer/>
         </div>
     );

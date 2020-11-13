@@ -2,9 +2,10 @@ import React, {useState} from 'react';
 import {Link} from "react-router-dom";
 import usePagination from "../../parts/pagination/usePagination";
 import Spinner from "../../parts/spinner/Spinner";
+import {IMG_URL} from "../../../constants/index";
 
 function MenuCards({data, itemsPerPage, startFrom, searchByData}) {
-    const [load, setLoad] = React.useState(false);
+    const [load, setLoad] = useState(false);
     const [search, setSearch] = useState('');
     const [searchBy, setSearchBy] = useState(searchByData && searchByData.length > 0 ? searchByData[0].value : '');
     const [searchFor, setSearchFor] = useState('');
@@ -130,14 +131,14 @@ function MenuCards({data, itemsPerPage, startFrom, searchByData}) {
                                         <img onLoad={() => setLoad(true)}
                                              style={{display: load ? "block" : "none"}}
                                              className="mx-auto w-50"
-                                             src={`http://localhost:8080/img/${perfume.filename}`}/>
+                                             src={IMG_URL + `${perfume.filename}`}/>
                                         <div className="card-body text-center">
                                             <h5>{perfume.perfumeTitle}</h5>
                                             <h6>{perfume.perfumer}</h6>
                                             <h6><span>{perfume.price}</span>,00 грн.</h6>
                                         </div>
                                         <div className="text-center align-items-end mb-3">
-                                            <Link to={`/rest/product/${perfume.id}`}>
+                                            <Link to={`/product/${perfume.id}`}>
                                                 <span className="btn btn-dark">Купить</span>
                                             </Link>
                                         </div>

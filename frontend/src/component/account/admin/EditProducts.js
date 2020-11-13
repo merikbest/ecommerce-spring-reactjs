@@ -3,6 +3,7 @@ import usePagination from "../../parts/pagination/usePagination";
 import {Link} from "react-router-dom";
 import Spinner from "../../parts/spinner/Spinner";
 import AccountNavbar from "../../parts/account-navbar/AccountNavbar";
+import {IMG_URL} from "../../../constants";
 
 function EditProducts({data, itemsPerPage, startFrom, searchByData}) {
     const [load, setLoad] = React.useState(false);
@@ -131,7 +132,7 @@ function EditProducts({data, itemsPerPage, startFrom, searchByData}) {
                                         <div>
                                             <img onLoad={() => setLoad(true)}
                                                  style={{display: load ? "block" : "none"}}
-                                                 src={`http://localhost:8080/img/${perfume.filename}`}
+                                                 src={IMG_URL + `${perfume.filename}`}
                                                  className="rounded mx-auto w-100"
                                             />
                                         </div>
@@ -141,7 +142,7 @@ function EditProducts({data, itemsPerPage, startFrom, searchByData}) {
                                             <h6><span>{perfume.price}</span>,00 грн.</h6>
                                         </div>
                                         <div className="text-center align-items-end mb-3">
-                                            <Link to={`/rest/product/list/edit/${perfume.id}`}>
+                                            <Link to={`/product/list/edit/${perfume.id}`}>
                                                 <span className="btn btn-dark">EDIT</span>
                                             </Link>
                                         </div>

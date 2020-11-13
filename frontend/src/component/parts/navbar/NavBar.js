@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import "./NavBar.css";
 
 function NavBar(props) {
-    const [size, setSize] = useState(props.setCartItems);
+    const [scrolled, setScrolled] = useState(false);
     let links;
     let signOut;
 
@@ -15,13 +15,13 @@ function NavBar(props) {
     if (props.isLoggedIn) {
         links = (
             <li className="nav-item">
-                <Link to={"/rest/account"}><span className="nav-link pl-5 pr-5">Личный кабинет</span></Link>
+                <Link to={"/account"}><span className="nav-link pl-5 pr-5">ЛИЧНЫЙ КАБИНЕТ</span></Link>
             </li>
         );
 
         signOut = (
             <div>
-                <Link to={"/rest"} onClick={handleLogout}>
+                <Link to={"/"} onClick={handleLogout}>
                     <button className="btn btn-dark mr-3" style={{color: "white"}}>Выход</button>
                 </Link>
             </div>
@@ -31,46 +31,60 @@ function NavBar(props) {
         links = (
             <>
                 <li className="nav-item">
-                    <Link to={"/rest/login"}><span className="nav-link pl-5 pr-3">Вход</span></Link>
+                    <Link to={"/login"}><span className="nav-link pl-5 pr-3">ВХОД</span></Link>
                 </li>
                 <li className="nav-item">
-                    <Link to={"/rest/registration"}><span className="nav-link">Регистрация</span></Link>
+                    <Link to={"/registration"}><span className="nav-link">РЕГИСТРАЦИЯ</span></Link>
                 </li>
             </>
         );
     }
 
+    const handleScroll = () => {
+        const offset = window.scrollY;
+        if (offset > 230) {
+            setScrolled(true);
+        } else {
+            setScrolled(false);
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll)
+    })
+
+    let navbar = ['navbar'];
+
+    if (scrolled) {
+        navbar.push('fixed');
+    }
+
     return (
         <div>
-            <div className="container-fluid bg-black header-top d-none d-md-block pb-5 pt-5">
-                <img id="logo-main" src="https://i.ibb.co/fqYvrL8/LOGO4.jpg"
-                     className="rounded mx-auto d-block "/>
+            <div id="header" className="container-fluid header-top d-none d-md-block pb-5 pt-5">
+                <img src="https://i.ibb.co/fqYvrL8/LOGO4.jpg" className="rounded mx-auto d-block"/>
             </div>
             <div className="container-fluid bg-black">
-                <nav id="navbar-main" className="container navbar navbar-expand-lg bg-black text-white"
+                {/*${navbar.join(" ")}*/}
+                <nav id="navbar-main" className={`container navbar navbar-expand-lg bg-black text-white `}
                      style={{fontSize: "18px"}}>
-                    <button className="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mr-auto ">
                             <li className="nav-item">
-                                <Link to={"/rest"}><span className="nav-link pl-5 pr-5">Главная</span></Link>
+                                <Link to={"/"}><span className="nav-link pl-5 pr-5">ГЛАВНАЯ</span></Link>
                             </li>
                             <li className="nav-item">
-                                <Link to={{pathname: "/rest/menu", state: {id: "all"}}}>
-                                    <span className="nav-link pl-5 pr-5">Парфюмерия</span></Link>
+                                <Link to={{pathname: "/menu", state: {id: "all"}}}>
+                                    <span className="nav-link pl-5 pr-5">ПАРФЮМЕРИЯ</span></Link>
                             </li>
                             <li className="nav-item">
-                                <Link to={"/rest/contacts"}><span className="nav-link pl-5 pr-5">Контакты</span></Link>
+                                <Link to={"/contacts"}><span className="nav-link pl-5 pr-5">КОНТАКТЫ</span></Link>
                             </li>
                         </ul>
 
                         <ul className="navbar-nav ml-auto">
                             <li className="nav-item">
-                                <Link className="nav-link" to={"/rest/cart"}>
+                                <Link className="nav-link" to={"/cart"}>
                                     <i className="fas fa-shopping-cart fa-lg pl-5" style={{color: "white"}}></i>
                                     {props.setCartItems !== null ?
                                         <h5 className="d-inline"

@@ -9,7 +9,7 @@ function UserEditProfile(props) {
         const request = {password: password, email: localStorage.getItem("email")}
         ShopService.updateUserInfo(request)
             .then((response) => {
-                props.history.push("/rest/account");
+                props.history.push("/account");
             });
     }, []);
 

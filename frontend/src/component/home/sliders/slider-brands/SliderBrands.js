@@ -19,7 +19,7 @@ function SliderBrands(props) {
                     {brandsItem1.map((brand) => {
                         return (
                             <div className="col-2 float-left">
-                                <Link to={{pathname: "/rest/menu", state: {id: brand.name}}}>
+                                <Link to={{pathname: "/menu", state: {id: brand.name}}}>
                                     <img className="img-fluid" src={brand.url} alt={brand.name}/>
                                 </Link>
                             </div>
@@ -30,7 +30,7 @@ function SliderBrands(props) {
                     {brandsItem2.map((brand) => {
                         return (
                             <div className="col-2 float-left">
-                                <Link to={{pathname: "/rest/menu", state: {id: brand.name}}}>
+                                <Link to={{pathname: "/menu", state: {id: brand.name}}}>
                                     <img className="img-fluid" src={brand.url} alt={brand.name}/>
                                 </Link>
                             </div>
@@ -41,7 +41,7 @@ function SliderBrands(props) {
                     {brandsItem3.map((brand) => {
                         return (
                             <div className="col-2 float-left">
-                                <Link to={{pathname: "/rest/menu", state: {id: brand.name}}}>
+                                <Link to={{pathname: "/menu", state: {id: brand.name}}}>
                                     <img className="img-fluid" src={brand.url} alt={brand.name}/>
                                 </Link>
                             </div>

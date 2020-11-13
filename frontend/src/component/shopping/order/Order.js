@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ShopService from "../../../services/ShopService";
+import {IMG_URL} from "../../../constants/index";
 
 function Order(props) {
     const [firstName, setFirstName] = useState("");
@@ -29,7 +30,7 @@ function Order(props) {
 
         ShopService.postOrder(validOrder)
             .then((response) => {
-                props.history.push("/rest/order/finalize")
+                props.history.push("/order/finalize")
             })
             .catch((errors) => {
                 setErrors(errors.response.data)
@@ -133,8 +134,6 @@ function Order(props) {
                             <div className="invalid-feedback">{emailError}</div>
                         </div>
                     </div>
-
-
                 </div>
 
                 <div className="col-lg-6">
@@ -145,7 +144,7 @@ function Order(props) {
                                 return (
                                     <div className="col-lg-6 d-flex align-items-stretch">
                                         <div className="card mb-5">
-                                            <img src={`http://localhost:8080/img/${perfume.filename}`}
+                                            <img src={IMG_URL + `${perfume.filename}`}
                                                  className="rounded mx-auto w-50"/>
                                             <div className="card-body text-center">
                                                 <h5>{perfume.perfumeTitle}</h5>

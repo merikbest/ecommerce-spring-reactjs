@@ -1,9 +1,18 @@
 import React from 'react';
 import Carousel from "react-bootstrap/Carousel";
+import {Link} from "react-router-dom";
 
-const photos = [
-    {name: "Photo 1", url: "https://i.ibb.co/yQQkwn6/1million-2.jpg"},
-    {name: "Photo 2", url: "https://i.ibb.co/QQDCppK/dior4.jpg"},
+const sliderItems = [
+    {
+        id: "98",
+        name: "Photo 1",
+        url: "https://i.ibb.co/Hn6VqJy/1million-4.jpg",
+    },
+    {
+        id: "59",
+        name: "Photo 2",
+        url: "https://i.ibb.co/Sr0ZK34/dior5.jpg"
+    },
 ]
 
 function SliderImage(props) {
@@ -18,14 +27,12 @@ function SliderImage(props) {
     return (
         <div>
             <Carousel {...settings}>
-                {photos.map((photo, index) => {
+                {sliderItems.map((item, index) => {
                     return (
                         <Carousel.Item>
-                            <img
-                                className="d-block w-100"
-                                src={photo.url}
-                                alt={photo.name}
-                            />
+                            <Link to={`/product/${item.id}`}>
+                                <img className="d-block w-100" src={item.url} alt={item.name}/>
+                            </Link>
                         </Carousel.Item>
                     )
                 })}

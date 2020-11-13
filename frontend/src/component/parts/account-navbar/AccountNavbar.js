@@ -12,27 +12,27 @@ function AccountNavbar(props) {
                 {(localStorage.getItem("userRole") === "ADMIN") ?
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <Link to={"/rest/admin/orders"}><a className="nav-link text-light mx-3">Список всех
+                            <Link to={"/admin/orders"}><a className="nav-link text-light mx-3">Список всех
                                 заказов</a></Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={"/rest/admin/users/all"}><a className="nav-link text-light mx-3">Список пользователей</a></Link>
+                            <Link to={"/admin/users/all"}><a className="nav-link text-light mx-3">Список пользователей</a></Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={"/rest/admin/add"}><a className="nav-link text-light mx-3">Добавить товар</a></Link>
+                            <Link to={"/admin/add"}><a className="nav-link text-light mx-3">Добавить товар</a></Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={"/rest/product/list/edit"}><a className="nav-link text-light mx-3">Список
+                            <Link to={"/product/list/edit"}><a className="nav-link text-light mx-3">Список
                                 товаров</a></Link>
                         </li>
                     </ul>
                     :
                     <ul className="navbar-nav">
                         <li className="nav-item active">
-                            <Link to={"/rest/user/edit"}><a className="nav-link text-light mx-3">Изменить пароль</a></Link>
+                            <Link to={"/user/edit"}><a className="nav-link text-light mx-3">Изменить пароль</a></Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={"/rest/user/orders"}><a className="nav-link text-light mx-3">Список заказов</a></Link>
+                            <Link to={"/user/orders"}><a className="nav-link text-light mx-3">Список заказов</a></Link>
                         </li>
                     </ul>
                 }

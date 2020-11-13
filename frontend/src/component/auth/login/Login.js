@@ -31,7 +31,7 @@ function Login(props) {
     }
 
     if (logged) {
-        return <Redirect to="/rest/account"/>
+        return <Redirect to="/account"/>
     }
 
     return (

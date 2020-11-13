@@ -3,6 +3,7 @@ import Carousel from "react-bootstrap/Carousel";
 import {Link} from "react-router-dom";
 import ShopService from "../../../../services/ShopService";
 import "./SliderCards.css";
+import {IMG_URL} from "../../../../constants";
 
 const perfumesId = [39, 56, 119, 59, 47, 95, 89, 98, 52, 40, 92, 99];
 
@@ -26,12 +27,12 @@ function SliderCards(props) {
                                 return (
                                     <div className="card">
                                         <img className="d-block mx-auto w-50"
-                                             src={`http://localhost:8080/img/${perfume.filename}`}/>
+                                             src={IMG_URL + `${perfume.filename}`}/>
                                         <div className="card-body text-center">
                                             <h5>{perfume.perfumeTitle}</h5>
                                             <h6>{perfume.perfumer}</h6>
                                             <h6><span>{perfume.price}</span>,00 грн.</h6>
-                                            <Link to={`/rest/product/${perfume.id}`}>
+                                            <Link to={`/product/${perfume.id}`}>
                                                 <span className="btn btn-dark">
                                                     Купить
                                                 </span>
@@ -58,7 +59,7 @@ function SliderCards(props) {
             </div>
 
             <div className="container mt-5" id="indicators">
-                <form method="get" action="/rest">
+                <form method="get" action="/">
                     <Carousel {...settings}>
                         {addCarouselItems(perfumes, 0)}
                         {addCarouselItems(perfumes, 4)}

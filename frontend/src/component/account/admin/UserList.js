@@ -42,7 +42,7 @@ function UserList(props) {
                                     })}
                                 </th>
                                 <th>
-                                    {/*<Link to={`/rest/admin/user/${user.id}`}>edit</Link>*/}
+                                    {/*<Link to={`/admin/user/${user.id}`}>edit</Link>*/}
                                 </th>
                             </tr>
                         )

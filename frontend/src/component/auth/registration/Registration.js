@@ -23,7 +23,7 @@ function Registration(props) {
 
         ShopService.registration(bodyFormData)
             .then((response) => {
-                props.history.push("/rest/login")
+                props.history.push("/login")
             })
             .catch((error) => {
                 window.grecaptcha.reset();
