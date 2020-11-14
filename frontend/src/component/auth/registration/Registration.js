@@ -47,7 +47,7 @@ function Registration(props) {
                 <div className="col-sm-4">
                     <input type="email" name="email" value={email}
                            className={emailError ? "form-control is-invalid" : "form-control"}
-                           onChange={setEmail}
+                           onChange={(event) => setEmail(event.target.value)}
                     />
                     <div className="invalid-feedback">{emailError}</div>
                 </div>
@@ -58,7 +58,7 @@ function Registration(props) {
                 <div className="col-sm-4">
                     <input type="text" name="username" value={username}
                            className={usernameError ? "form-control is-invalid" : "form-control"}
-                           onChange={setUsername}
+                           onChange={(event) => setUsername(event.target.value)}
                     />
                     <div className="invalid-feedback">{usernameError}</div>
                 </div>
@@ -69,7 +69,7 @@ function Registration(props) {
                 <div className="col-sm-4">
                     <input type="password" name="password" value={password}
                            className={passwordError ? "form-control is-invalid" : "form-control"}
-                           onChange={setPassword}
+                           onChange={(event) => setPassword(event.target.value)}
                     />
                     <div className="invalid-feedback">{passwordError}</div>
                 </div>
@@ -80,7 +80,7 @@ function Registration(props) {
                 <div className="col-sm-4">
                     <input type="password" name="password2" value={password2}
                            className={password2Error ? "form-control is-invalid" : "form-control"}
-                           onChange={setPassword2}
+                           onChange={(event) => setPassword2(event.target.value)}
                     />
                     <div className="invalid-feedback">{password2Error}</div>
                 </div>
