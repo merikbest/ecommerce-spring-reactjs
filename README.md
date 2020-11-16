@@ -17,7 +17,7 @@ Look demo below.
 * Bootstrap, CSS
 * Maven
 
-##Features
+## Features
 
 * Authentication with JWT and Email validation.
 * Customers can search for the product according to the specified criteria.
