@@ -1,0 +1,98 @@
+import React, {useEffect, useState} from 'react';
+import {Link, Redirect} from "react-router-dom";
+import {IMG_URL} from "../../constants";
+import Spinner from "../../component/spinner/Spinner";
+import ShopService from "../../services/ShopService";
+
+function Cart(props) {
+    const [perfumes, setPerfumes] = useState([]);
+    const [load, setLoad] = useState(false);
+
+    let totalCartPrice = 0;
+    perfumes.map(perfume => totalCartPrice = totalCartPrice + perfume.price)
+
+    useEffect(() => {
+        ShopService.getCart()
+            .then((response) => {
+                setPerfumes(response.data)
+                props.setCartItems(response.data.length)
+                setLoad(true)
+            });
+    }, [])
+
+    const removeFromCart = (perfumeId) => {
+        const perfume = perfumes.find((perfume) => perfume.id === perfumeId)
+
+        ShopService.removeFromCart(perfume)
+            .then((response) => {
+                setPerfumes(response.data)
+                props.setCartItems(response.data.length)
+            });
+    }
+
+    if (!localStorage.getItem("isLoggedIn")) {
+        return <Redirect to="/login"/>
+    }
+
+    return (
+
+        <div className="container mt-5 pb-5">
+            {load ? <div>
+                    {perfumes.length === 0 ?
+                        <div style={{textAlign: "center"}}>
+                            <h2>Корзина пуста</h2>
+                        </div> :
+                        <div>
+                            <p className="h4 mb-4 text-center">Корзина</p>
+                            {perfumes.map((perfume) => {
+                                return (
+                                    <div className="card mb-3 mx-auto" style={{maxWidth: "940px"}}>
+                                        <div className="row no-gutters">
+                                            <div className="col-3 ml-3 mt-3">
+                                                <img src={IMG_URL + `${perfume.filename}`}
+                                                     className="rounded mx-auto w-50"/>
+                                            </div>
+                                            <div className="col-6">
+                                                <div className="card-body">
+                                                    <h5 className="card-title">{perfume.perfumer + " " + perfume.perfumeTitle}</h5>
+                                                    <p className="card-text">{perfume.type}</p>
+                                                    <p className="card-text"><span>{perfume.volume}</span> мл.</p>
+                                                </div>
+                                            </div>
+                                            <div className="col-2">
+                                                <div className="card-body">
+                                                    <h5 className="card-title"><span>{perfume.price}</span> грн.</h5>
+                                                    <button className="btn btn-warning mb-2"
+                                                            onClick={() => removeFromCart(perfume.id)}>Удалить
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                            <hr className="my-3"/>
+
+                            <div className="row">
+                                <div className="col-9">
+                                    <p className="h5 text-right">Итого: <span>{totalCartPrice}</span> грн.
+                                    </p>
+                                </div>
+                                <div className="col-3">
+                                    <div className="form-row">
+                                        <Link to={"/order"}>
+                                            <button className="btn btn-success">Оформить заказ</button>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                : <Spinner/>
+            }
+        </div>
+    );
+}
+
+export default Cart;

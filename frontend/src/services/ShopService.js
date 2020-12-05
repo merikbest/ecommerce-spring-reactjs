@@ -27,7 +27,7 @@ class ShopService {
     getCart() {
         return axios({
             method: "GET",
-            url: API_BASE_URL + "/cart",
+            url: API_BASE_URL + "/cart/" + localStorage.getItem("email"),
             headers: {
                 "Content-Type" : "application/json",
                 "Authorization": localStorage.getItem("token")
