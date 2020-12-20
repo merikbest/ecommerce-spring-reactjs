@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Link, Redirect} from "react-router-dom";
-import {IMG_URL} from "../../constants";
+import {IMG_URL} from "../../constants/url";
 import Spinner from "../../component/spinner/Spinner";
 import ShopService from "../../services/ShopService";
 

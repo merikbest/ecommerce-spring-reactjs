@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Spinner from "../spinner/Spinner";
-import {IMG_URL} from "../../constants";
+import {IMG_URL} from "../../constants/url";
 import {Link} from "react-router-dom";
 
 const PerfumeCardItem = ({perfume, colSize, link, btnName}) => {

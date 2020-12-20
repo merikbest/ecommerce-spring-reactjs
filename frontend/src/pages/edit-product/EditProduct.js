@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ShopService from "../../services/ShopService";
 import AccountNavbar from "../../component/account-navbar/AccountNavbar";
-import {IMG_URL} from "../../constants";
+import {IMG_URL} from "../../constants/url";
 
 function EditProduct(props) {
     const [id, setId] = useState(props.match.params.id);

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import ShopService from "../../services/ShopService";
-import {IMG_URL} from "../../constants";
+import {IMG_URL} from "../../constants/url";
 
 function Order(props) {
     const [firstName, setFirstName] = useState("");
