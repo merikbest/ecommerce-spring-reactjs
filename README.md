@@ -6,6 +6,7 @@
 
 E-commerce project developed using Spring Boot and ReactJS.<br>
 This project is second version of [OnlineShop](https://github.com/merikbest/OnlineShop) with RESTful services, JWT authentication and frontend built using ReactJS. <br>
+This project always upgrading. <br>
 Look demo below.
 
 ## Used Technologies:
