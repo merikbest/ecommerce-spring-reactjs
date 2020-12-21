@@ -5,7 +5,6 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
 import Checkbox from "../../component/checkbox/Checkbox";
-import ShopService from "../../services/ShopService";
 import "./MenuStyle.css";
 import RadioCheckbox from "../../component/checkbox-radio/RadioCheckbox";
 import MenuCards from "../../component/menu-cards/MenuCards";
@@ -25,63 +24,24 @@ class Menu extends Component {
         }
     };
 
-    // const [allProducts, setAll] = useState(props.location.state.id)
-    // const [products, setProducts] = useState([])
-    // const [Filters, setFilters] = useState({
-    //     perfumers: [],
-    //     genders: [],
-    //     prices: []
-    // })
-    //
-    // useEffect(() => {
-    //     if (allProducts === "женский" || allProducts === "мужской") {
-    //         window.scrollTo(0, 0);
-    //         ShopService.findPerfumeByGender({perfumeGender: props.location.state.id})
-    //             .then((response) => {
-    //                 setProducts(response.data)
-    //             })
-    //     } else if (allProducts === "all") {
-    //         window.scrollTo(0, 0);
-    //         ShopService.getPerfumes()
-    //             .then((response) => {
-    //                 setProducts(response.data)
-    //             })
-    //     } else {
-    //         window.scrollTo(0, 0);
-    //         ShopService.findPerfumeByPerfumer({perfumer: props.location.state.id})
-    //             .then((response) => {
-    //                 setProducts(response.data)
-    //             })
-    //     }
-    // }, [])
-
     componentDidMount() {
-        const productType = this.props.location.state.id;
+        const perfumeData = this.props.location.state.id;
 
-        if (productType === "женский" || productType === "мужской") {
-            this.props.fetchPerfumesByGender({perfumeGender: productType});
+        if (perfumeData === "женский" || perfumeData === "мужской") {
+            this.props.fetchPerfumesByGender({perfumeGender: perfumeData});
             window.scrollTo(0, 0);
-        } else if (productType === "all") {
+        } else if (perfumeData === "all") {
             this.props.fetchPerfumes();
             window.scrollTo(0, 0);
-        } else if (productType) {
-            this.props.fetchPerfumesByPerfumer({perfumer: productType});
+        } else if (perfumeData) {
+            this.props.fetchPerfumesByPerfumer({perfumer: perfumeData});
             window.scrollTo(0, 0);
         }
-
-        // else {
-        //     this.getProducts(this.state.Filters);
-        // }
     }
 
     getProducts = (variables) => {
         this.props.fetchPerfumesByFilterParams(variables);
-
-        // ShopService.getPerfumeByFilterParams(variables)
-        //     .then((response) => {
-        //         setProducts(response.data)
-        //     })
-    }
+    };
 
     handlePrice = (value) => {
         const data = price;
@@ -94,10 +54,10 @@ class Menu extends Component {
         }
 
         return array
-    }
+    };
 
     handleFilters = (filters, category) => {
-        const newFilters = {...this.state.Filters}
+        const newFilters = this.state.Filters
         newFilters[category] = filters
 
         if (category === "prices") {
@@ -106,11 +66,8 @@ class Menu extends Component {
         }
 
         this.getProducts(newFilters)
-        this.setState({
-            Filers: newFilters
-        });
-        // setFilters(newFilters)
-    }
+        this.setState(newFilters);
+    };
 
     render() {
         const {perfumes} = this.props.perfumes;

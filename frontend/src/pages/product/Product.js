@@ -16,7 +16,7 @@ class Product extends Component {
         if (!localStorage.getItem("isLoggedIn")) {
             this.props.history.push("/login");
         } else {
-            ShopService.addToCart(this.props.perfume)
+            ShopService.addToCart(this.props.perfume.perfume)
                 .then((response) => {
                     this.props.history.push("/cart");
                 });

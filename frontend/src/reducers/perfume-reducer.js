@@ -12,32 +12,24 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-    switch (action.type) {
+    const {type, payload} = action
+
+    switch (type) {
         case FETCH_PERFUMES:
-            return {
-                ...state,
-                perfumes: action.payload,
-            };
+            return {...state, perfumes: payload};
+
         case FETCH_PERFUME:
-            return {
-                ...state,
-                perfume: action.payload,
-            };
+            return {...state, perfume: payload};
+
         case FETCH_PERFUMES_BY_GENDER:
-            return {
-                ...state,
-                perfumes: action.payload,
-            };
+            return {...state, perfumes: payload};
+
         case FETCH_PERFUMES_BY_PERFUMER:
-            return {
-                ...state,
-                perfumes: action.payload,
-            };
+            return {...state, perfumes: payload};
+
         case FETCH_PERFUMES_BY_FILTER_PARAMS:
-            return {
-                ...state,
-                perfumes: action.payload,
-            };
+            return {...state, perfumes: payload};
+
         default:
             return state;
     }
