@@ -17,7 +17,7 @@ import {
 
 class Menu extends Component {
     state = {
-        Filters: {
+        filterParams: {
             perfumers: [],
             genders: [],
             prices: []
@@ -57,7 +57,7 @@ class Menu extends Component {
     };
 
     handleFilters = (filters, category) => {
-        const newFilters = this.state.Filters
+        const newFilters = this.state.filterParams
         newFilters[category] = filters
 
         if (category === "prices") {

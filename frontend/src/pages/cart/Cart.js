@@ -8,16 +8,9 @@ import Spinner from "../../component/spinner/Spinner";
 import {fetchCart, removeFromCart} from "../../actions/cart-actions";
 
 class Cart extends Component {
-    state = {
-        load: false
-    }
 
     componentDidMount() {
         this.props.fetchCart();
-
-        this.setState({
-            load: true
-        });
     }
 
     deleteFromCart = (perfumeId) => {
@@ -27,7 +20,7 @@ class Cart extends Component {
     };
 
     render() {
-        const {cartItems} = this.props.cart;
+        const {cartItems, loading} = this.props.cart;
         let totalCartPrice = 0;
         cartItems.map(perfume => totalCartPrice = totalCartPrice + perfume.price);
 
@@ -39,7 +32,8 @@ class Cart extends Component {
 
         return (
             <div className="container mt-5 pb-5">
-                {this.state.load ? <div>
+                {loading ? <Spinner/> :
+                    <div>
                         {cartItems.length === 0 ?
                             <div style={{textAlign: "center"}}>
                                 <h2>Корзина пуста</h2>
@@ -90,7 +84,6 @@ class Cart extends Component {
                             </div>
                         }
                     </div>
-                    : <Spinner/>
                 }
             </div>
         );

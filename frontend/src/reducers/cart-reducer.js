@@ -1,20 +1,29 @@
-import {FETCH_CART, PERFUME_ADDED_TO_CART, PERFUME_REMOVED_FROM_CART} from "../constants/actions-types";
+import {
+    FETCH_CART_SUCCESS,
+    LOADING_CART,
+    PERFUME_ADDED_TO_CART_SUCCESS,
+    PERFUME_REMOVED_FROM_CART_SUCCESS
+} from "../constants/actions-types";
 
 const initialState = {
-    cartItems: []
+    cartItems: [],
+    loading: false
 };
 
 const reducer = (state = initialState, action) => {
-    const {type, payload} = action
+    const {type, payload} = action;
 
     switch (type) {
-        case FETCH_CART:
+        case LOADING_CART:
+            return {...state, loading: true};
+
+        case FETCH_CART_SUCCESS:
+            return {...state, cartItems: payload, loading: false};
+
+        case PERFUME_ADDED_TO_CART_SUCCESS:
             return {...state, cartItems: payload};
 
-        case PERFUME_ADDED_TO_CART:
-            return {...state, cartItems: payload};
-
-        case PERFUME_REMOVED_FROM_CART:
+        case PERFUME_REMOVED_FROM_CART_SUCCESS:
             return {...state, cartItems: payload};
 
         default:
