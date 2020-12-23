@@ -1,5 +1,7 @@
 import {Link} from "react-router-dom";
 import React from "react";
+import {faEdit, faList, faPlusSquare, faShoppingBag, faUsers} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 function AccountNavbar(props) {
     return (
@@ -12,27 +14,31 @@ function AccountNavbar(props) {
                 {(localStorage.getItem("userRole") === "ADMIN") ?
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <Link to={"/admin/orders"}><a className="nav-link text-light mx-3">Список всех
-                                заказов</a></Link>
+                            <Link to={"/admin/orders"} className="nav-link text-light mx-3">
+                                <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/>Список всех заказов</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={"/admin/users/all"}><a className="nav-link text-light mx-3">Список пользователей</a></Link>
+                            <Link to={"/admin/users/all"} className="nav-link text-light mx-3">
+                                <FontAwesomeIcon className="mr-2" icon={faUsers}/>Список пользователей</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={"/admin/add"}><a className="nav-link text-light mx-3">Добавить товар</a></Link>
+                            <Link to={"/admin/add"} className="nav-link text-light mx-3">
+                                <FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Добавить товар</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={"/product/list/edit"}><a className="nav-link text-light mx-3">Список
-                                товаров</a></Link>
+                            <Link to={"/product/list/edit"} className="nav-link text-light mx-3">
+                                <FontAwesomeIcon className="mr-2" icon={faList}/>Список товаров</Link>
                         </li>
                     </ul>
                     :
                     <ul className="navbar-nav">
                         <li className="nav-item active">
-                            <Link to={"/user/edit"}><a className="nav-link text-light mx-3">Изменить пароль</a></Link>
+                            <Link to={"/user/edit"} className="nav-link text-light mx-3">
+                                <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/>Изменить пароль</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={"/user/orders"}><a className="nav-link text-light mx-3">Список заказов</a></Link>
+                            <Link to={"/user/orders"} className="nav-link text-light mx-3">
+                                <FontAwesomeIcon className="mr-2" icon={faEdit}/>Список заказов</Link>
                         </li>
                     </ul>
                 }

@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
 import {registration} from "../../actions/auth-actions";
+import {faEnvelope, faLock, faUser, faUserPlus} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class Registration extends Component {
     state = {
@@ -55,10 +57,11 @@ class Registration extends Component {
 
         return (
             <div className="container mt-5">
-                <h4>Регистрация</h4>
+                <h4><FontAwesomeIcon className="mr-2" icon={faUserPlus}/> Регистрация</h4>
                 <hr align="left" width="550"/>
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Электронная почта: </label>
+                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faEnvelope}/>
                     <div className="col-sm-4">
                         <input
                             type="email"
@@ -71,6 +74,7 @@ class Registration extends Component {
                 </div>
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Имя пользователя: </label>
+                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faUser}/>
                     <div className="col-sm-4">
                         <input
                             type="text"
@@ -83,6 +87,7 @@ class Registration extends Component {
                 </div>
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Пароль: </label>
+                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
                     <div className="col-sm-4">
                         <input
                             type="password"
@@ -95,6 +100,7 @@ class Registration extends Component {
                 </div>
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Повторите пароль: </label>
+                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
                     <div className="col-sm-4">
                         <input
                             type="password"

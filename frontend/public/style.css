@@ -7,12 +7,6 @@ body {
     margin-bottom: 400px;
 }
 
-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-
 .col-md-7 p {
     color: #555;
 }

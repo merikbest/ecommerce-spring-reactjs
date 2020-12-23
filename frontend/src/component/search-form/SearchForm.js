@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import {faSearch} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 const SearchForm = ({data, searchByData, setFilteredData, setSearching}) => {
     const [search, setSearch] = useState('');
@@ -47,7 +49,8 @@ const SearchForm = ({data, searchByData, setFilteredData, setSearching}) => {
                         onChange={(event) => setSearch(event.target.value)}
                     />
                 </div>
-                <button type="submit" className="btn btn-dark">Поиск</button>
+                <button type="submit" className="btn btn-dark">
+                    <FontAwesomeIcon icon={faSearch}/> Поиск</button>
             </div>
         </form>
     );

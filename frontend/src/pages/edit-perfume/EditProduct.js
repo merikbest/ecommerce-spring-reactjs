@@ -2,15 +2,14 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
-import ToastShow from "../../component/toasts/ToastShow";
+import {IMG_URL} from "../../constants/url";
 import AccountNavbar from "../../component/account-navbar/AccountNavbar";
-import {addPerfume} from "../../actions/admin-actions";
-import {faPlusSquare} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {Link} from "react-router-dom";
+import {updatePerfume} from "../../actions/admin-actions";
+import {fetchPerfume} from "../../actions/perfume-actions";
 
-class AddProduct extends Component {
-    initialState = {
+class EditPerfume extends Component {
+    state = {
+        id: "",
         perfumeTitle: "",
         perfumer: "",
         year: "",
@@ -22,25 +21,39 @@ class AddProduct extends Component {
         fragranceMiddleNotes: "",
         fragranceBaseNotes: "",
         price: "",
-        file: null
+        filename: "",
+        file: null,
+        errors: {}
     };
 
-    state = {
-        ...this.initialState,
-        showToast: false
-    };
+    componentDidMount() {
+        this.props.fetchPerfume(this.props.match.params.id);
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.admin.errors) {
+            this.setState({
+                errors: nextProps.admin.errors
+            });
+        }
+
+        this.setState({
+            ...nextProps.perfume.perfume
+        });
+    }
 
     onFormSubmit = (event) => {
         event.preventDefault();
 
         const {
-            perfumeTitle, perfumer, year, country, type, volume, perfumeGender, fragranceTopNotes, fragranceMiddleNotes,
+            id, perfumeTitle, perfumer, year, country, type, volume, perfumeGender, fragranceTopNotes, fragranceMiddleNotes,
             fragranceBaseNotes, price, file
         } = this.state;
 
         const bodyFormData = new FormData();
 
         bodyFormData.append("file", file);
+        bodyFormData.append("id", id);
         bodyFormData.append("perfumeTitle", perfumeTitle);
         bodyFormData.append("perfumer", perfumer);
         bodyFormData.append("year", year);
@@ -53,17 +66,7 @@ class AddProduct extends Component {
         bodyFormData.append("fragranceBaseNotes", fragranceBaseNotes);
         bodyFormData.append("price", price);
 
-        this.props.addPerfume(bodyFormData)
-            .then(() => {
-                if (this.props.admin.success) {
-                    this.setState({
-                        ...this.initialState,
-                        showToast: true
-                    });
-                    setTimeout(() => this.setState({showToast: false}), 5000);
-                    window.scrollTo(0, 0);
-                }
-            });
+        this.props.updatePerfume(bodyFormData, this.props.history);
     };
 
     handleFileChange = (event) => {
@@ -83,165 +86,158 @@ class AddProduct extends Component {
     render() {
         const {
             perfumeTitle, perfumer, year, country, type, volume, perfumeGender, fragranceTopNotes, fragranceMiddleNotes,
-            fragranceBaseNotes, price, showToast
+            fragranceBaseNotes, price, filename
         } = this.state;
 
         const {
             perfumeTitleError, perfumerError, yearError, countryError, typeError, volumeError,
             perfumeGenderError, fragranceTopNotesError, fragranceMiddleNotesError, fragranceBaseNotesError,
             priceError
-        } = this.props.admin.errors;
+        } = this.state.errors;
 
         return (
             <div>
                 <AccountNavbar/>
-                <div className="container" style={{"display": showToast ? "block" : "none"}}>
-                    <ToastShow showToast={showToast} message={"Товар успешно сохранен!"}/>
-                </div>
                 <div className="container mt-5">
-                    <h4><FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Добавить товар</h4>
-                    <br/>
                     <form onSubmit={this.onFormSubmit}>
-                        <div className="form row mt-3">
-                            <div className="col">
-                                <label>Название парфюма: </label>
+                        <div className="col-md-5 mb-5">
+                            <img src={IMG_URL + `${filename}`}
+                                 className="rounded mx-auto w-100 mb-2"/>
+                            <input type="file" name="file" onChange={this.handleFileChange}/>
+                        </div>
+                        <div className="form-group row">
+                            <label className="col-sm-2 col-form-label">Название парфюма: </label>
+                            <div className="col-sm-6">
                                 <input
                                     type="text"
                                     className={perfumeTitleError ? "form-control is-invalid" : "form-control"}
                                     name="perfumeTitle"
                                     value={perfumeTitle}
-                                    placeholder="Введите название парфюма"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{perfumeTitleError}</div>
                             </div>
-                            <div className="col">
-                                <label>Производитель: </label>
+                        </div>
+                        <div className="form-group row">
+                            <label className="col-sm-2 col-form-label">Парфюмер: </label>
+                            <div className="col-sm-6">
                                 <input
                                     type="text"
                                     className={perfumerError ? "form-control is-invalid" : "form-control"}
                                     name="perfumer"
                                     value={perfumer}
-                                    placeholder="Введите производителя"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{perfumerError}</div>
                             </div>
                         </div>
-                        <div className="form row mt-3">
-                            <div className="col">
-                                <label>Год выпуска: </label>
+                        <div className="form-group row">
+                            <label className="col-sm-2 col-form-label">Год выпуска: </label>
+                            <div className="col-sm-6">
                                 <input
                                     type="text"
                                     className={yearError ? "form-control is-invalid" : "form-control"}
                                     name="year"
                                     value={year}
-                                    placeholder="Введите год выпуска"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{yearError}</div>
                             </div>
-                            <div className="col">
-                                <label>Страна: </label>
+                        </div>
+                        <div className="form-group row">
+                            <label className="col-sm-2 col-form-label">Страна: </label>
+                            <div className="col-sm-6">
                                 <input
                                     type="text"
                                     className={countryError ? "form-control is-invalid" : "form-control"}
                                     name="country"
                                     value={country}
-                                    placeholder="Введите страну производителя"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{countryError}</div>
                             </div>
                         </div>
-                        <div className="form row mt-3">
-                            <div className="col">
-                                <label>Тип: </label>
+                        <div className="form-group row">
+                            <label className="col-sm-2 col-form-label">Тип: </label>
+                            <div className="col-sm-6">
                                 <input
                                     type="text"
                                     className={typeError ? "form-control is-invalid" : "form-control"}
                                     name="type"
                                     value={type}
-                                    placeholder="Введите тип парфюма"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{typeError}</div>
                             </div>
-                            <div className="col">
-                                <label>Объем: </label>
+                        </div>
+                        <div className="form-group row">
+                            <label className="col-sm-2 col-form-label">Объем: </label>
+                            <div className="col-sm-6">
                                 <input
                                     type="text"
                                     className={volumeError ? "form-control is-invalid" : "form-control"}
                                     name="volume"
                                     value={volume}
-                                    placeholder="Введите объем парфюма"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{volumeError}</div>
                             </div>
                         </div>
-                        <div className="form row mt-3">
-                            <div className="col">
-                                <label>Пол: </label>
+                        <div className="form-group row">
+                            <label className="col-sm-2 col-form-label">Пол: </label>
+                            <div className="col-sm-6">
                                 <input
                                     type="text"
                                     className={perfumeGenderError ? "form-control is-invalid" : "form-control"}
                                     name="perfumeGender"
                                     value={perfumeGender}
-                                    placeholder="Введите пол"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{perfumeGenderError}</div>
                             </div>
-                            <div className="col">
-                                <label>Верхние ноты: </label>
+                        </div>
+                        <div className="form-group row">
+                            <label className="col-sm-2 col-form-label">Верхние ноты: </label>
+                            <div className="col-sm-6">
                                 <input
                                     type="text"
                                     className={fragranceTopNotesError ? "form-control is-invalid" : "form-control"}
                                     name="fragranceTopNotes"
                                     value={fragranceTopNotes}
-                                    placeholder="Введите верхние ноты"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{fragranceTopNotesError}</div>
                             </div>
                         </div>
-                        <div className="form row mt-3">
-                            <div className="col">
-                                <label>Средние ноты: </label>
+                        <div className="form-group row">
+                            <label className="col-sm-2 col-form-label">Средние ноты: </label>
+                            <div className="col-sm-6">
                                 <input
                                     type="text"
                                     className={fragranceMiddleNotesError ? "form-control is-invalid" : "form-control"}
                                     name="fragranceMiddleNotes"
                                     value={fragranceMiddleNotes}
-                                    placeholder="Введите средние ноты"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{fragranceMiddleNotesError}</div>
                             </div>
-                            <div className="col">
-                                <label>Базовые ноты: </label>
+                        </div>
+                        <div className="form-group row">
+                            <label className="col-sm-2 col-form-label">Базовые ноты: </label>
+                            <div className="col-sm-6">
                                 <input
                                     type="text"
                                     className={fragranceBaseNotesError ? "form-control is-invalid" : "form-control"}
                                     name="fragranceBaseNotes"
                                     value={fragranceBaseNotes}
-                                    placeholder="Введите базовые ноты"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{fragranceBaseNotesError}</div>
                             </div>
                         </div>
-                        <div className="form row mt-3">
-                            <div className="col">
-                                <label>Цена: </label>
+                        <div className="form-group row">
+                            <label className="col-sm-2 col-form-label">Цена: </label>
+                            <div className="col-sm-6">
                                 <input
                                     type="text"
                                     className={priceError ? "form-control is-invalid" : "form-control"}
                                     name="price"
                                     value={price}
-                                    placeholder="Введите название парфюма"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{priceError}</div>
                             </div>
-                            <div className="col" style={{marginTop: "35px"}}>
-                                <input type="file"
-                                       name="file"
-                                       onChange={this.handleFileChange}/>
-                            </div>
                         </div>
-                        <button type="submit" className="btn btn-dark mt-3">
-                            <FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Добавить</button>
+                        <button type="submit" className="btn btn-dark">Добавить</button>
                     </form>
                 </div>
             </div>
@@ -249,13 +245,16 @@ class AddProduct extends Component {
     }
 }
 
-AddProduct.propTypes = {
-    addPerfume: PropTypes.func.isRequired,
-    admin: PropTypes.object.isRequired
+EditPerfume.propTypes = {
+    updatePerfume: PropTypes.func.isRequired,
+    fetchPerfume: PropTypes.func.isRequired,
+    admin: PropTypes.object.isRequired,
+    perfume: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    admin: state.admin
+    admin: state.admin,
+    perfume: state.perfume
 });
 
-export default connect(mapStateToProps, {addPerfume})(AddProduct);
+export default connect(mapStateToProps, {updatePerfume, fetchPerfume})(EditPerfume);

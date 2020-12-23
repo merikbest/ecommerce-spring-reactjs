@@ -4,6 +4,8 @@ import {IMG_URL} from "../../constants/url";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {fetchPerfume} from "../../actions/perfume-actions";
+import {faCartArrowDown, faCartPlus, faShoppingCart, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class Product extends Component {
     componentDidMount() {
@@ -44,8 +46,9 @@ class Product extends Component {
                             <div className="row ml-1">
                                 <h6 className="mr-5"><span>{perfume.price}</span>,00 грн.</h6>
                                 <button type="submit"
-                                        className="btn btn-dark mx-3"
-                                        onClick={this.addToCart}>В корзину
+                                        className="btn btn-success mx-3"
+                                        onClick={this.addToCart}>
+                                    <FontAwesomeIcon className="mr-2 fa-lg" icon={faCartPlus}/> В корзину
                                 </button>
                             </div>
                             <br/>

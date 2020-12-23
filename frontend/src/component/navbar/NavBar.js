@@ -1,107 +1,113 @@
-import React, {useEffect, useState} from 'react';
+import React, {Component} from 'react';
 import {Link} from "react-router-dom";
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
+import {logout} from "../../actions/auth-actions";
+import {fetchCart} from "../../actions/cart-actions";
 import "./NavBar.css";
+import {faSignInAlt, faSignOutAlt, faUser, faUserPlus} from "@fortawesome/free-solid-svg-icons";
 
-function NavBar(props) {
-    const [scrolled, setScrolled] = useState(false);
-    let links;
-    let signOut;
-
-    const handleLogout = () => {
-        localStorage.clear();
-        props.setLoggedIn(false);
+class NavBar extends Component {
+    componentDidMount() {
+        this.props.fetchCart();
     }
 
-    if (props.isLoggedIn) {
-        links = (
-            <li className="nav-item">
-                <Link to={"/account"}><span className="nav-link pl-5 pr-5">ЛИЧНЫЙ КАБИНЕТ</span></Link>
-            </li>
-        );
-
-        signOut = (
-            <div>
-                <Link to={"/"} onClick={handleLogout}>
-                    <button className="btn btn-dark mr-3" style={{color: "white"}}>Выход</button>
-                </Link>
-            </div>
-        );
-
-    } else {
-        links = (
-            <>
-                <li className="nav-item">
-                    <Link to={"/login"}><span className="nav-link pl-5 pr-3">ВХОД</span></Link>
-                </li>
-                <li className="nav-item">
-                    <Link to={"/registration"}><span className="nav-link">РЕГИСТРАЦИЯ</span></Link>
-                </li>
-            </>
-        );
+    handleLogout = () => {
+        this.props.logout();
     }
 
-    const handleScroll = () => {
-        const offset = window.scrollY;
-        if (offset > 230) {
-            setScrolled(true);
+    render() {
+        const {cartItems} = this.props.cart;
+        let links;
+        let signOut;
+
+        if (localStorage.getItem("isLoggedIn")) {
+            links = (
+                <li className="nav-item">
+                    <Link to={"/account"}><span className="nav-link pl-5 pr-5">
+                         <FontAwesomeIcon className="mr-2" icon={faUser}/>ЛИЧНЫЙ КАБИНЕТ</span></Link>
+                </li>
+            );
+
+            signOut = (
+                <div>
+                    <Link to={"/"} onClick={this.handleLogout}>
+                        <button className="btn btn-dark mr-3" style={{color: "white"}}>
+                            <FontAwesomeIcon className="mr-2" icon={faSignOutAlt}/>Выход</button>
+                    </Link>
+                </div>
+            );
+
         } else {
-            setScrolled(false);
+            links = (
+                <>
+                    <li className="nav-item">
+                        <Link to={"/login"} className="nav-link pl-5 pr-3">
+                            <FontAwesomeIcon className="mr-2" icon={faSignInAlt}/>ВХОД</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link to={"/registration"} className="nav-link">
+                            <FontAwesomeIcon className="mr-2" icon={faUserPlus}/>РЕГИСТРАЦИЯ</Link>
+                    </li>
+                </>
+            );
         }
-    }
 
-    useEffect(() => {
-        window.addEventListener('scroll', handleScroll)
-    })
-
-    let navbar = ['navbar'];
-
-    if (scrolled) {
-        navbar.push('fixed');
-    }
-
-    return (
-        <div>
-            <div id="header" className="container-fluid header-top d-none d-md-block pb-5 pt-5">
-                <img src="https://i.ibb.co/fqYvrL8/LOGO4.jpg" className="rounded mx-auto d-block"/>
+        return (
+            <div>
+                <div id="header" className="container-fluid header-top d-none d-md-block pb-5 pt-5">
+                    <img src="https://i.ibb.co/fqYvrL8/LOGO4.jpg" className="rounded mx-auto d-block"/>
+                </div>
+                <div className="container-fluid bg-black">
+                    <nav id="navbar-main" className={`container navbar navbar-expand-lg bg-black text-white `}
+                         style={{fontSize: "18px"}}>
+                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul className="navbar-nav mr-auto ">
+                                <li className="nav-item">
+                                    <Link to={"/"}><span className="nav-link pl-5 pr-5">ГЛАВНАЯ</span></Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to={{pathname: "/menu", state: {id: "all"}}}>
+                                        <span className="nav-link pl-5 pr-5">ПАРФЮМЕРИЯ</span></Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to={"/contacts"}><span className="nav-link pl-5 pr-5">КОНТАКТЫ</span></Link>
+                                </li>
+                            </ul>
+                            <ul className="navbar-nav ml-auto">
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={"/cart"}>
+                                        <i className="fas fa-shopping-cart fa-lg pl-5" style={{color: "white"}}></i>
+                                        {cartItems !== null ?
+                                            <h5 className="d-inline"
+                                                style={{position: "relative", right: "15px", bottom: "8px"}}>
+                                                <span className="badge badge-success">{cartItems.length}</span>
+                                            </h5> : null
+                                        }
+                                    </Link>
+                                </li>
+                                {links}
+                            </ul>
+                            {signOut}
+                        </div>
+                    </nav>
+                </div>
             </div>
-            <div className="container-fluid bg-black">
-                {/*${navbar.join(" ")}*/}
-                <nav id="navbar-main" className={`container navbar navbar-expand-lg bg-black text-white `}
-                     style={{fontSize: "18px"}}>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav mr-auto ">
-                            <li className="nav-item">
-                                <Link to={"/"}><span className="nav-link pl-5 pr-5">ГЛАВНАЯ</span></Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={{pathname: "/menu", state: {id: "all"}}}>
-                                    <span className="nav-link pl-5 pr-5">ПАРФЮМЕРИЯ</span></Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to={"/contacts"}><span className="nav-link pl-5 pr-5">КОНТАКТЫ</span></Link>
-                            </li>
-                        </ul>
-
-                        <ul className="navbar-nav ml-auto">
-                            <li className="nav-item">
-                                <Link className="nav-link" to={"/cart"}>
-                                    <i className="fas fa-shopping-cart fa-lg pl-5" style={{color: "white"}}></i>
-                                    {props.setCartItems !== null ?
-                                        <h5 className="d-inline"
-                                            style={{position: "relative", right: "15px", bottom: "8px"}}>
-                                            <span className="badge badge-success">{props.setCartItems}</span>
-                                        </h5> : null
-                                    }
-                                </Link>
-                            </li>
-                            {links}
-                        </ul>
-                        {signOut}
-                    </div>
-                </nav>
-            </div>
-        </div>
-    )
+        );
+    }
 }
 
-export default NavBar;
+NavBar.propTypes = {
+    logout: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
+    cart: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+    cart: state.cart
+});
+
+export default connect(mapStateToProps, {fetchCart, logout})(NavBar);

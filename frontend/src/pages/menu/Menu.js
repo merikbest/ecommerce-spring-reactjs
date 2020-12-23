@@ -1,19 +1,19 @@
 import React, {Component} from "react";
-import {gender, perfumer, price} from "./MenuData";
 import {Route} from "react-router-dom";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
 import Checkbox from "../../component/checkbox/Checkbox";
-import "./MenuStyle.css";
 import RadioCheckbox from "../../component/checkbox-radio/RadioCheckbox";
 import MenuCards from "../../component/menu-cards/MenuCards";
+import {gender, perfumer, price} from "./MenuData";
 import {
     fetchPerfumes,
     fetchPerfumesByPerfumer,
     fetchPerfumesByGender,
     fetchPerfumesByFilterParams
 } from "../../actions/perfume-actions";
+import "./MenuStyle.css";
 
 class Menu extends Component {
     state = {
@@ -79,19 +79,16 @@ class Menu extends Component {
                         <h3>Парфюмерия</h3>
                     </div>
                     <ul className="list-unstyled components">
-
                         <h5>Бренд</h5>
                         <li className="active mb-2" id="homeSubmenu">
                             <Checkbox list={perfumer}
                                       handleFilters={(filters) => this.handleFilters(filters, "perfumers")}/>
                         </li>
-
                         <h5>Пол</h5>
                         <li className="active mb-2">
                             <Checkbox list={gender}
                                       handleFilters={(filters) => this.handleFilters(filters, "genders")}/>
                         </li>
-
                         <h5>Цена</h5>
                         <li className="active mb-2">
                             <RadioCheckbox list={price}
@@ -99,14 +96,12 @@ class Menu extends Component {
                         </li>
                     </ul>
                 </nav>
-
                 <Route exact component={() => <MenuCards data={perfumes} itemsPerPage={16} searchByData={[
                     {label: 'Парфюмер', value: 'perfumer'},
                     {label: 'Название парфюма', value: 'perfumeTitle'},
-                    {label: 'Страна производитель', value: 'country'}]}/>}
-                />
+                    {label: 'Страна производитель', value: 'country'}]}/>}/>
             </div>
-        )
+        );
     }
 }
 

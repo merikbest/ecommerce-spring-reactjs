@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {login} from "../../actions/auth-actions";
+import {faEnvelope, faLock, faSignInAlt} from "@fortawesome/free-solid-svg-icons";
 
 class Login extends Component {
     state = {
@@ -20,7 +22,7 @@ class Login extends Component {
         this.props.login(data);
     };
 
-    onChange = (event) => {
+    handleInputChange = (event) => {
         const {name, value} = event.target;
 
         this.setState({
@@ -32,14 +34,12 @@ class Login extends Component {
         const {email, password} = this.state;
 
         if (localStorage.getItem("isLoggedIn")) {
-            this.props.setLoggedIn(true);
-            this.props.setCartItems(this.props.auth.user.perfumeList);
             return <Redirect to="/account"/>
         }
 
         return (
             <div id="container" className="container mt-5">
-                <h4>Вход в личный кабинет</h4>
+                <h4><FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>Вход в личный кабинет</h4>
                 <hr align="left" width="550"/>
                 {this.props.auth.error ?
                     <div className="alert alert-danger col-6" role="alert">
@@ -47,24 +47,26 @@ class Login extends Component {
                     </div> : null}
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Электронная почта: </label>
+                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faEnvelope}/>
                     <div className="col-sm-4">
-                        <input
-                            className="form-control"
-                            type="email"
-                            name="email"
-                            value={email}
-                            onChange={this.onChange}/>
+                            <input
+                                className="form-control"
+                                type="email"
+                                name="email"
+                                value={email}
+                                onChange={this.handleInputChange}/>
                     </div>
                 </div>
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">Пароль: </label>
+                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
                     <div className="col-sm-4">
                         <input
                             className="form-control"
                             type="password"
                             name="password"
                             value={password}
-                            onChange={this.onChange}/>
+                            onChange={this.handleInputChange}/>
                     </div>
                 </div>
                 <div className="form-group row">
