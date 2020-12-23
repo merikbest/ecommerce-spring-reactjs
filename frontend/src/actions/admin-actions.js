@@ -35,7 +35,7 @@ export const addPerfume = (data) => async (dispatch) => {
     }
 };
 
-export const updatePerfume = (data) => async (dispatch) => {
+export const updatePerfume = (data, history) => async (dispatch) => {
     try {
         const response = await axios({
                 method: "PUT",
@@ -46,6 +46,8 @@ export const updatePerfume = (data) => async (dispatch) => {
                     "Authorization": localStorage.getItem("token")
                 }
             });
+
+        history.push("/product/list/edit");
 
         dispatch({
             type: PERFUME_UPDATED_SUCCESS,

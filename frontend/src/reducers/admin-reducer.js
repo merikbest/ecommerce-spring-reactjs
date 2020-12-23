@@ -24,7 +24,7 @@ const reducer = (state = initialState, action) => {
             return {...state, success: true, errors: {}};
 
         case PERFUME_ADDED_FAILURE || PERFUME_UPDATED_FAILURE:
-            return {...state, errors: payload, success: false};
+            return {...state, success: false, errors: payload};
 
         case FETCH_USER_SUCCESS:
             return {...state, user: payload};

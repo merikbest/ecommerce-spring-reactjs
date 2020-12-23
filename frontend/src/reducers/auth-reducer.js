@@ -1,4 +1,4 @@
-import {LOGIN_SUCCESS, REGISTER_SUCCESS, LOGIN_FAILURE, REGISTER_FAILURE} from "../constants/actions-types";
+import {LOGIN_SUCCESS, REGISTER_SUCCESS, LOGIN_FAILURE, REGISTER_FAILURE, LOGOUT_SUCCESS} from "../constants/actions-types";
 
 const initialState = {
     user: {
@@ -7,6 +7,7 @@ const initialState = {
         userRole: "",
         perfumeList: ""
     },
+    isLoggedIn: false,
     error: "",
     errors: {},
 };
@@ -23,7 +24,8 @@ const reducer = (state = initialState, action) => {
                     token: payload.token,
                     userRole: payload.userRole,
                     perfumeList: payload.perfumeList.length
-                }
+                },
+                isLoggedIn: true
             };
 
         case LOGIN_FAILURE:
@@ -34,6 +36,9 @@ const reducer = (state = initialState, action) => {
 
         case REGISTER_FAILURE:
             return {...state, errors: payload};
+
+        case LOGOUT_SUCCESS:
+            return {...state, isLoggedIn: false, user: {perfumeList: ""}};
 
         default:
             return state;

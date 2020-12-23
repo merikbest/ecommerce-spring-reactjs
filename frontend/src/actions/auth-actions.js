@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import {LOGIN_SUCCESS, REGISTER_SUCCESS, LOGIN_FAILURE, REGISTER_FAILURE} from "../constants/actions-types";
+import {LOGIN_SUCCESS, REGISTER_SUCCESS, LOGIN_FAILURE, REGISTER_FAILURE, LOGOUT_SUCCESS} from "../constants/actions-types";
 import {API_BASE_URL} from "../constants/url";
 
 export const login = (data) => async (dispatch) => {
@@ -39,3 +39,11 @@ export const registration = (data) => async (dispatch) => {
         })
     }
 };
+
+export const logout = () => async (dispatch) => {
+    localStorage.clear();
+
+    dispatch({
+        type: LOGOUT_SUCCESS
+    })
+}
