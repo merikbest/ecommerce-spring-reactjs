@@ -31,19 +31,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!--шаблонизатор-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-
-        <!--mysql-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
         <!--PostgreSQL-->
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -70,10 +57,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-taglibs</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity5</artifactId>
         </dependency>
 
         <!-- REMEMBER ME -->
@@ -161,6 +144,10 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
         </dependency>
     </dependencies>
 

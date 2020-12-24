@@ -50,9 +50,9 @@ public class CartRestController {
      * @param userSession requested Authenticated user.
      * @return ResponseEntity with HTTP response: status code, headers, and body.
      */
-    @GetMapping("/cart")
-    public ResponseEntity<?> getCart(@AuthenticationPrincipal User userSession) {
-        User user = userService.findByEmail(userSession.getEmail());
+    @GetMapping("/cart/{email}")
+    public ResponseEntity<?> getCart(@PathVariable String email) {
+        User user = userService.findByEmail(email);
         List<Perfume> perfumeList = user.getPerfumeList();
 
         return new ResponseEntity<>(perfumeList, HttpStatus.OK);
