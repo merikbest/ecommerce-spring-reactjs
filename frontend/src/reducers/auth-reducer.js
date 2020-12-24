@@ -1,4 +1,11 @@
-import {LOGIN_SUCCESS, REGISTER_SUCCESS, LOGIN_FAILURE, REGISTER_FAILURE, LOGOUT_SUCCESS} from "../constants/actions-types";
+import {
+    LOGIN_SUCCESS,
+    FORM_RESET,
+    REGISTER_SUCCESS,
+    LOGIN_FAILURE,
+    REGISTER_FAILURE,
+    LOGOUT_SUCCESS
+} from "../constants/actions-types";
 
 const initialState = {
     user: {
@@ -39,6 +46,9 @@ const reducer = (state = initialState, action) => {
 
         case LOGOUT_SUCCESS:
             return {...state, isLoggedIn: false, user: {perfumeList: ""}};
+
+        case FORM_RESET:
+            return {...state, error: "", errors: {}};
 
         default:
             return state;

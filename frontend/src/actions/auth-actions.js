@@ -1,6 +1,13 @@
 import axios from 'axios';
 
-import {LOGIN_SUCCESS, REGISTER_SUCCESS, LOGIN_FAILURE, REGISTER_FAILURE, LOGOUT_SUCCESS} from "../constants/actions-types";
+import {
+    LOGIN_SUCCESS,
+    FORM_RESET,
+    REGISTER_SUCCESS,
+    LOGIN_FAILURE,
+    REGISTER_FAILURE,
+    LOGOUT_SUCCESS
+} from "../constants/actions-types";
 import {API_BASE_URL} from "../constants/url";
 
 export const login = (data) => async (dispatch) => {
@@ -22,6 +29,12 @@ export const login = (data) => async (dispatch) => {
             payload: error.response.data
         })
     }
+};
+
+export const formReset = () => async (dispatch) => {
+    dispatch({
+        type: FORM_RESET,
+    })
 };
 
 export const registration = (data) => async (dispatch) => {

@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import {login} from "../../actions/auth-actions";
+import {login, formReset} from "../../actions/auth-actions";
 import {faEnvelope, faLock, faSignInAlt} from "@fortawesome/free-solid-svg-icons";
 
 class Login extends Component {
@@ -12,6 +12,10 @@ class Login extends Component {
         email: "",
         password: ""
     };
+
+    componentDidMount() {
+        this.props.formReset();
+    }
 
     onClickSignIn = (event) => {
         event.preventDefault();
@@ -49,12 +53,12 @@ class Login extends Component {
                     <label className="col-sm-2 col-form-label">Электронная почта: </label>
                     <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faEnvelope}/>
                     <div className="col-sm-4">
-                            <input
-                                className="form-control"
-                                type="email"
-                                name="email"
-                                value={email}
-                                onChange={this.handleInputChange}/>
+                        <input
+                            className="form-control"
+                            type="email"
+                            name="email"
+                            value={email}
+                            onChange={this.handleInputChange}/>
                     </div>
                 </div>
                 <div className="form-group row">
@@ -79,6 +83,7 @@ class Login extends Component {
 
 Login.propTypes = {
     login: PropTypes.func.isRequired,
+    formReset: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired
 };
 
@@ -86,4 +91,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps, {login})(Login);
+export default connect(mapStateToProps, {login, formReset})(Login);

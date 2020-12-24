@@ -1,23 +1,34 @@
-import React, {useEffect, useState} from 'react';
-import ShopService from "../../services/ShopService";
+import React, {Component} from 'react';
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
 
-function OrderFinalize(props) {
-    const [orderIndex, setOrderIndex] = useState("");
+import {finalizeOrder} from "../../actions/order-actions";
 
-    useEffect(() => {
-        ShopService.finalizeOrder()
-            .then((response) => {
-                setOrderIndex(response.data)
-            })
+class OrderFinalize extends Component {
 
-    },[])
+    componentDidMount() {
+        this.props.finalizeOrder();
+    }
 
-    return (
-        <div className="container text-center mt-5">
-            <h2>Спасибо за заказ!</h2>
-            <p>Ваш номер заказа: <span>{orderIndex}</span></p>
-        </div>
-    );
+    render() {
+        const {orderIndex} = this.props.order;
+
+        return (
+            <div className="container text-center mt-5">
+                <h2>Спасибо за заказ!</h2>
+                <p>Ваш номер заказа: <span>{orderIndex}</span></p>
+            </div>
+        );
+    }
 }
 
-export default OrderFinalize;
+OrderFinalize.propTypes = {
+    finalizeOrder: PropTypes.func.isRequired,
+    order: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+    order: state.order
+});
+
+export default connect(mapStateToProps, {finalizeOrder})(OrderFinalize);

@@ -7,7 +7,7 @@ import {
     PERFUME_UPDATED_FAILURE,
     FETCH_USER_SUCCESS,
     FETCH_ALL_USERS_SUCCESS,
-    FETCH_ALL_USERS_ORDERS_SUCCESS
+    FETCH_ALL_USERS_ORDERS_SUCCESS, FORM_RESET
 } from "../constants/actions-types";
 import {API_BASE_URL} from "../constants/url";
 
@@ -106,5 +106,11 @@ export const fetchUser = (id) => async (dispatch) => {
     dispatch({
         type: FETCH_USER_SUCCESS,
         payload: response.data
+    })
+};
+
+export const formReset = () => async (dispatch) => {
+    dispatch({
+        type: FORM_RESET,
     })
 };

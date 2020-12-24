@@ -4,10 +4,9 @@ import {connect} from "react-redux";
 
 import ToastShow from "../../component/toasts/ToastShow";
 import AccountNavbar from "../../component/account-navbar/AccountNavbar";
-import {addPerfume} from "../../actions/admin-actions";
+import {addPerfume, formReset} from "../../actions/admin-actions";
 import {faPlusSquare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {Link} from "react-router-dom";
 
 class AddProduct extends Component {
     initialState = {
@@ -29,6 +28,10 @@ class AddProduct extends Component {
         ...this.initialState,
         showToast: false
     };
+
+    componentDidMount() {
+        this.props.formReset();
+    }
 
     onFormSubmit = (event) => {
         event.preventDefault();
@@ -102,7 +105,7 @@ class AddProduct extends Component {
                     <h4><FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Добавить товар</h4>
                     <br/>
                     <form onSubmit={this.onFormSubmit}>
-                        <div className="form row mt-3">
+                        <div className="form row">
                             <div className="col">
                                 <label>Название парфюма: </label>
                                 <input
@@ -251,6 +254,7 @@ class AddProduct extends Component {
 
 AddProduct.propTypes = {
     addPerfume: PropTypes.func.isRequired,
+    formReset: PropTypes.func.isRequired,
     admin: PropTypes.object.isRequired
 };
 
@@ -258,4 +262,4 @@ const mapStateToProps = (state) => ({
     admin: state.admin
 });
 
-export default connect(mapStateToProps, {addPerfume})(AddProduct);
+export default connect(mapStateToProps, {addPerfume, formReset})(AddProduct);

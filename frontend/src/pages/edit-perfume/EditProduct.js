@@ -4,8 +4,10 @@ import {connect} from "react-redux";
 
 import {IMG_URL} from "../../constants/url";
 import AccountNavbar from "../../component/account-navbar/AccountNavbar";
-import {updatePerfume} from "../../actions/admin-actions";
+import {updatePerfume, formReset} from "../../actions/admin-actions";
 import {fetchPerfume} from "../../actions/perfume-actions";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEdit} from "@fortawesome/free-solid-svg-icons";
 
 class EditPerfume extends Component {
     state = {
@@ -22,23 +24,17 @@ class EditPerfume extends Component {
         fragranceBaseNotes: "",
         price: "",
         filename: "",
-        file: null,
-        errors: {}
+        file: null
     };
 
     componentDidMount() {
         this.props.fetchPerfume(this.props.match.params.id);
+        this.props.formReset();
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        if (nextProps.admin.errors) {
-            this.setState({
-                errors: nextProps.admin.errors
-            });
-        }
-
         this.setState({
-            ...nextProps.perfume.perfume
+            ...nextProps.perfume
         });
     }
 
@@ -93,14 +89,15 @@ class EditPerfume extends Component {
             perfumeTitleError, perfumerError, yearError, countryError, typeError, volumeError,
             perfumeGenderError, fragranceTopNotesError, fragranceMiddleNotesError, fragranceBaseNotesError,
             priceError
-        } = this.state.errors;
+        } = this.props.errors;
 
         return (
             <div>
                 <AccountNavbar/>
                 <div className="container mt-5">
+                    <h4><FontAwesomeIcon className="mr-2" icon={faEdit}/>Редактировать</h4>
                     <form onSubmit={this.onFormSubmit}>
-                        <div className="col-md-5 mb-5">
+                        <div className="col-md-5 mb-5 mt-5">
                             <img src={IMG_URL + `${filename}`}
                                  className="rounded mx-auto w-100 mb-2"/>
                             <input type="file" name="file" onChange={this.handleFileChange}/>
@@ -237,7 +234,8 @@ class EditPerfume extends Component {
                                 <div className="invalid-feedback">{priceError}</div>
                             </div>
                         </div>
-                        <button type="submit" className="btn btn-dark">Добавить</button>
+                        <button type="submit" className="btn btn-dark">
+                            <FontAwesomeIcon className="mr-2" icon={faEdit}/>Редактировать</button>
                     </form>
                 </div>
             </div>
@@ -248,13 +246,22 @@ class EditPerfume extends Component {
 EditPerfume.propTypes = {
     updatePerfume: PropTypes.func.isRequired,
     fetchPerfume: PropTypes.func.isRequired,
+    formReset: PropTypes.func.isRequired,
     admin: PropTypes.object.isRequired,
     perfume: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    admin: state.admin,
-    perfume: state.perfume
+    errors: state.admin.errors,
+    perfume: state.perfume.perfume
 });
 
-export default connect(mapStateToProps, {updatePerfume, fetchPerfume})(EditPerfume);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updatePerfume: (data, history) => dispatch(updatePerfume(data, history)),
+        fetchPerfume: (id) => dispatch(fetchPerfume(id)),
+        formReset: () => dispatch(formReset())
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditPerfume);

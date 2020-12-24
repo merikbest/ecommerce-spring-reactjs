@@ -19,11 +19,9 @@ class UserList extends Component {
         return (
             <div>
                 <AccountNavbar/>
-                <div className="container">
-                    <div className="mt-5 mb-5">
-                        <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faUsers}/> Список пользователей</h4>
-                    </div>
-                    <table className="table">
+                <div className="container mt-5">
+                    <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faUsers}/> Список пользователей</h4>
+                    <table className="table mt-4">
                         <thead>
                         <tr>
                             <th scope="col">Имя</th>
