@@ -1,40 +1,70 @@
-import React, {useEffect, useState} from 'react';
-import ShopService from "../../services/ShopService";
+import React, {Component} from 'react';
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
+import {faEdit, faLock} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
 import AccountNavbar from "../../component/account-navbar/AccountNavbar";
+import {updateUserInfo} from "../../actions/user-actions";
 
-function UserEditProfile(props) {
-    const [password, setPassword] = useState("");
+class UserEditProfile extends Component {
+    state = {password: ""};
 
-    useEffect(() => {
-        const request = {password: password, email: localStorage.getItem("email")}
-        ShopService.updateUserInfo(request)
-            .then((response) => {
-                props.history.push("/account");
-            });
-    }, []);
+    onFormSubmit = (event) => {
+        event.preventDefault();
 
-    return (
-        <div className="container mt-5">
-            <AccountNavbar/>
-            <h5>Изменение пароля</h5>
+        const userData = {
+            password: this.state.password,
+            email: localStorage.getItem("email")
+        };
 
-            <div className="form-group row mt-5">
-                <label className="col-sm-2 col-form-label">Введите новый пароль: </label>
-                <div className="col-sm-4">
-                    <input type="password"
-                           name="password"
-                           className="form-control"
-                           value={password}
-                           onChange={(event) => setPassword(event.target.value)}
-                    />
+        this.props.updateUserInfo(userData, this.props.history);
+    }
+
+    handleInputChange = (event) => {
+        const {name, value} = event.target;
+
+        this.setState({
+            [name]: value
+        });
+    };
+
+    render() {
+        return (
+            <div className="container">
+                <AccountNavbar/>
+                <div className="container mt-5">
+                    <h4><FontAwesomeIcon className="mr-2" icon={faLock}/> Изменение пароля</h4>
+                    {/*<h5 th:text="${username}"></h5>*/}
+                    <form onSubmit={this.onFormSubmit}>
+                        <div className="form-group row mt-5">
+                            <label className="col-form-label mx-3">Введите новый пароль: </label>
+                            <div className="col-sm-4">
+                                <input
+                                    type="password"
+                                    name="password"
+                                    className="form-control"
+                                    value={this.state.password}
+                                    onChange={this.handleInputChange}/>
+                            </div>
+                        </div>
+                        <button type="submit" className="btn btn-dark">
+                            <FontAwesomeIcon className="mr-2" icon={faEdit}/> Изменить
+                        </button>
+                    </form>
                 </div>
             </div>
-
-            <div>
-                <button className="btn btn-dark">Изменить</button>
-            </div>
-        </div>
-    );
+        );
+    }
 }
 
-export default UserEditProfile;
+UserEditProfile.propTypes = {
+    updateUserInfo: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+    user: state.user
+});
+
+export default connect(mapStateToProps, {updateUserInfo})(UserEditProfile);

@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
-import ShopService from "../../services/ShopService";
-import {IMG_URL} from "../../constants/url";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {fetchPerfume} from "../../actions/perfume-actions";
-import {faCartArrowDown, faCartPlus, faShoppingCart, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCartPlus} from "@fortawesome/free-solid-svg-icons";
+
+import {IMG_URL} from "../../constants/url";
+import {fetchPerfume} from "../../actions/perfume-actions";
+import {addToCart} from "../../actions/cart-actions";
 
 class Product extends Component {
+
     componentDidMount() {
         this.props.fetchPerfume(this.props.match.params.id);
 
@@ -18,10 +20,7 @@ class Product extends Component {
         if (!localStorage.getItem("isLoggedIn")) {
             this.props.history.push("/login");
         } else {
-            ShopService.addToCart(this.props.perfume.perfume)
-                .then((response) => {
-                    this.props.history.push("/cart");
-                });
+            this.props.addToCart(this.props.perfume.perfume, this.props.history);
         }
     }
 
@@ -106,11 +105,19 @@ class Product extends Component {
 
 Product.propTypes = {
     fetchPerfume: PropTypes.func.isRequired,
+    addToCart: PropTypes.func.isRequired,
     perfume: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    perfume: state.perfume,
+    perfume: state.perfume
 });
 
-export default connect(mapStateToProps, {fetchPerfume})(Product);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchPerfume: (id) => dispatch(fetchPerfume(id)),
+        addToCart: (id, history) => dispatch(addToCart(id, history)),
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

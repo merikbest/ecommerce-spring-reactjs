@@ -1,6 +1,6 @@
-import {Link} from "react-router-dom";
 import React from "react";
-import {faEdit, faList, faPlusSquare, faShoppingBag, faUsers} from "@fortawesome/free-solid-svg-icons";
+import {Link} from "react-router-dom";
+import {faList, faLock, faPlusSquare, faShoppingBag, faUsers} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 function AccountNavbar(props) {
@@ -29,16 +29,20 @@ function AccountNavbar(props) {
                             <Link to={"/product/list/edit"} className="nav-link text-light mx-3">
                                 <FontAwesomeIcon className="mr-2" icon={faList}/>Список товаров</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link to={"/user/edit"} className="nav-link text-light">
+                                <FontAwesomeIcon className="mr-2" icon={faLock}/>Изменить пароль</Link>
+                        </li>
                     </ul>
                     :
                     <ul className="navbar-nav">
                         <li className="nav-item active">
                             <Link to={"/user/edit"} className="nav-link text-light mx-3">
-                                <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/>Изменить пароль</Link>
+                                <FontAwesomeIcon className="mr-2" icon={faLock}/>Изменить пароль</Link>
                         </li>
                         <li className="nav-item">
                             <Link to={"/user/orders"} className="nav-link text-light mx-3">
-                                <FontAwesomeIcon className="mr-2" icon={faEdit}/>Список заказов</Link>
+                                <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/>Список заказов</Link>
                         </li>
                     </ul>
                 }

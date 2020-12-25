@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {faUsers} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {Link} from "react-router-dom";
 
 import AccountNavbar from "../../component/account-navbar/AccountNavbar";
 import {fetchAllUsers} from "../../actions/admin-actions";
@@ -46,7 +47,7 @@ class UserList extends Component {
                                         })}
                                     </th>
                                     <th>
-                                        {/*<Link to={`/admin/user/${user.id}`}>edit</Link>*/}
+                                        <Link to={`/admin/user/${user.id}`}>Редактировать</Link>
                                     </th>
                                 </tr>
                             )

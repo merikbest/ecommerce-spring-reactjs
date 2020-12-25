@@ -1,12 +1,13 @@
 import React from 'react';
+import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 function Contacts() {
-
     return (
         <div className="container mt-5">
-            <h5>Контактная информация</h5>
+            <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faInfoCircle}/>Контактная информация</h4>
             <br/>
-            <p><b>Телефон:</b> (066) 573-89-96<br/>
+            <p><b>Телефон:</b> (066) 696-66-23<br/>
                 <b>E-mail:</b> merikbest2015@gmail.com</p>
             <br/>
             <h6>Режим работы</h6>

@@ -28,21 +28,22 @@ export const fetchCart = () => async (dispatch) => {
     })
 };
 
-export const addToCart = (id) => async (dispatch) => {
-    const response = await axios({
+export const addToCart = (perfume, history) => async (dispatch) => {
+    await axios({
         method: "POST",
         url: API_BASE_URL + "/cart/add",
-        data: id,
+        data: perfume,
         headers: {
             "Content-Type": "application/json",
             "Authorization": localStorage.getItem("token")
         }
-    });
+    })
 
     dispatch({
         type: PERFUME_ADDED_TO_CART_SUCCESS,
-        payload: response.data
     })
+
+    history.push("/cart")
 };
 
 export const removeFromCart = (perfume) => async (dispatch) => {

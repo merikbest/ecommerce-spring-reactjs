@@ -21,7 +21,7 @@ const reducer = (state = initialState, action) => {
             return {...state, cartItems: payload, loading: false};
 
         case PERFUME_ADDED_TO_CART_SUCCESS:
-            return {...state, cartItems: payload};
+            return {...state};
 
         case PERFUME_REMOVED_FROM_CART_SUCCESS:
             return {...state, cartItems: payload};
