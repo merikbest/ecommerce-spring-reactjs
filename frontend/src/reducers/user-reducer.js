@@ -1,4 +1,4 @@
-import {USER_UPDATED_SUCCESS} from "../constants/actions-types";
+import {USER_UPDATED_SUCCESS} from "../utils/constants/actions-types";
 
 const initialState = {
     success: false

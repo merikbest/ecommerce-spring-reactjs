@@ -7,10 +7,10 @@ import {
     LOGIN_FAILURE,
     REGISTER_FAILURE,
     LOGOUT_SUCCESS
-} from "../constants/actions-types";
-import {API_BASE_URL} from "../constants/url";
+} from "../utils/constants/actions-types";
+import {API_BASE_URL} from "../utils/constants/url";
 
-export const login = (data) => async (dispatch) => {
+export const login = (data, history) => async (dispatch) => {
     try {
         const response = await axios.post(API_BASE_URL + "/login", data);
 
@@ -23,6 +23,8 @@ export const login = (data) => async (dispatch) => {
             type: LOGIN_SUCCESS,
             payload: response.data
         })
+
+        history.push("/account");
     } catch (error) {
         dispatch({
             type: LOGIN_FAILURE,

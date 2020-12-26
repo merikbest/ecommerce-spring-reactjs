@@ -5,8 +5,8 @@ import {
     PERFUME_ADDED_TO_CART_SUCCESS,
     PERFUME_REMOVED_FROM_CART_SUCCESS,
     LOADING_CART
-} from "../constants/actions-types";
-import {API_BASE_URL} from "../constants/url";
+} from "../utils/constants/actions-types";
+import {API_BASE_URL} from "../utils/constants/url";
 
 export const fetchCart = () => async (dispatch) => {
     dispatch({

@@ -6,8 +6,8 @@ import {
     FETCH_PERFUMES_BY_GENDER,
     FETCH_PERFUMES_BY_PERFUMER,
     FETCH_PERFUMES_BY_FILTER_PARAMS
-} from "../constants/actions-types";
-import {API_BASE_URL} from "../constants/url";
+} from "../utils/constants/actions-types";
+import {API_BASE_URL} from "../utils/constants/url";
 
 export const fetchPerfumes = () => async (dispatch) => {
     const response = await axios.get(API_BASE_URL);

@@ -4,7 +4,7 @@ import {
     ORDER_ADDED_FAILURE,
     ORDER_CONFIRMED_SUCCESS,
     FETCH_USER_ORDERS_SUCCESS
-} from "../constants/actions-types";
+} from "../utils/constants/actions-types";
 
 const initialState = {
     orders: [],

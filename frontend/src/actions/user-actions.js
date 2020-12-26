@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import {USER_UPDATED_SUCCESS} from "../constants/actions-types";
-import {API_BASE_URL} from "../constants/url";
+import {USER_UPDATED_SUCCESS} from "../utils/constants/actions-types";
+import {API_BASE_URL} from "../utils/constants/url";
 
 export const updateUserInfo = (userData, history) => async (dispatch) => {
     axios({

@@ -5,7 +5,7 @@ import {
     LOGIN_FAILURE,
     REGISTER_FAILURE,
     LOGOUT_SUCCESS
-} from "../constants/actions-types";
+} from "../utils/constants/actions-types";
 
 const initialState = {
     user: {

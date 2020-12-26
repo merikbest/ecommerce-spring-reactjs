@@ -3,7 +3,7 @@ import {
     LOADING_CART,
     PERFUME_ADDED_TO_CART_SUCCESS,
     PERFUME_REMOVED_FROM_CART_SUCCESS
-} from "../constants/actions-types";
+} from "../utils/constants/actions-types";
 
 const initialState = {
     cartItems: [],

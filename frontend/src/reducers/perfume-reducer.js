@@ -4,7 +4,7 @@ import {
     FETCH_PERFUMES_BY_GENDER,
     FETCH_PERFUMES_BY_PERFUMER,
     FETCH_PERFUMES_BY_FILTER_PARAMS
-} from "../constants/actions-types";
+} from "../utils/constants/actions-types";
 
 const initialState = {
     perfumes: [],
