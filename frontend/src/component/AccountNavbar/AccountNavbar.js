@@ -15,19 +15,19 @@ const AccountNavbar = () => {
                     <ul className="navbar-nav">
                         <li className="nav-item">
                             <Link to={"/admin/orders"} className="nav-link text-light mx-3">
-                                <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/>Список всех заказов</Link>
+                                <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/>List of all orders</Link>
                         </li>
                         <li className="nav-item">
                             <Link to={"/admin/users/all"} className="nav-link text-light mx-3">
-                                <FontAwesomeIcon className="mr-2" icon={faUsers}/>Список пользователей</Link>
+                                <FontAwesomeIcon className="mr-2" icon={faUsers}/>List of all users</Link>
                         </li>
                         <li className="nav-item">
                             <Link to={"/admin/add"} className="nav-link text-light mx-3">
-                                <FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Добавить товар</Link>
+                                <FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Add perfume</Link>
                         </li>
                         <li className="nav-item">
                             <Link to={"/product/list/edit"} className="nav-link text-light mx-3">
-                                <FontAwesomeIcon className="mr-2" icon={faList}/>Список товаров</Link>
+                                <FontAwesomeIcon className="mr-2" icon={faList}/>List of perfumes</Link>
                         </li>
                     </ul>
                     :

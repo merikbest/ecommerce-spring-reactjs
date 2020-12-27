@@ -35,7 +35,7 @@ const MenuCards = ({data, itemsPerPage, startFrom, searchByData}) => {
                                     perfume={perfume}
                                     colSize={3}
                                     link={"/product"}
-                                    btnName={"Купить"}/>
+                                    btnName={"SHOW MORE"}/>
                             );
                         })}
                     </div>

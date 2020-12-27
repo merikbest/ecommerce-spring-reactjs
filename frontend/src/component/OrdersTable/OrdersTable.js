@@ -10,17 +10,17 @@ const OrdersTable = ({orders}) => {
         <div>
             <AccountNavbar/>
             <div className="container mt-5">
-                <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faShoppingBag}/> Список всех заказов</h4>
+                <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faShoppingBag}/> List of all orders</h4>
                 <table className="table mt-4">
                     <thead>
                     <tr>
-                        <th scope="col">Заказ №</th>
-                        <th scope="col">Дата</th>
-                        <th scope="col">Заказчик</th>
-                        <th scope="col">Адресс</th>
-                        <th scope="col">Почтовый индекс</th>
-                        <th scope="col">Товары</th>
-                        <th scope="col">Сумма, грн.</th>
+                        <th scope="col">Order №</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Post index</th>
+                        <th scope="col">Goods</th>
+                        <th scope="col">Sum, $</th>
                         <th scope="col"></th>
                     </tr>
                     </thead>

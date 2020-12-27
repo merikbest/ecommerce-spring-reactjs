@@ -36,11 +36,11 @@ class Cart extends Component {
                     <div>
                         {cartItems.length === 0 ?
                             <div style={{textAlign: "center"}}>
-                                <h2>Корзина пуста</h2>
+                                <h2>Cart is empty</h2>
                             </div> :
                             <div>
                                 <p className="h4 mb-4 text-center">
-                                    <FontAwesomeIcon className="mr-2" icon={faShoppingCart}/> Корзина
+                                    <FontAwesomeIcon className="mr-2" icon={faShoppingCart}/> Cart
                                 </p>
                                 {cartItems.map((perfume) => {
                                     return (
@@ -54,15 +54,15 @@ class Cart extends Component {
                                                     <div className="card-body">
                                                         <h4 className="card-title">{perfume.perfumer + " " + perfume.perfumeTitle}</h4>
                                                         <p className="card-text">{perfume.type}</p>
-                                                        <p className="card-text"><span>{perfume.volume}</span> мл.</p>
+                                                        <p className="card-text"><span>{perfume.volume}</span> ml.</p>
                                                     </div>
                                                 </div>
                                                 <div className="col-2">
                                                     <div className="card-body">
-                                                        <h5 className="card-title"><span>{perfume.price}</span> грн.</h5>
+                                                        <h5 className="card-title"><span>$ {perfume.price}</span></h5>
                                                         <button className="btn btn-warning mb-2"
                                                                 onClick={() => this.deleteFromCart(perfume.id)}>
-                                                            <FontAwesomeIcon className="mr-2" icon={faMinusSquare}/> Удалить
+                                                            <FontAwesomeIcon className="mr-2" icon={faMinusSquare}/> Remove
                                                         </button>
                                                     </div>
                                                 </div>
@@ -73,14 +73,13 @@ class Cart extends Component {
                                 <hr className="my-3"/>
                                 <div className="row">
                                     <div className="col-9">
-                                        <p className="h5 text-right">Итого: <span>{totalCartPrice}</span> грн.
-                                        </p>
+                                        <p className="h5 text-right">Total: $ <span>{totalCartPrice}</span></p>
                                     </div>
                                     <div className="col-3">
                                         <div className="form-row">
                                             <Link to={"/order"}>
                                                 <button className="btn btn-success">
-                                                    <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/> Оформить заказ
+                                                    <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/> Checkout
                                                 </button>
                                             </Link>
                                         </div>

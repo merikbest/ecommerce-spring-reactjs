@@ -34,11 +34,11 @@ class UserEditProfile extends Component {
             <div className="container">
                 <AccountNavbar/>
                 <div className="container mt-5">
-                    <h4><FontAwesomeIcon className="mr-2" icon={faLock}/> Изменение пароля</h4>
+                    <h4><FontAwesomeIcon className="mr-2" icon={faLock}/> Change Password</h4>
                     {/*<h5 th:text="${username}"></h5>*/}
                     <form onSubmit={this.onFormSubmit}>
                         <div className="form-group row mt-5">
-                            <label className="col-form-label mx-3">Введите новый пароль: </label>
+                            <label className="col-form-label mx-3">Enter a new password: </label>
                             <div className="col-sm-4">
                                 <input
                                     type="password"
@@ -49,7 +49,7 @@ class UserEditProfile extends Component {
                             </div>
                         </div>
                         <button type="submit" className="btn btn-dark">
-                            <FontAwesomeIcon className="mr-2" icon={faEdit}/> Изменить
+                            <FontAwesomeIcon className="mr-2" icon={faEdit}/> Edit
                         </button>
                     </form>
                 </div>

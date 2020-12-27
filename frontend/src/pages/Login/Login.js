@@ -43,7 +43,7 @@ class Login extends Component {
 
         return (
             <div id="container" className="container mt-5">
-                <h4><FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>Вход в личный кабинет</h4>
+                <h4><FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>SIGN IN</h4>
                 <hr align="left" width="550"/>
                 {this.props.error ?
                     <div className="alert alert-danger col-6" role="alert">
@@ -51,7 +51,7 @@ class Login extends Component {
                     </div> : null}
                 <form onSubmit={this.onClickSignIn}>
                     <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">Электронная почта: </label>
+                        <label className="col-sm-2 col-form-label">E-mail: </label>
                         <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faEnvelope}/>
                         <div className="col-sm-4">
                             <input
@@ -63,7 +63,7 @@ class Login extends Component {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">Пароль: </label>
+                        <label className="col-sm-2 col-form-label">Password: </label>
                         <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
                         <div className="col-sm-4">
                             <input
@@ -75,7 +75,7 @@ class Login extends Component {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <button type="submit" className="btn btn-dark mx-3">Вход</button>
+                        <button type="submit" className="btn btn-dark mx-3">Sign in</button>
                     </div>
                 </form>
             </div>

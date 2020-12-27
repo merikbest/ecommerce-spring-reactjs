@@ -44,10 +44,10 @@ class EditUser extends Component {
             <div>
                 <AccountNavbar/>
                 <div className="container mt-5">
-                    <h4><FontAwesomeIcon className="mr-2" icon={faUserEdit}/> Пользователь: {username}</h4>
+                    <h4><FontAwesomeIcon className="mr-2" icon={faUserEdit}/> User: {username}</h4>
                     <form onSubmit={this.onFormSubmit}>
                         <div className="form-group row mt-5">
-                            <label className="col-sm-2 col-form-label">Имя пользователя: </label>
+                            <label className="col-sm-2 col-form-label">User name: </label>
                             <div className="col-sm-4">
                                 <input
                                     type="text"
@@ -58,7 +58,7 @@ class EditUser extends Component {
                             </div>
                         </div>
                         <div className="form-group row">
-                            <label className="col-sm-2 col-form-label">Роль: </label>
+                            <label className="col-sm-2 col-form-label">Role: </label>
                             <div className="col-sm-6">
                                 <div className="form-check form-check-inline">
                                     <label className="form-check-label mr-1" htmlFor="inlineRadio1">USER</label>
@@ -83,7 +83,7 @@ class EditUser extends Component {
                             </div>
                         </div>
                         <button type="submit" className="btn btn-dark">
-                            <FontAwesomeIcon className="mr-2" icon={faEdit}/>Сохранить
+                            <FontAwesomeIcon className="mr-2" icon={faEdit}/>Save
                         </button>
                     </form>
                 </div>

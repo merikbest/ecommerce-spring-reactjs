@@ -26,16 +26,16 @@ const perfumer = [
 ]
 
 const gender = [
-    {"name": "женский", "label": "для женщин"},
-    {"name": "мужской", "label": "для мужчин"},
+    {"name": "male", "label": "для женщин"},
+    {"name": "female", "label": "для мужчин"},
 ]
 
 const price = [
-    {"id": 1, "name": "любая", "array": []},
-    {"id": 2, "name": "500 - 750 грн.", "array": [500, 750]},
-    {"id": 3, "name": "750 - 1000 грн.", "array": [750, 1000]},
-    {"id": 4, "name": "1000 - 2500 грн.", "array": [1000, 2500]},
-    {"id": 5, "name": "2500 - 5000+ грн.", "array": [2500, 10000]}
+    {"id": 1, "name": "any", "array": []},
+    {"id": 2, "name": "15 - 25 $", "array": [15, 25]},
+    {"id": 3, "name": "25 - 40 $", "array": [25, 40]},
+    {"id": 4, "name": "40 - 90 $", "array": [40, 90]},
+    {"id": 5, "name": "90 - 175+ $", "array": [90, 250]}
 ]
 
 export {perfumer, gender, price};

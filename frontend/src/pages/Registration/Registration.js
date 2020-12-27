@@ -57,11 +57,11 @@ class Registration extends Component {
 
         return (
             <div className="container mt-5">
-                <h4><FontAwesomeIcon className="mr-2" icon={faUserPlus}/> Регистрация</h4>
+                <h4><FontAwesomeIcon className="mr-2" icon={faUserPlus}/> SIGN UP</h4>
                 <hr align="left" width="550"/>
                 <form onSubmit={this.onClickSignUp}>
                     <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">Электронная почта: </label>
+                        <label className="col-sm-2 col-form-label">E-mail: </label>
                         <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faEnvelope}/>
                         <div className="col-sm-4">
                             <input
@@ -74,7 +74,7 @@ class Registration extends Component {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">Имя пользователя: </label>
+                        <label className="col-sm-2 col-form-label">User name: </label>
                         <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faUser}/>
                         <div className="col-sm-4">
                             <input
@@ -87,7 +87,7 @@ class Registration extends Component {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">Пароль: </label>
+                        <label className="col-sm-2 col-form-label">Password: </label>
                         <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
                         <div className="col-sm-4">
                             <input
@@ -100,7 +100,7 @@ class Registration extends Component {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <label className="col-sm-2 col-form-label">Повторите пароль: </label>
+                        <label className="col-sm-2 col-form-label">Confirm password: </label>
                         <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
                         <div className="col-sm-4">
                             <input
@@ -113,7 +113,7 @@ class Registration extends Component {
                         </div>
                     </div>
                     <div className="form-group row">
-                        <button type="submit" className="btn btn-dark mx-3">Регистрация</button>
+                        <button type="submit" className="btn btn-dark mx-3">Sign up</button>
                     </div>
                     <ReCAPTCHA onChange={this.onChangeRecaptcha} sitekey="6Lc5cLkZAAAAAN8mFk85HQieB9toPcWFoW0RXCNR"/>
                 </form>

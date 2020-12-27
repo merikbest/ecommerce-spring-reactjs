@@ -57,80 +57,86 @@ class Order extends Component {
         return (
             <div className="container mt-5 pb-5">
                 <h4 className="mb-4 text-center">
-                    <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/> Оформление заказа
+                    <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/> Ordering
                 </h4>
                 <br/>
                 <form onSubmit={this.onFormSubmit}>
                     <div className="row">
                         <div className="col-lg-6">
                             <div className="form-group row">
-                                <label className="col-sm-2 col-form-label">Имя:</label>
+                                <label className="col-sm-2 col-form-label">Name:</label>
                                 <div className="col-sm-8">
                                     <input
                                         type="text"
                                         className={firstNameError ? "form-control is-invalid" : "form-control"}
                                         name="firstName"
                                         value={firstName}
+                                        placeholder="Enter the first name"
                                         onChange={this.handleInputChange}/>
                                     <div className="invalid-feedback">{firstNameError}</div>
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-2 col-form-label">Фамилия:</label>
+                                <label className="col-sm-2 col-form-label">Surname:</label>
                                 <div className="col-sm-8">
                                     <input
                                         type="text"
                                         className={lastNameError ? "form-control is-invalid" : "form-control"}
                                         name="lastName"
                                         value={lastName}
+                                        placeholder="Enter the last name"
                                         onChange={this.handleInputChange}/>
                                     <div className="invalid-feedback">{lastNameError}</div>
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-2 col-form-label">Город:</label>
+                                <label className="col-sm-2 col-form-label">City:</label>
                                 <div className="col-sm-8">
                                     <input
                                         type="text"
                                         className={cityError ? "form-control is-invalid" : "form-control"}
                                         name="city"
                                         value={city}
+                                        placeholder="Enter the city"
                                         onChange={this.handleInputChange}/>
                                     <div className="invalid-feedback">{cityError}</div>
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-2 col-form-label">Адрес:</label>
+                                <label className="col-sm-2 col-form-label">Address:</label>
                                 <div className="col-sm-8">
                                     <input
                                         type="text"
                                         className={addressError ? "form-control is-invalid" : "form-control"}
                                         name="address"
                                         value={address}
+                                        placeholder="Enter the address"
                                         onChange={this.handleInputChange}/>
                                     <div className="invalid-feedback">{addressError}</div>
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-2 col-form-label">Индекс:</label>
+                                <label className="col-sm-2 col-form-label">Index:</label>
                                 <div className="col-sm-8">
                                     <input
                                         type="text"
                                         className={postIndexError ? "form-control is-invalid" : "form-control"}
                                         name="postIndex"
                                         value={postIndex}
+                                        placeholder="Enter the index"
                                         onChange={this.handleInputChange}/>
                                     <div className="invalid-feedback">{postIndexError}</div>
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-2 col-form-label">Телефон:</label>
+                                <label className="col-sm-2 col-form-label">Mobile:</label>
                                 <div className="col-sm-8">
                                     <input
                                         type="text"
                                         className={phoneNumberError ? "form-control is-invalid" : "form-control"}
                                         name="phoneNumber"
                                         value={phoneNumber}
+                                        placeholder="+38(0__)-___-__-__"
                                         onChange={this.handleInputChange}/>
                                     <div className="invalid-feedback">{phoneNumberError}</div>
                                 </div>
@@ -143,6 +149,7 @@ class Order extends Component {
                                         className={emailError ? "form-control is-invalid" : "form-control"}
                                         name="email"
                                         value={email}
+                                        placeholder="example@gmail.com"
                                         onChange={this.handleInputChange}/>
                                     <div className="invalid-feedback">{emailError}</div>
                                 </div>
@@ -160,7 +167,7 @@ class Order extends Component {
                                                     <div className="card-body text-center">
                                                         <h5>{perfume.perfumeTitle}</h5>
                                                         <h6>{perfume.perfumer}</h6>
-                                                        <h6><span>{perfume.price}</span>,00 грн.</h6>
+                                                        <h6><span>$ {perfume.price}</span>.00</h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -169,10 +176,10 @@ class Order extends Component {
                                 </div>
                             </div>
                             <button type="submit" className="btn btn-primary btn-lg btn-success px-5 float-right">
-                                <FontAwesomeIcon icon={faCheckCircle}/> Подтвердить заказ
+                                <FontAwesomeIcon icon={faCheckCircle}/> Validate order
                             </button>
                             <div className="row">
-                                <h4>К оплате : <span>{totalPrice}</span> грн.</h4>
+                                <h4>To pay : $ <span>{totalPrice}</span>.00</h4>
                             </div>
                         </div>
                     </div>

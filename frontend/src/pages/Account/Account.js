@@ -17,7 +17,7 @@ class Account extends Component {
             <div className="container">
                 <AccountNavbar/>
                 <div className="container" style={{"display": this.props.success ? "block" : "none"}}>
-                    <ToastShow showToast={this.props.success} message={"Товар успешно обновлен!"}/>
+                    <ToastShow showToast={this.props.success} message={"Perfume successfully edited!"}/>
                 </div>
             </div>
         );

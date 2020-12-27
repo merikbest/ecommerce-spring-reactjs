@@ -99,141 +99,141 @@ class AddProduct extends Component {
             <div>
                 <AccountNavbar/>
                 <div className="container" style={{"display": showToast ? "block" : "none"}}>
-                    <ToastShow showToast={showToast} message={"Товар успешно сохранен!"}/>
+                    <ToastShow showToast={showToast} message={"Perfume successfully added!"}/>
                 </div>
                 <div className="container mt-5">
-                    <h4><FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Добавить товар</h4>
+                    <h4><FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Add perfume</h4>
                     <br/>
                     <form onSubmit={this.onFormSubmit}>
                         <div className="form row">
                             <div className="col">
-                                <label>Название парфюма: </label>
+                                <label>Perfume title: </label>
                                 <input
                                     type="text"
                                     className={perfumeTitleError ? "form-control is-invalid" : "form-control"}
                                     name="perfumeTitle"
                                     value={perfumeTitle}
-                                    placeholder="Введите название парфюма"
+                                    placeholder="Enter the perfume title"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{perfumeTitleError}</div>
                             </div>
                             <div className="col">
-                                <label>Производитель: </label>
+                                <label>Brand: </label>
                                 <input
                                     type="text"
                                     className={perfumerError ? "form-control is-invalid" : "form-control"}
                                     name="perfumer"
                                     value={perfumer}
-                                    placeholder="Введите производителя"
+                                    placeholder="Enter the brand"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{perfumerError}</div>
                             </div>
                         </div>
                         <div className="form row mt-3">
                             <div className="col">
-                                <label>Год выпуска: </label>
+                                <label>Release year: </label>
                                 <input
                                     type="text"
                                     className={yearError ? "form-control is-invalid" : "form-control"}
                                     name="year"
                                     value={year}
-                                    placeholder="Введите год выпуска"
+                                    placeholder="Enter the release year"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{yearError}</div>
                             </div>
                             <div className="col">
-                                <label>Страна: </label>
+                                <label>Manufacturer country: </label>
                                 <input
                                     type="text"
                                     className={countryError ? "form-control is-invalid" : "form-control"}
                                     name="country"
                                     value={country}
-                                    placeholder="Введите страну производителя"
+                                    placeholder="Enter the manufacturer country"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{countryError}</div>
                             </div>
                         </div>
                         <div className="form row mt-3">
                             <div className="col">
-                                <label>Тип: </label>
+                                <label>Perfume type: </label>
                                 <input
                                     type="text"
                                     className={typeError ? "form-control is-invalid" : "form-control"}
                                     name="type"
                                     value={type}
-                                    placeholder="Введите тип парфюма"
+                                    placeholder="Enter the perfume type"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{typeError}</div>
                             </div>
                             <div className="col">
-                                <label>Объем: </label>
+                                <label>Volume: </label>
                                 <input
                                     type="text"
                                     className={volumeError ? "form-control is-invalid" : "form-control"}
                                     name="volume"
                                     value={volume}
-                                    placeholder="Введите объем парфюма"
+                                    placeholder="Enter the volume"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{volumeError}</div>
                             </div>
                         </div>
                         <div className="form row mt-3">
                             <div className="col">
-                                <label>Пол: </label>
+                                <label>Gender: </label>
                                 <input
                                     type="text"
                                     className={perfumeGenderError ? "form-control is-invalid" : "form-control"}
                                     name="perfumeGender"
                                     value={perfumeGender}
-                                    placeholder="Введите пол"
+                                    placeholder="Enter the gender"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{perfumeGenderError}</div>
                             </div>
                             <div className="col">
-                                <label>Верхние ноты: </label>
+                                <label>Top notes: </label>
                                 <input
                                     type="text"
                                     className={fragranceTopNotesError ? "form-control is-invalid" : "form-control"}
                                     name="fragranceTopNotes"
                                     value={fragranceTopNotes}
-                                    placeholder="Введите верхние ноты"
+                                    placeholder="Enter the top notes"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{fragranceTopNotesError}</div>
                             </div>
                         </div>
                         <div className="form row mt-3">
                             <div className="col">
-                                <label>Средние ноты: </label>
+                                <label>Heart notes: </label>
                                 <input
                                     type="text"
                                     className={fragranceMiddleNotesError ? "form-control is-invalid" : "form-control"}
                                     name="fragranceMiddleNotes"
                                     value={fragranceMiddleNotes}
-                                    placeholder="Введите средние ноты"
+                                    placeholder="Enter the heart notes"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{fragranceMiddleNotesError}</div>
                             </div>
                             <div className="col">
-                                <label>Базовые ноты: </label>
+                                <label>Base notes: </label>
                                 <input
                                     type="text"
                                     className={fragranceBaseNotesError ? "form-control is-invalid" : "form-control"}
                                     name="fragranceBaseNotes"
                                     value={fragranceBaseNotes}
-                                    placeholder="Введите базовые ноты"
+                                    placeholder="Enter the base notes"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{fragranceBaseNotesError}</div>
                             </div>
                         </div>
                         <div className="form row mt-3">
                             <div className="col">
-                                <label>Цена: </label>
+                                <label>Price: </label>
                                 <input
                                     type="text"
                                     className={priceError ? "form-control is-invalid" : "form-control"}
                                     name="price"
                                     value={price}
-                                    placeholder="Введите название парфюма"
+                                    placeholder="Enter the price"
                                     onChange={this.handleInputChange}/>
                                 <div className="invalid-feedback">{priceError}</div>
                             </div>
@@ -244,7 +244,7 @@ class AddProduct extends Component {
                             </div>
                         </div>
                         <button type="submit" className="btn btn-dark mt-3">
-                            <FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Добавить
+                            <FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Add
                         </button>
                     </form>
                 </div>

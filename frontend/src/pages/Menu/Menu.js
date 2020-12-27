@@ -27,7 +27,7 @@ class Menu extends Component {
     componentDidMount() {
         const perfumeData = this.props.location.state.id;
 
-        if (perfumeData === "женский" || perfumeData === "мужской") {
+        if (perfumeData === "female" || perfumeData === "male") {
             this.props.fetchPerfumesByGender({perfumeGender: perfumeData});
             window.scrollTo(0, 0);
         } else if (perfumeData === "all") {
@@ -76,20 +76,20 @@ class Menu extends Component {
             <div className="container d-flex">
                 <nav id="sidebar">
                     <div className="sidebar-header">
-                        <h3>Парфюмерия</h3>
+                        <h3>Perfumes</h3>
                     </div>
                     <ul className="list-unstyled components">
-                        <h5>Бренд</h5>
+                        <h5>Brand</h5>
                         <li className="active mb-2" id="homeSubmenu">
                             <Checkbox list={perfumer}
                                       handleFilters={(filters) => this.handleFilters(filters, "perfumers")}/>
                         </li>
-                        <h5>Пол</h5>
+                        <h5>Gender</h5>
                         <li className="active mb-2">
                             <Checkbox list={gender}
                                       handleFilters={(filters) => this.handleFilters(filters, "genders")}/>
                         </li>
-                        <h5>Цена</h5>
+                        <h5>Price</h5>
                         <li className="active mb-2">
                             <CheckboxRadio list={price}
                                            handleFilters={(filters) => this.handleFilters(filters, "prices")}/>
@@ -97,9 +97,9 @@ class Menu extends Component {
                     </ul>
                 </nav>
                 <Route exact component={() => <MenuCards data={perfumes} itemsPerPage={16} searchByData={[
-                    {label: 'Парфюмер', value: 'perfumer'},
-                    {label: 'Название парфюма', value: 'perfumeTitle'},
-                    {label: 'Страна производитель', value: 'country'}]}/>}/>
+                    {label: 'Brand', value: 'perfumer'},
+                    {label: 'Perfume title', value: 'perfumeTitle'},
+                    {label: 'Manufacturer country', value: 'country'}]}/>}/>
             </div>
         );
     }

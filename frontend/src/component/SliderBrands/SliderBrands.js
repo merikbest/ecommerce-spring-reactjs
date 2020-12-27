@@ -12,7 +12,7 @@ const SliderBrands = () => {
 
     return (
         <div className="container text-center my-3 mt-5">
-            <h3>Бренды</h3>
+            <h3>BRANDS</h3>
             <Carousel {...settings}>
                 <Carousel.Item className="row">
                     {brandsItem1.map((brand, i) => {

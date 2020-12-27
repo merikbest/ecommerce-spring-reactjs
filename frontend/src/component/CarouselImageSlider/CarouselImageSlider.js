@@ -6,12 +6,12 @@ const sliderItems = [
     {
         id: "98",
         name: "Photo 1",
-        url: "https://i.ibb.co/Hn6VqJy/1million-4.jpg",
+        url: "https://i.ibb.co/dkpHPXQ/1million-ENG.jpg"
     },
     {
         id: "59",
         name: "Photo 2",
-        url: "https://i.ibb.co/Sr0ZK34/dior5.jpg"
+        url: "https://i.ibb.co/C0vbNcy/dior-ENG.jpg"
     },
 ];
 

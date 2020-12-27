@@ -19,7 +19,7 @@ function EditPerfumes({data, itemsPerPage, startFrom, searchByData}) {
         <div>
             <AccountNavbar/>
             <div className="container mt-5">
-                <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faList}/> Список товаров</h4>
+                <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faList}/> List of perfumes</h4>
                 <br/>
                 <div className="container form row">
                     <PaginationItem
@@ -43,7 +43,7 @@ function EditPerfumes({data, itemsPerPage, startFrom, searchByData}) {
                                     perfume={perfume}
                                     colSize={2}
                                     link={"/product/list/edit"}
-                                    btnName={"EDIT"}/>
+                                    btnName={"Edit"}/>
                             );
                         })}
                     </div>

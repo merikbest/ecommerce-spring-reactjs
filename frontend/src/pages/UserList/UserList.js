@@ -21,13 +21,13 @@ class UserList extends Component {
             <div>
                 <AccountNavbar/>
                 <div className="container mt-5">
-                    <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faUsers}/> Список пользователей</h4>
+                    <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faUsers}/> List of all users</h4>
                     <table className="table mt-4">
                         <thead>
                         <tr>
-                            <th scope="col">Имя</th>
+                            <th scope="col">Name</th>
                             <th scope="col">E-mail</th>
-                            <th scope="col">Роль</th>
+                            <th scope="col">Role</th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
@@ -37,20 +37,17 @@ class UserList extends Component {
                                 <tr key={user.id}>
                                     <th>{user.username}</th>
                                     <th>{user.email}</th>
-                                    <th>
+
                                         {user.roles.map((role, index) => {
                                             return (
-                                                <div key={index}>
-                                                    <p>{role}</p>
-                                                </div>
+                                                <th key={index}>{role}</th>
                                             )
                                         })}
-                                    </th>
                                     <th>
-                                        <Link to={`/admin/user/${user.id}`}>Редактировать</Link>
+                                        <Link to={`/admin/user/${user.id}`}>Edit</Link>
                                     </th>
                                 </tr>
-                            )
+                            );
                         })}
                         </tbody>
                     </table>

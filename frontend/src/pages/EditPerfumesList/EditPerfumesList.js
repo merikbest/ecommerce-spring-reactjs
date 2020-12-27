@@ -15,10 +15,10 @@ class EditPerfumesList extends Component {
         const {perfumes} = this.props;
         const itemsPerPage = 24;
         const searchByData = [
-            {label: 'Парфюмер', value: 'perfumer'},
-            {label: 'Название парфюма', value: 'perfumeTitle'},
-            {label: 'Страна производитель', value: 'country'},
-            {label: 'Пол', value: 'perfumeGender'}
+            {label: 'Brand', value: 'perfumer'},
+            {label: 'Perfume title', value: 'perfumeTitle'},
+            {label: 'Manufacturer country', value: 'country'},
+            {label: 'Gender', value: 'perfumeGender'}
         ];
 
         return (

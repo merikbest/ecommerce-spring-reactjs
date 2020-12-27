@@ -15,8 +15,8 @@ class OrderFinalize extends Component {
 
         return (
             <div className="container text-center mt-5">
-                <h2>Спасибо за заказ!</h2>
-                <p>Ваш номер заказа: <span>{orderIndex}</span></p>
+                <h2>Thank you for the order!</h2>
+                <p>Your order number is: <span>{orderIndex}</span></p>
             </div>
         );
     }

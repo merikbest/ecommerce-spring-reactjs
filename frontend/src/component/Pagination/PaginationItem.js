@@ -4,7 +4,7 @@ const PaginationItem = ({pagination, prevPage, changePage, nextPage}) => {
     return (
         <ul className="pagination">
             <li className="page-item disabled">
-                <a className="page-link" href="#" tabIndex="-1">Страницы</a>
+                <a className="page-link" href="#" tabIndex="-1">Pages</a>
             </li>
             <li className="page-item">
                 <a className="page-link text-dark" href="#" aria-label="Previous" onClick={prevPage}>

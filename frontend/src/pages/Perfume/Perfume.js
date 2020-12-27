@@ -40,57 +40,57 @@ class Perfume extends Component {
                         <div className="col-md-7">
                             <h2>{perfume.perfumeTitle}</h2>
                             <h3>{perfume.perfumer}</h3>
-                            <p>Код товара: <span>{perfume.id}</span></p>
-                            <p style={{color: "#54C0A1"}}>Есть в наличии</p>
+                            <p>Product code: <span>{perfume.id}</span></p>
+                            <p style={{color: "#54C0A1"}}>In Stock</p>
                             <div className="row ml-1">
-                                <h6 className="mr-5"><span>{perfume.price}</span>,00 грн.</h6>
+                                <h6 className="mr-5"><span>${perfume.price}</span>.00</h6>
                                 <button type="submit"
                                         className="btn btn-success mx-3"
                                         onClick={this.addToCart}>
-                                    <FontAwesomeIcon className="mr-2 fa-lg" icon={faCartPlus}/> В корзину
+                                    <FontAwesomeIcon className="mr-2 fa-lg" icon={faCartPlus}/> ADD TO CART
                                 </button>
                             </div>
                             <br/>
                             <table className="table">
                                 <tbody>
                                 <tr>
-                                    <td>Название парфюма:</td>
+                                    <td>Perfume title:</td>
                                     <td>{perfume.perfumeTitle}</td>
                                 </tr>
                                 <tr>
-                                    <td>Парфюмер:</td>
+                                    <td>Brand:</td>
                                     <td>{perfume.perfumer}</td>
                                 </tr>
                                 <tr>
-                                    <td>Тип:</td>
+                                    <td>Perfume type:</td>
                                     <td>{perfume.type}</td>
                                 </tr>
                                 <tr>
-                                    <td>Год выпуска:</td>
+                                    <td>Release year:</td>
                                     <td>{perfume.year}</td>
                                 </tr>
                                 <tr>
-                                    <td>Объем:</td>
-                                    <td><span>{perfume.volume}</span> мл.</td>
+                                    <td>Volume:</td>
+                                    <td><span>{perfume.volume}</span> ml.</td>
                                 </tr>
                                 <tr>
-                                    <td>Страна производитель:</td>
+                                    <td>Manufacturer country:</td>
                                     <td>{perfume.country}</td>
                                 </tr>
                                 <tr>
-                                    <td>Пол:</td>
+                                    <td>Gender:</td>
                                     <td>{perfume.perfumeGender}</td>
                                 </tr>
                                 <tr>
-                                    <td>Верхние ноты:</td>
+                                    <td>Top notes:</td>
                                     <td>{perfume.fragranceTopNotes}</td>
                                 </tr>
                                 <tr>
-                                    <td>Средние ноты:</td>
+                                    <td>Heart notes:</td>
                                     <td>{perfume.fragranceMiddleNotes}</td>
                                 </tr>
                                 <tr>
-                                    <td>Базовые ноты:</td>
+                                    <td>Base notes:</td>
                                     <td>{perfume.fragranceBaseNotes}</td>
                                 </tr>
                                 </tbody>

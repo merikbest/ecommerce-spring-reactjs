@@ -7,15 +7,15 @@ const HomePageTheme = () => {
             <div className="row">
                 <div className="col-lg-6">
                     <div className="card mb-5" >
-                        <Link to={{pathname: "/menu", state: { id: "женский" }}}>
-                            <img className="img-fluid" src="https://i.ibb.co/ZKt4GQy/Brocard-UA-Thems-1-880x352-RUS.jpg"/>
+                        <Link to={{pathname: "/menu", state: { id: "female" }}}>
+                            <img className="img-fluid" src="https://i.ibb.co/jMmJs60/Them-Woman-ENG.jpg"/>
                         </Link>
                     </div>
                 </div>
                 <div className="col-lg-6">
                     <div className="card mb-5">
-                        <Link to={{pathname: "/menu", state: { id: "мужской" }}}>
-                            <img className="img-fluid" src="https://i.ibb.co/GVczwGS/Brocard-UA-Thems-2-880x352-RUS.jpg"/>
+                        <Link to={{pathname: "/menu", state: { id: "male" }}}>
+                            <img className="img-fluid" src="https://i.ibb.co/mJGKz8c/Them-Man-ENG.jpg"/>
                         </Link>
                     </div>
                 </div>

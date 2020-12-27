@@ -11,10 +11,10 @@ const Footer = () => {
                         <h3>Perfume</h3>
                         <p>(066) 696-66-23</p>
                         <br/>
-                        <p>c 08:00 до 20:00 без перерыва и выходных</p>
+                        <p>from 08:00 to 20:00 without breaks and weekends</p>
                     </div>
                     <div className="footer-right">
-                        <h3>Мы в соцсетях</h3>
+                        <h3>Social networks</h3>
                         <a href="https://www.linkedin.com/in/merikbest/">
                             <i className="fab fa-linkedin fa-2x mr-3" style={{color: "white"}}></i>
                         </a>
