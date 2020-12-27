@@ -57,28 +57,28 @@ public class Order {
      * The first name of the customer who placed the order.
      * The @NotBlank annotation says the field should not be empty.
      */
-    @NotBlank(message = "Пожалуйста заполните поле")
+    @NotBlank(message = "Fill in the input field")
     private String firstName;
 
     /**
      * The last name of the customer who placed the order.
      * The @NotBlank annotation says the field should not be empty.
      */
-    @NotBlank(message = "Пожалуйста заполните поле")
+    @NotBlank(message = "Fill in the input field")
     private String lastName;
 
     /**
      * City of delivery of the order.
      * The @NotBlank annotation says the field should not be empty.
      */
-    @NotBlank(message = "Пожалуйста заполните поле")
+    @NotBlank(message = "Fill in the input field")
     private String city;
 
     /**
      * Delivery address of the order.
      * The @NotBlank annotation says the field should not be empty.
      */
-    @NotBlank(message = "Пожалуйста заполните поле")
+    @NotBlank(message = "Fill in the input field")
     private String address;
 
     /**
@@ -86,23 +86,23 @@ public class Order {
      * The @Email annotation says the string has to be a well-formed email address.
      * The @NotBlank annotation says the field should not be empty.
      */
-    @Email(message = "Некорректный email")
-    @NotBlank(message = "Email не может быть пустым")
+    @Email(message = "Incorrect email")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
 
     /**
      * Customer phone number.
      * The @NotBlank annotation says the field should not be empty.
      */
-    @NotBlank(message = "Номер телефона не может быть пустым")
+    @NotBlank(message = "Phone number cannot be empty")
     private String phoneNumber;
 
     /**
      * Customer post index.
      * The @NotBlank annotation says the field should not be empty.
      */
-    @NotNull(message = "Почтовый индекс не может быть пустым")
-    @Min(value = 5, message = "Почтовый индекс должен содержать 5 цифр")
+    @NotNull(message = "Post index cannot be empty")
+    @Min(value = 5, message = "Post index must contain 5 digits")
     private Integer postIndex;
 
     /**

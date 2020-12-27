@@ -93,13 +93,13 @@ public class RegistrationRestController {
         Map<String, String> errors = new HashMap<>();
 
         if (isConfirmEmpty) {
-            errors.put("password2Error", "Подтверждение пароля не может быть пустым");
+            errors.put("password2Error", "Password confirmation cannot be empty");
 
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
         if (isPasswordDifferent) {
-            errors.put("passwordError", "Пароли не совпадают");
+            errors.put("passwordError", "Passwords do not match");
 
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
@@ -111,7 +111,7 @@ public class RegistrationRestController {
         }
 
         if (!userService.addUser(user)) {
-            errors.put("emailError", "E-mail занят другим пользователем.");
+            errors.put("emailError", "Email is already used");
 
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
@@ -139,10 +139,10 @@ public class RegistrationRestController {
 
         if (isActivated) {
             response.put("messageType", "alert-success");
-            response.put("message", "Пользователь успешно активирован");
+            response.put("message", "User successfully activated");
         } else {
             response.put("messageType", "alert-danger");
-            response.put("message", "Код активации не найден");
+            response.put("message", "Activation code not found");
         }
 
         return new ResponseEntity<>(response, HttpStatus.OK);

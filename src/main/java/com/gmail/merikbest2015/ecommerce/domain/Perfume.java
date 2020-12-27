@@ -44,7 +44,7 @@ public class Perfume {
      * The @NotBlank annotation says the field should not be empty.
      * Max length of perfume title field is 255 characters.
      */
-    @NotBlank(message = "Пожалуйста заполните поле")
+    @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
     private String perfumeTitle;
 
@@ -53,7 +53,7 @@ public class Perfume {
      * The @NotBlank annotation says the field should not be empty.
      * Max length of perfume manufacturer field is 255 characters.
      */
-    @NotBlank(message = "Пожалуйста заполните поле")
+    @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
     private String perfumer;
 
@@ -61,7 +61,7 @@ public class Perfume {
      * The year the perfume was released.
      * The @NotBlank annotation says the field should not be empty.
      */
-    @NotNull(message = "Пожалуйста заполните поле")
+    @NotNull(message = "Fill in the input field")
     private Integer year;
 
     /**
@@ -69,7 +69,7 @@ public class Perfume {
      * The @NotBlank annotation says the field should not be empty.
      * Max length of manufacturer country field is 255 characters.
      */
-    @NotBlank(message = "Пожалуйста заполните поле")
+    @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
     private String country;
 
@@ -78,7 +78,7 @@ public class Perfume {
      * The @NotBlank annotation says the field should not be empty.
      * Max length of manufacturer country field is 255 characters.
      */
-    @NotBlank(message = "Пожалуйста заполните поле")
+    @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
     private String perfumeGender;
 
@@ -87,7 +87,7 @@ public class Perfume {
      * The @NotBlank annotation says the field should not be empty.
      * Max length of manufacturer country field is 255 characters.
      */
-    @NotBlank(message = "Пожалуйста заполните поле")
+    @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
     private String fragranceTopNotes;
 
@@ -96,7 +96,7 @@ public class Perfume {
      * The @NotBlank annotation says the field should not be empty.
      * Max length of manufacturer country field is 255 characters.
      */
-    @NotBlank(message = "Пожалуйста заполните поле")
+    @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
     private String fragranceMiddleNotes;
 
@@ -105,7 +105,7 @@ public class Perfume {
      * The @NotBlank annotation says the field should not be empty.
      * Max length of manufacturer country field is 255 characters.
      */
-    @NotBlank(message = "Пожалуйста заполните поле")
+    @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
     private String fragranceBaseNotes;
 
@@ -123,7 +123,7 @@ public class Perfume {
      * Perfume price.
      * The @NotBlank annotation says the field should not be empty.
      */
-    @NotNull(message = "Пожалуйста заполните поле")
+    @NotNull(message = "Fill in the input field")
     private Integer price;
 
     /**
@@ -131,7 +131,7 @@ public class Perfume {
      * The @NotBlank annotation says the field should not be empty.
      * Max length of manufacturer country field is 255 characters.
      */
-    @NotBlank(message = "Пожалуйста заполните поле")
+    @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
     private String volume;
 
@@ -140,7 +140,7 @@ public class Perfume {
      * The @NotBlank annotation says the field should not be empty.
      * Max length of manufacturer country field is 255 characters.
      */
-    @NotBlank(message = "Пожалуйста заполните поле")
+    @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
     private String type;
 }

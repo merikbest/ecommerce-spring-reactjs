@@ -157,9 +157,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public void sendMessage(User user) {
         if (!StringUtils.isEmpty(user.getEmail())) {
-            String message = String.format("Привет, %s! \n " +
-                    "Добро пожаловать в интернет магазин Perfume." +
-                    "Пожалуйста, пройдите по ссылке http://%s/activate/%s",
+            String message = String.format("Hello, %s! \n " +
+                    "Welcome to Perfume online store." +
+                    "Please follow the link http://%s/activate/%s",
                     user.getUsername(),
                     hostname,
                     user.getActivationCode()

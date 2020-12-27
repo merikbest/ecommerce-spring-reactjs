@@ -49,14 +49,14 @@ public class User implements UserDetails {
      * User name.
      * The @NotBlank annotation says the field should not be empty.
      */
-    @NotBlank(message = "Имя пользователя не может быть пустым")
+    @NotBlank(message = "Username cannot be empty")
     private String username;
 
     /**
      * User password for logging into account on the site.
      * The @NotBlank annotation says the field should not be empty.
      */
-    @NotBlank(message = "Пароль не может быть пустым")
+    @NotBlank(message = "Password cannot be empty")
     private String password;
 
     /**
@@ -64,8 +64,8 @@ public class User implements UserDetails {
      * The @Email annotation says the string has to be a well-formed email address.
      * The @NotBlank annotation says the field should not be empty.
      */
-    @Email(message = "Неправильный email")
-    @NotBlank(message = "Email не может быть пустым")
+    @Email(message = "Incorrect email")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
 
     /**

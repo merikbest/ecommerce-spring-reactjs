@@ -97,7 +97,7 @@ public class AuthenticationRestController {
             return new ResponseEntity<>(response, HttpStatus.OK);
 
         } catch (AuthenticationException e) {
-            return new ResponseEntity<>("Неверный пароль или email", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Incorrect password or email", HttpStatus.FORBIDDEN);
         }
     }
 
