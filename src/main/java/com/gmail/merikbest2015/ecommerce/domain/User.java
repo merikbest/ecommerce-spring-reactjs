@@ -79,6 +79,11 @@ public class User implements UserDetails {
     private String activationCode;
 
     /**
+     * Password reset code that is sent to the user's email.
+     */
+    private String passwordResetCode;
+
+    /**
      * User role. User can have multiple roles.
      * Sampling on first access to the current object.
      * The value of the field (id of the {@link User}) is stored in the "user_id" column.

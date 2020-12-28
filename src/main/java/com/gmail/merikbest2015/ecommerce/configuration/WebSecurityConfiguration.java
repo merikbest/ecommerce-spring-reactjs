@@ -65,6 +65,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/api/v1/rest/admin/*",
                         "/api/v1/rest/admin/user/*",
                         "/api/v1/rest/registration",
+                        "/api/v1/rest/forgot",
+                        "/api/v1/rest/reset/**",
                         "/api/v1/rest/activate/*",
                         "/api/v1/rest/menu/**",
                         "/api/v1/rest/cart",

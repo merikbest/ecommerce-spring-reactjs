@@ -135,16 +135,11 @@ public class RegistrationRestController {
     @GetMapping("/activate/{code}")
     public ResponseEntity<?> activateEmailCode(@PathVariable String code) {
         boolean isActivated = userService.activateUser(code);
-        Map<String, String> response = new HashMap<>();
 
         if (isActivated) {
-            response.put("messageType", "alert-success");
-            response.put("message", "User successfully activated");
+            return new ResponseEntity<>("User successfully activated", HttpStatus.OK);
         } else {
-            response.put("messageType", "alert-danger");
-            response.put("message", "Activation code not found");
+            return new ResponseEntity<>("Activation code not found", HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -3,6 +3,7 @@ package com.gmail.merikbest2015.ecommerce.controller;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.AuthenticationRequestDTO;
+import com.gmail.merikbest2015.ecommerce.dto.PasswordResetDto;
 import com.gmail.merikbest2015.ecommerce.security.JwtProvider;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -99,6 +97,73 @@ public class AuthenticationRestController {
         } catch (AuthenticationException e) {
             return new ResponseEntity<>("Incorrect password or email", HttpStatus.FORBIDDEN);
         }
+    }
+
+    /**
+     * Send password reset code to user email.
+     * URL request {"/forgot"}, method POST.
+     *
+     * @param passwordReset data transfer object with user email.
+     * @return ResponseEntity with HTTP response: status code, headers, and body.
+     */
+    @PostMapping("/forgot")
+    public ResponseEntity<?> forgotPassword(@RequestBody PasswordResetDto passwordReset) {
+        boolean forgotPassword = userService.sendPasswordResetCode(passwordReset.getEmail());
+
+        if (!forgotPassword) {
+            return new ResponseEntity<>("Email not found", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>("Reset password code is send to your E-mail", HttpStatus.OK);
+    }
+
+    /**
+     * Get password reset code from email.
+     * URL request {"/reset/{code}"}, method GET.
+     *
+     * @param code code from email.
+     * @return ResponseEntity with HTTP response: status code, headers, and body.
+     */
+    @GetMapping("/reset/{code}")
+    public ResponseEntity<?> getPasswordResetCode(@PathVariable String code) {
+        User user = userService.findByPasswordResetCode(code);
+
+        if (user == null) {
+            return new ResponseEntity<>("Password reset code is invalid!", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    /**
+     * Reset user password.
+     * URL request {"/reset"}, method POST.
+     *
+     * @param passwordReset data transfer object with user email and password.
+     * @return ResponseEntity with HTTP response: status code, headers, and body.
+     */
+    @PostMapping("/reset")
+    public ResponseEntity<?> passwordReset(@RequestBody PasswordResetDto passwordReset) {
+        Map<String, String> errors = new HashMap<>();
+        boolean isConfirmEmpty = StringUtils.isEmpty(passwordReset.getPassword2());
+        boolean isPasswordDifferent = passwordReset.getPassword() != null &&
+                !passwordReset.getPassword().equals(passwordReset.getPassword2());
+
+        if (isConfirmEmpty) {
+            errors.put("password2Error", "Password confirmation cannot be empty");
+
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+
+        if (isPasswordDifferent) {
+            errors.put("passwordError", "Passwords do not match");
+
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+
+        userService.passwordReset(passwordReset);
+
+        return new ResponseEntity<>("Password successfully changed!", HttpStatus.OK);
     }
 
     @PostMapping("/logout")

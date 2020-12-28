@@ -36,4 +36,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @return The {@link User} class object.
      */
     User findByEmail(String email);
+
+    /**
+     * Returns the user from the database that has the same password reset code as the value of the input parameter.
+     *
+     * @param code password reset code.
+     * @return The {@link User} class object.
+     */
+    User findByPasswordResetCode(String code);
 }
