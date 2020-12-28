@@ -5,16 +5,22 @@ import PropTypes from "prop-types";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faLock, faUser, faUserPlus} from "@fortawesome/free-solid-svg-icons";
 
-import {registration} from "../../actions/auth-actions";
+import {registration, formReset} from "../../actions/auth-actions";
 
 class Registration extends Component {
-    state = {
+    initialState = {
         email: "",
         username: "",
         password: "",
         password2: "",
-        captchaValue: ""
+        captchaValue: "",
     };
+
+    state = {...this.initialState};
+
+    componentDidMount() {
+        this.props.formReset();
+    }
 
     onClickSignUp = (event) => {
         event.preventDefault();
@@ -28,13 +34,16 @@ class Registration extends Component {
         bodyFormData.append("password2", password2);
         bodyFormData.append("g-recaptcha-response", captchaValue);
 
-        this.props.registration(bodyFormData);
+        this.props.registration(bodyFormData)
+            .then(() => {
+                if (this.props.isRegistered) {
+                    this.setState({
+                        ...this.initialState
+                    });
+                }
+            });
 
-        if (this.props.errors != null) {
-            window.grecaptcha.reset();
-        } else {
-            this.props.history.push("/login")
-        }
+        window.grecaptcha.reset();
     };
 
     onChangeRecaptcha = (value) => {
@@ -43,7 +52,7 @@ class Registration extends Component {
         });
     };
 
-    onChange = (event) => {
+    handleInputChange = (event) => {
         const {name, value} = event.target;
 
         this.setState({
@@ -59,6 +68,9 @@ class Registration extends Component {
             <div className="container mt-5">
                 <h4><FontAwesomeIcon className="mr-2" icon={faUserPlus}/> SIGN UP</h4>
                 <hr align="left" width="550"/>
+                {this.props.isRegistered ? <div className="alert alert-success col-6" role="alert">
+                    Activation code has been sent to your email!
+                </div> : null}
                 <form onSubmit={this.onClickSignUp}>
                     <div className="form-group row">
                         <label className="col-sm-2 col-form-label">E-mail: </label>
@@ -69,7 +81,7 @@ class Registration extends Component {
                                 name="email"
                                 value={email}
                                 className={emailError ? "form-control is-invalid" : "form-control"}
-                                onChange={this.onChange}/>
+                                onChange={this.handleInputChange}/>
                             <div className="invalid-feedback">{emailError}</div>
                         </div>
                     </div>
@@ -82,7 +94,7 @@ class Registration extends Component {
                                 name="username"
                                 value={username}
                                 className={usernameError ? "form-control is-invalid" : "form-control"}
-                                onChange={this.onChange}/>
+                                onChange={this.handleInputChange}/>
                             <div className="invalid-feedback">{usernameError}</div>
                         </div>
                     </div>
@@ -95,7 +107,7 @@ class Registration extends Component {
                                 name="password"
                                 value={password}
                                 className={passwordError ? "form-control is-invalid" : "form-control"}
-                                onChange={this.onChange}/>
+                                onChange={this.handleInputChange}/>
                             <div className="invalid-feedback">{passwordError}</div>
                         </div>
                     </div>
@@ -108,12 +120,14 @@ class Registration extends Component {
                                 name="password2"
                                 value={password2}
                                 className={password2Error ? "form-control is-invalid" : "form-control"}
-                                onChange={this.onChange}/>
+                                onChange={this.handleInputChange}/>
                             <div className="invalid-feedback">{password2Error}</div>
                         </div>
                     </div>
                     <div className="form-group row">
-                        <button type="submit" className="btn btn-dark mx-3">Sign up</button>
+                        <button type="submit" className="btn btn-dark mx-3">
+                            <FontAwesomeIcon className="mr-2" icon={faUserPlus}/>Sign up
+                        </button>
                     </div>
                     <ReCAPTCHA onChange={this.onChangeRecaptcha} sitekey="6Lc5cLkZAAAAAN8mFk85HQieB9toPcWFoW0RXCNR"/>
                 </form>
@@ -124,13 +138,16 @@ class Registration extends Component {
 
 Registration.propTypes = {
     registration: PropTypes.func.isRequired,
-    errors: PropTypes.object.isRequired
+    formReset: PropTypes.func.isRequired,
+    errors: PropTypes.object.isRequired,
+    isRegistered: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    errors: state.auth.errors
+    errors: state.auth.errors,
+    isRegistered: state.auth.isRegistered
 });
 
-export default connect(mapStateToProps, {registration})(Registration);
+export default connect(mapStateToProps, {registration, formReset})(Registration);
 
 

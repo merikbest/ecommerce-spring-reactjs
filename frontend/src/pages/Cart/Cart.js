@@ -26,9 +26,9 @@ class Cart extends Component {
         let totalCartPrice = 0;
         cartItems.map(perfume => totalCartPrice = totalCartPrice + perfume.price);
 
-        if (!localStorage.getItem("isLoggedIn")) {
-            return <Redirect to="/login"/>
-        }
+        // if (!localStorage.getItem("isLoggedIn")) {
+        //     return <Redirect to="/login"/>
+        // }
 
         return (
             <div className="container mt-5 pb-5">

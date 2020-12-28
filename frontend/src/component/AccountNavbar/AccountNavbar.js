@@ -34,11 +34,11 @@ const AccountNavbar = () => {
                     <ul className="navbar-nav">
                         <li className="nav-item active">
                             <Link to={"/user/edit"} className="nav-link text-light mx-3">
-                                <FontAwesomeIcon className="mr-2" icon={faLock}/>Изменить пароль</Link>
+                                <FontAwesomeIcon className="mr-2" icon={faLock}/>Change password</Link>
                         </li>
                         <li className="nav-item">
                             <Link to={"/user/orders"} className="nav-link text-light mx-3">
-                                <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/>Список заказов</Link>
+                                <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/>List of orders</Link>
                         </li>
                     </ul>
                 }
