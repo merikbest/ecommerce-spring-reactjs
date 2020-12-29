@@ -4,7 +4,7 @@
     <img src="https://i.ibb.co/6YNPHCd/LOGO3.jpg" width="45%" height="45%">
 </div>
 
-E-commerce project developed using Spring Boot and ReactJS.<br>
+E-commerce project developed using Spring Boot and React.js.<br>
 This project is second version of [OnlineShop](https://github.com/merikbest/OnlineShop) with RESTful services, JWT authentication and frontend built using ReactJS. <br>
 This project always upgrading. <br>
 Look demo below.
@@ -14,7 +14,7 @@ Look demo below.
 * Spring (Boot, Data, Security)
 * JPA / Hibernate
 * PostgreSQL
-* ReactJS
+* React.js, Redux
 * Bootstrap, CSS
 * Maven
 
@@ -30,26 +30,32 @@ Look demo below.
 * Admin can view orders of all users.
 
 ## Demo
+
+**Main page**
+:------------------------:
+![Main page1](gif/1_Home.gif)
+
+**Registration and authorization**
+:------------------------:
+![R&A](gif/2_Reg.gif)
+
 **Shopping**
-![Shopping1](https://i.ibb.co/tPPdfk5/Shopping1.jpg)
+:------------------------:
+![Shopping](gif/3_Shopping.gif)
 
-**Product page**
-![Product1](https://i.ibb.co/GPcWsjb/Product1.jpg)
+## Screenshots
 
-**Cart**
-![cart1](https://i.ibb.co/ZhpM8Dx/cart1.jpg)
+Menu page      |  Product page
+:------------------------:|:-------------------------:
+![Menu page](https://i.ibb.co/tCXNx2b/0-menu-page.png)  |  ![Product page](https://i.ibb.co/wp7PHrP/1-product-page.png)
 
-**Order**
-![order1](https://i.ibb.co/CHspP01/order1.jpg)
+List of users      |  List of orders
+:------------------------:|:-------------------------:
+![List of users](https://i.ibb.co/n0LHcL4/2-List-of-users.png)  |  ![List of orders](https://i.ibb.co/th6HPVH/4-list-of-orders.png)
 
-**Authorization**
-![login1](https://i.ibb.co/x7kbj8Q/login1.jpg)
-
-**Registration**
-![register1](https://i.ibb.co/3R5YQzm/register1.jpg)
-
-**Orders list**
-![order1](https://i.ibb.co/2g258yj/orders-list1.jpg)
+Add perfume page     |  Password change
+:------------------------:|:-------------------------:
+![Add perfume page](https://i.ibb.co/HVxnxpC/3-add-perfume.png)  |  ![Password change](https://i.ibb.co/Vgtkj0w/5-password-change.png)
 
 
 
