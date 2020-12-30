@@ -6,6 +6,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faLock, faUser, faUserPlus} from "@fortawesome/free-solid-svg-icons";
 
 import {registration, formReset} from "../../actions/auth-actions";
+import {checkPasswords, validateEmail, validatePassword} from "../../utils/input-validators";
 
 class Registration extends Component {
     initialState = {
@@ -14,6 +15,9 @@ class Registration extends Component {
         password: "",
         password2: "",
         captchaValue: "",
+        validateEmailError: "",
+        validatePasswordError: "",
+        validateRepeatPasswordError: ""
     };
 
     state = {...this.initialState};
@@ -26,24 +30,35 @@ class Registration extends Component {
         event.preventDefault();
 
         const {email, username, password, password2, captchaValue} = this.state;
-        const bodyFormData = new FormData();
+        const validateErrors = {};
+        validateErrors.validateEmailError = validateEmail(email);
+        validateErrors.validatePasswordError = validatePassword(password);
+        validateErrors.validateRepeatPasswordError = checkPasswords(password, password2);
 
-        bodyFormData.append("email", email);
-        bodyFormData.append("username", username);
-        bodyFormData.append("password", password);
-        bodyFormData.append("password2", password2);
-        bodyFormData.append("g-recaptcha-response", captchaValue);
-
-        this.props.registration(bodyFormData)
-            .then(() => {
-                if (this.props.isRegistered) {
-                    this.setState({
-                        ...this.initialState
-                    });
-                }
+        if (validateErrors.validateEmailError || validateErrors.validatePasswordError ||
+            validateErrors.validateRepeatPasswordError) {
+            this.setState({
+                ...validateErrors
             });
+        } else {
+            const bodyFormData = new FormData();
+            bodyFormData.append("email", email);
+            bodyFormData.append("username", username);
+            bodyFormData.append("password", password);
+            bodyFormData.append("password2", password2);
+            bodyFormData.append("g-recaptcha-response", captchaValue);
 
-        window.grecaptcha.reset();
+            this.props.registration(bodyFormData)
+                .then(() => {
+                    if (this.props.isRegistered) {
+                        this.setState({
+                            ...this.initialState
+                        });
+                    }
+                });
+
+            window.grecaptcha.reset();
+        }
     };
 
     onChangeRecaptcha = (value) => {
@@ -61,7 +76,7 @@ class Registration extends Component {
     };
 
     render() {
-        const {email, username, password, password2} = this.state;
+        const {email, username, password, password2, validateEmailError, validatePasswordError, validateRepeatPasswordError} = this.state;
         const {emailError, usernameError, passwordError, password2Error} = this.props.errors;
 
         return (
@@ -80,9 +95,9 @@ class Registration extends Component {
                                 type="email"
                                 name="email"
                                 value={email}
-                                className={emailError ? "form-control is-invalid" : "form-control"}
+                                className={emailError || validateEmailError ? "form-control is-invalid" : "form-control"}
                                 onChange={this.handleInputChange}/>
-                            <div className="invalid-feedback">{emailError}</div>
+                            <div className="invalid-feedback">{emailError || validateEmailError}</div>
                         </div>
                     </div>
                     <div className="form-group row">
@@ -106,9 +121,9 @@ class Registration extends Component {
                                 type="password"
                                 name="password"
                                 value={password}
-                                className={passwordError ? "form-control is-invalid" : "form-control"}
+                                className={passwordError || validatePasswordError ? "form-control is-invalid" : "form-control"}
                                 onChange={this.handleInputChange}/>
-                            <div className="invalid-feedback">{passwordError}</div>
+                            <div className="invalid-feedback">{passwordError || validatePasswordError}</div>
                         </div>
                     </div>
                     <div className="form-group row">
@@ -119,9 +134,9 @@ class Registration extends Component {
                                 type="password"
                                 name="password2"
                                 value={password2}
-                                className={password2Error ? "form-control is-invalid" : "form-control"}
+                                className={password2Error || validateRepeatPasswordError ? "form-control is-invalid" : "form-control"}
                                 onChange={this.handleInputChange}/>
-                            <div className="invalid-feedback">{password2Error}</div>
+                            <div className="invalid-feedback">{password2Error || validateRepeatPasswordError}</div>
                         </div>
                     </div>
                     <div className="form-group row">

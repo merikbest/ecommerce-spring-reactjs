@@ -5,12 +5,15 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLock, faSync, faUndo} from "@fortawesome/free-solid-svg-icons";
 
 import {resetPassword, fetchResetPasswordCode, formReset} from "../../actions/auth-actions";
+import {checkPasswords, validatePassword} from "../../utils/input-validators";
 
 class ResetPassword extends Component {
     state = {
         password: "",
-        password2: ""
-    }
+        password2: "",
+        validatePasswordError: "",
+        validateRepeatPasswordError: ""
+    };
 
     componentDidMount() {
         this.props.formReset();
@@ -23,13 +26,24 @@ class ResetPassword extends Component {
     onClickReset = (event) => {
         event.preventDefault();
 
-        const data = {
-            email: this.props.user.email,
-            password: this.state.password,
-            password2: this.state.password2
-        };
+        const {password, password2} = this.state;
+        const validateErrors = {};
+        validateErrors.validatePasswordError = validatePassword(password);
+        validateErrors.validateRepeatPasswordError = checkPasswords(password, password2);
 
-        this.props.resetPassword(data, this.props.history);
+        if (validateErrors.validatePasswordError || validateErrors.validateRepeatPasswordError) {
+            this.setState({
+                ...validateErrors
+            });
+        } else {
+            const data = {
+                email: this.props.user.email,
+                password,
+                password2
+            };
+
+            this.props.resetPassword(data, this.props.history);
+        }
     };
 
     handleInputChange = (event) => {
@@ -41,14 +55,15 @@ class ResetPassword extends Component {
     };
 
     render() {
-        const {password, password2} = this.state;
+        const {password, password2, validatePasswordError, validateRepeatPasswordError} = this.state;
         const {passwordError, password2Error} = this.props.errors;
 
         return (
             <div className="container mt-5">
                 <h4><FontAwesomeIcon className="mr-2" icon={faSync}/> RESET PASSWORD</h4>
                 <hr align="left" width="550"/>
-                {this.props.error ? <div className="alert alert-danger col-6" role="alert">{this.props.error}</div> : null}
+                {this.props.error ?
+                    <div className="alert alert-danger col-6" role="alert">{this.props.error}</div> : null}
                 <form onSubmit={this.onClickReset}>
                     <div className="form-group row">
                         <label className="col-sm-2 col-form-label">Password: </label>
@@ -58,9 +73,9 @@ class ResetPassword extends Component {
                                 type="password"
                                 name="password"
                                 value={password}
-                                className={passwordError ? "form-control is-invalid" : "form-control"}
+                                className={passwordError || validatePasswordError ? "form-control is-invalid" : "form-control"}
                                 onChange={this.handleInputChange}/>
-                            <div className="invalid-feedback">{passwordError}</div>
+                            <div className="invalid-feedback">{passwordError || validatePasswordError}</div>
                         </div>
                     </div>
                     <div className="form-group row">
@@ -71,9 +86,9 @@ class ResetPassword extends Component {
                                 type="password"
                                 name="password2"
                                 value={password2}
-                                className={password2Error ? "form-control is-invalid" : "form-control"}
+                                className={password2Error || validateRepeatPasswordError ? "form-control is-invalid" : "form-control"}
                                 onChange={this.handleInputChange}/>
-                            <div className="invalid-feedback">{password2Error}</div>
+                            <div className="invalid-feedback">{password2Error || validateRepeatPasswordError}</div>
                         </div>
                     </div>
                     <div className="form-group row">

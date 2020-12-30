@@ -4,8 +4,9 @@ import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faShoppingBag} from "@fortawesome/free-solid-svg-icons";
 
-import {fetchOrder, addOrder} from "../../actions/order-actions";
 import {IMG_URL} from "../../utils/constants/url";
+import {fetchOrder, addOrder} from "../../actions/order-actions";
+import {validateEmail} from "../../utils/input-validators";
 
 class Order extends Component {
     state = {
@@ -15,7 +16,8 @@ class Order extends Component {
         address: "",
         postIndex: "",
         phoneNumber: "",
-        email: ""
+        email: "",
+        validateEmailError: ""
     };
 
     componentDidMount() {
@@ -30,9 +32,17 @@ class Order extends Component {
 
         const perfumeList = this.props.perfumes;
         const {firstName, lastName, city, address, postIndex, phoneNumber, email} = this.state;
-        const order = {firstName, lastName, city, address, postIndex, phoneNumber, email, perfumeList, totalPrice};
+        const validateEmailError = validateEmail(email);
 
-        this.props.addOrder(order, this.props.history);
+        if (validateEmailError) {
+            this.setState({
+                validateEmailError
+            });
+        } else {
+            const order = {firstName, lastName, city, address, postIndex, phoneNumber, email, perfumeList, totalPrice};
+
+            this.props.addOrder(order, this.props.history);
+        }
     };
 
     handleInputChange = (event) => {
@@ -44,12 +54,9 @@ class Order extends Component {
     };
 
     render() {
-        const {firstName, lastName, city, address, postIndex, phoneNumber, email} = this.state;
         const {perfumes} = this.props;
-        const {
-            firstNameError, lastNameError, cityError, addressError, postIndexError, phoneNumberError,
-            emailError
-        } = this.props.errors;
+        const {firstName, lastName, city, address, postIndex, phoneNumber, email, validateEmailError} = this.state;
+        const {firstNameError, lastNameError, cityError, addressError, postIndexError, phoneNumberError, emailError} = this.props.errors;
 
         let totalPrice = 0;
         perfumes.map((perfume) => totalPrice = totalPrice + perfume.price);
@@ -136,7 +143,7 @@ class Order extends Component {
                                         className={phoneNumberError ? "form-control is-invalid" : "form-control"}
                                         name="phoneNumber"
                                         value={phoneNumber}
-                                        placeholder="+38(0__)-___-__-__"
+                                        placeholder="(___)-___-____"
                                         onChange={this.handleInputChange}/>
                                     <div className="invalid-feedback">{phoneNumberError}</div>
                                 </div>
@@ -146,12 +153,12 @@ class Order extends Component {
                                 <div className="col-sm-8">
                                     <input
                                         type="text"
-                                        className={emailError ? "form-control is-invalid" : "form-control"}
+                                        className={emailError || validateEmailError ? "form-control is-invalid" : "form-control"}
                                         name="email"
                                         value={email}
                                         placeholder="example@gmail.com"
                                         onChange={this.handleInputChange}/>
-                                    <div className="invalid-feedback">{emailError}</div>
+                                    <div className="invalid-feedback">{emailError || validateEmailError}</div>
                                 </div>
                             </div>
                         </div>

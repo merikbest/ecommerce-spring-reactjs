@@ -5,10 +5,12 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faKey, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 
 import {forgotPassword, formReset} from "../../actions/auth-actions";
+import {validateEmail} from "../../utils/input-validators";
 
 class ForgotPassword extends Component {
     state = {
         email: "",
+        validateEmailError: ""
     };
 
     componentDidMount() {
@@ -18,9 +20,17 @@ class ForgotPassword extends Component {
     onClickSend = (event) => {
         event.preventDefault();
 
-        const data = {email: this.state.email};
+        const validateEmailError = validateEmail(this.state.email);
 
-        this.props.forgotPassword(data);
+        if (validateEmailError) {
+            this.setState({
+                validateEmailError
+            });
+        } else {
+            const data = {email: this.state.email};
+
+            this.props.forgotPassword(data);
+        }
     };
 
     handleInputChange = (event) => {
@@ -32,7 +42,7 @@ class ForgotPassword extends Component {
     };
 
     render() {
-        const {email} = this.state;
+        const {email, validateEmailError} = this.state;
         const {error, success} = this.props;
 
         return (
@@ -48,16 +58,18 @@ class ForgotPassword extends Component {
                         <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faEnvelope}/>
                         <div className="col-sm-4">
                             <input
-                                className="form-control"
                                 type="email"
                                 name="email"
                                 value={email}
+                                className={validateEmailError ? "form-control is-invalid" : "form-control"}
                                 onChange={this.handleInputChange}/>
+                            <div className="invalid-feedback">{validateEmailError}</div>
                         </div>
                     </div>
                     <div className="form-group row">
                         <button type="submit" className="btn btn-dark mx-3">
-                            <FontAwesomeIcon className="mr-3" icon={faPaperPlane}/>Send</button>
+                            <FontAwesomeIcon className="mr-3" icon={faPaperPlane}/>Send
+                        </button>
                     </div>
                 </form>
             </div>
