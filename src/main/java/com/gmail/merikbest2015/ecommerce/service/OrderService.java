@@ -37,4 +37,13 @@ public interface OrderService {
      * @return An object of type {@link List} is a list of orders of authenticated user.
      */
     List<Order> findOrderByUser(User user);
+
+    /**
+     * Saves the user order and send message with order params to email address.
+     *
+     * @param validOrder  requested valid order.
+     * @param userSession requested authenticated user.
+     * @return The {@link Order} class object which will be saved in the database.
+     */
+    Order postOrder(Order validOrder, User userSession);
 }

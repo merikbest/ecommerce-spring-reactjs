@@ -82,35 +82,20 @@ public class OrderRestController {
      * @return ResponseEntity with HTTP response: status code, headers, and body.
      */
     @PostMapping("/order")
-    public ResponseEntity<?> addOrder(
+    public ResponseEntity<?> postOrder(
             @AuthenticationPrincipal User userSession,
             @Valid @RequestBody Order validOrder,
             BindingResult bindingResult
     ) {
-        User user = userService.findByEmail(userSession.getEmail());
-        Order order = new Order(user);
-
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
 
             return new ResponseEntity<>(errorsMap, HttpStatus.BAD_REQUEST);
         } else {
-            order.getPerfumeList().addAll(user.getPerfumeList());
-            order.setTotalPrice(validOrder.getTotalPrice());
-            order.setFirstName(validOrder.getFirstName());
-            order.setLastName(validOrder.getLastName());
-            order.setCity(validOrder.getCity());
-            order.setAddress(validOrder.getAddress());
-            order.setPostIndex(validOrder.getPostIndex());
-            order.setEmail(validOrder.getEmail());
-            order.setPhoneNumber(validOrder.getPhoneNumber());
+            Order order = orderService.postOrder(validOrder, userSession);
 
-            user.getPerfumeList().clear();
-
-            orderService.save(order);
+            return new ResponseEntity<>(order, HttpStatus.CREATED);
         }
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     /**

@@ -88,13 +88,15 @@ public interface UserService {
     boolean activateUser(String code);
 
     /**
-     * Send message to user email with activation code.
+     * Send message to user email with activation/reset code.
      *
      * @param user the user to whom a message with an activation code will be sent to email.
      * @param emailMessages email message body.
      * @param subject email message subject.
+     * @param code activation/reset code.
+     * @param urlPart part of url.
      */
-    void sendMessage(User user, List<String> emailMessages, String subject);
+    void sendMessage(User user, List<String> emailMessages, String subject, String code, String urlPart);
 
     /**
      * Send password reset code to user email.

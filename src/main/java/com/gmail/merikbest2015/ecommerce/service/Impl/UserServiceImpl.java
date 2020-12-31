@@ -202,7 +202,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         emailMessages.add("Welcome to Perfume online store.");
         emailMessages.add("Please follow the link ");
 
-        sendMessage(user, emailMessages, subject);
+        sendMessage(user, emailMessages, subject, user.getActivationCode(), "activate");
 
         return true;
     }
@@ -229,25 +229,30 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         emailMessages.add("We have received a request to reset the password for your account.");
         emailMessages.add("To reset your password, follow this link ");
 
-        sendMessage(user, emailMessages, subject);
+        sendMessage(user, emailMessages, subject, user.getPasswordResetCode(), "reset");
 
         return true;
     }
 
     /**
-     * Send message to user email with activation code.
+     * Send message to user email with activation/reset code.
      *
-     * @param user the user to whom a message with an activation code will be sent to email.
+     * @param user the user to whom a message with an activation/reset code will be sent to email.
+     * @param emailMessages email message body.
+     * @param subject email message subject.
+     * @param code activation/reset code.
+     * @param urlPart part of url.
      */
     @Override
-    public void sendMessage(User user, List<String> emailMessages, String subject) {
+    public void sendMessage(User user, List<String> emailMessages, String subject, String code, String urlPart) {
         if (!StringUtils.isEmpty(user.getEmail())) {
-            String message = String.format("Hello, %s! \n" + "%s \n" + "%s http://%s/activate/%s",
+            String message = String.format("Hello, %s! \n" + "%s \n" + "%s http://%s/%s/%s",
                     user.getUsername(),
                     emailMessages.get(0),
                     emailMessages.get(1),
                     hostname,
-                    user.getActivationCode()
+                    urlPart,
+                    code
             );
 
             mailSender.send(user.getEmail(), subject, message);
