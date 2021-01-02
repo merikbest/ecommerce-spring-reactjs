@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * The class describes the "Perfume" entity.
@@ -143,4 +141,12 @@ public class Perfume {
     @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
     private String type;
+
+    /**
+     * List of reviews for current perfume.
+     * Between the {@link Perfume} and {@link Review} objects, there is a one-to-many relationship, that is,
+     * each record in one table is directly related to a single record in another table.
+     */
+    @OneToMany
+    private List<Review> reviews;
 }

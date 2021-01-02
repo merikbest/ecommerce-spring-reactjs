@@ -1,8 +1,12 @@
 package com.gmail.merikbest2015.ecommerce.service.Impl;
 
+import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.domain.Role;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.PasswordResetDto;
+import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
+import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
 import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -53,6 +58,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
      */
     private final PasswordEncoder passwordEncoder;
 
+    // Doc
+    private final PerfumeRepository perfumeRepository;
+
+    // Doc
+    private final ReviewRepository reviewRepository;
+
     /**
      * Host name.
      */
@@ -62,19 +73,25 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     /**
      * Constructor for initializing the main variables of the user service.
      * The @Autowired annotation will allow Spring to automatically initialize objects.
-     *
      * @param userRepository  implementation of the {@link UserRepository} interface
      *                        for working with users with a database.
      * @param mailSender      implementation of the {@link MailSender} class
      *                        for working with email.
      * @param passwordEncoder implementation of the {@link PasswordEncoder} interface
-     *                        for encoding passwords.
+     * @param perfumeRepository
+     * @param reviewRepository
      */
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, MailSender mailSender, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository,
+                           MailSender mailSender,
+                           PasswordEncoder passwordEncoder,
+                           PerfumeRepository perfumeRepository,
+                           ReviewRepository reviewRepository) {
         this.userRepository = userRepository;
         this.mailSender = mailSender;
         this.passwordEncoder = passwordEncoder;
+        this.perfumeRepository = perfumeRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     /**
@@ -349,5 +366,23 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 //        if (isEmailChanged) {
 //            sendMessage(user);
 //        }
+    }
+
+    /**
+     * Save perfume review.
+     *
+     * @param review    review for current perfume with author and message.
+     * @param perfumeId perfume id in database.
+     */
+    @Override
+    public void addReviewToPerfume(Review review, Long perfumeId) {
+        Perfume perfume = perfumeRepository.getOne(perfumeId);
+        Review perfumeReview = new Review();
+        perfumeReview.setAuthor(review.getAuthor());
+        perfumeReview.setMessage(review.getMessage());
+        perfumeReview.setDate(LocalDate.now());
+        perfume.getReviews().add(perfumeReview);
+
+        reviewRepository.save(perfumeReview);
     }
 }

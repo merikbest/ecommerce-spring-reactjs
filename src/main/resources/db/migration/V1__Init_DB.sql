@@ -40,6 +40,19 @@ create table perfume (
     primary key (id)
 );
 
+create table perfume_reviews (
+    perfume_id int8 not null,
+    reviews_id int8 not null
+);
+
+create table review (
+    id int8 not null,
+    author varchar(255),
+    date date,
+    message varchar(255),
+    primary key (id)
+);
+
 create table user_role (
     user_id int8 not null,
     roles varchar(255)
@@ -61,6 +74,10 @@ create table usr_perfume_list (
     perfume_list_id int8 not null
 );
 
+alter table if exists perfume_reviews
+    add constraint UK_gp5u9cs9leiwnbh2rhn27e2w7
+    unique (reviews_id);
+
 alter table if exists orders
     add constraint FK7ncuqw9n77odylknbo8aikc9w
     foreign key (user_id) references usr;
@@ -72,6 +89,14 @@ alter table if exists orders_perfume_list
 alter table if exists orders_perfume_list
     add constraint FK8jft4d30d5dgvauht7ssndwau
     foreign key (order_id) references orders;
+
+alter table if exists perfume_reviews
+    add constraint FKq51iuslnvq3nw8teocq9y7ag8
+    foreign key (reviews_id) references review;
+
+alter table if exists perfume_reviews
+    add constraint FK7k3k0ru1omu7xdtdamtrl276
+    foreign key (perfume_id) references perfume;
 
 alter table if exists user_role
     add constraint FKfpm8swft53ulq2hl11yplpr5

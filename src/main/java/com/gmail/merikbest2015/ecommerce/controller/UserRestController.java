@@ -1,6 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.gmail.merikbest2015.ecommerce.domain.Order;
+import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.AuthenticationRequestDTO;
 import com.gmail.merikbest2015.ecommerce.service.OrderService;
@@ -9,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User controller class.
@@ -99,5 +103,31 @@ public class UserRestController {
         List<Order> orders = orderService.findOrderByUser(user);
 
         return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+
+    /**
+     * Save perfume review with author and message.
+     * URL request {"/user/review"}, method POST.
+     *
+     * @param perfumeId     perfume id.
+     * @param review        review for current perfume with author and message.
+     * @param bindingResult errors in validating http request.
+     * @return ResponseEntity with HTTP response: status code, headers, and body.
+     */
+    @PostMapping("/user/review")
+    public ResponseEntity<?> addReviewToPerfume(
+            @RequestParam(required = false, name = "perfumeId") Long perfumeId,
+            @Valid Review review,
+            BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+
+            return new ResponseEntity<>(errorsMap, HttpStatus.BAD_REQUEST);
+        } else {
+            userService.addReviewToPerfume(review, perfumeId);
+
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
     }
 }
