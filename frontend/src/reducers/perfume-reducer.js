@@ -8,7 +8,8 @@ import {
 
 const initialState = {
     perfumes: [],
-    perfume: {}
+    perfume: {},
+    reviews: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -19,7 +20,7 @@ const reducer = (state = initialState, action) => {
             return {...state, perfumes: payload};
 
         case FETCH_PERFUME:
-            return {...state, perfume: payload};
+            return {...state, perfume: payload, reviews: payload.reviews};
 
         case FETCH_PERFUMES_BY_GENDER:
             return {...state, perfumes: payload};

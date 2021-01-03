@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link, Redirect} from "react-router-dom";
+import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
@@ -25,10 +25,6 @@ class Cart extends Component {
         const {cartItems, loading} = this.props;
         let totalCartPrice = 0;
         cartItems.map(perfume => totalCartPrice = totalCartPrice + perfume.price);
-
-        // if (!localStorage.getItem("isLoggedIn")) {
-        //     return <Redirect to="/login"/>
-        // }
 
         return (
             <div className="container mt-5 pb-5">
