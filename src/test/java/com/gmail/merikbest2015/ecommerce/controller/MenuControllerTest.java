@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @SpringBootTest
-class MenuRestControllerTest {
+class MenuControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

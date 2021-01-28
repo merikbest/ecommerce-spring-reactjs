@@ -28,7 +28,7 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @SpringBootTest
-public class OrderRestControllerTest {
+public class OrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

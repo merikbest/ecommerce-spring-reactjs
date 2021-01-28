@@ -6,9 +6,9 @@ import java.util.List;
 
 @Data
 public class PerfumeSearchFilterDto {
-    List<Integer> prices;
-    List<String> perfumers;
-    List<String> genders;
-    String perfumeGender;
-    String perfumer;
+    private List<Integer> prices;
+    private List<String> perfumers;
+    private List<String> genders;
+    private String perfumeGender;
+    private String perfumer;
 }

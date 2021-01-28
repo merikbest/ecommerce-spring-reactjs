@@ -10,7 +10,7 @@ import {
 import {API_BASE_URL} from "../utils/constants/url";
 
 export const fetchPerfumes = () => async (dispatch) => {
-    const response = await axios.get(API_BASE_URL);
+    const response = await axios.get(API_BASE_URL+ "/home");
 
     dispatch({
         type: FETCH_PERFUMES,
@@ -19,7 +19,7 @@ export const fetchPerfumes = () => async (dispatch) => {
 };
 
 export const fetchPerfume = (id) => async (dispatch) => {
-    const response = await axios.get(API_BASE_URL + "/product/" + id);
+    const response = await axios.get(API_BASE_URL + "/home/product/" + id);
 
     dispatch({
         type: FETCH_PERFUME,
