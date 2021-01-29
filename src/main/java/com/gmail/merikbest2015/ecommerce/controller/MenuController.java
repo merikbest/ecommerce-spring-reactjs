@@ -1,10 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
-import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import com.gmail.merikbest2015.ecommerce.dto.PerfumeDto;
 import com.gmail.merikbest2015.ecommerce.dto.PerfumeSearchFilterDto;
-import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,27 +15,24 @@ import java.util.List;
 @RequestMapping("/api/v1/menu")
 public class MenuController {
 
-    private final PerfumeService perfumeService;
+    private final PerfumeMapper perfumeMapper;
 
-    public MenuController(PerfumeService perfumeService) {
-        this.perfumeService = perfumeService;
+    public MenuController(PerfumeMapper perfumeMapper) {
+        this.perfumeMapper = perfumeMapper;
     }
 
     @PostMapping("/search")
-    public ResponseEntity<?> findProductsByFilterParams(@RequestBody PerfumeSearchFilterDto filterDto) {
-        List<Perfume> filter = perfumeService.filter(filterDto.getPerfumers(), filterDto.getGenders(), filterDto.getPrices());
-        return new ResponseEntity<>(filter, HttpStatus.OK);
+    public ResponseEntity<List<PerfumeDto>> findPerfumesByFilterParams(@RequestBody PerfumeSearchFilterDto filterDto) {
+        return ResponseEntity.ok(perfumeMapper.filter(filterDto.getPerfumers(), filterDto.getGenders(), filterDto.getPrices()));
     }
 
     @PostMapping("/gender")
-    public ResponseEntity<?> findByPerfumeGender(@RequestBody PerfumeSearchFilterDto filterDto) {
-        List<Perfume> gender = perfumeService.findByPerfumeGenderOrderByPriceDesc(filterDto.getPerfumeGender());
-        return new ResponseEntity<>(gender, HttpStatus.OK);
+    public ResponseEntity<List<PerfumeDto>> findByPerfumeGender(@RequestBody PerfumeSearchFilterDto filterDto) {
+        return ResponseEntity.ok(perfumeMapper.findByPerfumeGenderOrderByPriceDesc(filterDto.getPerfumeGender()));
     }
 
     @PostMapping("/perfumer")
-    public ResponseEntity<?> findByPerfumer(@RequestBody PerfumeSearchFilterDto filterDto) {
-        List<Perfume> perfumer = perfumeService.findByPerfumerOrderByPriceDesc(filterDto.getPerfumer());
-        return new ResponseEntity<>(perfumer, HttpStatus.OK);
+    public ResponseEntity<List<PerfumeDto>> findByPerfumer(@RequestBody PerfumeSearchFilterDto filterDto) {
+        return ResponseEntity.ok(perfumeMapper.findByPerfumerOrderByPriceDesc(filterDto.getPerfumer()));
     }
 }

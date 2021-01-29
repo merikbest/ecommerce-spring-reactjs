@@ -20,7 +20,7 @@ import {API_BASE_URL} from "../utils/constants/url";
 
 export const login = (data, history) => async (dispatch) => {
     try {
-        const response = await axios.post(API_BASE_URL + "/login", data);
+        const response = await axios.post(API_BASE_URL + "/auth/login", data);
 
         localStorage.setItem("email", response.data.email);
         localStorage.setItem("token", response.data.token);
@@ -68,7 +68,7 @@ export const logout = () => async (dispatch) => {
 
 export const activateAccount = (code) => async (dispatch) => {
     try {
-        const response = await axios.get(API_BASE_URL + "/activate/" + code);
+        const response = await axios.get(API_BASE_URL + "/registration/activate/" + code);
 
         dispatch({
             type: ACTIVATE_ACCOUNT_SUCCESS,
@@ -84,7 +84,7 @@ export const activateAccount = (code) => async (dispatch) => {
 
 export const forgotPassword = (data) => async (dispatch) => {
     try {
-        const response = await axios.post(API_BASE_URL + "/forgot", data);
+        const response = await axios.post(API_BASE_URL + "/auth/forgot", data);
 
         dispatch({
             type: FORGOT_PASSWORD_SUCCESS,
@@ -100,7 +100,7 @@ export const forgotPassword = (data) => async (dispatch) => {
 
 export const fetchResetPasswordCode = (code) => async (dispatch) => {
     try {
-        const response = await axios.get(API_BASE_URL + "/reset/" + code);
+        const response = await axios.get(API_BASE_URL + "/auth/reset/" + code);
 
         dispatch({
             type: RESET_PASSWORD_CODE_SUCCESS,
@@ -116,7 +116,7 @@ export const fetchResetPasswordCode = (code) => async (dispatch) => {
 
 export const resetPassword = (data, history) => async (dispatch) => {
     try {
-        const response = await axios.post(API_BASE_URL + "/reset", data);
+        const response = await axios.post(API_BASE_URL + "/auth/reset", data);
 
         history.push("/login");
 

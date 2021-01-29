@@ -38,8 +38,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order postOrder(Order validOrder, User userSession) {
-        User user = userRepository.findByEmail(userSession.getEmail());
+    public Order postOrder(Order validOrder, String email) {
+        User user = userRepository.findByEmail(email);
         Order order = new Order(user);
         order.getPerfumeList().addAll(user.getPerfumeList());
         order.setTotalPrice(validOrder.getTotalPrice());

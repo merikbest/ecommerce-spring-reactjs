@@ -4,6 +4,9 @@ import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.AuthenticationRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.PasswordResetDto;
+import com.gmail.merikbest2015.ecommerce.dto.PerfumeDto;
+import com.gmail.merikbest2015.ecommerce.dto.UserDto;
+import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
 import com.gmail.merikbest2015.ecommerce.security.JwtProvider;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -27,13 +30,15 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
+    private final UserMapper userMapper;
     private final JwtProvider jwtProvider;
 
     public AuthenticationController(AuthenticationManager authenticationManager,
                                     UserService userService,
-                                    JwtProvider jwtProvider) {
+                                    UserMapper userMapper, JwtProvider jwtProvider) {
         this.authenticationManager = authenticationManager;
         this.userService = userService;
+        this.userMapper = userMapper;
         this.jwtProvider = jwtProvider;
     }
 
@@ -42,10 +47,10 @@ public class AuthenticationController {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
-            User user = userService.findByEmail(request.getEmail());
+            UserDto user = userMapper.findByEmail(request.getEmail());
             String userRole = user.getRoles().iterator().next().name();
             String token = jwtProvider.createToken(request.getEmail(), userRole);
-            List<Perfume> perfumeList = user.getPerfumeList();
+            List<PerfumeDto> perfumeList = user.getPerfumeList();
 
             Map<Object, Object> response = new HashMap<>();
             response.put("email", request.getEmail());
@@ -94,7 +99,7 @@ public class AuthenticationController {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
-        userService.passwordReset(passwordReset);
+        userService.passwordReset(passwordReset.getEmail(), passwordReset.getPassword());
         return new ResponseEntity<>("Password successfully changed!", HttpStatus.OK);
     }
 

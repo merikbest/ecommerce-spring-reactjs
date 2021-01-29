@@ -16,4 +16,8 @@ public class Review {
     private String author;
     private String message;
     private LocalDate date;
+
+    public Review() {
+        this.date = LocalDate.now();
+    }
 }

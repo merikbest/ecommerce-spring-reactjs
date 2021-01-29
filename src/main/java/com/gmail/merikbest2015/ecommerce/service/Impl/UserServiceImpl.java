@@ -5,12 +5,10 @@ import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.domain.Role;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.PasswordResetDto;
-import com.gmail.merikbest2015.ecommerce.dto.ReviewDto;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
 import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -48,8 +45,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public User getOne(Long id) {
-        return userRepository.getOne(id);
+    public User findUserById(Long userId) {
+        return userRepository.findById(userId).get();
     }
 
     @Override
@@ -58,7 +55,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
@@ -78,7 +75,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public User save(User user) {
+    public User saveUser(User user) {
         return userRepository.save(user);
     }
 
@@ -135,7 +132,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return true;
     }
 
-    @Override
     public void sendMessage(User user, List<String> emailMessages, String subject, String code, String urlPart) {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format("Hello, %s! \n" + "%s \n" + "%s http://%s/%s/%s",
@@ -151,9 +147,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void passwordReset(PasswordResetDto passwordReset) {
-        User user = userRepository.findByEmail(passwordReset.getEmail());
-        user.setPassword(passwordEncoder.encode(passwordReset.getPassword()));
+    public void passwordReset(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
         user.setPasswordResetCode(null);
         userRepository.save(user);
     }
@@ -213,13 +209,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void addReviewToPerfume(ReviewDto reviewDto, Long perfumeId) {
+    public void addReviewToPerfume(Review review, Long perfumeId) {
         Perfume perfume = perfumeRepository.getOne(perfumeId);
-        Review perfumeReview = new Review();
-        perfumeReview.setAuthor(reviewDto.getAuthor());
-        perfumeReview.setMessage(reviewDto.getMessage());
-        perfumeReview.setDate(LocalDate.now());
-        perfume.getReviews().add(perfumeReview);
-        reviewRepository.save(perfumeReview);
+        perfume.getReviews().add(review);
+        reviewRepository.save(review);
     }
 }

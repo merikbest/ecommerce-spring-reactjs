@@ -17,12 +17,12 @@ public class PerfumeServiceImpl implements PerfumeService {
     }
 
     @Override
-    public Perfume getOne(Long id) {
-        return perfumeRepository.getOne(id);
+    public Perfume findPerfumeById(Long perfumeId) {
+        return perfumeRepository.findById(perfumeId).get();
     }
 
     @Override
-    public List<Perfume> findAll() {
+    public List<Perfume> findAllPerfumes() {
         return perfumeRepository.findAll();
     }
 
@@ -63,7 +63,7 @@ public class PerfumeServiceImpl implements PerfumeService {
     }
 
     @Override
-    public Perfume save(Perfume perfume) {
+    public Perfume savePerfume(Perfume perfume) {
         return perfumeRepository.save(perfume);
     }
 }

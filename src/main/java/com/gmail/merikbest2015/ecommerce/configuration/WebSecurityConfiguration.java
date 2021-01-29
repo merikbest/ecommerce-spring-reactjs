@@ -36,8 +36,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/api/v1/admin/user/*",
                         "/api/v1/registration",
                         "/api/v1/registration/activate/*",
-                        "/api/v1/forgot",
-                        "/api/v1/reset/**",
+                        "/api/v1/auth/forgot",
+                        "/api/v1/auth/reset/**",
                         "/api/v1/menu/**",
                         "/api/v1/cart",
                         "/api/v1/cart/*",
@@ -48,7 +48,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/static/**",
                         "/activate/*",
                         "/menu/**").permitAll()
-                .antMatchers("/api/v1/login").permitAll()
+                .antMatchers("/api/v1/auth/login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface PerfumeService {
 
-    Perfume getOne(Long id);
+    Perfume findPerfumeById(Long perfumeId);
 
-    List<Perfume> findAll();
+    List<Perfume> findAllPerfumes();
 
     List<Perfume> filter(List<String> perfumers, List<String> genders, List<Integer> prices);
 
@@ -20,5 +20,5 @@ public interface PerfumeService {
                              String fragranceTopNotes, String fragranceMiddleNotes, String fragranceBaseNotes, String description,
                              String filename, Integer price, String volume, String type, Long id);
 
-    Perfume save(Perfume perfume);
+    Perfume savePerfume(Perfume perfume);
 }

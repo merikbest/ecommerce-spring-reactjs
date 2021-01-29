@@ -15,7 +15,8 @@ export const fetchCart = () => async (dispatch) => {
 
     const response = await axios({
         method: "GET",
-        url: API_BASE_URL + "/cart/" + localStorage.getItem("email"),
+        // url: API_BASE_URL + "/cart/" + localStorage.getItem("email"),
+        url: API_BASE_URL + "/cart",
         headers: {
             "Content-Type": "application/json",
             "Authorization": localStorage.getItem("token")

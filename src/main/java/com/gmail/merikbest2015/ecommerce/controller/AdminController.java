@@ -49,7 +49,7 @@ public class AdminController {
             return new ResponseEntity(errorsMap, HttpStatus.BAD_REQUEST);
         } else {
             saveFile(perfume, file);
-            Perfume savedPerfume = perfumeService.save(perfume);
+            Perfume savedPerfume = perfumeService.savePerfume(perfume);
             return new ResponseEntity<>(savedPerfume, HttpStatus.CREATED);
         }
     }
@@ -84,13 +84,13 @@ public class AdminController {
 
     @GetMapping("/user/{id}")
     public ResponseEntity<?> getUser(@PathVariable("id") Long userId) {
-        User user = userService.getOne(userId);
+        User user = userService.findUserById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping("/user/all")
     public ResponseEntity<?> getAllUsers() {
-        List<User> users = userService.findAll();
+        List<User> users = userService.findAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 

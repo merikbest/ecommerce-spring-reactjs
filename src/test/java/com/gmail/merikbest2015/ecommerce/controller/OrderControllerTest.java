@@ -9,7 +9,6 @@ import com.gmail.merikbest2015.ecommerce.service.OrderService;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -75,7 +74,7 @@ public class OrderControllerTest {
         when(userRepository.save(user)).thenReturn(user);
         when(orderRepository.save(order)).thenReturn(order);
 
-        User savedUser = userService.save(user);
+        User savedUser = userService.saveUser(user);
         Order savedOrder = orderService.save(order);
 
         verify(userRepository, times(1)).save(user);

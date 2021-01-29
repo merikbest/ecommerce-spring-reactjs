@@ -1,9 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
-import com.gmail.merikbest2015.ecommerce.domain.Perfume;
-import com.gmail.merikbest2015.ecommerce.domain.User;
-import com.gmail.merikbest2015.ecommerce.service.UserService;
-import org.springframework.http.HttpStatus;
+import com.gmail.merikbest2015.ecommerce.dto.PerfumeDto;
+import com.gmail.merikbest2015.ecommerce.dto.UserDto;
+import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -14,33 +13,34 @@ import java.util.List;
 @RequestMapping("/api/v1/cart")
 public class CartController {
 
-    private final UserService userService;
+    private final UserMapper userMapper;
 
-    public CartController(UserService userService) {
-        this.userService = userService;
+    public CartController(UserMapper userMapper) {
+        this.userMapper = userMapper;
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<?> getCart(@PathVariable String email) {
-        User user = userService.findByEmail(email);
-        List<Perfume> perfumeList = user.getPerfumeList();
-        return new ResponseEntity<>(perfumeList, HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<List<PerfumeDto>> getCart(@AuthenticationPrincipal UserDto userDto) {
+        UserDto user = userMapper.findByEmail(userDto.getEmail());
+        List<PerfumeDto> perfumeList = user.getPerfumeList();
+        return ResponseEntity.ok(perfumeList);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addToCart(@RequestBody Perfume perfume, @AuthenticationPrincipal User userSession) {
-        User user = userService.findByEmail(userSession.getEmail());
-        user.getPerfumeList().add(perfume);
-        userService.save(user);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<UserDto> addToCart(@RequestBody PerfumeDto perfumeDto,
+                                             @AuthenticationPrincipal UserDto userDto) {
+        UserDto user = userMapper.findByEmail(userDto.getEmail());
+        user.getPerfumeList().add(perfumeDto);
+        return ResponseEntity.ok(userMapper.saveUser(user));
     }
 
     @PostMapping("/remove")
-    public ResponseEntity<?> removeFromCart(@RequestBody Perfume perfume, @AuthenticationPrincipal User userSession) {
-        User user = userService.findByEmail(userSession.getEmail());
-        user.getPerfumeList().remove(perfume);
-        userService.save(user);
-        List<Perfume> perfumeList = user.getPerfumeList();
-        return new ResponseEntity<>(perfumeList, HttpStatus.OK);
+    public ResponseEntity<List<PerfumeDto>> removeFromCart(@RequestBody PerfumeDto perfumeDto,
+                                                           @AuthenticationPrincipal  UserDto userDto) {
+        UserDto user = userMapper.findByEmail(userDto.getEmail());
+        user.getPerfumeList().remove(perfumeDto);
+        userMapper.saveUser(user);
+        List<PerfumeDto> perfumeList = user.getPerfumeList();
+        return ResponseEntity.ok(perfumeList);
     }
 }

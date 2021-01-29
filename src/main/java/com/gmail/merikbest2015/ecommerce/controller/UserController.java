@@ -1,13 +1,11 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
-import com.gmail.merikbest2015.ecommerce.domain.Order;
-import com.gmail.merikbest2015.ecommerce.domain.Review;
-import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.AuthenticationRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.OrderDto;
 import com.gmail.merikbest2015.ecommerce.dto.ReviewDto;
-import com.gmail.merikbest2015.ecommerce.service.OrderService;
-import com.gmail.merikbest2015.ecommerce.service.UserService;
-import org.springframework.http.HttpStatus;
+import com.gmail.merikbest2015.ecommerce.dto.UserDto;
+import com.gmail.merikbest2015.ecommerce.mapper.OrderMapper;
+import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -21,32 +19,29 @@ import java.util.Map;
 @RequestMapping("/api/v1/user")
 public class UserController {
 
-    private final UserService userService;
-    private final OrderService orderService;
+    private final UserMapper userMapper;
+    private final OrderMapper orderMapper;
 
-    public UserController(UserService userService, OrderService orderService) {
-        this.userService = userService;
-        this.orderService = orderService;
+    public UserController(UserMapper userMapper, OrderMapper orderMapper) {
+        this.userMapper = userMapper;
+        this.orderMapper = orderMapper;
     }
 
     @GetMapping("/edit")
-    public ResponseEntity<?> getUserInfo(@AuthenticationPrincipal User userSession) {
-        User user = userService.findByEmail(userSession.getEmail());
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<UserDto> getUserInfo(@AuthenticationPrincipal UserDto userDto) {
+        return ResponseEntity.ok(userMapper.findByEmail(userDto.getEmail()));
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<?> updateUserInfo(@AuthenticationPrincipal User userSession,
-                                            @RequestBody AuthenticationRequestDto request) {
-        userService.updateProfile(userSession, request.getPassword(), request.getEmail());
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> updateUserInfo(@AuthenticationPrincipal UserDto userDto,
+                                                 @RequestBody AuthenticationRequestDto request) {
+        userMapper.updateProfile(userDto, request.getPassword(), request.getEmail());
+        return ResponseEntity.ok("User updated successfully.");
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<?> getAllUserOrders(@AuthenticationPrincipal User userSession) {
-        User user = userService.findByEmail(userSession.getEmail());
-        List<Order> orders = orderService.findOrderByUser(user);
-        return new ResponseEntity<>(orders, HttpStatus.OK);
+    public ResponseEntity<List<OrderDto>> getAllUserOrders(@AuthenticationPrincipal UserDto userDto) {
+        return ResponseEntity.ok(orderMapper.findOrderByUser(userDto));
     }
 
     @PostMapping("/review")
@@ -55,10 +50,10 @@ public class UserController {
                                                 BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
-            return new ResponseEntity<>(errorsMap, HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body(errorsMap);
         } else {
-            userService.addReviewToPerfume(reviewDto, perfumeId);
-            return new ResponseEntity<>(HttpStatus.OK);
+            userMapper.addReviewToPerfume(reviewDto, perfumeId);
+            return ResponseEntity.ok("Review added successfully.");
         }
     }
 }
