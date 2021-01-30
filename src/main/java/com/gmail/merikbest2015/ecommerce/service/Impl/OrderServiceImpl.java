@@ -33,6 +33,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Long finalizeOrder() {
+        List<Order> orders = orderRepository.findAll();
+        Order orderIndex = orders.get(orders.size() - 1);
+        return orderIndex.getId();
+    }
+
+    @Override
     public List<Order> findOrderByUser(User user) {
         return orderRepository.findOrderByUser(user);
     }

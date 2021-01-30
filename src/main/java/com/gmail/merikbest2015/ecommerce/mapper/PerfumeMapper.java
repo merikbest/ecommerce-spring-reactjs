@@ -5,6 +5,7 @@ import com.gmail.merikbest2015.ecommerce.dto.PerfumeDto;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,7 +21,7 @@ public class PerfumeMapper {
         this.perfumeService = perfumeService;
     }
 
-    private Perfume convertToEntity(PerfumeDto perfumeDto) {
+    Perfume convertToEntity(PerfumeDto perfumeDto) {
         return modelMapper.map(perfumeDto, Perfume.class);
     }
 
@@ -28,7 +29,7 @@ public class PerfumeMapper {
         return modelMapper.map(perfume, PerfumeDto.class);
     }
 
-    private List<PerfumeDto> convertListToDto(List<Perfume> perfumes) {
+    List<PerfumeDto> convertListToDto(List<Perfume> perfumes) {
         return perfumes.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
@@ -54,9 +55,7 @@ public class PerfumeMapper {
         return convertListToDto(perfumeService.findByPerfumeGenderOrderByPriceDesc(perfumeGender));
     }
 
-//    void saveProductInfoById
-
-    public PerfumeDto savePerfume(PerfumeDto perfumeDto) {
-        return convertToDto(perfumeService.savePerfume(convertToEntity(perfumeDto)));
+    public PerfumeDto savePerfume(PerfumeDto perfumeDto, MultipartFile file) {
+        return convertToDto(perfumeService.savePerfume(convertToEntity(perfumeDto), file));
     }
 }

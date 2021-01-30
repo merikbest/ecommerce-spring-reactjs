@@ -1,27 +1,20 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
-import com.gmail.merikbest2015.ecommerce.domain.Perfume;
-import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.AuthenticationRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.PasswordResetDto;
-import com.gmail.merikbest2015.ecommerce.dto.PerfumeDto;
 import com.gmail.merikbest2015.ecommerce.dto.UserDto;
+import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
+import com.gmail.merikbest2015.ecommerce.exception.PasswordConfirmationException;
+import com.gmail.merikbest2015.ecommerce.exception.PasswordException;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
-import com.gmail.merikbest2015.ecommerce.security.JwtProvider;
-import com.gmail.merikbest2015.ecommerce.service.UserService;
+import com.gmail.merikbest2015.ecommerce.utils.ControllerUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -29,83 +22,51 @@ import java.util.Map;
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
-    private final UserService userService;
     private final UserMapper userMapper;
-    private final JwtProvider jwtProvider;
 
-    public AuthenticationController(AuthenticationManager authenticationManager,
-                                    UserService userService,
-                                    UserMapper userMapper, JwtProvider jwtProvider) {
+    public AuthenticationController(AuthenticationManager authenticationManager, UserMapper userMapper) {
         this.authenticationManager = authenticationManager;
-        this.userService = userService;
         this.userMapper = userMapper;
-        this.jwtProvider = jwtProvider;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDto request) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody AuthenticationRequestDto request) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-
-            UserDto user = userMapper.findByEmail(request.getEmail());
-            String userRole = user.getRoles().iterator().next().name();
-            String token = jwtProvider.createToken(request.getEmail(), userRole);
-            List<PerfumeDto> perfumeList = user.getPerfumeList();
-
-            Map<Object, Object> response = new HashMap<>();
-            response.put("email", request.getEmail());
-            response.put("token", token);
-            response.put("userRole", userRole);
-            response.put("perfumeList", perfumeList);
-
-            return new ResponseEntity<>(response, HttpStatus.OK);
-
+            return ResponseEntity.ok(userMapper.login(request.getEmail()));
         } catch (AuthenticationException e) {
-            return new ResponseEntity<>("Incorrect password or email", HttpStatus.FORBIDDEN);
+            throw new ApiRequestException("Incorrect password or email", HttpStatus.FORBIDDEN);
         }
     }
 
     @PostMapping("/forgot")
-    public ResponseEntity<?> forgotPassword(@RequestBody PasswordResetDto passwordReset) {
-        boolean forgotPassword = userService.sendPasswordResetCode(passwordReset.getEmail());
+    public ResponseEntity<String> forgotPassword(@RequestBody PasswordResetDto passwordReset) {
+        boolean forgotPassword = userMapper.sendPasswordResetCode(passwordReset.getEmail());
         if (!forgotPassword) {
-            return new ResponseEntity<>("Email not found", HttpStatus.BAD_REQUEST);
+            throw new ApiRequestException("Email not found", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("Reset password code is send to your E-mail", HttpStatus.OK);
+        return ResponseEntity.ok("Reset password code is send to your E-mail");
     }
 
     @GetMapping("/reset/{code}")
-    public ResponseEntity<?> getPasswordResetCode(@PathVariable String code) {
-        User user = userService.findByPasswordResetCode(code);
+    public ResponseEntity<UserDto> getPasswordResetCode(@PathVariable String code) {
+        UserDto user = userMapper.findByPasswordResetCode(code);
         if (user == null) {
-            return new ResponseEntity<>("Password reset code is invalid!", HttpStatus.BAD_REQUEST);
+            throw new ApiRequestException("Password reset code is invalid!", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/reset")
-    public ResponseEntity<?> passwordReset(@RequestBody PasswordResetDto passwordReset) {
-        Map<String, String> errors = new HashMap<>();
-        boolean isConfirmEmpty = StringUtils.isEmpty(passwordReset.getPassword2());
-        boolean isPasswordDifferent = passwordReset.getPassword() != null &&
-                !passwordReset.getPassword().equals(passwordReset.getPassword2());
-        if (isConfirmEmpty) {
-            errors.put("password2Error", "Password confirmation cannot be empty");
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> passwordReset(@RequestBody PasswordResetDto passwordReset) {
+        if (ControllerUtils.isPasswordConfirmEmpty(passwordReset.getPassword2())) {
+            throw new PasswordConfirmationException("Password confirmation cannot be empty.");
         }
 
-        if (isPasswordDifferent) {
-            errors.put("passwordError", "Passwords do not match");
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        if (ControllerUtils.isPasswordDifferent(passwordReset.getPassword(), passwordReset.getPassword2())) {
+            throw new PasswordException("Passwords do not match.");
         }
-
-        userService.passwordReset(passwordReset.getEmail(), passwordReset.getPassword());
-        return new ResponseEntity<>("Password successfully changed!", HttpStatus.OK);
-    }
-
-    @PostMapping("/logout")
-    public void logout(HttpServletRequest request, HttpServletResponse response) {
-        SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
-        securityContextLogoutHandler.logout(request, response, null);
+        userMapper.passwordReset(passwordReset.getEmail(), passwordReset.getPassword());
+        return ResponseEntity.ok("Password successfully changed!");
     }
 }

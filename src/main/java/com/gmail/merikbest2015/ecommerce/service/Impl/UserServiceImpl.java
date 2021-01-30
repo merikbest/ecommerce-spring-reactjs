@@ -4,12 +4,13 @@ import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.domain.Role;
 import com.gmail.merikbest2015.ecommerce.domain.User;
-import com.gmail.merikbest2015.ecommerce.dto.PasswordResetDto;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
 import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
+import com.gmail.merikbest2015.ecommerce.security.JwtProvider;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,17 +30,20 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private final UserRepository userRepository;
     private final MailSender mailSender;
     private final PasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
     private final PerfumeRepository perfumeRepository;
     private final ReviewRepository reviewRepository;
 
     public UserServiceImpl(UserRepository userRepository,
                            MailSender mailSender,
                            PasswordEncoder passwordEncoder,
+                           @Lazy JwtProvider jwtProvider,
                            PerfumeRepository perfumeRepository,
                            ReviewRepository reviewRepository) {
         this.userRepository = userRepository;
         this.mailSender = mailSender;
         this.passwordEncoder = passwordEncoder;
+        this.jwtProvider = jwtProvider;
         this.perfumeRepository = perfumeRepository;
         this.reviewRepository = reviewRepository;
     }
@@ -77,6 +81,42 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public User saveUser(User user) {
         return userRepository.save(user);
+    }
+
+    @Override
+    public List<Perfume> getCart(String email) {
+        User user = userRepository.findByEmail(email);
+        return user.getPerfumeList();
+    }
+
+    @Override
+    public void addToCart(Perfume perfume, String email) {
+        User user = userRepository.findByEmail(email);
+        user.getPerfumeList().add(perfume);
+        userRepository.save(user);
+    }
+
+    @Override
+    public List<Perfume> removeFromCart(Perfume perfume, String email) {
+        User user = userRepository.findByEmail(email);
+        user.getPerfumeList().remove(perfume);
+        userRepository.save(user);
+        return user.getPerfumeList();
+    }
+
+    @Override
+    public Map<String, Object> login(String email) {
+        User user = userRepository.findByEmail(email);
+        String userRole = user.getRoles().iterator().next().name();
+        String token = jwtProvider.createToken(email, userRole);
+        List<Perfume> perfumeList = user.getPerfumeList();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("email", email);
+        response.put("token", token);
+        response.put("userRole", userRole);
+        response.put("perfumeList", perfumeList);
+        return response;
     }
 
     @Override

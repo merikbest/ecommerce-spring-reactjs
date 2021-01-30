@@ -3,13 +3,20 @@ package com.gmail.merikbest2015.ecommerce.service.Impl;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PerfumeServiceImpl implements PerfumeService {
 
+    @Value("${upload.path}")
+    private String uploadPath;
     private final PerfumeRepository perfumeRepository;
 
     public PerfumeServiceImpl(PerfumeRepository perfumeRepository) {
@@ -39,7 +46,6 @@ public class PerfumeServiceImpl implements PerfumeService {
         } else {
             perfumeList = perfumeRepository.findAll();
         }
-
         return perfumeList;
     }
 
@@ -54,16 +60,25 @@ public class PerfumeServiceImpl implements PerfumeService {
     }
 
     @Override
-    public void saveProductInfoById(String perfumeTitle, String perfumer, Integer year, String country,
-                                    String perfumeGender, String fragranceTopNotes, String fragranceMiddleNotes,
-                                    String fragranceBaseNotes, String description, String filename,
-                                    Integer price, String volume, String type, Long id) {
-        perfumeRepository.saveProductInfoById(perfumeTitle, perfumer, year, country, perfumeGender, fragranceTopNotes,
-                fragranceMiddleNotes, fragranceBaseNotes, description, filename, price, volume, type, id);
-    }
+    public Perfume savePerfume(Perfume perfume, MultipartFile file) {
+        if (file == null) {
+            perfume.setFilename("empty.jpg");
+        } else {
+            File uploadDir = new File(uploadPath);
 
-    @Override
-    public Perfume savePerfume(Perfume perfume) {
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+
+            try {
+                file.transferTo(new File(uploadPath + "/" + resultFilename));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            perfume.setFilename(resultFilename);
+        }
         return perfumeRepository.save(perfume);
     }
 }

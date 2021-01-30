@@ -1,7 +1,9 @@
 package com.gmail.merikbest2015.ecommerce.mapper;
 
+import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.domain.User;
+import com.gmail.merikbest2015.ecommerce.dto.PerfumeDto;
 import com.gmail.merikbest2015.ecommerce.dto.ReviewDto;
 import com.gmail.merikbest2015.ecommerce.dto.UserDto;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
@@ -16,10 +18,12 @@ import java.util.stream.Collectors;
 public class UserMapper {
 
     private final ModelMapper modelMapper;
+    private final PerfumeMapper perfumeMapper;
     private final UserService userService;
 
-    public UserMapper(ModelMapper modelMapper, UserService userService) {
+    public UserMapper(ModelMapper modelMapper, PerfumeMapper perfumeMapper, UserService userService) {
         this.modelMapper = modelMapper;
+        this.perfumeMapper = perfumeMapper;
         this.userService = userService;
     }
 
@@ -40,9 +44,20 @@ public class UserMapper {
     }
 
     public UserDto findByEmail(String email) {
-//        return convertToDto(userService.findByEmail(userDto.getEmail()));
-//        User user = convertToEntity(userDto);
         return convertToDto(userService.findByEmail(email));
+    }
+
+    public List<PerfumeDto> getCart(String email) {
+        return perfumeMapper.convertListToDto(userService.getCart(email));
+    }
+
+    public void addToCart(PerfumeDto perfumeDto, String email) {
+        userService.addToCart(perfumeMapper.convertToEntity(perfumeDto), email);
+    }
+
+    public List<PerfumeDto> removeFromCart(PerfumeDto perfumeDto, String email) {
+        List<Perfume> perfumes = userService.removeFromCart(perfumeMapper.convertToEntity(perfumeDto), email);
+        return perfumeMapper.convertListToDto(perfumes);
     }
 
     public List<UserDto> findAllUsers() {
@@ -66,6 +81,10 @@ public class UserMapper {
 
     public UserDto saveUser(UserDto userDto) {
         return convertToDto(userService.saveUser(convertToEntity(userDto)));
+    }
+
+    public Map<String, Object> login(String email) {
+        return userService.login(email);
     }
 
     public boolean addUser(UserDto userDto) {

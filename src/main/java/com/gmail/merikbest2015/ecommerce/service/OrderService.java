@@ -5,7 +5,6 @@ import com.gmail.merikbest2015.ecommerce.domain.User;
 
 import java.util.List;
 
-
 public interface OrderService {
 
     List<Order> findAll();
@@ -15,4 +14,6 @@ public interface OrderService {
     Order postOrder(Order validOrder, String email);
 
     Order save(Order order);
+
+    Long finalizeOrder();
 }

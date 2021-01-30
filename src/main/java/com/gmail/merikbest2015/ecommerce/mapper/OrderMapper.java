@@ -1,8 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.mapper;
 
 import com.gmail.merikbest2015.ecommerce.domain.Order;
+import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.OrderDto;
-import com.gmail.merikbest2015.ecommerce.dto.UserDto;
 import com.gmail.merikbest2015.ecommerce.service.OrderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -14,12 +14,10 @@ import java.util.stream.Collectors;
 public class OrderMapper {
 
     private final ModelMapper modelMapper;
-    private final UserMapper userMapper;
     private final OrderService orderService;
 
-    public OrderMapper(ModelMapper modelMapper, UserMapper userMapper, OrderService orderService) {
+    public OrderMapper(ModelMapper modelMapper, OrderService orderService) {
         this.modelMapper = modelMapper;
-        this.userMapper = userMapper;
         this.orderService = orderService;
     }
 
@@ -38,11 +36,15 @@ public class OrderMapper {
                 .collect(Collectors.toList());
     }
 
-    public List<OrderDto> findOrderByUser(UserDto userDto) {
-        return orderService.findOrderByUser(userMapper.convertToEntity(userDto))
+    public List<OrderDto> findOrderByUser(User user) {
+        return orderService.findOrderByUser(user)
                 .stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    public Long finalizeOrder() {
+        return orderService.finalizeOrder();
     }
 
     public OrderDto postOrder(OrderDto orderDto, String email) {

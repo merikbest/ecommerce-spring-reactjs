@@ -1,7 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
+import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.PerfumeDto;
-import com.gmail.merikbest2015.ecommerce.dto.UserDto;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,27 +20,19 @@ public class CartController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PerfumeDto>> getCart(@AuthenticationPrincipal UserDto userDto) {
-        UserDto user = userMapper.findByEmail(userDto.getEmail());
-        List<PerfumeDto> perfumeList = user.getPerfumeList();
-        return ResponseEntity.ok(perfumeList);
+    public ResponseEntity<List<PerfumeDto>> getCart(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(userMapper.getCart(user.getEmail()));
     }
 
     @PostMapping("/add")
-    public ResponseEntity<UserDto> addToCart(@RequestBody PerfumeDto perfumeDto,
-                                             @AuthenticationPrincipal UserDto userDto) {
-        UserDto user = userMapper.findByEmail(userDto.getEmail());
-        user.getPerfumeList().add(perfumeDto);
-        return ResponseEntity.ok(userMapper.saveUser(user));
+    public ResponseEntity<String> addToCart(@RequestBody PerfumeDto perfumeDto, @AuthenticationPrincipal User user) {
+        userMapper.addToCart(perfumeDto, user.getEmail());
+        return ResponseEntity.ok("Perfume added to cart successfully.");
     }
 
     @PostMapping("/remove")
     public ResponseEntity<List<PerfumeDto>> removeFromCart(@RequestBody PerfumeDto perfumeDto,
-                                                           @AuthenticationPrincipal  UserDto userDto) {
-        UserDto user = userMapper.findByEmail(userDto.getEmail());
-        user.getPerfumeList().remove(perfumeDto);
-        userMapper.saveUser(user);
-        List<PerfumeDto> perfumeList = user.getPerfumeList();
-        return ResponseEntity.ok(perfumeList);
+                                                           @AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(userMapper.removeFromCart(perfumeDto, user.getEmail()));
     }
 }
