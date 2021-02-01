@@ -42,8 +42,7 @@ class App extends Component {
                     <Route exact path="/product/:id" component={Product}/>
                     <Route exact path="/contacts" component={Contacts}/>
                     <Route exact path="/account" component={Account}/>
-                    <Route exact path="/cart" render={() => localStorage.getItem("isLoggedIn") ?
-                        (<Route component={Cart}/>) : (<Route component={Login}/>)}/>
+                    <Route exact path="/cart" component={Cart}/>
                     <Route exact path="/order" component={Order}/>
                     <Route exact path="/order/finalize" component={OrderFinalize}/>
                     <Route exact path="/admin/add" render={() => (isAdmin) ?

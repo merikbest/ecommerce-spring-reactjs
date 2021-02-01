@@ -6,7 +6,6 @@ import {faCartPlus, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 
 import {IMG_URL} from "../../utils/constants/url";
 import {fetchPerfume} from "../../actions/perfume-actions";
-import {addToCart} from "../../actions/cart-actions";
 import {addReviewToPerfume} from "../../actions/user-actions";
 
 class Perfume extends Component {
@@ -22,11 +21,15 @@ class Perfume extends Component {
     }
 
     addToCart = () => {
-        if (!localStorage.getItem("isLoggedIn")) {
-            this.props.history.push("/login");
-        } else {
-            this.props.addToCart(this.props.perfume, this.props.history);
+        let data = localStorage.getItem("perfumes");
+        let cart = data ? JSON.parse(data) : [];
+
+        if (!cart.find((id) => id === this.props.perfume.id)) {
+            cart.push(this.props.perfume.id);
         }
+
+        localStorage.setItem("perfumes", JSON.stringify(cart));
+        this.props.history.push("/cart")
     }
 
     addReview = (event) => {
@@ -175,7 +178,7 @@ class Perfume extends Component {
 
 Perfume.propTypes = {
     fetchPerfume: PropTypes.func.isRequired,
-    addToCart: PropTypes.func.isRequired,
+    addReviewToPerfume: PropTypes.func.isRequired,
     perfume: PropTypes.object.isRequired,
     reviews: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
@@ -190,7 +193,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchPerfume: (id) => dispatch(fetchPerfume(id)),
-        addToCart: (id, history) => dispatch(addToCart(id, history)),
         addReviewToPerfume: (data) => dispatch(addReviewToPerfume(data)),
     }
 };

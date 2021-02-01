@@ -5,7 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faShoppingBag} from "@fortawesome/free-solid-svg-icons";
 
 import {IMG_URL} from "../../utils/constants/url";
-import {fetchOrder, addOrder} from "../../actions/order-actions";
+import {addOrder, fetchOrder} from "../../actions/order-actions";
 import {validateEmail} from "../../utils/input-validators";
 
 class Order extends Component {
@@ -39,8 +39,10 @@ class Order extends Component {
                 validateEmailError
             });
         } else {
+            this.setState({
+                validateEmailError: ""
+            });
             const order = {firstName, lastName, city, address, postIndex, phoneNumber, email, perfumeList, totalPrice};
-
             this.props.addOrder(order, this.props.history);
         }
     };
@@ -56,7 +58,15 @@ class Order extends Component {
     render() {
         const {perfumes} = this.props;
         const {firstName, lastName, city, address, postIndex, phoneNumber, email, validateEmailError} = this.state;
-        const {firstNameError, lastNameError, cityError, addressError, postIndexError, phoneNumberError, emailError} = this.props.errors;
+        const {
+            firstNameError,
+            lastNameError,
+            cityError,
+            addressError,
+            postIndexError,
+            phoneNumberError,
+            emailError
+        } = this.props.errors;
 
         let totalPrice = 0;
         perfumes.map((perfume) => totalPrice = totalPrice + perfume.price);
@@ -197,15 +207,14 @@ class Order extends Component {
 }
 
 Order.propTypes = {
-    fetchOrder: PropTypes.func.isRequired,
     addOrder: PropTypes.func.isRequired,
     perfumes: PropTypes.array.isRequired,
     errors: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-    perfumes: state.order.perfumes,
+    perfumes: state.cart.perfumes,
     errors: state.order.errors
 });
 
-export default connect(mapStateToProps, {fetchOrder, addOrder})(Order);
+export default connect(mapStateToProps, {addOrder, fetchOrder})(Order);

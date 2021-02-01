@@ -5,32 +5,47 @@ import {connect} from "react-redux";
 
 import {IMG_URL} from "../../utils/constants/url";
 import Spinner from "../../component/Spinner/Spinner";
-import {fetchCart, removeFromCart} from "../../actions/cart-actions";
+import {fetchCart, loadCart} from "../../actions/cart-actions";
 import {faMinusSquare, faShoppingBag, faShoppingCart} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class Cart extends Component {
 
     componentDidMount() {
-        this.props.fetchCart();
+        let perfumes = JSON.parse(localStorage.getItem("perfumes"));
+
+        if (perfumes !== null) {
+            this.props.fetchCart(perfumes);
+        } else {
+            this.props.loadCart();
+        }
     }
 
     deleteFromCart = (perfumeId) => {
-        const perfume = this.props.cartItems.find((perfume) => perfume.id === perfumeId);
+        let perfumes = JSON.parse(localStorage.getItem("perfumes"));
 
-        this.props.removeFromCart(perfume);
+        let id = perfumes.findIndex((id) => (id === perfumeId));
+        perfumes.splice(id, 1);
+
+        if (perfumes.length === 0) {
+            localStorage.removeItem("perfumes");
+        } else {
+            localStorage.setItem("perfumes", JSON.stringify(perfumes));
+        }
+
+        this.props.fetchCart(perfumes);
     };
 
     render() {
-        const {cartItems, loading} = this.props;
+        const {perfumes, loading} = this.props;
         let totalCartPrice = 0;
-        cartItems.map(perfume => totalCartPrice = totalCartPrice + perfume.price);
+        perfumes.map(perfume => totalCartPrice = totalCartPrice + perfume.price);
 
         return (
             <div className="container mt-5 pb-5">
                 {loading ? <Spinner/> :
                     <div>
-                        {cartItems.length === 0 ?
+                        {perfumes.length === 0 ?
                             <div style={{textAlign: "center"}}>
                                 <h2>Cart is empty</h2>
                             </div> :
@@ -38,7 +53,7 @@ class Cart extends Component {
                                 <p className="h4 mb-4 text-center">
                                     <FontAwesomeIcon className="mr-2" icon={faShoppingCart}/> Cart
                                 </p>
-                                {cartItems.map((perfume) => {
+                                {perfumes.map((perfume) => {
                                     return (
                                         <div key={perfume.id} className="card mb-3 mx-auto" style={{maxWidth: "940px"}}>
                                             <div className="row no-gutters">
@@ -58,7 +73,8 @@ class Cart extends Component {
                                                         <h5 className="card-title"><span>$ {perfume.price}</span></h5>
                                                         <button className="btn btn-warning mb-2"
                                                                 onClick={() => this.deleteFromCart(perfume.id)}>
-                                                            <FontAwesomeIcon className="mr-2" icon={faMinusSquare}/> Remove
+                                                            <FontAwesomeIcon className="mr-2"
+                                                                             icon={faMinusSquare}/> Remove
                                                         </button>
                                                     </div>
                                                 </div>
@@ -92,14 +108,14 @@ class Cart extends Component {
 
 Cart.propTypes = {
     fetchCart: PropTypes.func.isRequired,
-    removeFromCart: PropTypes.func.isRequired,
-    cartItems: PropTypes.array.isRequired,
+    loadCart: PropTypes.func.isRequired,
+    perfumes: PropTypes.array.isRequired,
     loading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    cartItems: state.cart.cartItems,
+    perfumes: state.cart.perfumes,
     loading: state.cart.loading
 });
 
-export default connect(mapStateToProps, {fetchCart, removeFromCart})(Cart);
+export default connect(mapStateToProps, {fetchCart, loadCart})(Cart);

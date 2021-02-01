@@ -1,27 +1,14 @@
 import axios from 'axios';
 
-import {
-    FETCH_CART_SUCCESS,
-    PERFUME_ADDED_TO_CART_SUCCESS,
-    PERFUME_REMOVED_FROM_CART_SUCCESS,
-    LOADING_CART
-} from "../utils/constants/actions-types";
+import {FETCH_CART_SUCCESS, LOADING_CART, STOP_LOADING_CART} from "../utils/constants/actions-types";
 import {API_BASE_URL} from "../utils/constants/url";
 
-export const fetchCart = () => async (dispatch) => {
+export const fetchCart = (data) => async (dispatch) => {
     dispatch({
         type: LOADING_CART
     })
 
-    const response = await axios({
-        method: "GET",
-        // url: API_BASE_URL + "/cart/" + localStorage.getItem("email"),
-        url: API_BASE_URL + "/cart",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": localStorage.getItem("token")
-        }
-    });
+    const response = await axios.post(API_BASE_URL + "/cart", data);
 
     dispatch({
         type: FETCH_CART_SUCCESS,
@@ -29,37 +16,8 @@ export const fetchCart = () => async (dispatch) => {
     })
 };
 
-export const addToCart = (perfume, history) => async (dispatch) => {
-    await axios({
-        method: "POST",
-        url: API_BASE_URL + "/cart/add",
-        data: perfume,
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": localStorage.getItem("token")
-        }
-    })
-
+export const loadCart = () => async (dispatch) => {
     dispatch({
-        type: PERFUME_ADDED_TO_CART_SUCCESS,
-    })
-
-    history.push("/cart")
-};
-
-export const removeFromCart = (perfume) => async (dispatch) => {
-    const response = await axios({
-        method: "POST",
-        url: API_BASE_URL + "/cart/remove",
-        data: perfume,
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": localStorage.getItem("token")
-        }
-    });
-
-    dispatch({
-        type: PERFUME_REMOVED_FROM_CART_SUCCESS,
-        payload: response.data
+        type: STOP_LOADING_CART
     })
 };

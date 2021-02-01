@@ -1,12 +1,7 @@
-import {
-    FETCH_CART_SUCCESS,
-    LOADING_CART,
-    PERFUME_ADDED_TO_CART_SUCCESS,
-    PERFUME_REMOVED_FROM_CART_SUCCESS
-} from "../utils/constants/actions-types";
+import {FETCH_CART_SUCCESS, LOADING_CART, STOP_LOADING_CART} from "../utils/constants/actions-types";
 
 const initialState = {
-    cartItems: [],
+    perfumes: [],
     loading: false
 };
 
@@ -18,13 +13,10 @@ const reducer = (state = initialState, action) => {
             return {...state, loading: true};
 
         case FETCH_CART_SUCCESS:
-            return {...state, cartItems: payload, loading: false};
+            return {...state, perfumes: payload, loading: false};
 
-        case PERFUME_ADDED_TO_CART_SUCCESS:
-            return {...state};
-
-        case PERFUME_REMOVED_FROM_CART_SUCCESS:
-            return {...state, cartItems: payload};
+        case STOP_LOADING_CART:
+            return {...state, loading: false, perfumes: []};
 
         default:
             return state;

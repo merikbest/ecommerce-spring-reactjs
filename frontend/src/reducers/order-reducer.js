@@ -8,7 +8,6 @@ import {
 
 const initialState = {
     orders: [],
-    perfumes: [],
     errors: {},
     orderIndex: ""
 };
@@ -18,7 +17,7 @@ const reducer = (state = initialState, action) => {
 
     switch (type) {
         case FETCH_ORDER_SUCCESS:
-            return {...state, perfumes: payload, errors: {}};
+            return {...state, errors: {}};
 
         case ORDER_ADDED_SUCCESS:
             return {...state};
