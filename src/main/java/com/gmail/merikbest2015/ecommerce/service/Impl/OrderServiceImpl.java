@@ -3,7 +3,6 @@ package com.gmail.merikbest2015.ecommerce.service.Impl;
 import com.gmail.merikbest2015.ecommerce.domain.Order;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.repository.OrderRepository;
-import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
 import com.gmail.merikbest2015.ecommerce.service.OrderService;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +12,10 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final UserRepository userRepository;
     private final MailSender mailSender;
 
-    public OrderServiceImpl(OrderRepository orderRepository, UserRepository userRepository, MailSender mailSender) {
+    public OrderServiceImpl(OrderRepository orderRepository, MailSender mailSender) {
         this.orderRepository = orderRepository;
-        this.userRepository = userRepository;
         this.mailSender = mailSender;
     }
 
@@ -40,15 +37,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findOrderByUser(User user) {
-        return orderRepository.findOrderByUser(user);
+    public List<Order> findOrderByEmail(String email) {
+        return orderRepository.findOrderByEmail(email);
     }
 
     @Override
-    public Order postOrder(Order validOrder, String email) {
-        User user = userRepository.findByEmail(email);
-        Order order = new Order(user);
-        order.getPerfumeList().addAll(user.getPerfumeList());
+    public Order postOrder(Order validOrder) {
+        Order order = new Order();
+        order.getPerfumeList().addAll(validOrder.getPerfumeList());
         order.setTotalPrice(validOrder.getTotalPrice());
         order.setFirstName(validOrder.getFirstName());
         order.setLastName(validOrder.getLastName());
@@ -57,7 +53,6 @@ public class OrderServiceImpl implements OrderService {
         order.setPostIndex(validOrder.getPostIndex());
         order.setEmail(validOrder.getEmail());
         order.setPhoneNumber(validOrder.getPhoneNumber());
-        user.getPerfumeList().clear();
         orderRepository.save(order);
 
         StringBuilder perfumes = new StringBuilder();

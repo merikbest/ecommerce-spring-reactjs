@@ -25,9 +25,7 @@ public interface UserService {
 
     List<Perfume> getCart(String email);
 
-    void addToCart(Perfume perfume, String email);
-
-    List<Perfume> removeFromCart(Perfume perfume, String email);
+    List<Perfume> getCartId(List<Long> perfumeIds);
 
     Map<String, Object> login(String email);
 

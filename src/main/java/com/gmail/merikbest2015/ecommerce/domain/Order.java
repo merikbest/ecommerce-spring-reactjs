@@ -1,7 +1,6 @@
 package com.gmail.merikbest2015.ecommerce.domain;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,7 +10,6 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "orders")
-@NoArgsConstructor
 public class Order {
 
     @Id
@@ -34,9 +32,8 @@ public class Order {
     @ManyToOne
     private User user;
 
-    public Order(User user) {
+    public Order() {
         this.date = LocalDate.now();
-        this.user = user;
         this.perfumeList = new ArrayList<>();
     }
 }

@@ -90,18 +90,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void addToCart(Perfume perfume, String email) {
-        User user = userRepository.findByEmail(email);
-        user.getPerfumeList().add(perfume);
-        userRepository.save(user);
-    }
-
-    @Override
-    public List<Perfume> removeFromCart(Perfume perfume, String email) {
-        User user = userRepository.findByEmail(email);
-        user.getPerfumeList().remove(perfume);
-        userRepository.save(user);
-        return user.getPerfumeList();
+    public List<Perfume> getCartId(List<Long> perfumeIds) {
+        return perfumeRepository.findByIdIn(perfumeIds);
     }
 
     @Override

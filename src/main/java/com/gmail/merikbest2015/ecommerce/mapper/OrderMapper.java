@@ -36,8 +36,8 @@ public class OrderMapper {
                 .collect(Collectors.toList());
     }
 
-    public List<OrderDto> findOrderByUser(User user) {
-        return orderService.findOrderByUser(user)
+    public List<OrderDto> findOrderByEmail(String email) {
+        return orderService.findOrderByEmail(email)
                 .stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
@@ -47,8 +47,8 @@ public class OrderMapper {
         return orderService.finalizeOrder();
     }
 
-    public OrderDto postOrder(OrderDto orderDto, String email) {
-        return convertToDto(orderService.postOrder(convertToEntity(orderDto), email));
+    public OrderDto postOrder(OrderDto orderDto) {
+        return convertToDto(orderService.postOrder(convertToEntity(orderDto)));
     }
 
     public OrderDto save(OrderDto orderDto) {

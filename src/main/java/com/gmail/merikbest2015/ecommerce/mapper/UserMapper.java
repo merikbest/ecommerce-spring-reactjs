@@ -51,13 +51,8 @@ public class UserMapper {
         return perfumeMapper.convertListToDto(userService.getCart(email));
     }
 
-    public void addToCart(PerfumeDto perfumeDto, String email) {
-        userService.addToCart(perfumeMapper.convertToEntity(perfumeDto), email);
-    }
-
-    public List<PerfumeDto> removeFromCart(PerfumeDto perfumeDto, String email) {
-        List<Perfume> perfumes = userService.removeFromCart(perfumeMapper.convertToEntity(perfumeDto), email);
-        return perfumeMapper.convertListToDto(perfumes);
+    public List<PerfumeDto> getCartId(List<Long> perfumesIds) {
+        return perfumeMapper.convertListToDto(userService.getCartId(perfumesIds));
     }
 
     public List<UserDto> findAllUsers() {

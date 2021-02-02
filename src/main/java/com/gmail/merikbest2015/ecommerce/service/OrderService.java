@@ -9,9 +9,9 @@ public interface OrderService {
 
     List<Order> findAll();
 
-    List<Order> findOrderByUser(User user);
+    List<Order> findOrderByEmail(String email);
 
-    Order postOrder(Order validOrder, String email);
+    Order postOrder(Order validOrder);
 
     Order save(Order order);
 

@@ -42,7 +42,7 @@ public class UserController {
 
     @GetMapping("/orders")
     public ResponseEntity<List<OrderDto>> getAllUserOrders(@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(orderMapper.findOrderByUser(user));
+        return ResponseEntity.ok(orderMapper.findOrderByEmail(user.getEmail()));
     }
 
     @PostMapping("/review")
