@@ -18,7 +18,7 @@ class NavBar extends Component {
         let links;
         let signOut;
 
-        if (localStorage.getItem("isLoggedIn")) {
+        if (localStorage.getItem("isLoggedIn") || this.props.isLoggedIn) {
             links = (
                 <li className="nav-item">
                     <Link to={"/account"}><span className="nav-link pl-5 pr-5">
@@ -45,6 +45,7 @@ class NavBar extends Component {
                     </li>
                 </>
             );
+            signOut = null;
         }
 
         return (
@@ -90,20 +91,13 @@ class NavBar extends Component {
 
 NavBar.propTypes = {
     logout: PropTypes.func.isRequired,
-    fetchCart: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired,
-    perfumes: PropTypes.array.isRequired
+    perfumes: PropTypes.array.isRequired,
+    isLoggedIn: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    auth: state.auth,
-    perfumes: state.cart.perfumes
+    perfumes: state.cart.perfumes,
+    isLoggedIn: state.auth.isLoggedIn
 });
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        logout: () => dispatch(logout())
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps, {logout})(NavBar);

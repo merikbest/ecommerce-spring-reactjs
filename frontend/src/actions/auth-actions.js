@@ -33,7 +33,6 @@ export const login = (data, history) => async (dispatch) => {
         })
 
         history.push("/account");
-        window.location.reload();
     } catch (error) {
         dispatch({
             type: LOGIN_FAILURE,

@@ -27,11 +27,9 @@ class Order extends Component {
     onFormSubmit = (event) => {
         event.preventDefault();
 
-        let totalPrice = 0;
-        this.props.perfumes.map((perfume) => totalPrice = totalPrice + perfume.price);
-
-        const perfumeList = this.props.perfumes;
+        const perfumesId = Object.fromEntries(new Map(JSON.parse(localStorage.getItem("perfumes"))));
         const {firstName, lastName, city, address, postIndex, phoneNumber, email} = this.state;
+        const {totalPrice} = this.props;
         const validateEmailError = validateEmail(email);
 
         if (validateEmailError) {
@@ -42,7 +40,7 @@ class Order extends Component {
             this.setState({
                 validateEmailError: ""
             });
-            const order = {firstName, lastName, city, address, postIndex, phoneNumber, email, perfumeList, totalPrice};
+            const order = {firstName, lastName, city, address, postIndex, phoneNumber, email, perfumesId, totalPrice};
             this.props.addOrder(order, this.props.history);
         }
     };
@@ -56,7 +54,8 @@ class Order extends Component {
     };
 
     render() {
-        const {perfumes} = this.props;
+        const perfumesFromLocalStorage = new Map(JSON.parse(localStorage.getItem("perfumes")));
+        const {perfumes, totalPrice} = this.props;
         const {firstName, lastName, city, address, postIndex, phoneNumber, email, validateEmailError} = this.state;
         const {
             firstNameError,
@@ -67,9 +66,6 @@ class Order extends Component {
             phoneNumberError,
             emailError
         } = this.props.errors;
-
-        let totalPrice = 0;
-        perfumes.map((perfume) => totalPrice = totalPrice + perfume.price);
 
         return (
             <div className="container mt-5 pb-5">
@@ -184,7 +180,8 @@ class Order extends Component {
                                                     <div className="card-body text-center">
                                                         <h5>{perfume.perfumeTitle}</h5>
                                                         <h6>{perfume.perfumer}</h6>
-                                                        <h6><span>$ {perfume.price}</span>.00</h6>
+                                                        <h6><span>Price: $ {perfume.price}</span>.00</h6>
+                                                        <h6><span>Quantity: {perfumesFromLocalStorage.get(perfume.id)}</span></h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -210,10 +207,12 @@ Order.propTypes = {
     addOrder: PropTypes.func.isRequired,
     perfumes: PropTypes.array.isRequired,
     errors: PropTypes.object.isRequired,
+    totalPrice: PropTypes.number.isRequired
 };
 
 const mapStateToProps = (state) => ({
     perfumes: state.cart.perfumes,
+    totalPrice: state.cart.totalPrice,
     errors: state.order.errors
 });
 

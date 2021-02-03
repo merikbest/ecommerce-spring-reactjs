@@ -16,20 +16,21 @@ class Perfume extends Component {
 
     componentDidMount() {
         this.props.fetchPerfume(this.props.match.params.id);
-
         window.scrollTo(0, 0);
     }
 
     addToCart = () => {
+        const perfumeId = this.props.perfume.id;
         let data = localStorage.getItem("perfumes");
-        let cart = data ? JSON.parse(data) : [];
+        let cart = data ? new Map(JSON.parse(data)) : new Map();
 
-        if (!cart.find((id) => id === this.props.perfume.id)) {
-            cart.push(this.props.perfume.id);
+        if (cart.has(perfumeId)) {
+            cart.set(perfumeId, cart.get(perfumeId) + 1);
+        } else {
+            cart.set(perfumeId, 1);
         }
-
-        localStorage.setItem("perfumes", JSON.stringify(cart));
-        this.props.history.push("/cart")
+        localStorage.setItem("perfumes", JSON.stringify(Array.from(cart.entries())));
+        this.props.history.push("/cart");
     }
 
     addReview = (event) => {

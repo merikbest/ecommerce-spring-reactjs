@@ -11,7 +11,7 @@ import {API_BASE_URL} from "../utils/constants/url";
 
 export const fetchOrder = () => async (dispatch) => {
     dispatch({
-        type: FETCH_ORDER_SUCCESS,
+        type: FETCH_ORDER_SUCCESS
     })
 };
 

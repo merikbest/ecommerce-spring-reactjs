@@ -42,10 +42,6 @@ class Login extends Component {
         const {email, password} = this.state;
         const {error, success} = this.props;
 
-        if (localStorage.getItem("isLoggedIn")) {
-            return <Redirect to="/account"/>
-        }
-
         return (
             <div id="container" className="container mt-5">
                 <h4><FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>SIGN IN</h4>

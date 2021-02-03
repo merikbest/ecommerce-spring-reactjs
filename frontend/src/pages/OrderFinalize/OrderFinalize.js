@@ -3,10 +3,12 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
 import {finalizeOrder} from "../../actions/order-actions";
+import {clearCart} from "../../actions/cart-actions";
 
 class OrderFinalize extends Component {
 
     componentDidMount() {
+        this.props.clearCart();
         this.props.finalizeOrder();
     }
 
@@ -24,6 +26,7 @@ class OrderFinalize extends Component {
 
 OrderFinalize.propTypes = {
     finalizeOrder: PropTypes.func.isRequired,
+    clearCart: PropTypes.func.isRequired,
     orderIndex: PropTypes.string.isRequired
 };
 
@@ -31,4 +34,10 @@ const mapStateToProps = (state) => ({
     orderIndex: state.order.orderIndex
 });
 
-export default connect(mapStateToProps, {finalizeOrder})(OrderFinalize);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        finalizeOrder: () => dispatch(finalizeOrder()),
+        clearCart: () => dispatch(clearCart())
+    }
+};
+export default connect(mapStateToProps, mapDispatchToProps)(OrderFinalize);
