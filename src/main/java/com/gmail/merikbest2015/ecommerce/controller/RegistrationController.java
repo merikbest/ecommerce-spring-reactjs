@@ -1,10 +1,11 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.gmail.merikbest2015.ecommerce.dto.CaptchaResponseDto;
-import com.gmail.merikbest2015.ecommerce.dto.UserDto;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserDtoIn;
 import com.gmail.merikbest2015.ecommerce.exception.*;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
 import com.gmail.merikbest2015.ecommerce.utils.ControllerUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.validation.Valid;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/registration")
 public class RegistrationController {
 
@@ -23,15 +25,10 @@ public class RegistrationController {
     private final UserMapper userMapper;
     private final RestTemplate restTemplate;
 
-    public RegistrationController(UserMapper userMapper, RestTemplate restTemplate) {
-        this.userMapper = userMapper;
-        this.restTemplate = restTemplate;
-    }
-
     @PostMapping
     public ResponseEntity<String> registration(@RequestParam("password2") String passwordConfirm,
                                                @RequestParam("g-recaptcha-response") String captcha,
-                                               @Valid UserDto userDto,
+                                               @Valid UserDtoIn userDtoIn,
                                                BindingResult bindingResult) {
 
         CaptchaResponseDto captchaResponse = ControllerUtils.captchaValidation(secret, captcha, restTemplate);
@@ -40,11 +37,11 @@ public class RegistrationController {
             throw new PasswordConfirmationException("Password confirmation cannot be empty.");
         }
 
-        if (ControllerUtils.isPasswordDifferent(userDto.getPassword(), passwordConfirm)) {
+        if (ControllerUtils.isPasswordDifferent(userDtoIn.getPassword(), passwordConfirm)) {
             throw new PasswordException("Passwords do not match.");
         }
 
-        if (!userMapper.addUser(userDto)) {
+        if (!userMapper.addUser(userDtoIn)) {
             throw new EmailException("Email is already used.");
         }
 

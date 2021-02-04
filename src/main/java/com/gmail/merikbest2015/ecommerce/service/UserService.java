@@ -11,21 +11,15 @@ public interface UserService {
 
     User findUserById(Long userId);
 
-    User findByEmail(String email);
+    User findUserByEmail(String email);
 
     List<User> findAllUsers();
-
-    User findByUsername(String username);
-
-    User findByActivationCode(String code);
 
     User findByPasswordResetCode(String code);
 
     User saveUser(User user);
 
-    List<Perfume> getCart(String email);
-
-    List<Perfume> getCartId(List<Long> perfumeIds);
+    List<Perfume> getCart(List<Long> perfumeIds);
 
     Map<String, Object> login(String email);
 

@@ -1,6 +1,6 @@
 package com.gmail.merikbest2015.ecommerce.security;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -15,13 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 public class JwtFilter extends GenericFilterBean {
 
     private final JwtProvider jwtProvider;
-
-    public JwtFilter(JwtProvider jwtProvider) {
-        this.jwtProvider = jwtProvider;
-    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {

@@ -1,9 +1,10 @@
 package com.gmail.merikbest2015.ecommerce.mapper;
 
 import com.gmail.merikbest2015.ecommerce.domain.Order;
-import com.gmail.merikbest2015.ecommerce.domain.User;
-import com.gmail.merikbest2015.ecommerce.dto.OrderDto;
+import com.gmail.merikbest2015.ecommerce.dto.order.OrderDtoIn;
+import com.gmail.merikbest2015.ecommerce.dto.order.OrderDtoOut;
 import com.gmail.merikbest2015.ecommerce.service.OrderService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -11,35 +12,35 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class OrderMapper {
 
     private final ModelMapper modelMapper;
     private final OrderService orderService;
 
-    public OrderMapper(ModelMapper modelMapper, OrderService orderService) {
-        this.modelMapper = modelMapper;
-        this.orderService = orderService;
-    }
-
-    private Order convertToEntity(OrderDto orderDto) {
+    private Order convertToEntity(OrderDtoIn orderDto) {
         return modelMapper.map(orderDto, Order.class);
     }
 
-    private OrderDto convertToDto(Order order) {
-        return modelMapper.map(order, OrderDto.class);
+    private OrderDtoIn convertToDtoIn(Order order) {
+        return modelMapper.map(order, OrderDtoIn.class);
     }
 
-    public List<OrderDto> findAll() {
+    private OrderDtoOut convertToDtoOut(Order order) {
+        return modelMapper.map(order, OrderDtoOut.class);
+    }
+
+    public List<OrderDtoOut> findAllOrders() {
         return orderService.findAll()
                 .stream()
-                .map(this::convertToDto)
+                .map(this::convertToDtoOut)
                 .collect(Collectors.toList());
     }
 
-    public List<OrderDto> findOrderByEmail(String email) {
+    public List<OrderDtoOut> findOrderByEmail(String email) {
         return orderService.findOrderByEmail(email)
                 .stream()
-                .map(this::convertToDto)
+                .map(this::convertToDtoOut)
                 .collect(Collectors.toList());
     }
 
@@ -47,11 +48,7 @@ public class OrderMapper {
         return orderService.finalizeOrder();
     }
 
-    public OrderDto postOrder(OrderDto orderDto) {
-        return convertToDto(orderService.postOrder(convertToEntity(orderDto)));
-    }
-
-    public OrderDto save(OrderDto orderDto) {
-        return convertToDto(orderService.save(convertToEntity(orderDto)));
+    public OrderDtoIn postOrder(OrderDtoIn orderDtoIn) {
+        return convertToDtoIn(orderService.postOrder(convertToEntity(orderDtoIn), orderDtoIn.getPerfumesId()));
     }
 }

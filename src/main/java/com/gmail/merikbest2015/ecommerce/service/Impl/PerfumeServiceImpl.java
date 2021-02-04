@@ -3,6 +3,7 @@ package com.gmail.merikbest2015.ecommerce.service.Impl;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,15 +14,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class PerfumeServiceImpl implements PerfumeService {
 
     @Value("${upload.path}")
     private String uploadPath;
     private final PerfumeRepository perfumeRepository;
-
-    public PerfumeServiceImpl(PerfumeRepository perfumeRepository) {
-        this.perfumeRepository = perfumeRepository;
-    }
 
     @Override
     public Perfume findPerfumeById(Long perfumeId) {

@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -29,8 +28,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Perfume> perfumeList;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    private List<Perfume> perfumeList;
 
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);

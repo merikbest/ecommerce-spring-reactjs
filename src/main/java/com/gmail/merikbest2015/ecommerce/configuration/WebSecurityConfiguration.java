@@ -1,6 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.configuration;
 
 import com.gmail.merikbest2015.ecommerce.security.JwtConfigurer;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,17 +11,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
-
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JwtConfigurer jwtConfigurer;
-
-    public WebSecurityConfiguration(JwtConfigurer jwtConfigurer) {
-        this.jwtConfigurer = jwtConfigurer;
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

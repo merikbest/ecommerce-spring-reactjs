@@ -1,32 +1,31 @@
 package com.gmail.merikbest2015.ecommerce.service.Impl;
 
 import com.gmail.merikbest2015.ecommerce.domain.Order;
-import com.gmail.merikbest2015.ecommerce.domain.User;
+import com.gmail.merikbest2015.ecommerce.domain.OrderItem;
+import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import com.gmail.merikbest2015.ecommerce.repository.OrderItemRepository;
 import com.gmail.merikbest2015.ecommerce.repository.OrderRepository;
+import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.service.OrderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
+    private final PerfumeRepository perfumeRepository;
     private final MailSender mailSender;
-
-    public OrderServiceImpl(OrderRepository orderRepository, MailSender mailSender) {
-        this.orderRepository = orderRepository;
-        this.mailSender = mailSender;
-    }
 
     @Override
     public List<Order> findAll() {
         return orderRepository.findAll();
-    }
-
-    @Override
-    public Order save(Order order) {
-        return orderRepository.save(order);
     }
 
     @Override
@@ -42,9 +41,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order postOrder(Order validOrder) {
+    public Order postOrder(Order validOrder, Map<Long, Long> perfumesId) {
         Order order = new Order();
-        order.getPerfumeList().addAll(validOrder.getPerfumeList());
+        List<OrderItem> orderItemList = new ArrayList<>();
+
+        for (Map.Entry<Long, Long> entry : perfumesId.entrySet()) {
+            Perfume perfume = perfumeRepository.findById(entry.getKey()).get();
+            OrderItem orderItem = new OrderItem();
+            orderItem.setPerfume(perfume);
+            orderItem.setAmount((perfume.getPrice() * entry.getValue()));
+            orderItem.setQuantity(entry.getValue());
+            orderItemList.add(orderItem);
+            orderItemRepository.save(orderItem);
+        }
+
+        order.getOrderItems().addAll(orderItemList);
         order.setTotalPrice(validOrder.getTotalPrice());
         order.setFirstName(validOrder.getFirstName());
         order.setLastName(validOrder.getLastName());
@@ -56,14 +67,16 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
 
         StringBuilder perfumes = new StringBuilder();
-        order.getPerfumeList().forEach((perfume) ->
+        order.getOrderItems().forEach((orderItem) ->
         {
-            perfumes.append(perfume.getPerfumer());
+            perfumes.append(orderItem.getPerfume().getPerfumer());
             perfumes.append(" ");
-            perfumes.append(perfume.getPerfumeTitle());
+            perfumes.append(orderItem.getPerfume().getPerfumeTitle());
             perfumes.append(" — $");
-            perfumes.append(perfume.getPrice());
-            perfumes.append(".00");
+            perfumes.append(orderItem.getPerfume().getPrice());
+            perfumes.append(".00 (quantity: ");
+            perfumes.append(orderItem.getQuantity());
+            perfumes.append(")");
             perfumes.append("\n");
         });
 
@@ -75,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
                 "Name: " + order.getFirstName() + " " + order.getLastName() + "\n" +
                 "Address: " + order.getCity() + ", " + order.getAddress() + "\n" +
                 "Post index: " + order.getPostIndex() + "\n" +
-                "Phone: " + order.getPhoneNumber() + "\n" +
+                "Phone: " + order.getPhoneNumber() + "\n\n" +
                 "Perfumes: " + "\n" + perfumes + "\n" +
                 "Total price: $" + order.getTotalPrice();
         mailSender.send(order.getEmail(), subject, message);

@@ -1,16 +1,13 @@
-package com.gmail.merikbest2015.ecommerce.dto;
+package com.gmail.merikbest2015.ecommerce.dto.perfume;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Data
-public class PerfumeDto {
-
-    private Long id;
+public class PerfumeDtoIn {
 
     @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
@@ -42,8 +39,6 @@ public class PerfumeDto {
     @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
     private String fragranceBaseNotes;
-    private String description;
-    private String filename;
 
     @NotNull(message = "Fill in the input field")
     private Integer price;
@@ -55,5 +50,7 @@ public class PerfumeDto {
     @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
     private String type;
-    private List<ReviewDto> reviews;
+
+    private String description;
+    private String filename;
 }

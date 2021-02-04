@@ -2,12 +2,13 @@ package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.gmail.merikbest2015.ecommerce.dto.AuthenticationRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.PasswordResetDto;
-import com.gmail.merikbest2015.ecommerce.dto.UserDto;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserDtoOut;
 import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
 import com.gmail.merikbest2015.ecommerce.exception.PasswordConfirmationException;
 import com.gmail.merikbest2015.ecommerce.exception.PasswordException;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
 import com.gmail.merikbest2015.ecommerce.utils.ControllerUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,16 +19,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
 public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
-
-    public AuthenticationController(AuthenticationManager authenticationManager, UserMapper userMapper) {
-        this.authenticationManager = authenticationManager;
-        this.userMapper = userMapper;
-    }
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody AuthenticationRequestDto request) {
@@ -49,8 +46,8 @@ public class AuthenticationController {
     }
 
     @GetMapping("/reset/{code}")
-    public ResponseEntity<UserDto> getPasswordResetCode(@PathVariable String code) {
-        UserDto user = userMapper.findByPasswordResetCode(code);
+    public ResponseEntity<UserDtoOut> getPasswordResetCode(@PathVariable String code) {
+        UserDtoOut user = userMapper.findByPasswordResetCode(code);
         if (user == null) {
             throw new ApiRequestException("Password reset code is invalid!", HttpStatus.BAD_REQUEST);
         }

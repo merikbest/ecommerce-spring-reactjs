@@ -1,12 +1,14 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
-import com.gmail.merikbest2015.ecommerce.dto.OrderDto;
-import com.gmail.merikbest2015.ecommerce.dto.PerfumeDto;
-import com.gmail.merikbest2015.ecommerce.dto.UserDto;
+import com.gmail.merikbest2015.ecommerce.dto.order.OrderDtoOut;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeDtoIn;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserDtoIn;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserDtoOut;
 import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
 import com.gmail.merikbest2015.ecommerce.mapper.OrderMapper;
 import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -18,61 +20,56 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/admin")
+@RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ADMIN')")
+@RequestMapping("/api/v1/admin")
 public class AdminController {
 
     private final UserMapper userMapper;
     private final PerfumeMapper perfumeMapper;
     private final OrderMapper orderMapper;
 
-    public AdminController(UserMapper userMapper, PerfumeMapper perfumeMapper, OrderMapper orderMapper) {
-        this.userMapper = userMapper;
-        this.perfumeMapper = perfumeMapper;
-        this.orderMapper = orderMapper;
-    }
-
     @PostMapping("/add")
-    public ResponseEntity<PerfumeDto> addPerfume(@Valid PerfumeDto perfumeDto,
-                                                 BindingResult bindingResult,
-                                                 @RequestPart(name = "file", required = false) MultipartFile file) {
+    public ResponseEntity<PerfumeDtoIn> addPerfume(@Valid PerfumeDtoIn perfumeDtoIn,
+                                                   BindingResult bindingResult,
+                                                   @RequestPart(name = "file", required = false) MultipartFile file) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            return ResponseEntity.ok(perfumeMapper.savePerfume(perfumeDto, file));
+            return ResponseEntity.ok(perfumeMapper.savePerfume(perfumeDtoIn, file));
         }
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<PerfumeDto> updatePerfume(@Valid PerfumeDto perfumeDto,
-                                                    BindingResult bindingResult,
-                                                    @RequestPart(name = "file", required = false) MultipartFile file) {
+    public ResponseEntity<PerfumeDtoIn> updatePerfume(@Valid PerfumeDtoIn perfumeDtoIn,
+                                                      BindingResult bindingResult,
+                                                      @RequestPart(name = "file", required = false) MultipartFile file) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            return ResponseEntity.ok(perfumeMapper.savePerfume(perfumeDto, file));
+            return ResponseEntity.ok(perfumeMapper.savePerfume(perfumeDtoIn, file));
         }
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<List<OrderDto>> getAllOrders() {
-        return ResponseEntity.ok(orderMapper.findAll());
+    public ResponseEntity<List<OrderDtoOut>> getAllOrders() {
+        return ResponseEntity.ok(orderMapper.findAllOrders());
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable("id") Long userId) {
+    public ResponseEntity<UserDtoOut> getUser(@PathVariable("id") Long userId) {
         return ResponseEntity.ok(userMapper.findUserById(userId));
     }
 
     @GetMapping("/user/all")
-    public ResponseEntity<List<UserDto>> getAllUsers() {
+    public ResponseEntity<List<UserDtoOut>> getAllUsers() {
         return ResponseEntity.ok(userMapper.findAllUsers());
     }
 
     @PutMapping("/user/edit")
     public ResponseEntity<String> updateUser(@RequestParam String username,
                                              @RequestParam Map<String, String> form,
-                                             @RequestParam("userId") UserDto userDto) {
+                                             @RequestParam("userId") UserDtoIn userDto) {
         userMapper.userSave(username, form, userDto);
         return ResponseEntity.ok("User updated successfully.");
     }

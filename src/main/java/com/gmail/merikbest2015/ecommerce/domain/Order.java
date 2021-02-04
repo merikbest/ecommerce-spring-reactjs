@@ -25,15 +25,11 @@ public class Order {
     private String phoneNumber;
     private Integer postIndex;
 
-    @OrderColumn
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Perfume> perfumeList;
-
-    @ManyToOne
-    private User user;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<OrderItem> orderItems;
 
     public Order() {
         this.date = LocalDate.now();
-        this.perfumeList = new ArrayList<>();
+        this.orderItems = new ArrayList<>();
     }
 }

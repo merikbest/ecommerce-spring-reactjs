@@ -9,6 +9,7 @@ import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
 import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
 import com.gmail.merikbest2015.ecommerce.security.JwtProvider;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.LockedException;
@@ -23,30 +24,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service("userDetailsServiceImpl")
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Value("${hostname}")
     private String hostname;
+
+    private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
     private final MailSender mailSender;
     private final PasswordEncoder passwordEncoder;
-    private final JwtProvider jwtProvider;
     private final PerfumeRepository perfumeRepository;
     private final ReviewRepository reviewRepository;
-
-    public UserServiceImpl(UserRepository userRepository,
-                           MailSender mailSender,
-                           PasswordEncoder passwordEncoder,
-                           @Lazy JwtProvider jwtProvider,
-                           PerfumeRepository perfumeRepository,
-                           ReviewRepository reviewRepository) {
-        this.userRepository = userRepository;
-        this.mailSender = mailSender;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtProvider = jwtProvider;
-        this.perfumeRepository = perfumeRepository;
-        this.reviewRepository = reviewRepository;
-    }
 
     @Override
     public User findUserById(Long userId) {
@@ -54,23 +43,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public User findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     @Override
     public List<User> findAllUsers() {
         return userRepository.findAll();
-    }
-
-    @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-    @Override
-    public User findByActivationCode(String code) {
-        return userRepository.findByActivationCode(code);
     }
 
     @Override
@@ -84,13 +63,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public List<Perfume> getCart(String email) {
-        User user = userRepository.findByEmail(email);
-        return user.getPerfumeList();
-    }
-
-    @Override
-    public List<Perfume> getCartId(List<Long> perfumeIds) {
+    public List<Perfume> getCart(List<Long> perfumeIds) {
         return perfumeRepository.findByIdIn(perfumeIds);
     }
 
@@ -99,13 +72,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         User user = userRepository.findByEmail(email);
         String userRole = user.getRoles().iterator().next().name();
         String token = jwtProvider.createToken(email, userRole);
-        List<Perfume> perfumeList = user.getPerfumeList();
 
         Map<String, Object> response = new HashMap<>();
         response.put("email", email);
         response.put("token", token);
         response.put("userRole", userRole);
-        response.put("perfumeList", perfumeList);
         return response;
     }
 

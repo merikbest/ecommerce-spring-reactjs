@@ -1,4 +1,4 @@
-package com.gmail.merikbest2015.ecommerce.dto;
+package com.gmail.merikbest2015.ecommerce.dto.order;
 
 import lombok.Data;
 
@@ -6,15 +6,13 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
-import java.util.List;
+import java.util.Map;
 
 @Data
-public class OrderDto {
+public class OrderDtoIn {
 
-    private Long id;
     private Double totalPrice;
-    private LocalDate date;
+    private Map<Long, Long> perfumesId;
 
     @NotBlank(message = "Fill in the input field")
     private String firstName;
@@ -38,6 +36,4 @@ public class OrderDto {
     @NotNull(message = "Post index cannot be empty")
     @Min(value = 5, message = "Post index must contain 5 digits")
     private Integer postIndex;
-    private List<PerfumeDto> perfumeList;
-    private UserDto user;
 }
