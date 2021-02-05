@@ -55,7 +55,7 @@ class Cart extends Component {
     handleInputChange = (event) => {
         const {perfumeInCart} = this.state;
 
-        if (isNaN(parseInt(event.target.value))) {
+        if (isNaN(parseInt(event.target.value)) || parseInt(event.target.value) === 0) {
             this.setState({
                 perfumeInCart: perfumeInCart.set(parseInt(event.target.id), 1)
             });
@@ -109,9 +109,8 @@ class Cart extends Component {
                                     return (
                                         <div key={perfume.id} className="card mb-3 mx-auto" style={{maxWidth: "940px"}}>
                                             <div className="row no-gutters">
-                                                <div className="col-2 ml-3 mt-3">
-                                                    <img src={IMG_URL + `${perfume.filename}`}
-                                                         className="rounded mx-auto w-50"/>
+                                                <div className="col-2 mx-3 my-3">
+                                                    <img src={IMG_URL + `${perfume.filename}`} className="img-fluid"/>
                                                 </div>
                                                 <div className="col-6">
                                                     <div className="card-body">

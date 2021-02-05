@@ -12,13 +12,17 @@ import {
     RESET_PASSWORD_CODE_SUCCESS,
     RESET_PASSWORD_CODE_FAILURE,
     RESET_PASSWORD_SUCCESS,
-    RESET_PASSWORD_FAILURE
+    RESET_PASSWORD_FAILURE,
+    SHOW_LOADER,
+    FETCH_ACCOUNT_SUCCESS
 } from "../utils/constants/actions-types";
 
 const initialState = {
     user: {},
+    userRole: "",
     isLoggedIn: false,
     isRegistered: false,
+    loading: false,
     success: "",
     error: "",
     errors: {}
@@ -28,17 +32,20 @@ const reducer = (state = initialState, action) => {
     const {type, payload} = action;
 
     switch (type) {
+        case SHOW_LOADER:
+            return {...state, loading: true, errors: {}};
+
         case LOGIN_SUCCESS:
-            return {...state, isLoggedIn: true};
+            return {...state, isLoggedIn: true, userRole: payload};
 
         case LOGIN_FAILURE:
             return {...state, error: payload};
 
         case REGISTER_SUCCESS:
-            return {...state, isRegistered: true};
+            return {...state, isRegistered: true, loading: false, errors: {}};
 
         case REGISTER_FAILURE:
-            return {...state, errors: payload};
+            return {...state, errors: payload, loading: false};
 
         case ACTIVATE_ACCOUNT_SUCCESS:
             return {...state, success: payload};
@@ -47,10 +54,10 @@ const reducer = (state = initialState, action) => {
             return {...state, error: payload};
 
         case FORGOT_PASSWORD_SUCCESS:
-            return {...state, success: payload};
+            return {...state, success: payload, loading: false, errors: {}, error: ""};
 
         case FORGOT_PASSWORD_FAILURE:
-            return {...state, error: payload};
+            return {...state, error: payload, loading: false};
 
         case RESET_PASSWORD_CODE_SUCCESS:
             return {...state, user: payload};
@@ -65,10 +72,13 @@ const reducer = (state = initialState, action) => {
             return {...state, errors: payload};
 
         case LOGOUT_SUCCESS:
-            return {...state, isLoggedIn: false, user: {}};
+            return {...state, isLoggedIn: false, user: {}, userRole: ""};
 
         case FORM_RESET:
-            return {...state, error: "", errors: {}, success: "", isRegistered: false};
+            return {...state, error: "", errors: {}, success: "", isRegistered: false, loading: false};
+
+        case FETCH_ACCOUNT_SUCCESS:
+            return {...state, isLoggedIn: true, userRole: payload};
 
         default:
             return state;

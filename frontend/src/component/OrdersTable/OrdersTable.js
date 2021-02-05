@@ -34,10 +34,10 @@ const OrdersTable = ({orders}) => {
                                 <th>{order.city + " " + order.address}</th>
                                 <th>{order.postIndex}</th>
                                 <th>
-                                    {order.orderItems.map((perfume) => {
+                                    {order.orderItems.map((orderItems) => {
                                         return (
-                                            <p key={perfume.id}>Id товара:
-                                                <Link to={`/product/${perfume.id}`}>{perfume.id}</Link>
+                                            <p key={orderItems.perfume.id}>Id товара:
+                                                <Link to={`/product/${orderItems.perfume.id}`}>{orderItems.perfume.id}</Link>
                                             </p>
                                         )
                                     })}

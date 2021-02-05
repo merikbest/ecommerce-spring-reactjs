@@ -1,24 +1,20 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Link} from "react-router-dom";
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 import {IMG_URL} from "../../utils/constants/url";
-import Spinner from "../Spinner/Spinner";
 
 const PerfumeCardItem = ({perfume, colSize, link, btnName}) => {
-    const [load, setLoad] = useState(false);
 
     return (
-        <div className={`col-lg-${colSize} d-flex align-items-stretch`}>
-            <div className="card mb-5">
-                {load ? null :
-                    <div className="d-block mx-auto w-50">
-                        <Spinner/>
-                    </div>
-                }
-                <img onLoad={() => setLoad(true)}
-                     className="mx-auto w-50"
-                     style={{display: load ? "block" : "none"}}
-                     src={IMG_URL + `${perfume.filename}`}/>
+        <div className={`col-lg-${colSize}`}>
+            <div className="card mb-5" style={{height: "293px"}}>
+                <LazyLoadImage
+                    effect="blur"
+                    className="d-block mx-auto"
+                    style={{width: "89px", height: "89px"}}
+                    src={IMG_URL + `${perfume.filename}`}/>
                 <div className="card-body text-center">
                     <h5>{perfume.perfumeTitle}</h5>
                     <h6>{perfume.perfumer}</h6>

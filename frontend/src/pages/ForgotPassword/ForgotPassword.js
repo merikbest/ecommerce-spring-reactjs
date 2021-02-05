@@ -6,6 +6,7 @@ import {faEnvelope, faKey, faPaperPlane} from "@fortawesome/free-solid-svg-icons
 
 import {forgotPassword, formReset} from "../../actions/auth-actions";
 import {validateEmail} from "../../utils/input-validators";
+import PageLoader from "../../component/PageLoader/PageLoader";
 
 class ForgotPassword extends Component {
     state = {
@@ -44,9 +45,15 @@ class ForgotPassword extends Component {
     render() {
         const {email, validateEmailError} = this.state;
         const {error, success} = this.props;
+        let pageLoading;
+
+        if (this.props.loading) {
+            pageLoading = (<PageLoader/>);
+        }
 
         return (
             <div id="container" className="container mt-5">
+                {pageLoading}
                 <h4><FontAwesomeIcon className="mr-3" icon={faKey}/>FORGOT PASSWORD?</h4>
                 <hr align="left" width="550"/>
                 <p>Enter your email address that you used to create your account.</p>
@@ -81,12 +88,14 @@ ForgotPassword.propTypes = {
     forgotPassword: PropTypes.func.isRequired,
     formReset: PropTypes.func.isRequired,
     error: PropTypes.string.isRequired,
-    success: PropTypes.string.isRequired
+    success: PropTypes.string.isRequired,
+    loading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     error: state.auth.error,
-    success: state.auth.success
+    success: state.auth.success,
+    loading: state.auth.loading
 });
 
 export default connect(mapStateToProps, {forgotPassword, formReset})(ForgotPassword);

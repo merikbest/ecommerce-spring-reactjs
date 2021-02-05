@@ -7,6 +7,7 @@ import {faEnvelope, faLock, faUser, faUserPlus} from "@fortawesome/free-solid-sv
 
 import {registration, formReset} from "../../actions/auth-actions";
 import {checkPasswords, validateEmail, validatePassword} from "../../utils/input-validators";
+import PageLoader from "../../component/PageLoader/PageLoader";
 
 class Registration extends Component {
     initialState = {
@@ -78,9 +79,15 @@ class Registration extends Component {
     render() {
         const {email, username, password, password2, validateEmailError, validatePasswordError, validateRepeatPasswordError} = this.state;
         const {emailError, usernameError, passwordError, password2Error} = this.props.errors;
+        let pageLoading;
+
+        if (this.props.loading) {
+            pageLoading = (<PageLoader/>);
+        }
 
         return (
             <div className="container mt-5">
+                {pageLoading}
                 <h4><FontAwesomeIcon className="mr-2" icon={faUserPlus}/> SIGN UP</h4>
                 <hr align="left" width="550"/>
                 {this.props.isRegistered ? <div className="alert alert-success col-6" role="alert">
@@ -155,12 +162,14 @@ Registration.propTypes = {
     registration: PropTypes.func.isRequired,
     formReset: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired,
-    isRegistered: PropTypes.bool.isRequired
+    isRegistered: PropTypes.bool.isRequired,
+    loading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     errors: state.auth.errors,
-    isRegistered: state.auth.isRegistered
+    isRegistered: state.auth.isRegistered,
+    loading: state.auth.loading
 });
 
 export default connect(mapStateToProps, {registration, formReset})(Registration);

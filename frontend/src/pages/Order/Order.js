@@ -7,6 +7,7 @@ import {faCheckCircle, faShoppingBag} from "@fortawesome/free-solid-svg-icons";
 import {IMG_URL} from "../../utils/constants/url";
 import {addOrder, fetchOrder} from "../../actions/order-actions";
 import {validateEmail} from "../../utils/input-validators";
+import PageLoader from "../../component/PageLoader/PageLoader";
 
 class Order extends Component {
     state = {
@@ -55,7 +56,7 @@ class Order extends Component {
 
     render() {
         const perfumesFromLocalStorage = new Map(JSON.parse(localStorage.getItem("perfumes")));
-        const {perfumes, totalPrice} = this.props;
+        const {perfumes, totalPrice, loading} = this.props;
         const {firstName, lastName, city, address, postIndex, phoneNumber, email, validateEmailError} = this.state;
         const {
             firstNameError,
@@ -66,9 +67,15 @@ class Order extends Component {
             phoneNumberError,
             emailError
         } = this.props.errors;
+        let pageLoading;
+
+        if (loading) {
+            pageLoading = (<PageLoader/>);
+        }
 
         return (
             <div className="container mt-5 pb-5">
+                {pageLoading}
                 <h4 className="mb-4 text-center">
                     <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/> Ordering
                 </h4>
@@ -205,15 +212,18 @@ class Order extends Component {
 
 Order.propTypes = {
     addOrder: PropTypes.func.isRequired,
+    fetchOrder: PropTypes.func.isRequired,
     perfumes: PropTypes.array.isRequired,
     errors: PropTypes.object.isRequired,
-    totalPrice: PropTypes.number.isRequired
+    totalPrice: PropTypes.number.isRequired,
+    loading: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = (state) => ({
     perfumes: state.cart.perfumes,
     totalPrice: state.cart.totalPrice,
-    errors: state.order.errors
+    errors: state.order.errors,
+    loading: state.order.loading
 });
 
 export default connect(mapStateToProps, {addOrder, fetchOrder})(Order);

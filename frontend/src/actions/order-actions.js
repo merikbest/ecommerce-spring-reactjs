@@ -6,6 +6,7 @@ import {
     ORDER_ADDED_FAILURE,
     ORDER_CONFIRMED_SUCCESS,
     FETCH_USER_ORDERS_SUCCESS,
+    SHOW_LOADER,
 } from "../utils/constants/actions-types";
 import {API_BASE_URL} from "../utils/constants/url";
 
@@ -17,6 +18,10 @@ export const fetchOrder = () => async (dispatch) => {
 
 export const addOrder = (order, history) => async (dispatch) => {
     try {
+        dispatch({
+            type: SHOW_LOADER
+        })
+
         const response = await axios.post(API_BASE_URL + "/order", order);
         history.push("/order/finalize");
         localStorage.removeItem("perfumes");

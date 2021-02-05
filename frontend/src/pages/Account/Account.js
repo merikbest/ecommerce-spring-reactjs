@@ -5,11 +5,13 @@ import {connect} from "react-redux";
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import ToastShow from "../../component/Toasts/ToastShow";
 import {formReset} from "../../actions/admin-actions";
+import {fetchAccount} from "../../actions/auth-actions";
 
 class Account extends Component {
 
     componentDidMount() {
         this.props.formReset();
+        this.props.fetchAccount();
     }
 
     render() {
@@ -26,6 +28,7 @@ class Account extends Component {
 
 Account.propTypes = {
     formReset: PropTypes.func.isRequired,
+    fetchAccount: PropTypes.func.isRequired,
     success: PropTypes.bool.isRequired
 };
 
@@ -33,4 +36,11 @@ const mapStateToProps = (state) => ({
     success: state.admin.success
 });
 
-export default connect(mapStateToProps, {formReset})(Account);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        formReset: () => dispatch(formReset()),
+        fetchAccount: () => dispatch(fetchAccount()),
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Account);

@@ -23,10 +23,12 @@ import EditPerfume from "../EditPerfume/EditPerfume";
 import UserOrdersList from "../UserOrdersList/UserOrdersList";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import ResetPassword from "../ResetPassword/ResetPassword";
+import {connect} from "react-redux";
+import PropTypes from "prop-types";
 
 class App extends Component {
     render() {
-        const isAdmin = localStorage.getItem("userRole") === "ADMIN";
+        const isAdmin = this.props.userRole === "ADMIN";
 
         return (
             <div>
@@ -68,5 +70,12 @@ class App extends Component {
         );
     }
 }
+AddProduct.propTypes = {
+    userRole: PropTypes.string.isRequired
+};
 
-export default App;
+const mapStateToProps = (state) => ({
+    userRole: state.auth.userRole
+});
+
+export default connect(mapStateToProps)(App);
