@@ -28,9 +28,6 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    private List<Perfume> perfumeList;
-
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }

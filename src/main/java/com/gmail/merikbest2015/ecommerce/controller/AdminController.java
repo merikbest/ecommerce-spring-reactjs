@@ -30,7 +30,7 @@ public class AdminController {
     private final OrderMapper orderMapper;
 
     @PostMapping("/add")
-    public ResponseEntity<PerfumeDtoIn> addPerfume(@Valid PerfumeDtoIn perfumeDtoIn,
+    public ResponseEntity<PerfumeDtoIn> addPerfume(@Valid @RequestBody PerfumeDtoIn perfumeDtoIn,
                                                    BindingResult bindingResult,
                                                    @RequestPart(name = "file", required = false) MultipartFile file) {
         if (bindingResult.hasErrors()) {
@@ -41,7 +41,7 @@ public class AdminController {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<PerfumeDtoIn> updatePerfume(@Valid PerfumeDtoIn perfumeDtoIn,
+    public ResponseEntity<PerfumeDtoIn> updatePerfume(@Valid @RequestBody PerfumeDtoIn perfumeDtoIn,
                                                       BindingResult bindingResult,
                                                       @RequestPart(name = "file", required = false) MultipartFile file) {
         if (bindingResult.hasErrors()) {

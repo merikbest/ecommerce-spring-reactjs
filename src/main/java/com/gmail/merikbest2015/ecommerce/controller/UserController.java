@@ -32,9 +32,9 @@ public class UserController {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<String> updateUserInfo(@AuthenticationPrincipal UserDtoIn userDto,
+    public ResponseEntity<String> updateUserInfo(@AuthenticationPrincipal User user,
                                                  @RequestBody AuthenticationRequestDto request) {
-        userMapper.updateProfile(userDto, request.getPassword(), request.getEmail());
+        userMapper.updateProfile(user, request.getPassword(), request.getEmail());
         return ResponseEntity.ok("User updated successfully.");
     }
 
@@ -45,7 +45,7 @@ public class UserController {
 
     @PostMapping("/review")
     public ResponseEntity<String> addReviewToPerfume(@RequestParam(required = false, name = "perfumeId") Long perfumeId,
-                                                     @Valid ReviewDtoIn reviewDto,
+                                                     @Valid @RequestBody ReviewDtoIn reviewDto,
                                                      BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);

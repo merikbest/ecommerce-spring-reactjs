@@ -1,4 +1,4 @@
-create sequence hibernate_sequence start 122 increment 1;
+create sequence hibernate_sequence start 123 increment 1;
 
 create table order_item
 (

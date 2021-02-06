@@ -11,7 +11,6 @@ import com.gmail.merikbest2015.ecommerce.security.JwtProvider;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

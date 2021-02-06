@@ -90,8 +90,8 @@ public class UserMapper {
         userService.userSave(username, form, convertToEntity(userDtoIn));
     }
 
-    public void updateProfile(UserDtoIn userDto, String password, String email) {
-        userService.updateProfile(convertToEntity(userDto), password, email);
+    public void updateProfile(User user, String password, String email) {
+        userService.updateProfile(user, password, email);
     }
 
     public void addReviewToPerfume(ReviewDtoIn reviewDto, Long perfumeId) {
