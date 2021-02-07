@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -28,6 +30,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @WithUserDetails(ADMIN_EMAIL)
+@TestPropertySource("/application-test.properties")
+@Sql(value = {"/create-user-before.sql", "/create-perfumes-before.sql", "/create-orders-before.sql"},
+        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = {"/create-orders-after.sql", "/create-perfumes-after.sql", "/create-user-after.sql"},
+        executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class AdminControllerTest {
 
     @Autowired
@@ -42,7 +49,7 @@ public class AdminControllerTest {
     @Test
     public void addPerfume() throws Exception {
         PerfumeDtoIn perfumeDtoIn = new PerfumeDtoIn();
-        perfumeDtoIn.setPerfumer(PERFUMER);
+        perfumeDtoIn.setPerfumer(PERFUMER_CHANEL);
         perfumeDtoIn.setPerfumeTitle(PERFUME_TITLE);
         perfumeDtoIn.setYear(YEAR);
         perfumeDtoIn.setCountry(COUNTRY);

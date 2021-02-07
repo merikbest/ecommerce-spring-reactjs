@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -15,7 +16,7 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.gmail.merikbest2015.ecommerce.util.TestConstants.PERFUMER;
+import static com.gmail.merikbest2015.ecommerce.util.TestConstants.PERFUMER_CHANEL;
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.PERFUME_GENDER;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -24,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
+@TestPropertySource("/application-test.properties")
 public class MenuControllerTest {
 
     @Autowired
@@ -37,7 +39,7 @@ public class MenuControllerTest {
         List<Integer> prices = new ArrayList<>();
         List<String> perfumers = new ArrayList<>();
         List<String> genders = new ArrayList<>();
-        perfumers.add(PERFUMER);
+        perfumers.add(PERFUMER_CHANEL);
         genders.add(PERFUME_GENDER);
 
         PerfumeSearchFilterDto filter = new PerfumeSearchFilterDto();
@@ -97,7 +99,7 @@ public class MenuControllerTest {
     @Test
     public void findByPerfumer() throws Exception {
         PerfumeSearchFilterDto filter = new PerfumeSearchFilterDto();
-        filter.setPerfumer(PERFUMER);
+        filter.setPerfumer(PERFUMER_CHANEL);
 
         RequestBuilder requestBuilder = post("/api/v1/menu/perfumer")
                 .content(mapper.writeValueAsString(filter))
