@@ -9,3 +9,5 @@ INSERT INTO order_item (id, amount, quantity, perfume_id) VALUES (2, 21, 1, 4);
 
 INSERT INTO orders_order_items (order_id, order_items_id) VALUES (1, 1);
 INSERT INTO orders_order_items (order_id, order_items_id) VALUES (1, 2);
+
+alter sequence hibernate_sequence restart with 200;

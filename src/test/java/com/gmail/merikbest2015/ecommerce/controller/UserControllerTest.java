@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -24,6 +25,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @TestPropertySource("/application-test.properties")
+@Sql(value = {"/sql/create-user-before.sql", "/sql/create-perfumes-before.sql", "/sql/create-orders-before.sql"},
+        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = {"/sql/create-orders-after.sql", "/sql/create-perfumes-after.sql", "/sql/create-user-after.sql"},
+        executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class UserControllerTest {
 
     @Autowired
@@ -92,5 +97,17 @@ public class UserControllerTest {
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("Review added successfully.")));
+    }
+
+    @Test
+    public void addReviewToPerfume_ShouldInputFieldsAreEmpty() throws Exception {
+        ReviewDtoIn reviewDtoIn = new ReviewDtoIn();
+
+        mockMvc.perform(post("/api/v1/user/review")
+                .content(mapper.writeValueAsString(reviewDtoIn))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.authorError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.messageError", is("Fill in the input field")));
     }
 }

@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,9 +32,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithUserDetails(ADMIN_EMAIL)
 @TestPropertySource("/application-test.properties")
-@Sql(value = {"/create-user-before.sql", "/create-perfumes-before.sql", "/create-orders-before.sql"},
+@Sql(value = {"/sql/create-user-before.sql", "/sql/create-perfumes-before.sql", "/sql/create-orders-before.sql"},
         executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = {"/create-orders-after.sql", "/create-perfumes-after.sql", "/create-user-after.sql"},
+@Sql(value = {"/sql/create-orders-after.sql", "/sql/create-perfumes-after.sql", "/sql/create-user-after.sql"},
         executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class AdminControllerTest {
 
@@ -70,6 +71,27 @@ public class AdminControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(mapper.writeValueAsString(perfumeDtoIn)))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void addPerfume_ShouldInputFieldsAreEmpty() throws Exception {
+        PerfumeDtoIn perfumeDtoIn = new PerfumeDtoIn();
+
+        mockMvc.perform(post("/api/v1/admin/add")
+                .content(mapper.writeValueAsString(perfumeDtoIn))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.perfumeTitleError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.perfumerError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.yearError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.countryError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.perfumeGenderError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.fragranceTopNotesError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.fragranceMiddleNotesError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.fragranceBaseNotesError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.priceError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.volumeError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.typeError", is("Fill in the input field")));
     }
 
     @Test

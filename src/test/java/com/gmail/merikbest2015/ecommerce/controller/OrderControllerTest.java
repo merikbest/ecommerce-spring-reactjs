@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -26,6 +28,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @TestPropertySource("/application-test.properties")
+@Sql(value = {"/sql/create-user-before.sql", "/sql/create-perfumes-before.sql", "/sql/create-orders-before.sql"},
+        executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = {"/sql/create-orders-after.sql", "/sql/create-perfumes-after.sql", "/sql/create-user-after.sql"},
+        executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class OrderControllerTest {
 
     @Autowired
@@ -65,6 +71,23 @@ public class OrderControllerTest {
                 .andExpect(jsonPath("$.phoneNumber").value(PHONE_NUMBER))
                 .andExpect(jsonPath("$.postIndex").value(POST_INDEX))
                 .andExpect(jsonPath("$.totalPrice").value(TOTAL_PRICE));
+    }
+
+    @Test
+    public void postOrder_ShouldInputFieldsAreEmpty() throws Exception {
+        OrderDtoIn OrderDtoIn = new OrderDtoIn();
+
+        mockMvc.perform(post("/api/v1/order")
+                .content(mapper.writeValueAsString(OrderDtoIn))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.firstNameError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.lastNameError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.cityError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.addressError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.emailError", is("Email cannot be empty")))
+                .andExpect(jsonPath("$.phoneNumberError", is("Phone number cannot be empty")))
+                .andExpect(jsonPath("$.postIndexError", is("Post index cannot be empty")));
     }
 
     @Test

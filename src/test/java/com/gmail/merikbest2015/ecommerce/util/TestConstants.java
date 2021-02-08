@@ -8,6 +8,7 @@ public class TestConstants {
     public static final String USER_PASSWORD_RESET_CODE = "3f9bcdb0-2241-4c34-803e-598b497d571f";
     public static final String USER_ACTIVATION_CODE = "8e97dc37-2cf5-47e2-98e0";
 
+    public static final String EMAIL_FAILURE = "1t2e3st123@test.com";
     public static final String ADMIN_EMAIL = "admin@gmail.com";
     public static final String ROLE_ADMIN = "ADMIN";
 
