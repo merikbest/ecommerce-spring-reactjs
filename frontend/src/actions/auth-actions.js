@@ -38,7 +38,7 @@ export const login = (data, history) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: LOGIN_FAILURE,
-            payload: error.response.data.message
+            payload: error.response.data
         })
     }
 };
@@ -105,7 +105,7 @@ export const forgotPassword = (data) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: FORGOT_PASSWORD_FAILURE,
-            payload: error.response.data.message
+            payload: error.response.data
         })
     }
 };

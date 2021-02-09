@@ -36,12 +36,13 @@ class Perfume extends Component {
     addReview = (event) => {
         event.preventDefault();
 
-        const bodyFormData = new FormData();
-        bodyFormData.append("perfumeId", this.props.match.params.id);
-        bodyFormData.append("author", this.state.author);
-        bodyFormData.append("message", this.state.message);
+        const data = {
+            perfumeId: this.props.match.params.id,
+            author: this.state.author,
+            message: this.state.message
+        };
 
-        this.props.addReviewToPerfume(bodyFormData);
+        this.props.addReviewToPerfume(data);
     };
 
     handleInputChange = (event) => {

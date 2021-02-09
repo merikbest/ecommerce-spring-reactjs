@@ -19,7 +19,7 @@ public class PerfumeMapper {
     private final ModelMapper modelMapper;
     private final PerfumeService perfumeService;
 
-    Perfume convertToEntity(PerfumeDtoIn perfumeDto) {
+    private Perfume convertToEntity(PerfumeDtoIn perfumeDto) {
         return modelMapper.map(perfumeDto, Perfume.class);
     }
 

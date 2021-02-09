@@ -28,10 +28,14 @@ public class RegistrationController {
     @PostMapping
     public ResponseEntity<String> registration(@RequestParam("password2") String passwordConfirm,
                                                @RequestParam("g-recaptcha-response") String captcha,
-                                               @Valid UserDtoIn userDtoIn,
+                                               @Valid @ModelAttribute UserDtoIn userDtoIn,
                                                BindingResult bindingResult) {
 
         CaptchaResponseDto captchaResponse = ControllerUtils.captchaValidation(secret, captcha, restTemplate);
+
+        if (bindingResult.hasErrors() || !captchaResponse.isSuccess()) {
+            throw new InputFieldException(bindingResult);
+        }
 
         if (ControllerUtils.isPasswordConfirmEmpty(passwordConfirm)) {
             throw new PasswordConfirmationException("Password confirmation cannot be empty.");
@@ -47,10 +51,6 @@ public class RegistrationController {
 
         if (!captchaResponse.isSuccess()) {
             throw new CaptchaException("Fill captcha.");
-        }
-
-        if (bindingResult.hasErrors() || !captchaResponse.isSuccess()) {
-            throw new InputFieldException(bindingResult);
         }
         return ResponseEntity.ok("User successfully registered.");
     }

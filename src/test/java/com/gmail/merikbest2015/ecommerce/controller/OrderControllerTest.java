@@ -12,7 +12,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,11 +56,9 @@ public class OrderControllerTest {
         orderDtoIn.setTotalPrice(TOTAL_PRICE);
         orderDtoIn.setPerfumesId(perfumesId);
 
-        RequestBuilder requestBuilder = post("/api/v1/order")
+        mockMvc.perform(post("/api/v1/order")
                 .content(mapper.writeValueAsString(orderDtoIn))
-                .contentType(MediaType.APPLICATION_JSON_VALUE);
-
-        mockMvc.perform(requestBuilder)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
                 .andExpect(jsonPath("$.lastName").value(LAST_NAME))
@@ -92,8 +89,8 @@ public class OrderControllerTest {
 
     @Test
     public void finalizeOrder() throws Exception {
-            mockMvc.perform(get("/api/v1/order/finalize"))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$").isNotEmpty());
+        mockMvc.perform(get("/api/v1/order/finalize"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isNotEmpty());
     }
 }

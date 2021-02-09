@@ -11,7 +11,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +41,9 @@ public class CartControllerTest {
         perfumesIds.add(2L);
         perfumesIds.add(4L);
 
-        RequestBuilder requestBuilder = post("/api/v1/cart")
+        mockMvc.perform(post("/api/v1/cart")
                 .content(mapper.writeValueAsString(perfumesIds))
-                .contentType(MediaType.APPLICATION_JSON_VALUE);
-
-        mockMvc.perform(requestBuilder)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
                 .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())

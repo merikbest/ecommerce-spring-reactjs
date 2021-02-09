@@ -12,7 +12,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +49,9 @@ public class MenuControllerTest {
         filter.setGenders(genders);
         filter.setPrices(prices);
 
-        RequestBuilder requestBuilder = post("/api/v1/menu/search")
+        mockMvc.perform(post("/api/v1/menu/search")
                 .content(mapper.writeValueAsString(filter))
-                .contentType(MediaType.APPLICATION_JSON_VALUE);
-
-        mockMvc.perform(requestBuilder)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
                 .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
@@ -77,11 +74,9 @@ public class MenuControllerTest {
         PerfumeSearchFilterDto filter = new PerfumeSearchFilterDto();
         filter.setPerfumeGender(PERFUME_GENDER);
 
-        RequestBuilder requestBuilder = post("/api/v1/menu/gender")
+        mockMvc.perform(post("/api/v1/menu/gender")
                 .content(mapper.writeValueAsString(filter))
-                .contentType(MediaType.APPLICATION_JSON_VALUE);
-
-        mockMvc.perform(requestBuilder)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
                 .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
@@ -104,11 +99,9 @@ public class MenuControllerTest {
         PerfumeSearchFilterDto filter = new PerfumeSearchFilterDto();
         filter.setPerfumer(PERFUMER_CHANEL);
 
-        RequestBuilder requestBuilder = post("/api/v1/menu/perfumer")
+        mockMvc.perform(post("/api/v1/menu/perfumer")
                 .content(mapper.writeValueAsString(filter))
-                .contentType(MediaType.APPLICATION_JSON_VALUE);
-
-        mockMvc.perform(requestBuilder)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
                 .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())

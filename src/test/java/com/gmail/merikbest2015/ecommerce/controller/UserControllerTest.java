@@ -14,7 +14,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
 
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
 import static org.hamcrest.Matchers.*;
@@ -55,11 +54,9 @@ public class UserControllerTest {
         authenticationRequestDto.setEmail(USER_EMAIL);
         authenticationRequestDto.setPassword(USER_PASSWORD);
 
-        RequestBuilder requestBuilder = put("/api/v1/user/edit")
+        mockMvc.perform(put("/api/v1/user/edit")
                 .content(mapper.writeValueAsString(authenticationRequestDto))
-                .contentType(MediaType.APPLICATION_JSON_VALUE);
-
-        mockMvc.perform(requestBuilder)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("User updated successfully.")));
     }
@@ -89,12 +86,10 @@ public class UserControllerTest {
         reviewDtoIn.setAuthor(FIRST_NAME);
         reviewDtoIn.setMessage("Hello world");
 
-        RequestBuilder requestBuilder = post("/api/v1/user/review")
+        mockMvc.perform(post("/api/v1/user/review")
                 .param("perfumeId", String.valueOf(perfumeId))
                 .content(mapper.writeValueAsString(reviewDtoIn))
-                .contentType(MediaType.APPLICATION_JSON_VALUE);
-
-        mockMvc.perform(requestBuilder)
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("Review added successfully.")));
     }

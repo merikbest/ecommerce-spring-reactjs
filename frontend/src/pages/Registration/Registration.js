@@ -33,11 +33,8 @@ class Registration extends Component {
         const {email, username, password, password2, captchaValue} = this.state;
         const validateErrors = {};
         validateErrors.validateEmailError = validateEmail(email);
-        validateErrors.validatePasswordError = validatePassword(password);
-        validateErrors.validateRepeatPasswordError = checkPasswords(password, password2);
 
-        if (validateErrors.validateEmailError || validateErrors.validatePasswordError ||
-            validateErrors.validateRepeatPasswordError) {
+        if (validateErrors.validateEmailError) {
             this.setState({
                 ...validateErrors
             });

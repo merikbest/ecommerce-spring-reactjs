@@ -2,12 +2,16 @@ package com.gmail.merikbest2015.ecommerce.dto.perfume;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
 public class PerfumeDtoIn {
+
+    private Long id;
+    private MultipartFile file;
 
     @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
@@ -50,7 +54,4 @@ public class PerfumeDtoIn {
     @NotBlank(message = "Fill in the input field")
     @Length(max = 255)
     private String type;
-
-    private String description;
-    private String filename;
 }

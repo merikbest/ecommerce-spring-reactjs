@@ -7,6 +7,8 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class ReviewDtoIn {
 
+    private Long perfumeId;
+
     @NotBlank(message = "Fill in the input field")
     private String author;
 
