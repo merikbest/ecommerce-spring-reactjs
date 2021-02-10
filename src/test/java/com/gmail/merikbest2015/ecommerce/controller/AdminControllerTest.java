@@ -22,8 +22,7 @@ import java.io.FileInputStream;
 
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
 import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,22 +63,23 @@ public class AdminControllerTest {
 
         FileInputStream inputFile = new FileInputStream(FILE_PATH);
         MockMultipartFile multipartFile = new MockMultipartFile("file", FILE_NAME, MediaType.MULTIPART_FORM_DATA_VALUE, inputFile);
+        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeDtoIn).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/api/v1/admin/add")
+        mockMvc.perform(multipart("/api/v1/admin/add")
                 .file(multipartFile)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(mapper.writeValueAsString(perfumeDtoIn)))
+                .file(jsonFile))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void addPerfume_ShouldInputFieldsAreEmpty() throws Exception {
         PerfumeDtoIn perfumeDtoIn = new PerfumeDtoIn();
+        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeDtoIn).getBytes());
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        mockMvc.perform(post("/api/v1/admin/add")
-                .content(mapper.writeValueAsString(perfumeDtoIn))
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
+        mockMvc.perform(multipart("/api/v1/admin/add")
+                .file(jsonFile))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.perfumeTitleError", is("Fill in the input field")))
                 .andExpect(jsonPath("$.perfumerError", is("Fill in the input field")))

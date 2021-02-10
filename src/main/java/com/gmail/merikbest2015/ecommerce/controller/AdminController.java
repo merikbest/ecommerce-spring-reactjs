@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -29,20 +30,24 @@ public class AdminController {
     private final OrderMapper orderMapper;
 
     @PostMapping("/add")
-    public ResponseEntity<PerfumeDtoIn> addPerfume(@Valid @ModelAttribute PerfumeDtoIn perfume, BindingResult bindingResult) {
+    public ResponseEntity<PerfumeDtoIn> addPerfume(@RequestPart(name = "file", required = false) MultipartFile file,
+                                                   @RequestPart("perfume") @Valid PerfumeDtoIn perfume,
+                                                   BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, perfume.getFile()));
+            return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, file));
         }
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<PerfumeDtoIn> updatePerfume(@Valid @ModelAttribute PerfumeDtoIn perfume, BindingResult bindingResult) {
+    public ResponseEntity<PerfumeDtoIn> updatePerfume(@RequestPart(name = "file", required = false) MultipartFile file,
+                                                      @RequestPart("perfume") @Valid PerfumeDtoIn perfume,
+                                                      BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, perfume.getFile()));
+            return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, file));
         }
     }
 

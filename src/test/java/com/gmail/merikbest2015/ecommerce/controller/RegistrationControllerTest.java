@@ -38,8 +38,8 @@ public class RegistrationControllerTest {
     public void registration_ShouldPassword2BeEmpty() throws Exception {
         UserDtoIn userDtoIn = new UserDtoIn();
         userDtoIn.setEmail("testtest@test.com");
-        userDtoIn.setPassword(USER_PASSWORD);
         userDtoIn.setUsername(FIRST_NAME);
+        userDtoIn.setCaptcha("12345");
 
         mockMvc.perform(post("/api/v1/registration")
                 .param("password2", "")

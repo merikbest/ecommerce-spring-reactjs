@@ -18,11 +18,11 @@ public class OrderController {
     private final OrderMapper orderMapper;
 
     @PostMapping
-    public ResponseEntity<OrderDtoIn> postOrder(@Valid @RequestBody OrderDtoIn orderDtoIn, BindingResult bindingResult) {
+    public ResponseEntity<OrderDtoIn> postOrder(@Valid @RequestBody OrderDtoIn order, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            return ResponseEntity.ok(orderMapper.postOrder(orderDtoIn));
+            return ResponseEntity.ok(orderMapper.postOrder(order));
         }
     }
 

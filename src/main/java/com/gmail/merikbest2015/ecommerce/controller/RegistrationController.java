@@ -1,8 +1,10 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
-import com.gmail.merikbest2015.ecommerce.dto.CaptchaResponseDto;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserDtoIn;
-import com.gmail.merikbest2015.ecommerce.exception.*;
+import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
+import com.gmail.merikbest2015.ecommerce.exception.EmailException;
+import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
+import com.gmail.merikbest2015.ecommerce.exception.PasswordException;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
 import com.gmail.merikbest2015.ecommerce.utils.ControllerUtils;
 import lombok.RequiredArgsConstructor;
@@ -26,31 +28,17 @@ public class RegistrationController {
     private final RestTemplate restTemplate;
 
     @PostMapping
-    public ResponseEntity<String> registration(@RequestParam("password2") String passwordConfirm,
-                                               @RequestParam("g-recaptcha-response") String captcha,
-                                               @Valid @ModelAttribute UserDtoIn userDtoIn,
-                                               BindingResult bindingResult) {
+    public ResponseEntity<String> registration(@Valid @RequestBody UserDtoIn user, BindingResult bindingResult) {
+        ControllerUtils.captchaValidation(secret, user.getCaptcha(), restTemplate);
 
-        CaptchaResponseDto captchaResponse = ControllerUtils.captchaValidation(secret, captcha, restTemplate);
-
-        if (bindingResult.hasErrors() || !captchaResponse.isSuccess()) {
-            throw new InputFieldException(bindingResult);
-        }
-
-        if (ControllerUtils.isPasswordConfirmEmpty(passwordConfirm)) {
-            throw new PasswordConfirmationException("Password confirmation cannot be empty.");
-        }
-
-        if (ControllerUtils.isPasswordDifferent(userDtoIn.getPassword(), passwordConfirm)) {
+        if (ControllerUtils.isPasswordDifferent(user.getPassword(), user.getPassword2())) {
             throw new PasswordException("Passwords do not match.");
         }
-
-        if (!userMapper.addUser(userDtoIn)) {
-            throw new EmailException("Email is already used.");
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
         }
-
-        if (!captchaResponse.isSuccess()) {
-            throw new CaptchaException("Fill captcha.");
+        if (!userMapper.addUser(user)) {
+            throw new EmailException("Email is already used.");
         }
         return ResponseEntity.ok("User successfully registered.");
     }
