@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Route, Switch} from "react-router-dom";
 
 import Menu from "../Menu/Menu";
@@ -10,7 +10,6 @@ import Login from "../Login/Login";
 import Registration from "../Registration/Registration";
 import Product from "../Perfume/Perfume";
 import Account from "../Account/Account";
-import Cart from "../Cart/Cart";
 import Order from "../Order/Order";
 import OrderFinalize from "../OrderFinalize/OrderFinalize";
 import AddProduct from "../AddProduct/AddProduct";
@@ -25,51 +24,52 @@ import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import ResetPassword from "../ResetPassword/ResetPassword";
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
+import Cart from "../Cart/Cart";
 
-class App extends Component {
-    render() {
-        const isAdmin = this.props.userRole === "ADMIN";
+const App = ({userRole}) => {
 
-        return (
-            <div>
-                <NavBar/>
-                <Switch>
-                    <Route exact path="/" component={Home}/>
-                    <Route exact path="/login" component={Login}/>
-                    <Route exact path="/registration" component={Registration}/>
-                    <Route exact path="/forgot" component={ForgotPassword}/>
-                    <Route exact path="/reset/:code" component={ResetPassword}/>
-                    <Route exact path="/activate/:code" component={Login}/>
-                    <Route exact path="/menu" component={Menu}/>
-                    <Route exact path="/product/:id" component={Product}/>
-                    <Route exact path="/contacts" component={Contacts}/>
-                    <Route exact path="/account" component={Account}/>
-                    <Route exact path="/cart" component={Cart}/>
-                    <Route exact path="/order" component={Order}/>
-                    <Route exact path="/order/finalize" component={OrderFinalize}/>
-                    <Route exact path="/admin/add" render={() => (isAdmin) ?
-                        (<Route component={AddProduct}/>) : (<Route component={Home}/>)}/>
-                    <Route exact path="/admin/orders" render={() => (isAdmin) ?
-                        (<Route component={OrdersList}/>) : (<Route component={Home}/>)}/>
-                    <Route exact path="/admin/users/all" render={() => (isAdmin) ?
-                        (<Route component={UserList}/>) : (<Route component={Home}/>)}/>
-                    <Route exact path="/admin/user/:id" render={() => (isAdmin) ?
-                        (<Route component={EditUser}/>) : (<Route component={Home}/>)}/>
-                    <Route exact path="/product/list/edit" render={() => (isAdmin) ?
-                        (<Route component={EditPerfumesList}/>) : (<Route component={Home}/>)}/>
-                    <Route exact path="/product/list/edit/:id" render={() => (isAdmin) ?
-                        (<Route component={EditPerfume}/>) : (<Route component={Home}/>)}/>
-                    <Route exact path="/user/edit" render={() => localStorage.getItem("isLoggedIn") ?
-                        (<Route component={UserEditProfile}/>) : (<Route component={Home}/>)}/>
-                    <Route exact path="/user/orders" render={() => localStorage.getItem("isLoggedIn") ?
-                        (<Route component={UserOrdersList}/>) : (<Route component={Home}/>)}/>
-                    <Route path="*" component={Home}/>
-                </Switch>
-                <Footer/>
-            </div>
-        );
-    }
+    const isAdmin = userRole === "ADMIN";
+
+    return (
+        <div>
+            <NavBar/>
+            <Switch>
+                <Route exact path="/" component={Home}/>
+                <Route exact path="/login" component={Login}/>
+                <Route exact path="/registration" component={Registration}/>
+                <Route exact path="/forgot" component={ForgotPassword}/>
+                <Route exact path="/reset/:code" component={ResetPassword}/>
+                <Route exact path="/activate/:code" component={Login}/>
+                <Route exact path="/menu" component={Menu}/>
+                <Route exact path="/product/:id" component={Product}/>
+                <Route exact path="/contacts" component={Contacts}/>
+                <Route exact path="/account" component={Account}/>
+                <Route exact path="/cart" component={Cart}/>
+                <Route exact path="/order" component={Order}/>
+                <Route exact path="/order/finalize" component={OrderFinalize}/>
+                <Route exact path="/admin/add" render={() => (isAdmin) ?
+                    (<Route component={AddProduct}/>) : (<Route component={Home}/>)}/>
+                <Route exact path="/admin/orders" render={() => (isAdmin) ?
+                    (<Route component={OrdersList}/>) : (<Route component={Home}/>)}/>
+                <Route exact path="/admin/users/all" render={() => (isAdmin) ?
+                    (<Route component={UserList}/>) : (<Route component={Home}/>)}/>
+                <Route exact path="/admin/user/:id" render={() => (isAdmin) ?
+                    (<Route component={EditUser}/>) : (<Route component={Home}/>)}/>
+                <Route exact path="/product/list/edit" render={() => (isAdmin) ?
+                    (<Route component={EditPerfumesList}/>) : (<Route component={Home}/>)}/>
+                <Route exact path="/product/list/edit/:id" render={() => (isAdmin) ?
+                    (<Route component={EditPerfume}/>) : (<Route component={Home}/>)}/>
+                <Route exact path="/user/edit" render={() => localStorage.getItem("isLoggedIn") ?
+                    (<Route component={UserEditProfile}/>) : (<Route component={Home}/>)}/>
+                <Route exact path="/user/orders" render={() => localStorage.getItem("isLoggedIn") ?
+                    (<Route component={UserOrdersList}/>) : (<Route component={Home}/>)}/>
+                <Route path="*" component={Home}/>
+            </Switch>
+            <Footer/>
+        </div>
+    );
 }
+
 AddProduct.propTypes = {
     userRole: PropTypes.string.isRequired
 };

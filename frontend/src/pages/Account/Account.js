@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 
@@ -7,23 +7,21 @@ import ToastShow from "../../component/Toasts/ToastShow";
 import {formReset} from "../../actions/admin-actions";
 import {fetchAccount} from "../../actions/auth-actions";
 
-class Account extends Component {
+const Account = ({success, formReset, fetchAccount}) => {
 
-    componentDidMount() {
-        this.props.formReset();
-        this.props.fetchAccount();
-    }
+    useEffect(() => {
+        formReset();
+        fetchAccount();
+    }, []);
 
-    render() {
-        return (
-            <div className="container">
-                <AccountNavbar/>
-                <div className="container" style={{"display": this.props.success ? "block" : "none"}}>
-                    <ToastShow showToast={this.props.success} message={"Perfume successfully edited!"}/>
-                </div>
+    return (
+        <div className="container">
+            <AccountNavbar/>
+            <div className="container" style={{"display": success ? "block" : "none"}}>
+                <ToastShow showToast={success} message={"Perfume successfully edited!"}/>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 Account.propTypes = {

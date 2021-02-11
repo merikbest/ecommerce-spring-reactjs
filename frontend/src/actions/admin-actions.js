@@ -22,11 +22,8 @@ export const addPerfume = (data) => async (dispatch) => {
                 "Authorization": localStorage.getItem("token")
             }
         });
-
-        dispatch({
-            type: PERFUME_ADDED_SUCCESS,
-            payload: response.data
-        })
+        window.scrollTo(0, 0);
+        dispatch({type: PERFUME_ADDED_SUCCESS})
     } catch (error) {
         dispatch({
             type: PERFUME_ADDED_FAILURE,

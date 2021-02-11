@@ -2,7 +2,7 @@ import React from 'react';
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-function Contacts() {
+const Contacts = () => {
     return (
         <div className="container mt-5">
             <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faInfoCircle}/>Contacts</h4>

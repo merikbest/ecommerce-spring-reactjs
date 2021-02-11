@@ -49,18 +49,10 @@ class EditPerfume extends Component {
         const bodyFormData = new FormData();
 
         bodyFormData.append("file", file);
-        bodyFormData.append("id", id);
-        bodyFormData.append("perfumeTitle", perfumeTitle);
-        bodyFormData.append("perfumer", perfumer);
-        bodyFormData.append("year", year);
-        bodyFormData.append("country", country);
-        bodyFormData.append("type", type);
-        bodyFormData.append("volume", volume);
-        bodyFormData.append("perfumeGender", perfumeGender);
-        bodyFormData.append("fragranceTopNotes", fragranceTopNotes);
-        bodyFormData.append("fragranceMiddleNotes", fragranceMiddleNotes);
-        bodyFormData.append("fragranceBaseNotes", fragranceBaseNotes);
-        bodyFormData.append("price", price);
+        bodyFormData.append("perfume", new Blob([JSON.stringify({
+                id, perfumeTitle, perfumer, year, country, type, volume, perfumeGender, fragranceTopNotes,
+                fragranceMiddleNotes, fragranceBaseNotes, price})],
+            {type: "application/json"}));
 
         this.props.updatePerfume(bodyFormData, this.props.history);
     };

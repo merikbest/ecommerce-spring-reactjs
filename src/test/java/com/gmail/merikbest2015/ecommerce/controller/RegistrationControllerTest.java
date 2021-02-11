@@ -42,8 +42,6 @@ public class RegistrationControllerTest {
         userDtoIn.setCaptcha("12345");
 
         mockMvc.perform(post("/api/v1/registration")
-                .param("password2", "")
-                .param("g-recaptcha-response", "")
                 .content(mapper.writeValueAsString(userDtoIn))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
@@ -71,15 +69,15 @@ public class RegistrationControllerTest {
         UserDtoIn userDtoIn = new UserDtoIn();
         userDtoIn.setEmail(USER_EMAIL);
         userDtoIn.setPassword(USER_PASSWORD);
+        userDtoIn.setPassword2(USER_PASSWORD);
         userDtoIn.setUsername(FIRST_NAME);
+        userDtoIn.setCaptcha("123");
 
         mockMvc.perform(post("/api/v1/registration")
-                .param("password2", USER_PASSWORD)
-                .param("g-recaptcha-response", "")
                 .content(mapper.writeValueAsString(userDtoIn))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.emailError", is("Email is already used.")));
+                .andExpect(jsonPath("$.emailError").value("Email is already used."));
     }
 
     @Test

@@ -31,32 +31,18 @@ class Registration extends Component {
         event.preventDefault();
 
         const {email, username, password, password2, captchaValue} = this.state;
-        const validateErrors = {};
-        validateErrors.validateEmailError = validateEmail(email);
+        const data = {captcha: captchaValue, email, username, password, password2}
 
-        if (validateErrors.validateEmailError) {
-            this.setState({
-                ...validateErrors
+        this.props.registration(data)
+            .then(() => {
+                if (this.props.isRegistered) {
+                    this.setState({
+                        ...this.initialState
+                    });
+                }
             });
-        } else {
-            const bodyFormData = new FormData();
-            bodyFormData.append("email", email);
-            bodyFormData.append("username", username);
-            bodyFormData.append("password", password);
-            bodyFormData.append("password2", password2);
-            bodyFormData.append("g-recaptcha-response", captchaValue);
 
-            this.props.registration(bodyFormData)
-                .then(() => {
-                    if (this.props.isRegistered) {
-                        this.setState({
-                            ...this.initialState
-                        });
-                    }
-                });
-
-            window.grecaptcha.reset();
-        }
+        window.grecaptcha.reset();
     };
 
     onChangeRecaptcha = (value) => {
@@ -74,7 +60,15 @@ class Registration extends Component {
     };
 
     render() {
-        const {email, username, password, password2, validateEmailError, validatePasswordError, validateRepeatPasswordError} = this.state;
+        const {
+            email,
+            username,
+            password,
+            password2,
+            validateEmailError,
+            validatePasswordError,
+            validateRepeatPasswordError
+        } = this.state;
         const {emailError, usernameError, passwordError, password2Error} = this.props.errors;
         let pageLoading;
 

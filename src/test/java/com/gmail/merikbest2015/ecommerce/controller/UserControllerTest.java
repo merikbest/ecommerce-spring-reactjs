@@ -81,13 +81,12 @@ public class UserControllerTest {
 
     @Test
     public void addReviewToPerfume() throws Exception {
-        Long perfumeId = 2L;
         ReviewDtoIn reviewDtoIn = new ReviewDtoIn();
+        reviewDtoIn.setPerfumeId(2L);
         reviewDtoIn.setAuthor(FIRST_NAME);
         reviewDtoIn.setMessage("Hello world");
 
         mockMvc.perform(post("/api/v1/user/review")
-                .param("perfumeId", String.valueOf(perfumeId))
                 .content(mapper.writeValueAsString(reviewDtoIn))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

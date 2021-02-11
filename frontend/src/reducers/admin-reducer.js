@@ -43,7 +43,7 @@ const reducer = (state = initialState, action) => {
             return {...state, orders: payload};
 
         case FORM_RESET:
-            return {...state, errors: {}, success: false};
+            return {...state, success: false, errors: {}};
 
         default:
             return state;
