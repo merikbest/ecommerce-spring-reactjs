@@ -14,6 +14,6 @@ const Home = () => {
             <SliderCards/>
         </div>
     );
-}
+};
 
 export default Home;

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from "prop-types";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {faPlusSquare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
@@ -8,7 +7,10 @@ import ToastShow from "../../component/Toasts/ToastShow";
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import {addPerfume, formReset} from "../../actions/admin-actions";
 
-const AddProduct = ({addPerfume, formReset, success, errors}) => {
+const AddProduct = () => {
+    const dispatch = useDispatch();
+    const success = useSelector(state => state.admin.success);
+    const errors = useSelector(state => state.admin.errors);
 
     const initialState = {
         perfumeTitle: "",
@@ -56,7 +58,7 @@ const AddProduct = ({addPerfume, formReset, success, errors}) => {
     } = errors;
 
     useEffect(() => {
-        formReset();
+        dispatch(formReset());
     }, []);
 
     useEffect(() => {
@@ -78,7 +80,7 @@ const AddProduct = ({addPerfume, formReset, success, errors}) => {
             fragranceMiddleNotes, fragranceBaseNotes, price
         })], {type: "application/json"}));
 
-        addPerfume(bodyFormData)
+        dispatch(addPerfume(bodyFormData));
     };
 
     const handleFileChange = (event) => {
@@ -245,18 +247,6 @@ const AddProduct = ({addPerfume, formReset, success, errors}) => {
             </div>
         </div>
     );
-}
-
-AddProduct.propTypes = {
-    addPerfume: PropTypes.func.isRequired,
-    formReset: PropTypes.func.isRequired,
-    errors: PropTypes.object.isRequired,
-    success: PropTypes.bool.isRequired
 };
 
-const mapStateToProps = (state) => ({
-    errors: state.admin.errors,
-    success: state.admin.success,
-});
-
-export default connect(mapStateToProps, {addPerfume, formReset})(AddProduct);
+export default AddProduct;

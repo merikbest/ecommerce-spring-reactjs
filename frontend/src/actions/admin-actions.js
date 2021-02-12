@@ -7,7 +7,7 @@ import {
     PERFUME_UPDATED_FAILURE,
     FETCH_USER_SUCCESS,
     FETCH_ALL_USERS_SUCCESS,
-    FETCH_ALL_USERS_ORDERS_SUCCESS, FORM_RESET
+    FETCH_ALL_USERS_ORDERS_SUCCESS, FORM_RESET, FETCH_PERFUME, FETCH_PERFUMES
 } from "../utils/constants/actions-types";
 import {API_BASE_URL} from "../utils/constants/url";
 
@@ -30,6 +30,15 @@ export const addPerfume = (data) => async (dispatch) => {
             payload: error.response.data
         })
     }
+};
+
+export const fetchPerfumes = () => async (dispatch) => {
+    const response = await axios.get(API_BASE_URL+ "/home");
+
+    dispatch({
+        type: FETCH_PERFUMES,
+        payload: response.data
+    })
 };
 
 export const updatePerfume = (data, history) => async (dispatch) => {

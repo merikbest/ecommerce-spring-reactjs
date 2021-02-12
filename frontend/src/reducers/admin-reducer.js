@@ -6,10 +6,11 @@ import {
     FETCH_USER_SUCCESS,
     FETCH_ALL_USERS_SUCCESS,
     FETCH_ALL_USERS_ORDERS_SUCCESS,
-    FORM_RESET
+    FORM_RESET, FETCH_PERFUMES
 } from "../utils/constants/actions-types";
 
 const initialState = {
+    perfumes: [],
     orders:[],
     users: [],
     user: {},
@@ -21,6 +22,9 @@ const reducer = (state = initialState, action) => {
     const {type, payload} = action;
 
     switch (type) {
+        case FETCH_PERFUMES:
+            return {...state, perfumes: payload};
+
         case PERFUME_ADDED_SUCCESS:
             return {...state, success: true, errors: {}};
 

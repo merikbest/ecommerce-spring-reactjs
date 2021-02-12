@@ -1,5 +1,6 @@
 import React from 'react';
 import {Route, Switch} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 import Menu from "../Menu/Menu";
 import Contacts from "../Contacts/Contacts";
@@ -17,17 +18,15 @@ import OrdersList from "../OrdersList/OrdersList";
 import UserList from "../UserList/UserList";
 import EditUser from "../EditUser/EditUser";
 import UserEditProfile from "../UserEditProfile/UserEditProfile";
-import EditPerfumesList from "../EditPerfumesList/EditPerfumesList";
 import EditPerfume from "../EditPerfume/EditPerfume";
 import UserOrdersList from "../UserOrdersList/UserOrdersList";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import ResetPassword from "../ResetPassword/ResetPassword";
-import {connect} from "react-redux";
-import PropTypes from "prop-types";
 import Cart from "../Cart/Cart";
+import EditPerfumes from "../EditPerfumesList/EditPerfumes";
 
-const App = ({userRole}) => {
-
+const App = () => {
+    const userRole = useSelector(state => state.auth.userRole);
     const isAdmin = userRole === "ADMIN";
 
     return (
@@ -56,7 +55,7 @@ const App = ({userRole}) => {
                 <Route exact path="/admin/user/:id" render={() => (isAdmin) ?
                     (<Route component={EditUser}/>) : (<Route component={Home}/>)}/>
                 <Route exact path="/product/list/edit" render={() => (isAdmin) ?
-                    (<Route component={EditPerfumesList}/>) : (<Route component={Home}/>)}/>
+                    (<Route component={EditPerfumes}/>) : (<Route component={Home}/>)}/>
                 <Route exact path="/product/list/edit/:id" render={() => (isAdmin) ?
                     (<Route component={EditPerfume}/>) : (<Route component={Home}/>)}/>
                 <Route exact path="/user/edit" render={() => localStorage.getItem("isLoggedIn") ?
@@ -68,14 +67,6 @@ const App = ({userRole}) => {
             <Footer/>
         </div>
     );
-}
-
-AddProduct.propTypes = {
-    userRole: PropTypes.string.isRequired
 };
 
-const mapStateToProps = (state) => ({
-    userRole: state.auth.userRole
-});
-
-export default connect(mapStateToProps)(App);
+export default App;

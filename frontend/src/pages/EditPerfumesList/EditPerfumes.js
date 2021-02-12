@@ -1,14 +1,31 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faList} from "@fortawesome/free-solid-svg-icons";
+import {useDispatch, useSelector} from "react-redux";
 
-import usePagination from "../../component/Pagination/usePagination";
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import PaginationItem from "../../component/Pagination/PaginationItem";
 import SearchForm from "../../component/SearchForm/SearchForm";
 import PerfumeCardItem from "../../component/PerfumeCardItem/PerfumeCardItem";
+import {fetchPerfumes} from "../../actions/admin-actions";
+import usePagination from "../../component/Pagination/usePagination";
 
-function EditPerfumes({data, itemsPerPage, startFrom, searchByData}) {
+const EditPerfumes = ({startFrom}) => {
+    const dispatch = useDispatch();
+    const data = useSelector(state => state.admin.perfumes);
+
+    const itemsPerPage = 24;
+    const searchByData = [
+        {label: 'Brand', value: 'perfumer'},
+        {label: 'Perfume title', value: 'perfumeTitle'},
+        {label: 'Manufacturer country', value: 'country'},
+        {label: 'Gender', value: 'perfumeGender'}
+    ];
+
+    useEffect(() => {
+        dispatch(fetchPerfumes());
+    }, []);
+
     const {slicedData, pagination, prevPage, nextPage, changePage, setFilteredData, setSearching} = usePagination({
         itemsPerPage,
         data,
@@ -56,6 +73,6 @@ function EditPerfumes({data, itemsPerPage, startFrom, searchByData}) {
             </div>
         </div>
     );
-}
+};
 
 export default EditPerfumes;

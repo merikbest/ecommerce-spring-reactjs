@@ -1,30 +1,18 @@
-import React, {Component} from 'react';
-import PropTypes from "prop-types";
-import {connect} from "react-redux";
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 
-import {fetchAllUsersOrders} from "../../actions/admin-actions";
 import OrdersTable from "../../component/OrdersTable/OrdersTable";
+import {fetchAllUsersOrders} from "../../actions/admin-actions";
 
-class OrdersList extends Component {
+const OrdersList = () => {
+    const dispatch = useDispatch();
+    const adminOrders = useSelector(state => state.admin.orders);
 
-    componentDidMount() {
-        this.props.fetchAllUsersOrders();
-    }
+    useEffect(() => {
+        dispatch(fetchAllUsersOrders());
+    }, []);
 
-    render() {
-        return (
-            <OrdersTable orders={this.props.adminOrders}/>
-        );
-    }
-}
-
-OrdersList.propTypes = {
-    fetchAllUsersOrders: PropTypes.func.isRequired,
-    adminOrders: PropTypes.array.isRequired
+    return (<OrdersTable orders={adminOrders}/>);
 };
 
-const mapStateToProps = (state) => ({
-    adminOrders: state.admin.orders,
-});
-
-export default connect(mapStateToProps, {fetchAllUsersOrders})(OrdersList);
+export default OrdersList;

@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
-import PropTypes from "prop-types";
-import {connect} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
     faChevronDown,
     faChevronUp,
@@ -13,21 +12,25 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {IMG_URL} from "../../utils/constants/url";
 import Spinner from "../../component/Spinner/Spinner";
-import {fetchCart, loadCart, calculateCartPrice} from "../../actions/cart-actions";
+import {calculateCartPrice, fetchCart, loadCart} from "../../actions/cart-actions";
 
-const Cart = ({perfumes, loading, totalPrice, fetchCart, loadCart, calculateCartPrice}) => {
+const Cart = () => {
     const [perfumeInCart, setPerfumeInCart] = useState(() => new Map());
+    const dispatch = useDispatch();
+    const perfumes = useSelector(state => state.cart.perfumes);
+    const totalPrice = useSelector(state => state.cart.totalPrice);
+    const loading = useSelector(state => state.cart.loading);
 
     useEffect(() => {
-        let perfumes = new Map(JSON.parse(localStorage.getItem("perfumes")));
+        const perfumesFromLocalStorage = new Map(JSON.parse(localStorage.getItem("perfumes")));
 
-        if (perfumes !== null) {
-            fetchCart(Array.from(perfumes.keys()));
-            perfumes.forEach((value, key) => {
+        if (perfumesFromLocalStorage !== null) {
+            dispatch(fetchCart(Array.from(perfumesFromLocalStorage.keys())))
+            perfumesFromLocalStorage.forEach((value, key) => {
                 setPerfumeInCart(perfumeInCart.set(key, value))
             });
         } else {
-            loadCart();
+            dispatch(loadCart());
         }
     }, []);
 
@@ -40,7 +43,7 @@ const Cart = ({perfumes, loading, totalPrice, fetchCart, loadCart, calculateCart
         } else {
             localStorage.setItem("perfumes", JSON.stringify(Array.from(perfumeInCart.entries())));
         }
-        fetchCart(Array.from(perfumeInCart.keys()));
+        dispatch(fetchCart(Array.from(perfumeInCart.keys())));
     };
 
     const handleInputChange = (event) => {
@@ -48,22 +51,22 @@ const Cart = ({perfumes, loading, totalPrice, fetchCart, loadCart, calculateCart
             setPerfumeInCart(perfumeInCart.set(parseInt(event.target.id), 1));
             localStorage.setItem("perfumes", JSON.stringify(Array.from(perfumeInCart.entries())));
         } else {
-            setPerfumeInCart(prev => new Map([...prev, [parseInt(event.target.id), parseInt(event.target.value)]]));
+            setPerfumeInCart(perfumeInCart.set(parseInt(event.target.id), parseInt(event.target.value)));
             localStorage.setItem("perfumes", JSON.stringify(Array.from(perfumeInCart.entries())));
         }
-        calculateCartPrice(perfumes);
+        dispatch(calculateCartPrice(perfumes));
     };
 
     const onIncrease = (perfumeId) => {
-        setPerfumeInCart(prev => new Map([...prev, [perfumeId, perfumeInCart.get(perfumeId) + 1]]));
+        setPerfumeInCart(perfumeInCart.set(perfumeId, perfumeInCart.get(perfumeId) + 1));
         localStorage.setItem("perfumes", JSON.stringify(Array.from(perfumeInCart.entries())));
-        calculateCartPrice(perfumes);
+        dispatch(calculateCartPrice(perfumes));
     };
 
     const onDecrease = (perfumeId) => {
-        setPerfumeInCart(prev => new Map([...prev, [perfumeId, perfumeInCart.get(perfumeId) - 1]]));
+        setPerfumeInCart(perfumeInCart.set(perfumeId, perfumeInCart.get(perfumeId) - 1));
         localStorage.setItem("perfumes", JSON.stringify(Array.from(perfumeInCart.entries())));
-        calculateCartPrice(perfumes);
+        dispatch(calculateCartPrice(perfumes));
     };
 
     return (
@@ -95,7 +98,7 @@ const Cart = ({perfumes, loading, totalPrice, fetchCart, loadCart, calculateCart
                                             <div className="col-1 mt-3">
                                                 <button className="btn btn-default"
                                                         disabled={perfumeInCart.get(perfume.id) === 99}
-                                                        onClick={() => onIncrease(perfume.id)}>
+                                                        onClick={() => onIncrease(perfume.id, perfume)}>
                                                     <FontAwesomeIcon size="lg" icon={faChevronUp}/>
                                                 </button>
                                                 <input type="text"
@@ -147,27 +150,6 @@ const Cart = ({perfumes, loading, totalPrice, fetchCart, loadCart, calculateCart
             }
         </div>
     );
-}
-
-Cart.propTypes = {
-    fetchCart: PropTypes.func.isRequired,
-    loadCart: PropTypes.func.isRequired,
-    calculateCartPrice: PropTypes.func.isRequired,
-    perfumes: PropTypes.array.isRequired,
-    loading: PropTypes.bool.isRequired,
-    totalPrice: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-    perfumes: state.cart.perfumes,
-    totalPrice: state.cart.totalPrice,
-    loading: state.cart.loading
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    calculateCartPrice: (perfumes) => dispatch(calculateCartPrice(perfumes)),
-    fetchCart: (perfumes) => dispatch(fetchCart(perfumes)),
-    loadCart: () => dispatch(loadCart()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default Cart;
