@@ -16,8 +16,20 @@ import {
     SHOW_LOADER,
     FETCH_ACCOUNT_SUCCESS
 } from "../utils/constants/actions-types";
+import {AuthErrors, User} from "../types/types";
 
-const initialState = {
+type InitialStateType = {
+    user: User | {}
+    userRole: string
+    isLoggedIn: boolean
+    isRegistered: boolean
+    loading: boolean
+    success: string
+    error: string
+    errors: AuthErrors | {}
+};
+
+const initialState: InitialStateType = {
     user: {},
     userRole: "",
     isLoggedIn: false,
@@ -28,7 +40,7 @@ const initialState = {
     errors: {}
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
     const {type, payload} = action;
 
     switch (type) {

@@ -3,17 +3,26 @@ import {
     ORDER_ADDED_SUCCESS,
     ORDER_ADDED_FAILURE,
     ORDER_CONFIRMED_SUCCESS,
-    FETCH_USER_ORDERS_SUCCESS, SHOW_LOADER
+    FETCH_USER_ORDERS_SUCCESS,
+    SHOW_LOADER
 } from "../utils/constants/actions-types";
+import {OrderError, Order} from "../types/types";
 
-const initialState = {
+type InitialStateType = {
+    orders: Array<Order>
+    errors: OrderError | {}
+    orderIndex: string
+    loading: boolean
+};
+
+const initialState: InitialStateType = {
     orders: [],
     errors: {},
     orderIndex: "",
     loading: false
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
     const {type, payload} = action;
 
     switch (type) {

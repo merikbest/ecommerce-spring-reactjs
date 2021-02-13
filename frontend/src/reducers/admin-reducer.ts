@@ -6,10 +6,21 @@ import {
     FETCH_USER_SUCCESS,
     FETCH_ALL_USERS_SUCCESS,
     FETCH_ALL_USERS_ORDERS_SUCCESS,
-    FORM_RESET, FETCH_PERFUMES
+    FORM_RESET,
+    FETCH_PERFUMES
 } from "../utils/constants/actions-types";
+import {Order, PerfumeErrors, Perfume, User} from "../types/types";
 
-const initialState = {
+type InitialStateType = {
+    perfumes: Array<Perfume>
+    orders: Array<Order>
+    users: Array<User>
+    user: User | {}
+    errors : PerfumeErrors | {}
+    success: boolean
+};
+
+const initialState: InitialStateType = {
     perfumes: [],
     orders:[],
     users: [],
@@ -18,7 +29,7 @@ const initialState = {
     success: false
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
     const {type, payload} = action;
 
     switch (type) {

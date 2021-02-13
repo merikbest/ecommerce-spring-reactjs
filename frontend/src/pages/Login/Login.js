@@ -14,7 +14,7 @@ const Login = (props) => {
     const [password, setPassword] = useState("");
 
     useEffect(() => {
-        dispatch(formReset());
+        // dispatch(formReset());
 
         if (props.match.params.code) {
             dispatch(activateAccount(props.match.params.code));

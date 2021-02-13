@@ -130,12 +130,12 @@ export const resetPassword = (data, history) => async (dispatch) => {
     try {
         const response = await axios.post(API_BASE_URL + "/auth/reset", data);
 
-        history.push("/login");
-
         dispatch({
             type: RESET_PASSWORD_SUCCESS,
             payload: response.data
         })
+
+        history.push("/login");
     } catch (error) {
         dispatch({
             type: RESET_PASSWORD_FAILURE,

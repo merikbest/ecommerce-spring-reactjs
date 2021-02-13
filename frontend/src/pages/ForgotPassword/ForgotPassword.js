@@ -19,6 +19,10 @@ const ForgotPassword = () => {
         dispatch(formReset());
     }, []);
 
+    useEffect(() => {
+        setEmail("");
+    }, [success]);
+
     const onClickSend = (event) => {
         event.preventDefault();
         const validateEmailError = validateEmail(email);

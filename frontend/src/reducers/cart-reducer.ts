@@ -5,14 +5,21 @@ import {
     LOADING_CART,
     STOP_LOADING_CART
 } from "../utils/constants/actions-types";
+import {Perfume} from "../types/types";
 
-const initialState = {
+type InitialStateType = {
+    perfumes: Array<Perfume>
+    loading: boolean
+    totalPrice: number
+};
+
+const initialState: InitialStateType = {
     perfumes: [],
     loading: false,
     totalPrice: 0
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
     const {type, payload} = action;
 
     switch (type) {

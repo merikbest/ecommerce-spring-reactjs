@@ -1,30 +1,18 @@
-import React, {Component} from 'react';
-import {connect} from "react-redux";
-import PropTypes from "prop-types";
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 
 import {fetchUserOrders} from "../../actions/order-actions";
 import OrdersTable from "../../component/OrdersTable/OrdersTable";
 
-class UserOrdersList extends Component {
+const UserOrdersList = () => {
+    const dispatch = useDispatch();
+    const orders = useSelector(state => state.order.orders);
 
-    componentDidMount() {
-        this.props.fetchUserOrders();
-    }
+    useEffect(() => {
+        dispatch(fetchUserOrders());
+    }, []);
 
-    render() {
-        return (
-            <OrdersTable orders={this.props.orders}/>
-        );
-    }
-}
-
-UserOrdersList.propTypes = {
-    fetchUserOrders: PropTypes.func.isRequired,
-    orders: PropTypes.array.isRequired
+    return (<OrdersTable orders={orders}/>);
 };
 
-const mapStateToProps = (state) => ({
-    orders: state.order.orders
-});
-
-export default connect(mapStateToProps, {fetchUserOrders})(UserOrdersList);
+export default UserOrdersList;

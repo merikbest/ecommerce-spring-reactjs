@@ -3,13 +3,19 @@ import {
     USER_ADDED_REVIEW_SUCCESS,
     USER_ADDED_REVIEW_FAILURE
 } from "../utils/constants/actions-types";
+import {ReviewError} from "../types/types";
 
-const initialState = {
+type InitialStateType = {
+    success: boolean,
+    errors: ReviewError | {}
+};
+
+const initialState: InitialStateType = {
     success: false,
     errors: {}
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
     const {type, payload} = action;
 
     switch (type) {

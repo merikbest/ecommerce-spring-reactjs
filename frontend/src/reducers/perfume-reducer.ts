@@ -5,14 +5,19 @@ import {
     FETCH_PERFUMES_BY_PERFUMER,
     FETCH_PERFUMES_BY_FILTER_PARAMS
 } from "../utils/constants/actions-types";
+import {Perfume} from "../types/types";
 
-const initialState = {
-    perfumes: [],
-    perfume: {},
-    reviews: []
+type InitialStateType = {
+    perfumes: Array<Perfume>,
+    perfume: Perfume | {}
 };
 
-const reducer = (state = initialState, action) => {
+const initialState: InitialStateType = {
+    perfumes: [],
+    perfume: {}
+};
+
+const reducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
     const {type, payload} = action
 
     switch (type) {
@@ -20,7 +25,7 @@ const reducer = (state = initialState, action) => {
             return {...state, perfumes: payload};
 
         case FETCH_PERFUME:
-            return {...state, perfume: payload, reviews: payload.reviews};
+            return {...state, perfume: payload};
 
         case FETCH_PERFUMES_BY_GENDER:
             return {...state, perfumes: payload};
