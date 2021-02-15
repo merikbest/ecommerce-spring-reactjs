@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faLock, faUser, faUserPlus} from "@fortawesome/free-solid-svg-icons";
 
-import {formReset, registration} from "../../actions/auth-actions";
+import {formReset, registration} from "../../redux/thunks/auth-thunks";
 import PageLoader from "../../component/PageLoader/PageLoader";
 
 const Registration = () => {

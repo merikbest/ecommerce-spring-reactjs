@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSignInAlt, faSignOutAlt, faUser, faUserPlus} from "@fortawesome/free-solid-svg-icons";
 
-import {logout} from "../../actions/auth-actions";
+import {logout} from "../../redux/thunks/auth-thunks";
 import "./NavBar.css";
 
 class NavBar extends Component {

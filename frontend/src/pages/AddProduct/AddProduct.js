@@ -5,7 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import ToastShow from "../../component/Toasts/ToastShow";
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
-import {addPerfume, formReset} from "../../actions/admin-actions";
+import {addPerfume, formReset} from "../../redux/thunks/admin-thunks";
 
 const AddProduct = () => {
     const dispatch = useDispatch();

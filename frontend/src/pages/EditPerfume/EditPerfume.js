@@ -4,8 +4,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit} from "@fortawesome/free-solid-svg-icons";
 
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
-import {fetchPerfume} from "../../actions/perfume-actions";
-import {formReset, updatePerfume} from "../../actions/admin-actions";
+import {fetchPerfume} from "../../redux/thunks/perfume-thunks";
+import {formReset, updatePerfume} from "../../redux/thunks/admin-thunks";
 import {IMG_URL} from "../../utils/constants/url";
 
 const EditPerfume = (props) => {

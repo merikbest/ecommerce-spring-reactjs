@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import {finalizeOrder} from "../../actions/order-actions";
-import {clearCart} from "../../actions/cart-actions";
+import {finalizeOrder} from "../../redux/thunks/order-thunks";
+import {clearCart} from "../../redux/thunks/cart-thunks";
 
 const OrderFinalize = () => {
     const dispatch = useDispatch();

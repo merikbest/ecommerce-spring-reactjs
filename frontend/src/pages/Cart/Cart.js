@@ -12,7 +12,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {IMG_URL} from "../../utils/constants/url";
 import Spinner from "../../component/Spinner/Spinner";
-import {calculateCartPrice, fetchCart, loadCart} from "../../actions/cart-actions";
+import {calculateCartPrice, fetchCart, loadCart} from "../../redux/thunks/cart-thunks";
 
 const Cart = () => {
     const [perfumeInCart, setPerfumeInCart] = useState(() => new Map());

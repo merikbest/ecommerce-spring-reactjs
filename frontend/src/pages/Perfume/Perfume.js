@@ -4,12 +4,13 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCartPlus, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 
 import {IMG_URL} from "../../utils/constants/url";
-import {fetchPerfume} from "../../actions/perfume-actions";
-import {addReviewToPerfume} from "../../actions/user-actions";
+import {fetchPerfume} from "../../redux/thunks/perfume-thunks";
+import {addReviewToPerfume} from "../../redux/thunks/user-thunks";
 
 const Perfume = (props) => {
     const dispatch = useDispatch();
     const perfume = useSelector(state => state.perfume.perfume);
+    const reviews = useSelector(state => state.perfume.reviews);
     const errors = useSelector(state => state.user.errors);
 
     const [author, setAuthor] = useState("");
@@ -110,8 +111,8 @@ const Perfume = (props) => {
             </div>
             <div className="mt-5">
                 <h3 className="text-center mb-5">REVIEWS</h3>
-                {perfume.reviews.length === 0 ? <p className="text-center">There are no reviews for this perfume.</p> :
-                    perfume.reviews.map((review) => {
+                {reviews.length === 0 ? <p className="text-center">There are no reviews for this perfume.</p> :
+                    reviews.map((review) => {
                         return (
                             <div key={review.id}>
                                 <div className="form row mt-5">

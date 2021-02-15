@@ -11,7 +11,7 @@ import {
     fetchPerfumesByFilterParams,
     fetchPerfumesByGender,
     fetchPerfumesByPerfumer
-} from "../../actions/perfume-actions";
+} from "../../redux/thunks/perfume-thunks";
 import "./MenuStyle.css";
 
 const Menu = (props) => {

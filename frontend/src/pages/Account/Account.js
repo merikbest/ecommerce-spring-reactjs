@@ -3,8 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import ToastShow from "../../component/Toasts/ToastShow";
-import {formReset} from "../../actions/admin-actions";
-import {fetchAccount} from "../../actions/auth-actions";
+import {formReset} from "../../redux/thunks/admin-thunks";
+import {fetchAccount} from "../../redux/thunks/auth-thunks";
 
 const Account = () => {
     const dispatch = useDispatch();

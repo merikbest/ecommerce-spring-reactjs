@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faShoppingBag} from "@fortawesome/free-solid-svg-icons";
 
 import {IMG_URL} from "../../utils/constants/url";
-import {addOrder, fetchOrder} from "../../actions/order-actions";
+import {addOrder, fetchOrder} from "../../redux/thunks/order-thunks";
 import {validateEmail} from "../../utils/input-validators";
 import PageLoader from "../../component/PageLoader/PageLoader";
 

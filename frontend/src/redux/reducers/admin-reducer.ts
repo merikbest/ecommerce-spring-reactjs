@@ -8,15 +8,16 @@ import {
     FETCH_ALL_USERS_ORDERS_SUCCESS,
     FORM_RESET,
     FETCH_PERFUMES
-} from "../utils/constants/actions-types";
-import {Order, PerfumeErrors, Perfume, User} from "../types/types";
+} from "../action-types/admin-action-types";
+import {Order, PerfumeErrors, Perfume, User} from "../../types/types";
+import {AdminActionTypes} from "../action-types/admin-action-types";
 
 type InitialStateType = {
     perfumes: Array<Perfume>
     orders: Array<Order>
     users: Array<User>
-    user: User | {}
-    errors : PerfumeErrors | {}
+    user: Partial<User>
+    errors : Partial<PerfumeErrors>
     success: boolean
 };
 
@@ -29,33 +30,32 @@ const initialState: InitialStateType = {
     success: false
 };
 
-const reducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
-    const {type, payload} = action;
+const reducer = (state = initialState, action: AdminActionTypes): InitialStateType => {
 
-    switch (type) {
+    switch (action.type) {
         case FETCH_PERFUMES:
-            return {...state, perfumes: payload};
+            return {...state, perfumes: action.payload};
 
         case PERFUME_ADDED_SUCCESS:
             return {...state, success: true, errors: {}};
 
         case PERFUME_ADDED_FAILURE:
-            return {...state, success: false, errors: payload};
+            return {...state, success: false, errors: action.payload};
 
         case PERFUME_UPDATED_SUCCESS:
             return {...state, success: true, errors: {}};
 
         case PERFUME_UPDATED_FAILURE:
-            return {...state, success: false, errors: payload};
+            return {...state, success: false, errors:  action.payload};
 
         case FETCH_USER_SUCCESS:
-            return {...state, user: payload};
+            return {...state, user:  action.payload};
 
         case FETCH_ALL_USERS_SUCCESS:
-            return {...state, users: payload};
+            return {...state, users:  action.payload};
 
         case FETCH_ALL_USERS_ORDERS_SUCCESS:
-            return {...state, orders: payload};
+            return {...state, orders:  action.payload};
 
         case FORM_RESET:
             return {...state, success: false, errors: {}};

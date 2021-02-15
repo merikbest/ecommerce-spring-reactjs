@@ -7,7 +7,7 @@ import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import PaginationItem from "../../component/Pagination/PaginationItem";
 import SearchForm from "../../component/SearchForm/SearchForm";
 import PerfumeCardItem from "../../component/PerfumeCardItem/PerfumeCardItem";
-import {fetchPerfumes} from "../../actions/admin-actions";
+import {fetchPerfumes} from "../../redux/thunks/admin-thunks";
 import usePagination from "../../component/Pagination/usePagination";
 
 const EditPerfumes = ({startFrom}) => {

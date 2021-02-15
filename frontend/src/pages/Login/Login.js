@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faLock, faSignInAlt} from "@fortawesome/free-solid-svg-icons";
 
-import {activateAccount, formReset, login} from "../../actions/auth-actions";
+import {activateAccount, formReset, login} from "../../redux/thunks/auth-thunks";
 
 const Login = (props) => {
     const dispatch = useDispatch();

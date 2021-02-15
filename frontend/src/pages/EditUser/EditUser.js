@@ -4,7 +4,7 @@ import {faEdit, faUserEdit} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
-import {fetchUser} from "../../actions/admin-actions";
+import {fetchUser} from "../../redux/thunks/admin-thunks";
 
 const EditUser = (props) => {
     const dispatch = useDispatch();

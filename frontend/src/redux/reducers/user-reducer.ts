@@ -1,13 +1,14 @@
+import {ReviewError} from "../../types/types";
 import {
-    USER_UPDATED_SUCCESS,
+    USER_ADDED_REVIEW_FAILURE,
     USER_ADDED_REVIEW_SUCCESS,
-    USER_ADDED_REVIEW_FAILURE
-} from "../utils/constants/actions-types";
-import {ReviewError} from "../types/types";
+    USER_UPDATED_SUCCESS,
+    UserActionsTypes
+} from "../action-types/user-actions-types";
 
 type InitialStateType = {
     success: boolean,
-    errors: ReviewError | {}
+    errors: Partial<ReviewError>
 };
 
 const initialState: InitialStateType = {
@@ -15,10 +16,9 @@ const initialState: InitialStateType = {
     errors: {}
 };
 
-const reducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
-    const {type, payload} = action;
+const reducer = (state: InitialStateType = initialState, action: UserActionsTypes): InitialStateType => {
 
-    switch (type) {
+    switch (action.type) {
         case USER_UPDATED_SUCCESS:
             return {...state, success: true};
 
@@ -26,7 +26,7 @@ const reducer = (state: InitialStateType = initialState, action: any): InitialSt
             return {...state, errors: {}};
 
         case USER_ADDED_REVIEW_FAILURE:
-            return {...state, errors: payload};
+            return {...state, errors: action.payload};
 
         default:
             return state;

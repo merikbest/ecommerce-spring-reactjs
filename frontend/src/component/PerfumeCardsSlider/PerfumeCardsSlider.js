@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import PropTypes from "prop-types";
 
 import {IMG_URL} from "../../utils/constants/url";
-import {fetchPerfumes} from "../../actions/perfume-actions"
+import {fetchPerfumes} from "../../redux/thunks/perfume-thunks"
 import "./PerfumeCardsSlider.css";
 
 class PerfumeCardsSlider extends Component {

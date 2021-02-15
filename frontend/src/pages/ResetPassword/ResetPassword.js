@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLock, faSync, faUndo} from "@fortawesome/free-solid-svg-icons";
 
-import {fetchResetPasswordCode, formReset, resetPassword} from "../../actions/auth-actions";
+import {fetchResetPasswordCode, formReset, resetPassword} from "../../redux/thunks/auth-thunks";
 
 const ResetPassword = (props) => {
     const dispatch = useDispatch();

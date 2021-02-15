@@ -1,16 +1,17 @@
+import {OrderError, Order} from "../../types/types";
+import {SHOW_LOADER} from "../action-types/auth-action-types";
 import {
     FETCH_ORDER_SUCCESS,
-    ORDER_ADDED_SUCCESS,
-    ORDER_ADDED_FAILURE,
-    ORDER_CONFIRMED_SUCCESS,
     FETCH_USER_ORDERS_SUCCESS,
-    SHOW_LOADER
-} from "../utils/constants/actions-types";
-import {OrderError, Order} from "../types/types";
+    ORDER_ADDED_FAILURE,
+    ORDER_ADDED_SUCCESS,
+    ORDER_CONFIRMED_SUCCESS,
+    OrderActionTypes
+} from "../action-types/order-action-types";
 
 type InitialStateType = {
     orders: Array<Order>
-    errors: OrderError | {}
+    errors: Partial<OrderError>
     orderIndex: string
     loading: boolean
 };
@@ -22,10 +23,9 @@ const initialState: InitialStateType = {
     loading: false
 };
 
-const reducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
-    const {type, payload} = action;
+const reducer = (state: InitialStateType = initialState, action: OrderActionTypes): InitialStateType => {
 
-    switch (type) {
+    switch (action.type) {
         case SHOW_LOADER:
             return {...state, loading: true};
 
@@ -36,13 +36,13 @@ const reducer = (state: InitialStateType = initialState, action: any): InitialSt
             return {...state, loading: false};
 
         case ORDER_ADDED_FAILURE:
-            return {...state, errors: payload, loading: false};
+            return {...state, errors: action.payload, loading: false};
 
         case ORDER_CONFIRMED_SUCCESS:
-            return {...state, orderIndex: payload};
+            return {...state, orderIndex: action.payload};
 
         case FETCH_USER_ORDERS_SUCCESS:
-            return {...state, orders: payload};
+            return {...state, orders: action.payload};
 
         default:
             return state;

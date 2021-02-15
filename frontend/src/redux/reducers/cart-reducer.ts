@@ -1,11 +1,12 @@
+import {Perfume} from "../../types/types";
 import {
     CALCULATE_CART_PRICE_SUCCESS,
-    CLEAR_CART,
+    CLEAR_CART_SUCCESS,
     FETCH_CART_SUCCESS,
     LOADING_CART,
-    STOP_LOADING_CART
-} from "../utils/constants/actions-types";
-import {Perfume} from "../types/types";
+    STOP_LOADING_CART,
+    CartActionTypes
+} from "../action-types/cart-action-types";
 
 type InitialStateType = {
     perfumes: Array<Perfume>
@@ -19,23 +20,22 @@ const initialState: InitialStateType = {
     totalPrice: 0
 };
 
-const reducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
-    const {type, payload} = action;
+const reducer = (state: InitialStateType = initialState, action: CartActionTypes): InitialStateType => {
 
-    switch (type) {
+    switch (action.type) {
         case LOADING_CART:
             return {...state, loading: true};
 
         case FETCH_CART_SUCCESS:
-            return {...state, perfumes: payload, loading: false};
+            return {...state, perfumes: action.payload, loading: false};
 
         case CALCULATE_CART_PRICE_SUCCESS:
-            return {...state, totalPrice: payload, loading: false};
+            return {...state, totalPrice: action.payload, loading: false};
 
         case STOP_LOADING_CART:
             return {...state, loading: false, perfumes: []};
 
-        case CLEAR_CART:
+        case CLEAR_CART_SUCCESS:
             return {...state, perfumes: []};
 
         default:

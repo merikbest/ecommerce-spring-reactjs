@@ -5,7 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Link} from "react-router-dom";
 
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
-import {fetchAllUsers} from "../../actions/admin-actions";
+import {fetchAllUsers} from "../../redux/thunks/admin-thunks";
 
 const UserList = () => {
     const dispatch = useDispatch();

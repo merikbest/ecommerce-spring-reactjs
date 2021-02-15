@@ -34,7 +34,7 @@ export type Review = {
     id: number
     author: string
     message: string
-    date: string
+    date: any
 };
 
 export type ReviewError = {

@@ -4,7 +4,7 @@ import {faEdit, faLock} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
-import {updateUserInfo} from "../../actions/user-actions";
+import {updateUserInfo} from "../../redux/thunks/user-thunks";
 
 const UserEditProfile = (props) => {
     const dispatch = useDispatch();
