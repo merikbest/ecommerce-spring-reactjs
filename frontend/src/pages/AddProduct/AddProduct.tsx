@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, FC, FormEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {faPlusSquare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -6,13 +6,33 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import ToastShow from "../../component/Toasts/ToastShow";
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import {addPerfume, formReset} from "../../redux/thunks/admin-thunks";
+import {AppStateType} from "../../redux/reducers/root-reducer";
 
-const AddProduct = () => {
+type InitialStateType = {
+    perfumeTitle: string
+    perfumer: string
+    year: string
+    country: string
+    type: string
+    volume: string
+    perfumeGender: string
+    fragranceTopNotes: string
+    fragranceMiddleNotes: string
+    fragranceBaseNotes: string
+    price: string
+    file: string | Blob
+};
+
+type PropsType = {
+
+};
+
+const AddProduct: FC<PropsType> = () => {
     const dispatch = useDispatch();
-    const success = useSelector(state => state.admin.success);
-    const errors = useSelector(state => state.admin.errors);
+    const success = useSelector((state: AppStateType) => state.admin.success);
+    const errors = useSelector((state: AppStateType) => state.admin.errors);
 
-    const initialState = {
+    const initialState: InitialStateType = {
         perfumeTitle: "",
         perfumer: "",
         year: "",
@@ -24,7 +44,7 @@ const AddProduct = () => {
         fragranceMiddleNotes: "",
         fragranceBaseNotes: "",
         price: "",
-        file: null
+        file: ""
     };
 
     const [{
@@ -70,10 +90,10 @@ const AddProduct = () => {
         }
     },[success]);
 
-    const onFormSubmit = (event) => {
+    const onFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
 
-        const bodyFormData = new FormData();
+        const bodyFormData: FormData = new FormData();
         bodyFormData.append("file", file);
         bodyFormData.append("perfume", new Blob([JSON.stringify({
             perfumeTitle, perfumer, year, country, type, volume, perfumeGender, fragranceTopNotes,
@@ -83,11 +103,11 @@ const AddProduct = () => {
         dispatch(addPerfume(bodyFormData));
     };
 
-    const handleFileChange = (event) => {
+    const handleFileChange = (event: any): void => {
         setState(prevState => ({...prevState, file: event.target.files[0]}));
     };
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const {name, value} = event.target;
         setState(prevState => ({...prevState, [name]: value}));
     };

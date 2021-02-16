@@ -1,14 +1,15 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, FC} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import ToastShow from "../../component/Toasts/ToastShow";
 import {formReset} from "../../redux/thunks/admin-thunks";
 import {fetchAccount} from "../../redux/thunks/auth-thunks";
+import {AppStateType} from "../../redux/reducers/root-reducer";
 
-const Account = () => {
+const Account: FC = () => {
     const dispatch = useDispatch();
-    const success = useSelector(state => state.admin.success);
+    const success = useSelector((state: AppStateType) => state.admin.success);
 
     useEffect(() => {
         dispatch(formReset());

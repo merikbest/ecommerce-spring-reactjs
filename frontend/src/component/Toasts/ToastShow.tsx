@@ -1,16 +1,21 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Toast} from "react-bootstrap";
 
 import "./ToastShow.css";
 
-function ToastShow(props) {
+type PropsType = {
+    showToast: boolean,
+    message: string
+};
+
+const ToastShow: FC<PropsType> = ({showToast, message}) => {
     return (
-        <Toast className={"border border-success bg-success text white mt-3"} show={props.showToast}>
+        <Toast className={"border border-success bg-success text white mt-3"} show={showToast}>
             <Toast.Header className={"bg-success text-white"} closeButton={false}>
                 <strong className="mr-auto">Success</strong>
             </Toast.Header>
             <Toast.Body className={"text-white"}>
-                {props.message}
+                {message}
             </Toast.Body>
         </Toast>
     );

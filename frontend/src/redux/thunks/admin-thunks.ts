@@ -13,7 +13,7 @@ import {
     updatePerfumeSuccess
 } from "../actions/admin-actions";
 
-export const addPerfume = (data: Perfume) => async (dispatch: any) => {
+export const addPerfume = (data: FormData) => async (dispatch: any) => {
     try {
         await axios({
             method: "POST",
