@@ -13,7 +13,7 @@ export const fetchPerfumes = () => async (dispatch: any) => {
     dispatch(getPerfumes(response.data));
 };
 
-export const fetchPerfume = (id: number) => async (dispatch: any) => {
+export const fetchPerfume = (id: string) => async (dispatch: any) => {
     const response = await axios.get(API_BASE_URL + "/home/product/" + id);
     dispatch(fetchPerfumeSuccess(response.data));
 };

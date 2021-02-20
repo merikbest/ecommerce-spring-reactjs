@@ -1,12 +1,19 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Link} from "react-router-dom";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 import {IMG_URL} from "../../utils/constants/url";
+import {Perfume} from "../../types/types";
 
-const PerfumeCardItem = ({perfume, colSize, link, btnName}) => {
+type PropsType = {
+    perfume: Perfume
+    colSize: number
+    link: string
+    btnName: string
+};
 
+const PerfumeCardItem: FC<PropsType> = ({perfume, colSize, link, btnName}) => {
     return (
         <div className={`col-lg-${colSize}`}>
             <div className="card mb-5" style={{height: "293px"}}>
@@ -27,7 +34,7 @@ const PerfumeCardItem = ({perfume, colSize, link, btnName}) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default PerfumeCardItem;

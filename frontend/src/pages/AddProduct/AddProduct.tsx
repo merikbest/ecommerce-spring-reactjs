@@ -23,11 +23,7 @@ type InitialStateType = {
     file: string | Blob
 };
 
-type PropsType = {
-
-};
-
-const AddProduct: FC<PropsType> = () => {
+const AddProduct: FC = () => {
     const dispatch = useDispatch();
     const success = useSelector((state: AppStateType) => state.admin.success);
     const errors = useSelector((state: AppStateType) => state.admin.errors);

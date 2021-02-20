@@ -1,16 +1,28 @@
-import React from 'react';
+import React, {FC} from 'react';
 
 import usePagination from "../Pagination/usePagination";
 import PerfumeCardItem from "../PerfumeCardItem/PerfumeCardItem";
 import PaginationItem from "../Pagination/PaginationItem";
 import SearchForm from "../SearchForm/SearchForm";
+import {Perfume} from "../../types/types";
 
-const MenuCards = ({data, itemsPerPage, startFrom, searchByData}) => {
-    const {slicedData, pagination, prevPage, nextPage, changePage, setFilteredData, setSearching} = usePagination({
-        itemsPerPage,
-        data,
-        startFrom
-    });
+type PropsType = {
+    data: Array<Perfume>
+    itemsPerPage: number
+    startFrom?: number
+    searchByData: Array<{ label: string, value: string }>
+};
+
+const MenuCards: FC<PropsType> = ({data, itemsPerPage, startFrom, searchByData}) => {
+    const {
+        slicedData,
+        pagination,
+        prevPage,
+        nextPage,
+        changePage,
+        setFilteredData,
+        setSearching
+    } = usePagination({itemsPerPage, data, startFrom});
 
     return (
         <div className="container">
@@ -29,7 +41,7 @@ const MenuCards = ({data, itemsPerPage, startFrom, searchByData}) => {
                         changePage={changePage}
                         nextPage={nextPage}/>
                     <div className="row">
-                        {slicedData.map((perfume) => {
+                        {slicedData.map((perfume: Perfume) => {
                             return (
                                 <PerfumeCardItem
                                     perfume={perfume}

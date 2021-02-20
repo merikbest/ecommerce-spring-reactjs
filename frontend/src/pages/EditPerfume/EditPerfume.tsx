@@ -1,17 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, FC, FormEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit} from "@fortawesome/free-solid-svg-icons";
+import {RouteComponentProps, useHistory} from 'react-router-dom';
 
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import {fetchPerfume} from "../../redux/thunks/perfume-thunks";
 import {formReset, updatePerfume} from "../../redux/thunks/admin-thunks";
 import {IMG_URL} from "../../utils/constants/url";
+import {AppStateType} from "../../redux/reducers/root-reducer";
 
-const EditPerfume = (props) => {
+type PropsType = {
+    id: string
+};
+
+const EditPerfume: FC<RouteComponentProps<PropsType>> = ({match}) => {
     const dispatch = useDispatch();
-    const perfumeData = useSelector(state => state.perfume.perfume);
-    const errors = useSelector(state => state.admin.errors);
+    const history = useHistory();
+    const perfumeData = useSelector((state: AppStateType) => state.perfume.perfume);
+    const errors = useSelector((state: AppStateType) => state.admin.errors);
     const [perfume, setPerfume] = useState(perfumeData);
 
     const {
@@ -46,7 +53,7 @@ const EditPerfume = (props) => {
     } = perfume;
 
     useEffect(() => {
-        dispatch(fetchPerfume(props.match.params.id));
+        dispatch(fetchPerfume(match.params.id));
         dispatch(formReset());
     }, []);
 
@@ -55,10 +62,10 @@ const EditPerfume = (props) => {
     }, [perfumeData]);
 
 
-    const onFormSubmit = (event) => {
+    const onFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
 
-        const bodyFormData = new FormData();
+        const bodyFormData: FormData = new FormData();
         bodyFormData.append("file", file);
         bodyFormData.append("perfume", new Blob([JSON.stringify({
             id,
@@ -75,15 +82,17 @@ const EditPerfume = (props) => {
             price
         })], {type: "application/json"}));
 
-        dispatch(updatePerfume(bodyFormData, props.history));
+        dispatch(updatePerfume(bodyFormData, history));
     };
 
-    const handleFileChange = (event) => {
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const {name, files} = event.target;
-        setPerfume({...perfume, [name]: files[0]});
+        if (files) {
+            setPerfume({...perfume, [name]: files[0]});
+        }
     };
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const {name, value} = event.target;
         setPerfume({...perfume, [name]: value});
     };

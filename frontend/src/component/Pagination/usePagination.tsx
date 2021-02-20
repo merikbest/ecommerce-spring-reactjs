@@ -1,14 +1,29 @@
-import {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import {Perfume} from "../../types/types";
 
-const usePagination = (initialState) => {
-    const {itemsPerPage, data, startFrom} = initialState;
-    const [searching, setSearching] = useState(false);
-    const [filteredData, setFilteredData] = useState(data);
-    const perPage = itemsPerPage ? itemsPerPage : 12;
-    const pages = Math.ceil(filteredData.length / perPage);
-    const pagination = [];
-    const [currentPage, setCurrentPage] = useState(startFrom <= pages ? startFrom : 1);
-    const [slicedData, setSlicedData] = useState([...filteredData].slice((currentPage - 1) * perPage, currentPage * perPage));
+export type Pagination = {
+    id: number
+    current: boolean
+    ellipsis: boolean
+};
+
+const usePagination: ({itemsPerPage, data, startFrom}: { itemsPerPage: number; data: Array<Perfume>; startFrom: any }) => {
+    pagination: Array<Pagination>;
+    changePage: (page: number, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+    setFilteredData: (value: (((prevState: Array<Perfume>) => Array<Perfume>) | Array<Perfume>)) => void;
+    nextPage: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+    setSearching: (value: (((prevState: boolean) => boolean) | boolean)) => void;
+    slicedData: Array<Perfume>;
+    prevPage: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
+} = ({itemsPerPage, data, startFrom}) => {
+
+    const [searching, setSearching] = useState<boolean>(false);
+    const [filteredData, setFilteredData] = useState<Array<Perfume>>(data);
+    const perPage: number = itemsPerPage ? itemsPerPage : 12;
+    const pages: number = Math.ceil(filteredData.length / perPage);
+    const pagination: Array<Pagination> = [];
+    const [currentPage, setCurrentPage] = useState<number>(startFrom <= pages ? startFrom : 1);
+    const [slicedData, setSlicedData] = useState<Array<Perfume>>([...filteredData].slice((currentPage - 1) * perPage, currentPage * perPage));
 
     useEffect(() => {
         setSlicedData([...filteredData].slice((currentPage - 1) * perPage, currentPage * perPage));
@@ -19,8 +34,8 @@ const usePagination = (initialState) => {
         }
     }, [filteredData, currentPage]);
 
-    let ellipsisLeft = false;
-    let ellipsisRight = false;
+    let ellipsisLeft: boolean = false;
+    let ellipsisRight: boolean = false;
 
     for (let i = 1; i <= pages; i++) {
         if (i === currentPage) {
@@ -46,16 +61,16 @@ const usePagination = (initialState) => {
         }
     }
 
-    const changePage = (page, event) => {
+    const changePage = (page: number, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         event.preventDefault();
 
         if (page !== currentPage) {
             setCurrentPage(page);
             setSlicedData([...filteredData].slice((page - 1) * perPage, page * perPage));
         }
-    }
+    };
 
-    const goToPrevPage = (event) => {
+    const goToPrevPage = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         event.preventDefault();
 
         setCurrentPage(prevVal => prevVal - 1 === 0 ? prevVal : prevVal - 1);
@@ -63,9 +78,9 @@ const usePagination = (initialState) => {
         if (currentPage !== 1) {
             setSlicedData([...filteredData].slice((currentPage - 2) * perPage, (currentPage - 1) * perPage));
         }
-    }
+    };
 
-    const goToNextPage = (event) => {
+    const goToNextPage = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
         event.preventDefault();
 
         setCurrentPage(prevVal => prevVal === pages ? prevVal : prevVal + 1);
@@ -73,7 +88,7 @@ const usePagination = (initialState) => {
         if (currentPage !== pages) {
             setSlicedData([...filteredData].slice(currentPage * perPage, (currentPage + 1) * perPage));
         }
-    }
+    };
 
     return {
         slicedData,
@@ -83,7 +98,7 @@ const usePagination = (initialState) => {
         changePage,
         setFilteredData,
         setSearching
-    }
-}
+    };
+};
 
 export default usePagination;

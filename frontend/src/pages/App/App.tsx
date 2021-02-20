@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Route, Switch} from "react-router-dom";
 import {useSelector} from "react-redux";
 
@@ -24,9 +24,10 @@ import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import ResetPassword from "../ResetPassword/ResetPassword";
 import Cart from "../Cart/Cart";
 import EditPerfumes from "../EditPerfumesList/EditPerfumes";
+import {AppStateType} from "../../redux/reducers/root-reducer";
 
-const App = () => {
-    const userRole = useSelector(state => state.auth.userRole);
+const App: FC = () => {
+    const userRole = useSelector((state: AppStateType) => state.auth.userRole);
     const isAdmin = userRole === "ADMIN";
 
     return (

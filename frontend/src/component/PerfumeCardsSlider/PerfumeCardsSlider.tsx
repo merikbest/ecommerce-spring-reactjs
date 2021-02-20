@@ -1,25 +1,29 @@
-import React, {Component} from 'react';
+import React, {FC, useEffect} from 'react';
 import Carousel from "react-bootstrap/Carousel";
 import {Link} from "react-router-dom";
-import {connect} from "react-redux";
-import PropTypes from "prop-types";
+import {useDispatch, useSelector} from "react-redux";
 
 import {IMG_URL} from "../../utils/constants/url";
 import {fetchPerfumes} from "../../redux/thunks/perfume-thunks"
 import "./PerfumeCardsSlider.css";
+import {AppStateType} from "../../redux/reducers/root-reducer";
+import {Perfume} from "../../types/types";
 
-class PerfumeCardsSlider extends Component {
-    componentDidMount() {
-        this.props.fetchPerfumes();
-    }
+const PerfumeCardsSlider: FC = () => {
+    const dispatch = useDispatch();
+    const perfumes = useSelector((state: AppStateType) => state.perfume.perfumes);
 
-    addCarouselItems = (array, counter) => {
-        const perfumesId = [39, 56, 119, 59, 47, 95, 89, 98, 52, 40, 92, 99];
+    useEffect(() => {
+        dispatch(fetchPerfumes());
+    }, []);
+
+    const addCarouselItems = (array: Array<Perfume>, counter: number) => {
+        const perfumesId: Array<number> = [39, 56, 119, 59, 47, 95, 89, 98, 52, 40, 92, 99];
 
         return (
             <Carousel.Item>
                 <div className="card-deck">
-                    {array.map((perfume) => {
+                    {array.map((perfume: Perfume) => {
                         for (let i = counter; i < counter + 4; i++) {
                             if (perfume.id === perfumesId[i]) {
                                 return (
@@ -44,38 +48,26 @@ class PerfumeCardsSlider extends Component {
                 </div>
             </Carousel.Item>
         );
-    }
+    };
 
-    render() {
-        const {perfumes} = this.props;
-        const settings = {controls: false}
+    const settings = {controls: false}
 
-        return (
-            <div>
-                <div className="container text-center my-3">
-                    <h3>PERSONALLY RECOMMENDED</h3>
-                </div>
-                <div className="container mt-5" id="indicators">
-                    <form method="get" action="/">
-                        <Carousel {...settings}>
-                            {this.addCarouselItems(perfumes, 0)}
-                            {this.addCarouselItems(perfumes, 4)}
-                            {this.addCarouselItems(perfumes, 8)}
-                        </Carousel>
-                    </form>
-                </div>
+    return (
+        <div>
+            <div className="container text-center my-3">
+                <h3>PERSONALLY RECOMMENDED</h3>
             </div>
-        );
-    }
-}
-
-PerfumeCardsSlider.propTypes = {
-    fetchPerfumes: PropTypes.func.isRequired,
-    perfumes: PropTypes.array.isRequired
+            <div className="container mt-5" id="indicators">
+                <form method="get" action="/">
+                    <Carousel {...settings}>
+                        {addCarouselItems(perfumes, 0)}
+                        {addCarouselItems(perfumes, 4)}
+                        {addCarouselItems(perfumes, 8)}
+                    </Carousel>
+                </form>
+            </div>
+        </div>
+    );
 };
 
-const mapStateToProps = (state) => ({
-    perfumes: state.perfume.perfumes,
-});
-
-export default connect(mapStateToProps, {fetchPerfumes})(PerfumeCardsSlider);
+export default PerfumeCardsSlider;

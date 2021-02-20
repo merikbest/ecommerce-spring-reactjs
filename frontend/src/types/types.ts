@@ -12,7 +12,8 @@ export type Perfume = {
     fragranceBaseNotes: string
     description: string
     filename: string
-    price: number,
+    price: number
+    file: any
     reviews: Array<Review>
 };
 

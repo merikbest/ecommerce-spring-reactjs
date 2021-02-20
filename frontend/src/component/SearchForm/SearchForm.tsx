@@ -1,20 +1,28 @@
-import React, {useState} from 'react';
+import React, {FC, FormEvent, useState} from 'react';
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {Perfume} from "../../types/types";
 
-const SearchForm = ({data, searchByData, setFilteredData, setSearching}) => {
-    const [search, setSearch] = useState('');
-    const [searchFor, setSearchFor] = useState('');
-    const [searchBy, setSearchBy] = useState(searchByData && searchByData.length > 0 ? searchByData[0].value : '');
+type PropsType = {
+    data: Array<Perfume>
+    searchByData: Array<{ label: string, value: string }>
+    setFilteredData: (value: (((prevState: Array<Perfume>) => Array<Perfume>) | Array<Perfume>)) => void
+    setSearching: (value: (((prevState: boolean) => boolean) | boolean)) => void
+};
 
-    const submitHandler = (event) => {
+const SearchForm: FC<PropsType> = ({data, searchByData, setFilteredData, setSearching}) => {
+    const [search, setSearch] = useState<string>('');
+    const [searchFor, setSearchFor] = useState<string>('');
+    const [searchBy, setSearchBy] = useState<string>(searchByData && searchByData.length > 0 ? searchByData[0].value : '');
+
+    const submitHandler = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
 
         if (search.trim() !== '') {
             setSearching(true);
-            const copiedData = [...data];
-            const filtered = copiedData.filter(perfumer => {
-                let searchKey = 'perfumer';
+            const copiedData: Array<Perfume> = [...data];
+            const filtered: Array<Perfume> = copiedData.filter((perfumer: any) => {
+                let searchKey: string = 'perfumer';
                 if (searchByData && searchByData.length > 0) {
                     searchKey = searchBy;
                 }
@@ -25,7 +33,7 @@ const SearchForm = ({data, searchByData, setFilteredData, setSearching}) => {
             setFilteredData(data);
         }
         setSearchFor(search);
-    }
+    };
 
     return (
         <form onSubmit={submitHandler} style={{justifyContent: 'center'}}>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, FC, useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -13,16 +13,18 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {IMG_URL} from "../../utils/constants/url";
 import Spinner from "../../component/Spinner/Spinner";
 import {calculateCartPrice, fetchCart, loadCart} from "../../redux/thunks/cart-thunks";
+import {AppStateType} from "../../redux/reducers/root-reducer";
+import {Perfume} from "../../types/types";
 
-const Cart = () => {
-    const [perfumeInCart, setPerfumeInCart] = useState(() => new Map());
+const Cart: FC = () => {
     const dispatch = useDispatch();
-    const perfumes = useSelector(state => state.cart.perfumes);
-    const totalPrice = useSelector(state => state.cart.totalPrice);
-    const loading = useSelector(state => state.cart.loading);
+    const perfumes = useSelector((state: AppStateType) => state.cart.perfumes);
+    const totalPrice = useSelector((state: AppStateType) => state.cart.totalPrice);
+    const loading = useSelector((state: AppStateType) => state.cart.loading);
+    const [perfumeInCart, setPerfumeInCart] = useState(() => new Map());
 
     useEffect(() => {
-        const perfumesFromLocalStorage = new Map(JSON.parse(localStorage.getItem("perfumes")));
+        const perfumesFromLocalStorage: Map<number, number> = new Map(JSON.parse(localStorage.getItem("perfumes") as string));
 
         if (perfumesFromLocalStorage !== null) {
             dispatch(fetchCart(Array.from(perfumesFromLocalStorage.keys())))
@@ -34,7 +36,7 @@ const Cart = () => {
         }
     }, []);
 
-    const deleteFromCart = (perfumeId) => {
+    const deleteFromCart = (perfumeId: number): void => {
         perfumeInCart.delete(perfumeId);
 
         if (perfumeInCart.size === 0) {
@@ -46,24 +48,24 @@ const Cart = () => {
         dispatch(fetchCart(Array.from(perfumeInCart.keys())));
     };
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>, perfumeId: number): void => {
         if (isNaN(parseInt(event.target.value)) || parseInt(event.target.value) === 0 || parseInt(event.target.value) > 99) {
-            setPerfumeInCart(perfumeInCart.set(parseInt(event.target.id), 1));
+            setPerfumeInCart(perfumeInCart.set(perfumeId, 1));
             localStorage.setItem("perfumes", JSON.stringify(Array.from(perfumeInCart.entries())));
         } else {
-            setPerfumeInCart(perfumeInCart.set(parseInt(event.target.id), parseInt(event.target.value)));
+            setPerfumeInCart(perfumeInCart.set(perfumeId, parseInt(event.target.value)));
             localStorage.setItem("perfumes", JSON.stringify(Array.from(perfumeInCart.entries())));
         }
         dispatch(calculateCartPrice(perfumes));
     };
 
-    const onIncrease = (perfumeId) => {
+    const onIncrease = (perfumeId: number): void => {
         setPerfumeInCart(perfumeInCart.set(perfumeId, perfumeInCart.get(perfumeId) + 1));
         localStorage.setItem("perfumes", JSON.stringify(Array.from(perfumeInCart.entries())));
         dispatch(calculateCartPrice(perfumes));
     };
 
-    const onDecrease = (perfumeId) => {
+    const onDecrease = (perfumeId: number): void => {
         setPerfumeInCart(perfumeInCart.set(perfumeId, perfumeInCart.get(perfumeId) - 1));
         localStorage.setItem("perfumes", JSON.stringify(Array.from(perfumeInCart.entries())));
         dispatch(calculateCartPrice(perfumes));
@@ -81,7 +83,7 @@ const Cart = () => {
                             <p className="h4 mb-4 text-center">
                                 <FontAwesomeIcon className="mr-2" icon={faShoppingCart}/> Cart
                             </p>
-                            {perfumes.map((perfume) => {
+                            {perfumes.map((perfume: Perfume) => {
                                 return (
                                     <div key={perfume.id} className="card mb-3 mx-auto" style={{maxWidth: "940px"}}>
                                         <div className="row no-gutters">
@@ -98,15 +100,14 @@ const Cart = () => {
                                             <div className="col-1 mt-3">
                                                 <button className="btn btn-default"
                                                         disabled={perfumeInCart.get(perfume.id) === 99}
-                                                        onClick={() => onIncrease(perfume.id, perfume)}>
+                                                        onClick={() => onIncrease(perfume.id)}>
                                                     <FontAwesomeIcon size="lg" icon={faChevronUp}/>
                                                 </button>
                                                 <input type="text"
                                                        className="form-control input-number"
                                                        style={{width: "45px"}}
-                                                       id={perfume.id}
                                                        value={perfumeInCart.get(perfume.id)}
-                                                       onChange={handleInputChange}/>
+                                                       onChange={(event) => handleInputChange(event, perfume.id)}/>
                                                 <button className="btn btn-default"
                                                         disabled={perfumeInCart.get(perfume.id) === 1}
                                                         onClick={() => onDecrease(perfume.id)}>

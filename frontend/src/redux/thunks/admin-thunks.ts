@@ -12,6 +12,7 @@ import {
     updatePerfumeFailure,
     updatePerfumeSuccess
 } from "../actions/admin-actions";
+import {LocationState} from "history";
 
 export const addPerfume = (data: FormData) => async (dispatch: any) => {
     try {
@@ -36,7 +37,7 @@ export const fetchPerfumes = () => async (dispatch: any) => {
     dispatch(getPerfumes(response.data));
 };
 
-export const updatePerfume = (data: Perfume, history: any) => async (dispatch: any) => {
+export const updatePerfume = (data: FormData, history: any) => async (dispatch: any) => {
     try {
         const response = await axios({
             method: "PUT",
@@ -47,8 +48,8 @@ export const updatePerfume = (data: Perfume, history: any) => async (dispatch: a
                 "Authorization": localStorage.getItem("token")
             }
         });
-        history.push("/account");
         dispatch(updatePerfumeSuccess(response.data));
+        history.push("/account");
     } catch (error) {
         dispatch(updatePerfumeFailure(error.response.data));
     }

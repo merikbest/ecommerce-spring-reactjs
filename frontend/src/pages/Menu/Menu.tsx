@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Route} from "react-router-dom";
+import React, {FC, useEffect, useState} from "react";
+import {Route, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
 import Checkbox from "../../component/CheckBox/Checkbox";
@@ -13,53 +13,54 @@ import {
     fetchPerfumesByPerfumer
 } from "../../redux/thunks/perfume-thunks";
 import "./MenuStyle.css";
+import {AppStateType} from "../../redux/reducers/root-reducer";
 
-const Menu = (props) => {
+export type FilterParamsType = {
+    perfumers: Array<string>
+    genders: Array<string>
+    prices: Array<number>
+}
+
+const Menu: FC = () => {
     const dispatch = useDispatch();
-    const perfumes = useSelector(state => state.perfume.perfumes);
-    const [filterParams, setFilterParams] = useState({
+    const perfumes = useSelector((state: AppStateType) => state.perfume.perfumes);
+    const [filterParams, setFilterParams] = useState<FilterParamsType>({
         perfumers: [],
         genders: [],
         prices: []
     });
+    const {state} = useLocation<{ id: string }>();
 
     useEffect(() => {
-        const perfumeData = props.location.state.id;
+        const perfumeData: string = state.id;
 
         if (perfumeData === "female" || perfumeData === "male") {
-            dispatch(fetchPerfumesByGender({perfumeGender: perfumeData}));
+            dispatch(fetchPerfumesByGender(perfumeData));
             window.scrollTo(0, 0);
         } else if (perfumeData === "all") {
             dispatch(fetchPerfumes());
             window.scrollTo(0, 0);
         } else if (perfumeData) {
-            dispatch(fetchPerfumesByPerfumer({perfumer: perfumeData}));
+            dispatch(fetchPerfumesByPerfumer(perfumeData));
             window.scrollTo(0, 0);
         }
     }, []);
 
-    const getProducts = (variables) => {
+    const getProducts = (variables: FilterParamsType): void => {
         dispatch(fetchPerfumesByFilterParams(variables));
     };
 
-    const handlePrice = (value) => {
-        const data = price;
-        let array = [];
-
-        for (let key in data) {
-            if (data[key].id === parseInt(value, 10)) {
-                array = data[key].array;
-            }
-        }
-        return array;
+    const handlePrice = (value: number): Array<number> => {
+        let find = price.find((item) => item.id == value);
+        return find!.array;
     };
 
-    const handleFilters = (filters, category) => {
-        const newFilters = filterParams;
+    const handleFilters = (filters: Array<string> | number, category: string): void => {
+        const newFilters: any = filterParams;
         newFilters[category] = filters;
 
         if (category === "prices") {
-            let priceValues = handlePrice(filters);
+            let priceValues = handlePrice(filters as number);
             newFilters[category] = priceValues;
         }
         getProducts(newFilters)

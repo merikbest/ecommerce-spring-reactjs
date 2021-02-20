@@ -1,11 +1,16 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Link} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faShoppingBag} from "@fortawesome/free-solid-svg-icons";
 
 import AccountNavbar from "../AccountNavbar/AccountNavbar";
+import {Order} from "../../types/types";
 
-const OrdersTable = ({orders}) => {
+type PropsType = {
+    orders: Array<Order>
+};
+
+const OrdersTable: FC<PropsType> = ({orders}) => {
     return (
         <div>
             <AccountNavbar/>

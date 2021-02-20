@@ -10,7 +10,7 @@ import {
     stopLoadingCart
 } from "../actions/cart-actions";
 
-export const fetchCart = (data: any) => async (dispatch: any) => {
+export const fetchCart = (data: Array<number>) => async (dispatch: any) => {
     dispatch(loadingCart());
     const response: any = await axios.post(API_BASE_URL + "/cart", data);
     const perfumes: Map<number, number> = new Map(JSON.parse(<string>localStorage.getItem("perfumes")));

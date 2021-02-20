@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {FC} from 'react';
 import "./Spiner.css";
 
-function Spinner(props) {
+const Spinner: FC = () => {
     return (
         <div className="loadingio-spinner-ellipsis-aeb8fucc4h">
             <div className="ldio-skmr27zgsyi">
