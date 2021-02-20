@@ -30,7 +30,7 @@ const OrdersTable: FC<PropsType> = ({orders}) => {
                     </tr>
                     </thead>
                     <tbody>
-                    {orders.map((order) => {
+                    {orders.map((order: Order) => {
                         return (
                             <tr key={order.id}>
                                 <th>{order.id}</th>

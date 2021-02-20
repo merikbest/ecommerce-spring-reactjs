@@ -38,6 +38,12 @@ export type Review = {
     date: any
 };
 
+export type ReviewData = {
+    perfumeId: number | string
+    author: string
+    message: string
+};
+
 export type ReviewError = {
     authorError: string
     messageError: string
@@ -82,7 +88,26 @@ export type User = {
     activationCode: string | null
     passwordResetCode: string | null
     token: string | null
-    roles: string
+    roles: Array<string>
+};
+
+export type UserData = {
+    email: string
+    password: string
+};
+
+export type UserRegistration = {
+    email: string
+    username: string
+    password: string
+    password2: string
+    captcha: string | null
+};
+
+export type UserResetPasswordData = {
+    email: string | undefined
+    password: string
+    password2: string
 };
 
 export type AuthErrors = {
@@ -91,4 +116,21 @@ export type AuthErrors = {
     usernameError: string
     passwordError: string
     password2Error: string
+};
+
+export type FilterParamsType = {
+    perfumers: Array<string>
+    genders: Array<string>
+    prices: Array<number>
+};
+
+export type PerfumePrice = {
+    id: number
+    name: string
+    array: Array<number>
+};
+
+export type BrandType = {
+    name: string
+    url: string
 };

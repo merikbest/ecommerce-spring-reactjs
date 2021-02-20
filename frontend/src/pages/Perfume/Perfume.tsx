@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, FormEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCartPlus, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
@@ -6,39 +6,44 @@ import {faCartPlus, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 import {IMG_URL} from "../../utils/constants/url";
 import {fetchPerfume} from "../../redux/thunks/perfume-thunks";
 import {addReviewToPerfume} from "../../redux/thunks/user-thunks";
+import {AppStateType} from "../../redux/reducers/root-reducer";
+import {RouteComponentProps, useHistory} from "react-router-dom";
+import {ReviewData, Review, ReviewError} from "../../types/types";
 
-const Perfume = (props) => {
+const Perfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
     const dispatch = useDispatch();
-    const perfume = useSelector(state => state.perfume.perfume);
-    const reviews = useSelector(state => state.perfume.reviews);
-    const errors = useSelector(state => state.user.errors);
+    const history = useHistory();
+    const perfume = useSelector((state: AppStateType) => state.perfume.perfume);
+    const reviews: Array<Review> = useSelector((state: AppStateType) => state.perfume.reviews);
+    const errors: Partial<ReviewError> = useSelector((state: AppStateType) => state.user.errors);
 
-    const [author, setAuthor] = useState("");
-    const [message, setMessage] = useState("");
+    const [author, setAuthor] = useState<string>("");
+    const [message, setMessage] = useState<string>("");
     const {authorError, messageError} = errors;
 
     useEffect(() => {
-        dispatch(fetchPerfume(props.match.params.id));
+        dispatch(fetchPerfume(match.params.id));
         window.scrollTo(0, 0);
     }, []);
 
-    const addToCart = () => {
-        const perfumeId = perfume.id;
-        let data = localStorage.getItem("perfumes");
-        let cart = data ? new Map(JSON.parse(data)) : new Map();
+    const addToCart = (): void => {
+        const perfumeId: number | undefined = perfume.id;
+        let data: string | null = localStorage.getItem("perfumes");
+        let cart: Map<number, any> = data ? new Map(JSON.parse(data as string)) : new Map();
 
-        if (cart.has(perfumeId)) {
-            cart.set(perfumeId, cart.get(perfumeId) + 1);
+        if (cart.has(perfumeId as number)) {
+            cart.set(perfumeId as number, cart.get(perfumeId as number) + 1);
         } else {
-            cart.set(perfumeId, 1);
+            cart.set(perfumeId as number, 1);
         }
         localStorage.setItem("perfumes", JSON.stringify(Array.from(cart.entries())));
-        props.history.push("/cart");
+        history.push("/cart");
     }
 
-    const addReview = (event) => {
+    const addReview = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        dispatch(addReviewToPerfume({perfumeId: props.match.params.id, author, message}));
+        const review: ReviewData = {perfumeId: match.params.id as string, author, message}
+        dispatch(addReviewToPerfume(review));
     };
 
     return (
@@ -142,7 +147,7 @@ const Perfume = (props) => {
                             <div className="invalid-feedback">{authorError}</div>
                             <label><span className="text-danger"><b>*</b></span> Message text</label>
                             <textarea
-                                rows="4"
+                                rows={4}
                                 className={messageError ? "form-control is-invalid" : "form-control"}
                                 name="message"
                                 value={message}

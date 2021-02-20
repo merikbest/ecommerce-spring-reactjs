@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faList} from "@fortawesome/free-solid-svg-icons";
 import {useDispatch, useSelector} from "react-redux";
@@ -9,10 +9,16 @@ import SearchForm from "../../component/SearchForm/SearchForm";
 import PerfumeCardItem from "../../component/PerfumeCardItem/PerfumeCardItem";
 import {fetchPerfumes} from "../../redux/thunks/admin-thunks";
 import usePagination from "../../component/Pagination/usePagination";
+import {AppStateType} from "../../redux/reducers/root-reducer";
+import {Perfume} from "../../types/types";
 
-const EditPerfumes = ({startFrom}) => {
+type PropsType = {
+    startFrom?: number
+};
+
+const EditPerfumes: FC<PropsType> = ({startFrom}) => {
     const dispatch = useDispatch();
-    const data = useSelector(state => state.admin.perfumes);
+    const data: Array<Perfume> = useSelector((state: AppStateType) => state.admin.perfumes);
 
     const itemsPerPage = 24;
     const searchByData = [

@@ -9,17 +9,14 @@ import {fetchPerfume} from "../../redux/thunks/perfume-thunks";
 import {formReset, updatePerfume} from "../../redux/thunks/admin-thunks";
 import {IMG_URL} from "../../utils/constants/url";
 import {AppStateType} from "../../redux/reducers/root-reducer";
+import {Perfume, PerfumeErrors} from "../../types/types";
 
-type PropsType = {
-    id: string
-};
-
-const EditPerfume: FC<RouteComponentProps<PropsType>> = ({match}) => {
+const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const perfumeData = useSelector((state: AppStateType) => state.perfume.perfume);
-    const errors = useSelector((state: AppStateType) => state.admin.errors);
-    const [perfume, setPerfume] = useState(perfumeData);
+    const perfumeData: Partial<Perfume> = useSelector((state: AppStateType) => state.perfume.perfume);
+    const errors: Partial<PerfumeErrors> = useSelector((state: AppStateType) => state.admin.errors);
+    const [perfume, setPerfume] = useState<Partial<Perfume>>(perfumeData);
 
     const {
         perfumeTitleError,

@@ -18,9 +18,9 @@ import {Perfume} from "../../types/types";
 
 const Cart: FC = () => {
     const dispatch = useDispatch();
-    const perfumes = useSelector((state: AppStateType) => state.cart.perfumes);
-    const totalPrice = useSelector((state: AppStateType) => state.cart.totalPrice);
-    const loading = useSelector((state: AppStateType) => state.cart.loading);
+    const perfumes: Array<Perfume> = useSelector((state: AppStateType) => state.cart.perfumes);
+    const totalPrice: number = useSelector((state: AppStateType) => state.cart.totalPrice);
+    const loading: boolean = useSelector((state: AppStateType) => state.cart.loading);
     const [perfumeInCart, setPerfumeInCart] = useState(() => new Map());
 
     useEffect(() => {
@@ -28,7 +28,7 @@ const Cart: FC = () => {
 
         if (perfumesFromLocalStorage !== null) {
             dispatch(fetchCart(Array.from(perfumesFromLocalStorage.keys())))
-            perfumesFromLocalStorage.forEach((value, key) => {
+            perfumesFromLocalStorage.forEach((value: number, key: number) => {
                 setPerfumeInCart(perfumeInCart.set(key, value))
             });
         } else {

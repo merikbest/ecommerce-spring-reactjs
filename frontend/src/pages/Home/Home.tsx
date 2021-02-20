@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {FC} from 'react';
 
 import HomePageTheme from "../../component/HomePageTheme/HomePageTheme";
 import CarouselImageSlider from "../../component/CarouselImageSlider/CarouselImageSlider";
 import SliderBrands from "../../component/SliderBrands/SliderBrands";
 import SliderCards from "../../component/PerfumeCardsSlider/PerfumeCardsSlider";
 
-const Home = () => {
+const Home: FC = () => {
     return (
         <div>
             <CarouselImageSlider/>

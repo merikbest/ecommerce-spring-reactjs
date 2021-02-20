@@ -11,7 +11,7 @@ import {Perfume} from "../../types/types";
 
 const PerfumeCardsSlider: FC = () => {
     const dispatch = useDispatch();
-    const perfumes = useSelector((state: AppStateType) => state.perfume.perfumes);
+    const perfumes: Array<Perfume> = useSelector((state: AppStateType) => state.perfume.perfumes);
 
     useEffect(() => {
         dispatch(fetchPerfumes());

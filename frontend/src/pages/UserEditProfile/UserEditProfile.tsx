@@ -1,18 +1,22 @@
-import React, {useState} from 'react';
+import React, {FC, FormEvent, useState} from 'react';
 import {useDispatch} from "react-redux";
 import {faEdit, faLock} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import {updateUserInfo} from "../../redux/thunks/user-thunks";
+import {useHistory} from "react-router-dom";
+import {UserData} from "../../types/types";
 
-const UserEditProfile = (props) => {
+const UserEditProfile: FC = () => {
     const dispatch = useDispatch();
-    const [password, setPassword] = useState("");
+    const history = useHistory();
+    const [password, setPassword] = useState<string>("");
 
-    const onFormSubmit = (event) => {
+    const onFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        dispatch(updateUserInfo({password, email: localStorage.getItem("email")}, props.history));
+        const userData: UserData = {password, email: localStorage.getItem("email") as string}
+        dispatch(updateUserInfo(userData, history));
     };
 
     return (

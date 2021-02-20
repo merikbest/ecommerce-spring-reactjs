@@ -9,12 +9,13 @@ import {
     orderAddedSuccess,
     orderConfirmedSuccess
 } from "../actions/order-actions";
+import {Dispatch} from "redux";
 
-export const fetchOrder = () => async (dispatch: any) => {
+export const fetchOrder = () => async (dispatch: Dispatch) => {
     dispatch(fetchOrderSuccess());
 };
 
-export const addOrder = (order: any, history: any) => async (dispatch: any) => {
+export const addOrder = (order: any, history: any) => async (dispatch: Dispatch) => {
     try {
         dispatch(showLoader());
         await axios.post(API_BASE_URL + "/order", order);
@@ -26,7 +27,7 @@ export const addOrder = (order: any, history: any) => async (dispatch: any) => {
     }
 };
 
-export const fetchUserOrders = () => async (dispatch: any) => {
+export const fetchUserOrders = () => async (dispatch: Dispatch) => {
     const response = await axios({
         method: "GET",
         url: API_BASE_URL + "/user/orders",
@@ -38,7 +39,7 @@ export const fetchUserOrders = () => async (dispatch: any) => {
     dispatch(fetchUserOrdersSuccess(response.data));
 };
 
-export const finalizeOrder = () => async (dispatch: any) => {
+export const finalizeOrder = () => async (dispatch: Dispatch) => {
     const response = await axios.get(API_BASE_URL + "/order/finalize");
     dispatch(orderConfirmedSuccess(response.data));
 };

@@ -1,37 +1,41 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, FormEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLock, faSync, faUndo} from "@fortawesome/free-solid-svg-icons";
 
 import {fetchResetPasswordCode, formReset, resetPassword} from "../../redux/thunks/auth-thunks";
+import {RouteComponentProps, useHistory} from "react-router-dom";
+import {AppStateType} from "../../redux/reducers/root-reducer";
+import {AuthErrors, User, UserResetPasswordData} from "../../types/types";
 
-const ResetPassword = (props) => {
+const ResetPassword: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
     const dispatch = useDispatch();
-    const user = useSelector(state => state.auth.user);
-    const error = useSelector(state => state.auth.error);
-    const errors = useSelector(state => state.auth.errors);
+    const history = useHistory();
+    const user: Partial<User> = useSelector((state: AppStateType) => state.auth.user);
+    const error: string = useSelector((state: AppStateType) => state.auth.error);
+    const errors: Partial<AuthErrors> = useSelector((state: AppStateType) => state.auth.errors);
     const {passwordError, password2Error} = errors;
-
-    const [password, setPassword] = useState("");
-    const [password2, setPassword2] = useState("");
+    const [password, setPassword] = useState<string>("");
+    const [password2, setPassword2] = useState<string>("");
 
     useEffect(() => {
         dispatch(formReset());
 
-        if (props.match.params.code) {
-            dispatch(fetchResetPasswordCode(props.match.params.code));
+        if (match.params.code) {
+            dispatch(fetchResetPasswordCode(match.params.code));
         }
     }, []);
 
-    const onClickReset = (event) => {
+    const onClickReset = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        dispatch(resetPassword({email: user.email, password, password2}, props.history));
+        const userResetPasswordData: UserResetPasswordData = {email: user.email, password, password2};
+        dispatch(resetPassword(userResetPasswordData, history));
     };
 
     return (
         <div className="container mt-5">
             <h4><FontAwesomeIcon className="mr-2" icon={faSync}/> RESET PASSWORD</h4>
-            <hr align="left" width="550"/>
+            <hr/>
             {error ?
                 <div className="alert alert-danger col-6" role="alert">{error}</div> : null}
             <form onSubmit={onClickReset}>

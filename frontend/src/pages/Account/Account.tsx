@@ -9,7 +9,7 @@ import {AppStateType} from "../../redux/reducers/root-reducer";
 
 const Account: FC = () => {
     const dispatch = useDispatch();
-    const success = useSelector((state: AppStateType) => state.admin.success);
+    const success: boolean = useSelector((state: AppStateType) => state.admin.success);
 
     useEffect(() => {
         dispatch(formReset());

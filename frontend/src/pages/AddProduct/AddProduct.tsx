@@ -7,6 +7,7 @@ import ToastShow from "../../component/Toasts/ToastShow";
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import {addPerfume, formReset} from "../../redux/thunks/admin-thunks";
 import {AppStateType} from "../../redux/reducers/root-reducer";
+import {PerfumeErrors} from "../../types/types";
 
 type InitialStateType = {
     perfumeTitle: string
@@ -25,8 +26,8 @@ type InitialStateType = {
 
 const AddProduct: FC = () => {
     const dispatch = useDispatch();
-    const success = useSelector((state: AppStateType) => state.admin.success);
-    const errors = useSelector((state: AppStateType) => state.admin.errors);
+    const success: boolean = useSelector((state: AppStateType) => state.admin.success);
+    const errors: Partial<PerfumeErrors> = useSelector((state: AppStateType) => state.admin.errors);
 
     const initialState: InitialStateType = {
         perfumeTitle: "",

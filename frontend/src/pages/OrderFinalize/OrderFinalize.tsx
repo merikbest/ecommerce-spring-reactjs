@@ -1,12 +1,13 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
 import {finalizeOrder} from "../../redux/thunks/order-thunks";
 import {clearCart} from "../../redux/thunks/cart-thunks";
+import {AppStateType} from "../../redux/reducers/root-reducer";
 
-const OrderFinalize = () => {
+const OrderFinalize: FC = () => {
     const dispatch = useDispatch();
-    const orderIndex = useSelector(state => state.order.orderIndex);
+    const orderIndex: string = useSelector((state: AppStateType) => state.order.orderIndex);
 
     useEffect(() => {
         dispatch(clearCart());

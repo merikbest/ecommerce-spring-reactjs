@@ -9,7 +9,6 @@ import Home from "../Home/Home";
 import NavBar from "../../component/NavBar/NavBar";
 import Login from "../Login/Login";
 import Registration from "../Registration/Registration";
-import Product from "../Perfume/Perfume";
 import Account from "../Account/Account";
 import Order from "../Order/Order";
 import OrderFinalize from "../OrderFinalize/OrderFinalize";
@@ -25,10 +24,11 @@ import ResetPassword from "../ResetPassword/ResetPassword";
 import Cart from "../Cart/Cart";
 import EditPerfumes from "../EditPerfumesList/EditPerfumes";
 import {AppStateType} from "../../redux/reducers/root-reducer";
+import Perfume from "../Perfume/Perfume";
 
 const App: FC = () => {
-    const userRole = useSelector((state: AppStateType) => state.auth.userRole);
-    const isAdmin = userRole === "ADMIN";
+    const userRole: string | null = useSelector((state: AppStateType) => state.auth.userRole);
+    const isAdmin: boolean = userRole === "ADMIN";
 
     return (
         <div>
@@ -41,7 +41,7 @@ const App: FC = () => {
                 <Route exact path="/reset/:code" component={ResetPassword}/>
                 <Route exact path="/activate/:code" component={Login}/>
                 <Route exact path="/menu" component={Menu}/>
-                <Route exact path="/product/:id" component={Product}/>
+                <Route exact path="/product/:id" component={Perfume}/>
                 <Route exact path="/contacts" component={Contacts}/>
                 <Route exact path="/account" component={Account}/>
                 <Route exact path="/cart" component={Cart}/>

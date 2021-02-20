@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, FormEvent, useEffect, useState} from 'react';
 import ReCAPTCHA from "react-google-recaptcha";
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -6,19 +6,20 @@ import {faEnvelope, faLock, faUser, faUserPlus} from "@fortawesome/free-solid-sv
 
 import {formReset, registration} from "../../redux/thunks/auth-thunks";
 import PageLoader from "../../component/PageLoader/PageLoader";
+import {AppStateType} from "../../redux/reducers/root-reducer";
+import {AuthErrors, UserRegistration} from "../../types/types";
 
-const Registration = () => {
+const Registration: FC = () => {
     const dispatch = useDispatch();
-    const isRegistered = useSelector(state => state.auth.isRegistered);
-    const loading = useSelector(state => state.auth.loading);
-    const errors = useSelector(state => state.auth.errors);
+    const isRegistered: boolean = useSelector((state: AppStateType) => state.auth.isRegistered);
+    const loading: boolean = useSelector((state: AppStateType) => state.auth.loading);
+    const errors: Partial<AuthErrors> = useSelector((state: AppStateType) => state.auth.errors);
     const {emailError, usernameError, passwordError, password2Error} = errors;
-
-    const [email, setEmail] = useState("");
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [password2, setPassword2] = useState("");
-    const [captchaValue, setCaptchaValue] = useState("");
+    const [email, setEmail] = useState<string>("");
+    const [username, setUsername] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [password2, setPassword2] = useState<string>("");
+    const [captchaValue, setCaptchaValue] = useState<string | null>("");
 
     useEffect(() => {
         dispatch(formReset());
@@ -32,14 +33,16 @@ const Registration = () => {
         setCaptchaValue("");
     }, [isRegistered]);
 
-    const onClickSignUp = (event) => {
+    const onClickSignUp = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        dispatch(registration({captcha: captchaValue, email, username, password, password2}))
+        const userRegistrationData: UserRegistration = {email, username, password, password2, captcha: captchaValue}
+        dispatch(registration(userRegistrationData));
+        // @ts-ignore
         window.grecaptcha.reset();
     };
 
-    const onChangeRecaptcha = (value) => {
-        setCaptchaValue(value);
+    const onChangeRecaptcha = (token: string | null): void => {
+        setCaptchaValue(token);
     };
 
     let pageLoading;
@@ -51,7 +54,7 @@ const Registration = () => {
         <div className="container mt-5">
             {pageLoading}
             <h4><FontAwesomeIcon className="mr-2" icon={faUserPlus}/> SIGN UP</h4>
-            <hr align="left" width="550"/>
+            <hr/>
             {isRegistered ? <div className="alert alert-success col-6" role="alert">
                 Activation code has been sent to your email!
             </div> : null}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {FC} from 'react';
 import Carousel from "react-bootstrap/Carousel";
 import {Link} from "react-router-dom";
 
@@ -15,7 +15,7 @@ const sliderItems = [
     },
 ];
 
-const CarouselImageSlider = () => {
+const CarouselImageSlider: FC = () => {
     const settings = {
         indicators: false,
         fade: true,

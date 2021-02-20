@@ -1,4 +1,4 @@
-export const validatePassword = (password) => {
+export const validatePassword = (password: string): string => {
     if (password.length < 6) {
         return "Password needs to be at least 6 characters long";
     }
@@ -6,7 +6,7 @@ export const validatePassword = (password) => {
     return "";
 };
 
-export const checkPasswords = (password1, password2) => {
+export const checkPasswords = (password1: string, password2: string): string => {
     if (password1 !== password2) {
         return "Passwords do not match";
     }
@@ -14,7 +14,7 @@ export const checkPasswords = (password1, password2) => {
     return "";
 };
 
-export const validateEmail = (email) => {
+export const validateEmail = (email: string): string => {
     if (!email.match(/^(\D)+(\w)*((\.(\w)+)?)+@(\D)+(\w)*((\.(\D)+(\w)*)+)?(\.)[a-z]{2,}$/)) {
         return "Not a valid Email";
     }

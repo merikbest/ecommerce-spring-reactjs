@@ -1,10 +1,5 @@
 import React, {ChangeEvent, FC, useState} from 'react';
-
-type PerfumePrice = {
-    id: number
-    name: string
-    array: Array<number>
-};
+import {PerfumePrice} from "../../types/types";
 
 type PropsType = {
     handleFilters: (filters: number) => void

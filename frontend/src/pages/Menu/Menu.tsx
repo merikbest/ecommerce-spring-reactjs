@@ -14,16 +14,11 @@ import {
 } from "../../redux/thunks/perfume-thunks";
 import "./MenuStyle.css";
 import {AppStateType} from "../../redux/reducers/root-reducer";
-
-export type FilterParamsType = {
-    perfumers: Array<string>
-    genders: Array<string>
-    prices: Array<number>
-}
+import {FilterParamsType, Perfume} from "../../types/types";
 
 const Menu: FC = () => {
     const dispatch = useDispatch();
-    const perfumes = useSelector((state: AppStateType) => state.perfume.perfumes);
+    const perfumes: Array<Perfume> = useSelector((state: AppStateType) => state.perfume.perfumes);
     const [filterParams, setFilterParams] = useState<FilterParamsType>({
         perfumers: [],
         genders: [],
@@ -35,13 +30,13 @@ const Menu: FC = () => {
         const perfumeData: string = state.id;
 
         if (perfumeData === "female" || perfumeData === "male") {
-            dispatch(fetchPerfumesByGender(perfumeData));
+            dispatch(fetchPerfumesByGender({perfumeGender: perfumeData}));
             window.scrollTo(0, 0);
         } else if (perfumeData === "all") {
             dispatch(fetchPerfumes());
             window.scrollTo(0, 0);
-        } else if (perfumeData) {
-            dispatch(fetchPerfumesByPerfumer(perfumeData));
+        } else {
+            dispatch(fetchPerfumesByPerfumer({perfumer: perfumeData}));
             window.scrollTo(0, 0);
         }
     }, []);

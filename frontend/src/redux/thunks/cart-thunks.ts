@@ -9,10 +9,11 @@ import {
     loadingCart,
     stopLoadingCart
 } from "../actions/cart-actions";
+import {Dispatch} from "redux";
 
-export const fetchCart = (data: Array<number>) => async (dispatch: any) => {
+export const fetchCart = (data: Array<number>) => async (dispatch: Dispatch) => {
     dispatch(loadingCart());
-    const response: any = await axios.post(API_BASE_URL + "/cart", data);
+    const response = await axios.post(API_BASE_URL + "/cart", data);
     const perfumes: Map<number, number> = new Map(JSON.parse(<string>localStorage.getItem("perfumes")));
     let total: number = 0;
 
@@ -24,7 +25,7 @@ export const fetchCart = (data: Array<number>) => async (dispatch: any) => {
     dispatch(calculateCartPriceSuccess(total));
 };
 
-export const calculateCartPrice = (perfumes: Array<Perfume> | any) => (dispatch: any) => {
+export const calculateCartPrice = (perfumes: Array<Perfume> | any) => (dispatch: Dispatch) => {
     const perfumesFromLocalStorage: Map<number, number> = new Map(JSON.parse(<string>localStorage.getItem("perfumes")));
     let total: number = 0;
 
@@ -35,10 +36,10 @@ export const calculateCartPrice = (perfumes: Array<Perfume> | any) => (dispatch:
     dispatch(calculateCartPriceSuccess(total));
 };
 
-export const clearCart = () => (dispatch: any) => {
+export const clearCart = () => (dispatch: Dispatch) => {
     dispatch(clearCartSuccess());
 };
 
-export const loadCart = () => (dispatch: any) => {
+export const loadCart = () => (dispatch: Dispatch) => {
     dispatch(stopLoadingCart());
 };

@@ -1,20 +1,20 @@
 import axios from 'axios';
 
 import {API_BASE_URL} from "../../utils/constants/url";
-import {Perfume} from "../../types/types";
 import {
     addPerfumeFailure,
     addPerfumeSuccess,
     getAllUsers,
     getAllUsersOrders,
     getPerfumes,
-    getUser, reset,
+    getUser,
+    reset,
     updatePerfumeFailure,
     updatePerfumeSuccess
 } from "../actions/admin-actions";
-import {LocationState} from "history";
+import {Dispatch} from "redux";
 
-export const addPerfume = (data: FormData) => async (dispatch: any) => {
+export const addPerfume = (data: FormData) => async (dispatch: Dispatch) => {
     try {
         await axios({
             method: "POST",
@@ -32,12 +32,12 @@ export const addPerfume = (data: FormData) => async (dispatch: any) => {
     }
 };
 
-export const fetchPerfumes = () => async (dispatch: any) => {
+export const fetchPerfumes = () => async (dispatch: Dispatch) => {
     const response = await axios.get(API_BASE_URL + "/home");
     dispatch(getPerfumes(response.data));
 };
 
-export const updatePerfume = (data: FormData, history: any) => async (dispatch: any) => {
+export const updatePerfume = (data: FormData, history: any) => async (dispatch: Dispatch) => {
     try {
         const response = await axios({
             method: "PUT",
@@ -55,7 +55,7 @@ export const updatePerfume = (data: FormData, history: any) => async (dispatch: 
     }
 };
 
-export const fetchAllUsersOrders = () => async (dispatch: any) => {
+export const fetchAllUsersOrders = () => async (dispatch: Dispatch) => {
     const response = await axios({
         method: "GET",
         url: API_BASE_URL + "/admin/orders",
@@ -67,7 +67,7 @@ export const fetchAllUsersOrders = () => async (dispatch: any) => {
     dispatch(getAllUsersOrders(response.data));
 };
 
-export const fetchAllUsers = () => async (dispatch: any) => {
+export const fetchAllUsers = () => async (dispatch: Dispatch) => {
     const response = await axios({
         method: "GET",
         url: API_BASE_URL + "/admin/user/all",
@@ -79,7 +79,7 @@ export const fetchAllUsers = () => async (dispatch: any) => {
     dispatch(getAllUsers(response.data));
 };
 
-export const fetchUser = (id: number) => async (dispatch: any) => {
+export const fetchUser = (id: string) => async (dispatch: Dispatch) => {
     const response = await axios({
         method: "GET",
         url: API_BASE_URL + "/admin/user/" + id,
@@ -91,6 +91,6 @@ export const fetchUser = (id: number) => async (dispatch: any) => {
     dispatch(getUser(response.data));
 };
 
-export const formReset = () => async (dispatch: any) => {
+export const formReset = () => async (dispatch: Dispatch) => {
     dispatch(reset());
 };

@@ -1,35 +1,39 @@
-import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
+import React, {FC, FormEvent, useEffect, useState} from 'react';
+import {Link, RouteComponentProps, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faLock, faSignInAlt} from "@fortawesome/free-solid-svg-icons";
 
 import {activateAccount, formReset, login} from "../../redux/thunks/auth-thunks";
+import {AppStateType} from "../../redux/reducers/root-reducer";
+import {UserData} from "../../types/types";
 
-const Login = (props) => {
+const Login: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
     const dispatch = useDispatch();
-    const error = useSelector(state => state.auth.error);
-    const success = useSelector(state => state.auth.success);
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const history = useHistory();
+    const error: string = useSelector((state: AppStateType) => state.auth.error);
+    const success: string = useSelector((state: AppStateType) => state.auth.success);
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
     useEffect(() => {
-        // dispatch(formReset());
+        dispatch(formReset());
 
-        if (props.match.params.code) {
-            dispatch(activateAccount(props.match.params.code));
+        if (match.params.code) {
+            dispatch(activateAccount(match.params.code));
         }
     }, []);
 
-    const onClickSignIn = (event) => {
+    const onClickSignIn = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        dispatch(login({email, password}, props.history));
+        const userData: UserData = {email, password}
+        dispatch(login(userData, history));
     };
 
     return (
         <div id="container" className="container mt-5">
             <h4><FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>SIGN IN</h4>
-            <hr align="left" width="550"/>
+            <hr/>
             {error ? <div className="alert alert-danger col-6" role="alert">{error}</div> : null}
             {success ? <div className="alert alert-success col-6" role="alert">{success}</div> : null}
             <form onSubmit={onClickSignIn}>

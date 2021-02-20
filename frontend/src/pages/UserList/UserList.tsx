@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {faUsers} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -6,10 +6,12 @@ import {Link} from "react-router-dom";
 
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import {fetchAllUsers} from "../../redux/thunks/admin-thunks";
+import {AppStateType} from "../../redux/reducers/root-reducer";
+import {User} from "../../types/types";
 
-const UserList = () => {
+const UserList: FC = () => {
     const dispatch = useDispatch();
-    const users = useSelector(state => state.admin.users);
+    const users: Array<User> = useSelector((state: AppStateType) => state.admin.users);
 
     useEffect(() => {
         dispatch(fetchAllUsers());
@@ -35,7 +37,7 @@ const UserList = () => {
                             <tr key={user.id}>
                                 <th>{user.username}</th>
                                 <th>{user.email}</th>
-                                {user.roles.map((role, index) => {
+                                {user.roles.map((role: string, index: number) => {
                                     return (
                                         <th key={index}>{role}</th>
                                     )

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, FormEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faKey, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
@@ -6,14 +6,15 @@ import {faEnvelope, faKey, faPaperPlane} from "@fortawesome/free-solid-svg-icons
 import {forgotPassword, formReset} from "../../redux/thunks/auth-thunks";
 import {validateEmail} from "../../utils/input-validators";
 import PageLoader from "../../component/PageLoader/PageLoader";
+import {AppStateType} from "../../redux/reducers/root-reducer";
 
-const ForgotPassword = () => {
+const ForgotPassword: FC = () => {
     const dispatch = useDispatch();
-    const error = useSelector(state => state.auth.error);
-    const success = useSelector(state => state.auth.success);
-    const loading = useSelector(state => state.auth.loading);
-    const [email, setEmail] = useState("");
-    const [validateEmailError, setValidateEmailError] = useState("");
+    const error: string = useSelector((state: AppStateType) => state.auth.error);
+    const success: string = useSelector((state: AppStateType) => state.auth.success);
+    const loading: boolean = useSelector((state: AppStateType) => state.auth.loading);
+    const [email, setEmail] = useState<string>("");
+    const [validateEmailError, setValidateEmailError] = useState<string>("");
 
     useEffect(() => {
         dispatch(formReset());
@@ -23,14 +24,14 @@ const ForgotPassword = () => {
         setEmail("");
     }, [success]);
 
-    const onClickSend = (event) => {
+    const onClickSend = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        const validateEmailError = validateEmail(email);
+        const validateEmailError: string = validateEmail(email);
 
         if (validateEmailError) {
             setValidateEmailError(validateEmailError);
         } else {
-            dispatch(forgotPassword({email}));
+            dispatch(forgotPassword({email: email}));
         }
     };
 
@@ -44,7 +45,7 @@ const ForgotPassword = () => {
         <div id="container" className="container mt-5">
             {pageLoading}
             <h4><FontAwesomeIcon className="mr-3" icon={faKey}/>FORGOT PASSWORD?</h4>
-            <hr align="left" width="550"/>
+            <hr/>
             <p>Enter your email address that you used to create your account.</p>
             {error ? <div className="alert alert-danger col-6" role="alert">{error}</div> : null}
             {success ? <div className="alert alert-success col-6" role="alert">{success}</div> : null}

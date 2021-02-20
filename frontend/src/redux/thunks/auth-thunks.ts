@@ -19,10 +19,12 @@ import {
     showLoader
 } from "../actions/auth-actions";
 import {reset} from "../actions/admin-actions";
+import {UserData, UserRegistration, UserResetPasswordData} from "../../types/types";
+import {Dispatch} from "redux";
 
-export const login = (data: any, history: any) => async (dispatch: any) => {
+export const login = (userData: UserData, history: any) => async (dispatch: Dispatch) => {
     try {
-        const response = await axios.post(API_BASE_URL + "/auth/login", data);
+        const response = await axios.post(API_BASE_URL + "/auth/login", userData);
         localStorage.setItem("email", response.data.email);
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("userRole", response.data.userRole);
@@ -35,17 +37,17 @@ export const login = (data: any, history: any) => async (dispatch: any) => {
     }
 };
 
-export const registration = (data: any) => async (dispatch: any) => {
+export const registration = (userRegistrationData: UserRegistration) => async (dispatch: Dispatch) => {
     try {
         dispatch(showLoader());
-        const response = await axios.post(API_BASE_URL + "/registration", data);
+        const response = await axios.post(API_BASE_URL + "/registration", userRegistrationData);
         dispatch(registerSuccess(response.data));
     } catch (error) {
         dispatch(registerFailure(error.response.data));
     }
 };
 
-export const logout = () => async (dispatch: any) => {
+export const logout = () => async (dispatch: Dispatch) => {
     localStorage.removeItem("email");
     localStorage.removeItem("token");
     localStorage.removeItem("userRole");
@@ -53,7 +55,7 @@ export const logout = () => async (dispatch: any) => {
     dispatch(logoutSuccess());
 };
 
-export const activateAccount = (code: any) => async (dispatch: any) => {
+export const activateAccount = (code: string) => async (dispatch: Dispatch) => {
     try {
         const response = await axios.get(API_BASE_URL + "/registration/activate/" + code);
         dispatch(activateAccountSuccess(response.data));
@@ -62,17 +64,17 @@ export const activateAccount = (code: any) => async (dispatch: any) => {
     }
 };
 
-export const forgotPassword = (data: any) => async (dispatch: any) => {
+export const forgotPassword = (email: { email: string }) => async (dispatch: Dispatch) => {
     try {
         dispatch(showLoader());
-        const response = await axios.post(API_BASE_URL + "/auth/forgot", data);
+        const response = await axios.post(API_BASE_URL + "/auth/forgot", email);
         dispatch(forgotPasswordSuccess(response.data));
     } catch (error) {
         dispatch(forgotPasswordFailure(error.response.data));
     }
 };
 
-export const fetchResetPasswordCode = (code: any) => async (dispatch: any) => {
+export const fetchResetPasswordCode = (code: string) => async (dispatch: Dispatch) => {
     try {
         const response = await axios.get(API_BASE_URL + "/auth/reset/" + code);
         dispatch(resetPasswordCodeSuccess(response.data));
@@ -81,7 +83,7 @@ export const fetchResetPasswordCode = (code: any) => async (dispatch: any) => {
     }
 };
 
-export const resetPassword = (data: any, history: any) => async (dispatch: any) => {
+export const resetPassword = (data: UserResetPasswordData, history: any) => async (dispatch: Dispatch) => {
     try {
         const response = await axios.post(API_BASE_URL + "/auth/reset", data);
         dispatch(resetPasswordSuccess(response.data));
@@ -91,11 +93,11 @@ export const resetPassword = (data: any, history: any) => async (dispatch: any) 
     }
 };
 
-export const formReset = () => async (dispatch: any) => {
+export const formReset = () => async (dispatch: Dispatch) => {
     dispatch(reset());
 };
 
-export const fetchAccount = () => async (dispatch: any) => {
+export const fetchAccount = () => async (dispatch: Dispatch) => {
     const userRole: string | null = localStorage.getItem("userRole");
     dispatch(fetchAccountSuccess(userRole));
 };

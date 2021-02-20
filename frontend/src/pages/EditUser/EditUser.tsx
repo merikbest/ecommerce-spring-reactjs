@@ -1,31 +1,34 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, FC, FormEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {faEdit, faUserEdit} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import {fetchUser} from "../../redux/thunks/admin-thunks";
+import {RouteComponentProps} from "react-router-dom";
+import {AppStateType} from "../../redux/reducers/root-reducer";
+import {User} from "../../types/types";
 
-const EditUser = (props) => {
+const EditUser: FC<RouteComponentProps<{id: string}>> = ({match}) => {
     const dispatch = useDispatch();
-    const userData = useSelector(state => state.admin.user);
-    const [user, setUser] = useState({});
+    const userData: Partial<User> = useSelector((state: AppStateType) => state.admin.user);
+    const [user, setUser] = useState<Partial<User>>({});
     const {username, roles} = user;
 
     useEffect(() => {
-        dispatch(fetchUser(props.match.params.id));
+        dispatch(fetchUser(match.params.id));
     }, []);
 
     useEffect(() => {
         setUser(userData);
     }, [userData]);
 
-    const onFormSubmit = (event) => {
+    const onFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         // TODO add method to AdminRestController
-    }
+    };
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const {name, value} = event.target;
         setUser({...user, [name]: value});
     };

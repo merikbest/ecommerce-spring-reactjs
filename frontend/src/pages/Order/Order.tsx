@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {FC, FormEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faShoppingBag} from "@fortawesome/free-solid-svg-icons";
@@ -7,23 +7,27 @@ import {IMG_URL} from "../../utils/constants/url";
 import {addOrder, fetchOrder} from "../../redux/thunks/order-thunks";
 import {validateEmail} from "../../utils/input-validators";
 import PageLoader from "../../component/PageLoader/PageLoader";
+import {AppStateType} from "../../redux/reducers/root-reducer";
+import {useHistory} from "react-router-dom";
+import {OrderError, Perfume} from "../../types/types";
 
-const Order = (props) => {
+const Order: FC = () => {
     const dispatch = useDispatch();
-    const perfumes = useSelector(state => state.cart.perfumes);
-    const totalPrice = useSelector(state => state.cart.totalPrice);
-    const errors = useSelector(state => state.order.errors);
-    const loading = useSelector(state => state.order.loading);
-    const perfumesFromLocalStorage = new Map(JSON.parse(localStorage.getItem("perfumes")));
+    const history = useHistory();
+    const perfumes: Array<Perfume> = useSelector((state: AppStateType) => state.cart.perfumes);
+    const totalPrice: number = useSelector((state: AppStateType) => state.cart.totalPrice);
+    const errors: Partial<OrderError> = useSelector((state: AppStateType) => state.order.errors);
+    const loading: boolean = useSelector((state: AppStateType) => state.order.loading);
+    const perfumesFromLocalStorage: Map<number, number> = new Map(JSON.parse(localStorage.getItem("perfumes") as string));
 
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [city, setCity] = useState("");
-    const [address, setAddress] = useState("");
-    const [postIndex, setPostIndex] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [email, setEmail] = useState("");
-    const [validateEmailError, setValidateEmailError] = useState("");
+    const [firstName, setFirstName] = useState<string>("");
+    const [lastName, setLastName] = useState<string>("");
+    const [city, setCity] = useState<string>("");
+    const [address, setAddress] = useState<string>("");
+    const [postIndex, setPostIndex] = useState<string>("");
+    const [phoneNumber, setPhoneNumber] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [validateEmailError, setValidateEmailError] = useState<string>("");
 
     const {
         firstNameError,
@@ -39,18 +43,18 @@ const Order = (props) => {
         dispatch(fetchOrder());
     }, []);
 
-    const onFormSubmit = (event) => {
+    const onFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
 
-        const perfumesId = Object.fromEntries(new Map(JSON.parse(localStorage.getItem("perfumes"))));
-        const validateEmailError = validateEmail(email);
+        const perfumesId = Object.fromEntries(new Map(JSON.parse(localStorage.getItem("perfumes") as string)));
+        const validateEmailError: string = validateEmail(email);
 
         if (validateEmailError) {
             setValidateEmailError(validateEmailError);
         } else {
             setValidateEmailError("");
             const order = {firstName, lastName, city, address, postIndex, phoneNumber, email, perfumesId, totalPrice};
-            dispatch(addOrder(order, props.history));
+            dispatch(addOrder(order, history));
         }
     };
 

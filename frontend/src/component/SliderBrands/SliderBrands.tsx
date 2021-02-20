@@ -3,17 +3,13 @@ import Carousel from "react-bootstrap/Carousel";
 import {brandsItem1, brandsItem2, brandsItem3} from "./SliderBrandsData";
 import "./SliderBrands.css";
 import {Link} from "react-router-dom";
-
-type BrandType = {
-    name: string
-    url: string
-};
+import {BrandType} from "../../types/types";
 
 const SliderBrands: FC = () => {
     const settings = {
         controls: false,
         indicators: true
-    }
+    };
 
     return (
         <div className="container text-center my-3 mt-5">
