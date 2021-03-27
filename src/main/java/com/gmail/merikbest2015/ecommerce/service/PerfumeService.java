@@ -1,11 +1,16 @@
 package com.gmail.merikbest2015.ecommerce.service;
 
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import graphql.schema.DataFetcher;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface PerfumeService {
+
+    DataFetcher<Perfume> getPerfumeByQuery();
+
+    DataFetcher<List<Perfume>> getAllPerfumesByQuery();
 
     Perfume findPerfumeById(Long perfumeId);
 

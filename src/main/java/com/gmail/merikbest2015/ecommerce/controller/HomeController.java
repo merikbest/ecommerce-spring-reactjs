@@ -1,13 +1,12 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
+import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeDtoOut;
 import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
+import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +25,15 @@ public class HomeController {
     @GetMapping("/product/{id}")
     public ResponseEntity<PerfumeDtoOut> getPerfume(@PathVariable("id") Long perfumeId) {
         return ResponseEntity.ok(perfumeMapper.findPerfumeById(perfumeId));
+    }
+
+    @PostMapping("/graphql/perfumes")
+    public ResponseEntity<ExecutionResult> getAllPerfumesByQuery(@RequestBody GraphQLRequestDto request) {
+        return ResponseEntity.ok(perfumeMapper.getAllPerfumesByQuery(request.getQuery()));
+    }
+
+    @PostMapping("/graphql/perfume")
+    public ResponseEntity<ExecutionResult> getPerfumeByQuery(@RequestBody GraphQLRequestDto request) {
+        return ResponseEntity.ok(perfumeMapper.getPerfumeByQuery(request.getQuery()));
     }
 }

@@ -3,6 +3,7 @@ package com.gmail.merikbest2015.ecommerce.service.Impl;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
+import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,19 @@ public class PerfumeServiceImpl implements PerfumeService {
     @Value("${upload.path}")
     private String uploadPath;
     private final PerfumeRepository perfumeRepository;
+
+    @Override
+    public DataFetcher<Perfume> getPerfumeByQuery() {
+        return dataFetchingEnvironment -> {
+            Long perfumeId = dataFetchingEnvironment.getArgument("id");
+            return perfumeRepository.findById(perfumeId).get();
+        };
+    }
+
+    @Override
+    public DataFetcher<List<Perfume>> getAllPerfumesByQuery() {
+        return dataFetchingEnvironment -> perfumeRepository.findAll();
+    }
 
     @Override
     public Perfume findPerfumeById(Long perfumeId) {
