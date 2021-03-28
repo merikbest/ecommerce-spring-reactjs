@@ -25,7 +25,7 @@ public class PerfumeServiceImpl implements PerfumeService {
     @Override
     public DataFetcher<Perfume> getPerfumeByQuery() {
         return dataFetchingEnvironment -> {
-            Long perfumeId = dataFetchingEnvironment.getArgument("id");
+            Long perfumeId = Long.parseLong(dataFetchingEnvironment.getArgument("id"));
             return perfumeRepository.findById(perfumeId).get();
         };
     }
