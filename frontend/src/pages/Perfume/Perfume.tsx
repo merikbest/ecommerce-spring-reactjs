@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCartPlus, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 
 import {IMG_URL} from "../../utils/constants/url";
-import {fetchPerfume} from "../../redux/thunks/perfume-thunks";
+import {fetchPerfume, fetchPerfumeByQuery} from "../../redux/thunks/perfume-thunks";
 import {addReviewToPerfume} from "../../redux/thunks/user-thunks";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 import {RouteComponentProps, useHistory} from "react-router-dom";
@@ -22,7 +22,9 @@ const Perfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
     const {authorError, messageError} = errors;
 
     useEffect(() => {
-        dispatch(fetchPerfume(match.params.id));
+        // GraphQL example
+        dispatch(fetchPerfumeByQuery(match.params.id));
+        // dispatch(fetchPerfume(match.params.id));
         window.scrollTo(0, 0);
     }, []);
 

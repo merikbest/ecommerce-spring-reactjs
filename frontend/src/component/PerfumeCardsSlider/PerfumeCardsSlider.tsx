@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
 import {IMG_URL} from "../../utils/constants/url";
-import {fetchPerfumes} from "../../redux/thunks/perfume-thunks"
+import {fetchPerfumes, fetchPerfumesByQuery} from "../../redux/thunks/perfume-thunks"
 import "./PerfumeCardsSlider.css";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 import {Perfume} from "../../types/types";
@@ -14,7 +14,9 @@ const PerfumeCardsSlider: FC = () => {
     const perfumes: Array<Perfume> = useSelector((state: AppStateType) => state.perfume.perfumes);
 
     useEffect(() => {
-        dispatch(fetchPerfumes());
+        // GraphQL example
+        dispatch(fetchPerfumesByQuery());
+        // dispatch(fetchPerfumes());
     }, []);
 
     const addCarouselItems = (array: Array<Perfume>, counter: number) => {

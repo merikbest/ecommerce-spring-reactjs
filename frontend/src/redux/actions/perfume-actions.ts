@@ -4,13 +4,27 @@ import {
     FETCH_PERFUMES_BY_FILTER_PARAMS_SUCCESS,
     FETCH_PERFUMES_BY_GENDER_SUCCESS,
     FETCH_PERFUMES_BY_PERFUMER_SUCCESS,
+    FETCH_PERFUMES_BY_QUERY_SUCCESS,
+    FETCH_PERFUME_BY_QUERY_SUCCESS,
+    FetchPerfumesByQuerySuccessActionType,
+    FetchPerfumeByQuerySuccessActionType,
     FetchPerfumesByFilterParamsSuccessActionType,
     FetchPerfumesByGenderSuccessActionType,
     FetchPerfumesByPerfumerSuccessActionType,
     FetchPerfumeSuccessActionType
 } from "../action-types/perfume-action-types";
 
-export const fetchPerfumeSuccess = (perfume: Perfume): FetchPerfumeSuccessActionType => ({
+export const fetchPerfumesByQuerySuccess = (perfumes: Array<Perfume>): FetchPerfumesByQuerySuccessActionType => ({
+    type: FETCH_PERFUMES_BY_QUERY_SUCCESS,
+    payload: perfumes
+});
+
+export const fetchPerfumeByQuerySuccess = (perfume: Perfume): FetchPerfumeByQuerySuccessActionType => ({
+    type: FETCH_PERFUME_BY_QUERY_SUCCESS,
+    payload: perfume
+});
+
+    export const fetchPerfumeSuccess = (perfume: Perfume): FetchPerfumeSuccessActionType => ({
     type: FETCH_PERFUME_SUCCESS,
     payload: perfume
 });
