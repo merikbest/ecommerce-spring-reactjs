@@ -1,9 +1,6 @@
 package com.gmail.merikbest2015.ecommerce.service.Impl;
 
-import com.gmail.merikbest2015.ecommerce.domain.Perfume;
-import com.gmail.merikbest2015.ecommerce.domain.Review;
-import com.gmail.merikbest2015.ecommerce.domain.Role;
-import com.gmail.merikbest2015.ecommerce.domain.User;
+import com.gmail.merikbest2015.ecommerce.domain.*;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
 import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
@@ -94,7 +91,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public boolean addUser(User user) {
+    public boolean registerUser(User user) {
         User userFromDb = userRepository.findByEmail(user.getEmail());
 
         if (userFromDb != null) {
@@ -102,6 +99,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }
         user.setActive(false);
         user.setRoles(Collections.singleton(Role.USER));
+        user.setProvider(AuthProvider.LOCAL);
         user.setActivationCode(UUID.randomUUID().toString());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
@@ -112,6 +110,23 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         emailMessages.add("Please follow the link ");
         sendMessage(user, emailMessages, subject, user.getActivationCode(), "activate");
         return true;
+    }
+
+    @Override
+    public void registerOauthUser(String email, String username) {
+        User user = new User();
+        user.setEmail(email);
+        user.setUsername(username);
+        user.setActive(true);
+        user.setRoles(Collections.singleton(Role.USER));
+        user.setProvider(AuthProvider.GOOGLE);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateOauthUser(User user, String username) {
+        user.setUsername(username);
+        user.setProvider(AuthProvider.GOOGLE);
     }
 
     @Override

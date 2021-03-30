@@ -79,6 +79,7 @@ create table usr
     password            varchar(255),
     password_reset_code varchar(255),
     username            varchar(255),
+    provider            varchar(255),
     primary key (id)
 );
 

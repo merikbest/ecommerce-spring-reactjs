@@ -1,15 +1,14 @@
 package com.gmail.merikbest2015.ecommerce.aspect;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+
 @Aspect
-@Slf4j
 @Component
 public class ControllerAspect {
 
@@ -19,13 +18,16 @@ public class ControllerAspect {
 
     @Around("executeLogging()")
     public Object loggingAround(ProceedingJoinPoint joinPoint) throws Throwable {
-        ObjectMapper mapper = new ObjectMapper();
-        Object[] args = joinPoint.getArgs();
         Object proceed = joinPoint.proceed();
-        String className = joinPoint.getTarget().getClass().toString();
-        String methodName  = joinPoint.getSignature().getName();
-        log.info(className + " : " + methodName + "() " + "Request: " + mapper.writeValueAsString(args));
-        log.info(className + " : " + methodName + "() " + "Response: " + mapper.writeValueAsString(proceed));
+        String className = "CLASS: [" + joinPoint.getTarget().getClass().getSimpleName() + "],";
+        String methodName = " METHOD: [" + joinPoint.getSignature().getName() + "()],";
+        System.out.print(className + methodName + " REQUEST: ");
+        if (joinPoint.getArgs().length > 0) {
+            Arrays.stream(joinPoint.getArgs()).forEach(args -> System.out.println(args.toString()));
+        } else {
+            System.out.println("[]");
+        }
+        System.out.println(className + methodName + " RESPONSE: " + proceed.toString());
         return proceed;
     }
 }

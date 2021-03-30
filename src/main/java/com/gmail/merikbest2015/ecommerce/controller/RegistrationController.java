@@ -37,7 +37,7 @@ public class RegistrationController {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
-        if (!userMapper.addUser(user)) {
+        if (!userMapper.registerUser(user)) {
             throw new EmailException("Email is already used.");
         }
         return ResponseEntity.ok("User successfully registered.");

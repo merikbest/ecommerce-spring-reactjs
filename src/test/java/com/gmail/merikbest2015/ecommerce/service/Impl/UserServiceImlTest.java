@@ -155,10 +155,10 @@ public class UserServiceImlTest {
     }
 
     @Test
-    public void addUser() {
+    public void registerUser() {
         User user = new User();
         user.setEmail(USER_EMAIL);
-        boolean isUserCreated = userService.addUser(user);
+        boolean isUserCreated = userService.registerUser(user);
 
         assertTrue(isUserCreated);
         assertNotNull(user.getActivationCode());

@@ -70,8 +70,8 @@ public class UserMapper {
         return userService.login(email);
     }
 
-    public boolean addUser(UserDtoIn userDtoIn) {
-        return userService.addUser(convertToEntity(userDtoIn));
+    public boolean registerUser(UserDtoIn userDtoIn) {
+        return userService.registerUser(convertToEntity(userDtoIn));
     }
 
     public boolean activateUser(String code) {

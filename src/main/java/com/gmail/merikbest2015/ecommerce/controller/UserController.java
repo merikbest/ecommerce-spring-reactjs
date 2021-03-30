@@ -25,7 +25,7 @@ public class UserController {
     private final UserMapper userMapper;
     private final OrderMapper orderMapper;
 
-    @GetMapping("/edit")
+    @GetMapping("/info")
     public ResponseEntity<UserDtoOut> getUserInfo(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok(userMapper.findUserByEmail(user.getEmail()));
     }

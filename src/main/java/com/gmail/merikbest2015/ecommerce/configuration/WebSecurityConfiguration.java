@@ -1,6 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.configuration;
 
 import com.gmail.merikbest2015.ecommerce.security.JwtConfigurer;
+import com.gmail.merikbest2015.ecommerce.security.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,12 +19,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JwtConfigurer jwtConfigurer;
+    private final OAuth2SuccessHandler oauthSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf()
-                .disable()
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
@@ -40,9 +41,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/static/**",
                         "/activate/*",
                         "/menu/**").permitAll()
-                .antMatchers("/api/v1/auth/login").permitAll()
-                .anyRequest()
-                .authenticated()
+                .anyRequest().authenticated()
+                .and()
+                .oauth2Login()
+                .authorizationEndpoint().baseUri("/api/v1/login/google")
+                .and()
+                .successHandler(oauthSuccessHandler)
                 .and()
                 .apply(jwtConfigurer);
     }

@@ -23,7 +23,11 @@ public interface UserService {
 
     Map<String, Object> login(String email);
 
-    boolean addUser(User user);
+    boolean registerUser(User user);
+
+    void registerOauthUser(String email, String username);
+
+    void updateOauthUser(User user, String username);
 
     boolean activateUser(String code);
 
