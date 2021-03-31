@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import ToastShow from "../../component/Toasts/ToastShow";
 import {formReset} from "../../redux/thunks/admin-thunks";
-import {fetchAccount} from "../../redux/thunks/auth-thunks";
+import {fetchUserInfo} from "../../redux/thunks/user-thunks";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 
 const Account: FC = () => {
@@ -13,7 +13,7 @@ const Account: FC = () => {
 
     useEffect(() => {
         dispatch(formReset());
-        dispatch(fetchAccount());
+        dispatch(fetchUserInfo());
     }, []);
 
     return (

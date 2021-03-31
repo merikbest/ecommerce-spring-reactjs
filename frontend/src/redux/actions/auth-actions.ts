@@ -100,7 +100,7 @@ export const resetPasswordFailure = (errors: AuthErrors): ResetPasswordFailureAc
     payload: errors
 });
 
-export const fetchAccountSuccess = (userRole: string | null): FetchAccountSuccessActionType => ({
+export const fetchAccountSuccess = (user: User): FetchAccountSuccessActionType => ({
     type: FETCH_ACCOUNT_SUCCESS,
-    payload: userRole
+    payload: user
 });

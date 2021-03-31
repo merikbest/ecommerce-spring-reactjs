@@ -4,7 +4,6 @@ import {API_BASE_URL} from "../../utils/constants/url";
 import {
     activateAccountFailure,
     activateAccountSuccess,
-    fetchAccountSuccess,
     forgotPasswordFailure,
     forgotPasswordSuccess,
     loginFailure,
@@ -95,9 +94,4 @@ export const resetPassword = (data: UserResetPasswordData, history: any) => asyn
 
 export const formReset = () => async (dispatch: Dispatch) => {
     dispatch(reset());
-};
-
-export const fetchAccount = () => async (dispatch: Dispatch) => {
-    const userRole: string | null = localStorage.getItem("userRole");
-    dispatch(fetchAccountSuccess(userRole));
 };

@@ -31,7 +31,7 @@ export type ResetPasswordCodeSuccessActionType = { type: typeof RESET_PASSWORD_C
 export type ResetPasswordCodeFailureActionType = { type: typeof RESET_PASSWORD_CODE_FAILURE, payload: string };
 export type ResetPasswordSuccessActionType = { type: typeof RESET_PASSWORD_SUCCESS, payload: string };
 export type ResetPasswordFailureActionType = { type: typeof RESET_PASSWORD_FAILURE, payload: AuthErrors };
-export type FetchAccountSuccessActionType = { type: typeof FETCH_ACCOUNT_SUCCESS, payload: string | null };
+export type FetchAccountSuccessActionType = { type: typeof FETCH_ACCOUNT_SUCCESS, payload: User };
 
 export type AuthActionTypes = LoginSuccessActionType | LoginFailureActionType | ShowLoaderActionType |
     RegisterSuccessActionType | RegisterFailureActionType | LogoutSuccessActionType | ActivateAccountSuccessActionType |

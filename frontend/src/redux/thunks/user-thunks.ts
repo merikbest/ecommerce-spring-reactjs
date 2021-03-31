@@ -1,8 +1,25 @@
 import axios from 'axios';
+import {Dispatch} from "redux";
+
 import {API_BASE_URL} from "../../utils/constants/url";
 import {userAddedReviewFailure, userAddedReviewSuccess, userUpdatedSuccess} from "../actions/user-actions";
+import {fetchAccountSuccess} from '../actions/auth-actions';
 import {ReviewData, UserData} from "../../types/types";
-import {Dispatch} from "redux";
+
+export const fetchUserInfo = () => async (dispatch: Dispatch) => {
+    const response = await axios({
+        method: "GET",
+        url: API_BASE_URL + "/user/info",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": localStorage.getItem("token")
+        }
+    });
+    localStorage.setItem("email", response.data.email);
+    localStorage.setItem("userRole", response.data.roles);
+    localStorage.setItem("isLoggedIn", "true");
+    dispatch(fetchAccountSuccess(response.data))
+};
 
 export const updateUserInfo = (userData: UserData, history: any) => async (dispatch: Dispatch) => {
     axios({

@@ -21,6 +21,7 @@ import {
 
 type InitialStateType = {
     user: Partial<User>
+    userEmail: string | null
     userRole: string | null
     isLoggedIn: boolean
     isRegistered: boolean
@@ -32,6 +33,7 @@ type InitialStateType = {
 
 const initialState: InitialStateType = {
     user: {},
+    userEmail: "",
     userRole: "",
     isLoggedIn: false,
     isRegistered: false,
@@ -84,13 +86,13 @@ const reducer = (state: InitialStateType = initialState, action: AuthActionTypes
             return {...state, errors: action.payload};
 
         case LOGOUT_SUCCESS:
-            return {...state, isLoggedIn: false, user: {}, userRole: ""};
+            return {...state, isLoggedIn: false, userRole: ""};
+
+        case FETCH_ACCOUNT_SUCCESS:
+            return {...state, isLoggedIn: true, userRole: action.payload.roles[0], userEmail: action.payload.email};
 
         case FORM_RESET:
             return {...state, error: "", errors: {}, success: "", isRegistered: false, loading: false};
-
-        case FETCH_ACCOUNT_SUCCESS:
-            return {...state, isLoggedIn: true, userRole: action.payload};
 
         default:
             return state;

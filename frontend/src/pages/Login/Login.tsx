@@ -36,6 +36,7 @@ const Login: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
             <hr/>
             {error ? <div className="alert alert-danger col-6" role="alert">{error}</div> : null}
             {success ? <div className="alert alert-success col-6" role="alert">{success}</div> : null}
+            <Link to={"/forgot"}>Forgot password?</Link>
             <form onSubmit={onClickSignIn}>
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label">E-mail: </label>
@@ -65,7 +66,9 @@ const Login: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
                     <button type="submit" className="btn btn-dark mx-3">
                         <FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>Sign in
                     </button>
-                    <Link to={"/forgot"} style={{position: "relative", top: "8px"}}>Forgot password?</Link>
+                    <div style={{position: "relative", top: "8px"}}>
+                        <p>Or sign in with <a href="http://localhost:8080/api/v1/login/google">Google</a></p>
+                    </div>
                 </div>
             </form>
         </div>

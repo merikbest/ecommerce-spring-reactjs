@@ -25,6 +25,7 @@ import Cart from "../Cart/Cart";
 import EditPerfumes from "../EditPerfumesList/EditPerfumes";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 import Perfume from "../Perfume/Perfume";
+import OAuth2RedirectHandler from "../../utils/oauth2/OAuth2RedirectHandler";
 
 const App: FC = () => {
     const userRole: string | null = useSelector((state: AppStateType) => state.auth.userRole);
@@ -63,6 +64,7 @@ const App: FC = () => {
                     (<Route component={UserEditProfile}/>) : (<Route component={Home}/>)}/>
                 <Route exact path="/user/orders" render={() => localStorage.getItem("isLoggedIn") ?
                     (<Route component={UserOrdersList}/>) : (<Route component={Home}/>)}/>
+                <Route exact path="/oauth2/redirect" component={OAuth2RedirectHandler}/>
                 <Route path="*" component={Home}/>
             </Switch>
             <Footer/>
