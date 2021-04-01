@@ -1,4 +1,4 @@
-package com.gmail.merikbest2015.ecommerce.dto.user;
+package com.gmail.merikbest2015.ecommerce.dto;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class UserDtoIn {
+public class RegistrationRequestDto {
 
     @NotBlank(message = "Fill captcha.")
     private String captcha;

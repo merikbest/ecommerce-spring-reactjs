@@ -1,6 +1,6 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
-import com.gmail.merikbest2015.ecommerce.dto.user.UserDtoIn;
+import com.gmail.merikbest2015.ecommerce.dto.RegistrationRequestDto;
 import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
 import com.gmail.merikbest2015.ecommerce.exception.EmailException;
 import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
@@ -24,11 +24,12 @@ public class RegistrationController {
 
     @Value("${recaptcha.secret}")
     private String secret;
+
     private final UserMapper userMapper;
     private final RestTemplate restTemplate;
 
     @PostMapping
-    public ResponseEntity<String> registration(@Valid @RequestBody UserDtoIn user, BindingResult bindingResult) {
+    public ResponseEntity<String> registration(@Valid @RequestBody RegistrationRequestDto user, BindingResult bindingResult) {
         ControllerUtils.captchaValidation(secret, user.getCaptcha(), restTemplate);
 
         if (ControllerUtils.isPasswordDifferent(user.getPassword(), user.getPassword2())) {
@@ -45,10 +46,10 @@ public class RegistrationController {
 
     @GetMapping("/activate/{code}")
     public ResponseEntity<String> activateEmailCode(@PathVariable String code) {
-        if (userMapper.activateUser(code)) {
-            return ResponseEntity.ok("User successfully activated.");
-        } else {
+        if (!userMapper.activateUser(code)) {
             throw new ApiRequestException("Activation code not found.", HttpStatus.NOT_FOUND);
+        } else {
+            return ResponseEntity.ok("User successfully activated.");
         }
     }
 }

@@ -5,6 +5,7 @@ import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
 import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
 import com.gmail.merikbest2015.ecommerce.security.JwtProvider;
+import com.gmail.merikbest2015.ecommerce.security.UserPrincipal;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,13 +50,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public User findByPasswordResetCode(String code){
+    public User findByPasswordResetCode(String code) {
         return userRepository.findByPasswordResetCode(code);
-    }
-
-    @Override
-    public User saveUser(User user) {
-        return userRepository.save(user);
     }
 
     @Override
@@ -83,11 +79,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-
         if (user.getActivationCode() != null) {
             throw new LockedException("email not activated");
         }
-        return user;
+        return UserPrincipal.create(user);
     }
 
     @Override
@@ -127,6 +122,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public void updateOauthUser(User user, String username) {
         user.setUsername(username);
         user.setProvider(AuthProvider.GOOGLE);
+        userRepository.save(user);
     }
 
     @Override
@@ -200,27 +196,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void updateProfile(User user, String password, String email) {
-        String userEmail = user.getEmail();
-        boolean isEmailChanged = (email != null && !email.equals(userEmail)) ||
-                (userEmail != null && !userEmail.equals(email));
-
-        if (isEmailChanged) {
-            user.setEmail(email);
-
-            if (!StringUtils.isEmpty(email)) {
-                user.setActivationCode(UUID.randomUUID().toString());
-            }
-        }
-
-        if (!StringUtils.isEmpty(password)) {
-            user.setPassword(passwordEncoder.encode(password));
-        }
+    public void updateProfile(String email, String username) {
+        User user = userRepository.findByEmail(email);
+        user.setUsername(username);
         userRepository.save(user);
-
-//        if (isEmailChanged) {
-//            sendMessage(user);
-//        }
     }
 
     @Override

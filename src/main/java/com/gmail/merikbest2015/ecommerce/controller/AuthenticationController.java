@@ -1,8 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.gmail.merikbest2015.ecommerce.dto.AuthenticationRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.PasswordResetDto;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserDtoOut;
+import com.gmail.merikbest2015.ecommerce.dto.PasswordResetRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserResponseDto;
 import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
 import com.gmail.merikbest2015.ecommerce.exception.PasswordConfirmationException;
 import com.gmail.merikbest2015.ecommerce.exception.PasswordException;
@@ -37,7 +37,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/forgot")
-    public ResponseEntity<String> forgotPassword(@RequestBody PasswordResetDto passwordReset) {
+    public ResponseEntity<String> forgotPassword(@RequestBody PasswordResetRequestDto passwordReset) {
         boolean forgotPassword = userMapper.sendPasswordResetCode(passwordReset.getEmail());
         if (!forgotPassword) {
             throw new ApiRequestException("Email not found", HttpStatus.BAD_REQUEST);
@@ -46,8 +46,8 @@ public class AuthenticationController {
     }
 
     @GetMapping("/reset/{code}")
-    public ResponseEntity<UserDtoOut> getPasswordResetCode(@PathVariable String code) {
-        UserDtoOut user = userMapper.findByPasswordResetCode(code);
+    public ResponseEntity<UserResponseDto> getPasswordResetCode(@PathVariable String code) {
+        UserResponseDto user = userMapper.findByPasswordResetCode(code);
         if (user == null) {
             throw new ApiRequestException("Password reset code is invalid!", HttpStatus.BAD_REQUEST);
         }
@@ -55,11 +55,10 @@ public class AuthenticationController {
     }
 
     @PostMapping("/reset")
-    public ResponseEntity<String> passwordReset(@RequestBody PasswordResetDto passwordReset) {
+    public ResponseEntity<String> passwordReset(@RequestBody PasswordResetRequestDto passwordReset) {
         if (ControllerUtils.isPasswordConfirmEmpty(passwordReset.getPassword2())) {
             throw new PasswordConfirmationException("Password confirmation cannot be empty.");
         }
-
         if (ControllerUtils.isPasswordDifferent(passwordReset.getPassword(), passwordReset.getPassword2())) {
             throw new PasswordException("Passwords do not match.");
         }

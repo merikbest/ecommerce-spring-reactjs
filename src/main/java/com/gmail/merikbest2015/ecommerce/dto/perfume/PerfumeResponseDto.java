@@ -1,13 +1,13 @@
 package com.gmail.merikbest2015.ecommerce.dto.perfume;
 
-import com.gmail.merikbest2015.ecommerce.dto.review.ReviewDtoOut;
+import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponseDto;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Data
-public class PerfumeDtoOut {
+public class PerfumeResponseDto {
     private Long id;
     private String perfumeTitle;
     private String perfumer;
@@ -22,6 +22,6 @@ public class PerfumeDtoOut {
     private Integer price;
     private String volume;
     private String type;
-    private List<ReviewDtoOut> reviews;
+    private List<ReviewResponseDto> reviews;
     private MultipartFile file;
 }

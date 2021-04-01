@@ -1,12 +1,12 @@
 package com.gmail.merikbest2015.ecommerce.dto.order;
 
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeDtoOut;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponseDto;
 import lombok.Data;
 
 @Data
-public class OrderItemDtoOut {
+public class OrderItemResponseDto {
     private Long id;
     private Long amount;
     private Long quantity;
-    private PerfumeDtoOut perfume;
+    private PerfumeResponseDto perfume;
 }

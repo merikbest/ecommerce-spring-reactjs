@@ -17,8 +17,6 @@ public interface UserService {
 
     User findByPasswordResetCode(String code);
 
-    User saveUser(User user);
-
     List<Perfume> getCart(List<Long> perfumeIds);
 
     Map<String, Object> login(String email);
@@ -37,7 +35,7 @@ public interface UserService {
 
     void userSave(String username, Map<String, String> form, User user);
 
-    void updateProfile(User user, String password, String email);
+    void updateProfile(String email, String username);
 
     void addReviewToPerfume(Review review, Long perfumeId);
 }

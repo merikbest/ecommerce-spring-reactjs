@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Set;
 
 @Data
-public class UserDtoOut {
+public class UserResponseDto {
     private Long id;
     private String username;
     private String email;

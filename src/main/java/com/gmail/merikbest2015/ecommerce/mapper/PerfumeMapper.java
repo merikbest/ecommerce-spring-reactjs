@@ -1,8 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.mapper;
 
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeDtoIn;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeDtoOut;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponseDto;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
 import com.gmail.merikbest2015.ecommerce.service.graphql.GraphQLPerfumeProvider;
 import graphql.ExecutionResult;
@@ -22,46 +22,42 @@ public class PerfumeMapper {
     private final PerfumeService perfumeService;
     private final GraphQLPerfumeProvider perfumeProvider;
 
-    private Perfume convertToEntity(PerfumeDtoIn perfumeDto) {
-        return modelMapper.map(perfumeDto, Perfume.class);
+    private Perfume convertToEntity(PerfumeRequestDto perfumeRequestDto) {
+        return modelMapper.map(perfumeRequestDto, Perfume.class);
     }
 
-    private PerfumeDtoIn convertToDtoIn(Perfume perfume) {
-        return modelMapper.map(perfume, PerfumeDtoIn.class);
+    private PerfumeResponseDto convertToResponseDto(Perfume perfume) {
+        return modelMapper.map(perfume, PerfumeResponseDto.class);
     }
 
-    private PerfumeDtoOut convertToDtoOut(Perfume perfume) {
-        return modelMapper.map(perfume, PerfumeDtoOut.class);
-    }
-
-    List<PerfumeDtoOut> convertListToDtoOut(List<Perfume> perfumes) {
+    List<PerfumeResponseDto> convertListToResponseDto(List<Perfume> perfumes) {
         return perfumes.stream()
-                .map(this::convertToDtoOut)
+                .map(this::convertToResponseDto)
                 .collect(Collectors.toList());
     }
 
-    public PerfumeDtoOut findPerfumeById(Long perfumeId) {
-        return convertToDtoOut(perfumeService.findPerfumeById(perfumeId));
+    public PerfumeResponseDto findPerfumeById(Long perfumeId) {
+        return convertToResponseDto(perfumeService.findPerfumeById(perfumeId));
     }
 
-    public List<PerfumeDtoOut> findAllPerfumes() {
-        return convertListToDtoOut(perfumeService.findAllPerfumes());
+    public List<PerfumeResponseDto> findAllPerfumes() {
+        return convertListToResponseDto(perfumeService.findAllPerfumes());
     }
 
-    public List<PerfumeDtoOut> filter(List<String> perfumers, List<String> genders, List<Integer> prices) {
-        return convertListToDtoOut(perfumeService.filter(perfumers, genders, prices));
+    public List<PerfumeResponseDto> filter(List<String> perfumers, List<String> genders, List<Integer> prices) {
+        return convertListToResponseDto(perfumeService.filter(perfumers, genders, prices));
     }
 
-    public List<PerfumeDtoOut> findByPerfumerOrderByPriceDesc(String perfumer) {
-        return convertListToDtoOut(perfumeService.findByPerfumerOrderByPriceDesc(perfumer));
+    public List<PerfumeResponseDto> findByPerfumerOrderByPriceDesc(String perfumer) {
+        return convertListToResponseDto(perfumeService.findByPerfumerOrderByPriceDesc(perfumer));
     }
 
-    public List<PerfumeDtoOut> findByPerfumeGenderOrderByPriceDesc(String perfumeGender) {
-        return convertListToDtoOut(perfumeService.findByPerfumeGenderOrderByPriceDesc(perfumeGender));
+    public List<PerfumeResponseDto> findByPerfumeGenderOrderByPriceDesc(String perfumeGender) {
+        return convertListToResponseDto(perfumeService.findByPerfumeGenderOrderByPriceDesc(perfumeGender));
     }
 
-    public PerfumeDtoIn savePerfume(PerfumeDtoIn perfumeDtoIn, MultipartFile file) {
-        return convertToDtoIn(perfumeService.savePerfume(convertToEntity(perfumeDtoIn), file));
+    public PerfumeResponseDto savePerfume(PerfumeRequestDto perfumeRequestDto, MultipartFile file) {
+        return convertToResponseDto(perfumeService.savePerfume(convertToEntity(perfumeRequestDto), file));
     }
 
     public ExecutionResult getAllPerfumesByQuery(String query) {

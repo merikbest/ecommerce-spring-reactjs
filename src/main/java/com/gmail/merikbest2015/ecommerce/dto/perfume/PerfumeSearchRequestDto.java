@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class PerfumeSearchFilterDto {
+public class PerfumeSearchRequestDto {
     private List<Integer> prices;
     private List<String> perfumers;
     private List<String> genders;

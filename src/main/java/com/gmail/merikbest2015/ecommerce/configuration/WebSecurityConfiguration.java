@@ -24,23 +24,20 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .cors().and().csrf().disable().authorizeRequests()
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(
-                        "/api/v1/home/**",
-                        "/api/v1/admin/**",
+                .antMatchers("/api/v1/auth/**",
+                        "/api/v1/auth/login",
                         "/api/v1/registration/**",
-                        "/api/v1/auth/**",
-                        "/api/v1/menu/**",
-                        "/api/v1/cart",
-                        "/api/v1/order/**",
-                        "/api/v1/user/*",
+                        "/api/v1/perfumes/**",
+                        "/api/v1/users/cart",
+                        "/api/v1/users/order/**",
+                        "/api/v1/users/review",
                         "/img/**",
-                        "/static/**",
-                        "/activate/*",
-                        "/menu/**").permitAll()
+                        "/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()

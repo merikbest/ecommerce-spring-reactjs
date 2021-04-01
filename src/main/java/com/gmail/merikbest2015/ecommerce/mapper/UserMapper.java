@@ -2,10 +2,11 @@ package com.gmail.merikbest2015.ecommerce.mapper;
 
 import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.domain.User;
-import com.gmail.merikbest2015.ecommerce.dto.review.ReviewDtoIn;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserDtoIn;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeDtoOut;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserDtoOut;
+import com.gmail.merikbest2015.ecommerce.dto.RegistrationRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponseDto;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserResponseDto;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -23,55 +24,51 @@ public class UserMapper {
     private final PerfumeMapper perfumeMapper;
     private final UserService userService;
 
-    User convertToEntity(UserDtoIn userDto) {
-        return modelMapper.map(userDto, User.class);
+    private User convertToEntity(UserRequestDto userRequestDto) {
+        return modelMapper.map(userRequestDto, User.class);
     }
 
-    private Review convertToEntity(ReviewDtoIn reviewDto) {
-        return modelMapper.map(reviewDto, Review.class);
+    private User convertToEntity(RegistrationRequestDto registrationRequestDto) {
+        return modelMapper.map(registrationRequestDto, User.class);
     }
 
-    private UserDtoIn convertToDtoIn(User user) {
-        return modelMapper.map(user, UserDtoIn.class);
+    private Review convertToEntity(ReviewRequestDto reviewRequestDto) {
+        return modelMapper.map(reviewRequestDto, Review.class);
     }
 
-    private UserDtoOut convertToDtoOut(User user) {
-        return modelMapper.map(user, UserDtoOut.class);
+    public UserResponseDto convertToResponseDto(User user) {
+        return modelMapper.map(user, UserResponseDto.class);
     }
 
-    public UserDtoOut findUserById(Long userId) {
-        return convertToDtoOut(userService.findUserById(userId));
+    public UserResponseDto findUserById(Long userId) {
+        return convertToResponseDto(userService.findUserById(userId));
     }
 
-    public UserDtoOut findUserByEmail(String email) {
-        return convertToDtoOut(userService.findUserByEmail(email));
+    public UserResponseDto findUserByEmail(String email) {
+        return convertToResponseDto(userService.findUserByEmail(email));
     }
 
-    public List<PerfumeDtoOut> getCart(List<Long> perfumesIds) {
-        return perfumeMapper.convertListToDtoOut(userService.getCart(perfumesIds));
+    public List<PerfumeResponseDto> getCart(List<Long> perfumesIds) {
+        return perfumeMapper.convertListToResponseDto(userService.getCart(perfumesIds));
     }
 
-    public List<UserDtoOut> findAllUsers() {
+    public List<UserResponseDto> findAllUsers() {
         return userService.findAllUsers()
                 .stream()
-                .map(this::convertToDtoOut)
+                .map(this::convertToResponseDto)
                 .collect(Collectors.toList());
     }
 
-    public UserDtoOut findByPasswordResetCode(String code) {
-        return convertToDtoOut(userService.findByPasswordResetCode(code));
-    }
-
-    public UserDtoIn saveUser(UserDtoIn userDtoIn) {
-        return convertToDtoIn(userService.saveUser(convertToEntity(userDtoIn)));
+    public UserResponseDto findByPasswordResetCode(String code) {
+        return convertToResponseDto(userService.findByPasswordResetCode(code));
     }
 
     public Map<String, Object> login(String email) {
         return userService.login(email);
     }
 
-    public boolean registerUser(UserDtoIn userDtoIn) {
-        return userService.registerUser(convertToEntity(userDtoIn));
+    public boolean registerUser(RegistrationRequestDto registrationRequestDto) {
+        return userService.registerUser(convertToEntity(registrationRequestDto));
     }
 
     public boolean activateUser(String code) {
@@ -86,15 +83,15 @@ public class UserMapper {
         userService.passwordReset(email, password);
     }
 
-    public void userSave(String username, Map<String, String> form, UserDtoIn userDtoIn) {
-        userService.userSave(username, form, convertToEntity(userDtoIn));
+    public void userSave(String username, Map<String, String> form, UserRequestDto userRequestDto) {
+        userService.userSave(username, form, convertToEntity(userRequestDto));
     }
 
-    public void updateProfile(User user, String password, String email) {
-        userService.updateProfile(user, password, email);
+    public void updateProfile(String email, String username) {
+        userService.updateProfile(email, username);
     }
 
-    public void addReviewToPerfume(ReviewDtoIn reviewDto, Long perfumeId) {
-        userService.addReviewToPerfume(convertToEntity(reviewDto), perfumeId);
+    public void addReviewToPerfume(ReviewRequestDto reviewRequestDto, Long perfumeId) {
+        userService.addReviewToPerfume(convertToEntity(reviewRequestDto), perfumeId);
     }
 }

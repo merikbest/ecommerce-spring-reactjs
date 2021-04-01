@@ -23,7 +23,7 @@ public class ControllerAspect {
         String methodName = " METHOD: [" + joinPoint.getSignature().getName() + "()],";
         System.out.print(className + methodName + " REQUEST: ");
         if (joinPoint.getArgs().length > 0) {
-            Arrays.stream(joinPoint.getArgs()).forEach(args -> System.out.println(args.toString()));
+            Arrays.stream(joinPoint.getArgs()).forEach(System.out::println);
         } else {
             System.out.println("[]");
         }
