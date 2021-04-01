@@ -13,7 +13,7 @@ import {Dispatch} from "redux";
 
 export const fetchCart = (data: Array<number>) => async (dispatch: Dispatch) => {
     dispatch(loadingCart());
-    const response = await axios.post(API_BASE_URL + "/cart", data);
+    const response = await axios.post(API_BASE_URL + "/users/cart", data);
     const perfumes: Map<number, number> = new Map(JSON.parse(<string>localStorage.getItem("perfumes")));
     let total: number = 0;
 

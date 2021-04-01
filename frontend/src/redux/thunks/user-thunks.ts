@@ -9,22 +9,23 @@ import {ReviewData, UserData} from "../../types/types";
 export const fetchUserInfo = () => async (dispatch: Dispatch) => {
     const response = await axios({
         method: "GET",
-        url: API_BASE_URL + "/user/info",
+        url: API_BASE_URL + "/users/info",
         headers: {
             "Content-Type": "application/json",
             "Authorization": localStorage.getItem("token")
         }
+    }).then(response => {
+        localStorage.setItem("email", response.data.email);
+        localStorage.setItem("userRole", response.data.roles);
+        localStorage.setItem("isLoggedIn", "true");
+        dispatch(fetchAccountSuccess(response.data));
     });
-    localStorage.setItem("email", response.data.email);
-    localStorage.setItem("userRole", response.data.roles);
-    localStorage.setItem("isLoggedIn", "true");
-    dispatch(fetchAccountSuccess(response.data))
 };
 
 export const updateUserInfo = (userData: UserData, history: any) => async (dispatch: Dispatch) => {
     axios({
         method: "PUT",
-        url: API_BASE_URL + "/user/edit",
+        url: API_BASE_URL + "/users/edit",
         data: userData,
         headers: {
             "Content-Type": "application/json",
@@ -37,7 +38,7 @@ export const updateUserInfo = (userData: UserData, history: any) => async (dispa
 
 export const addReviewToPerfume = (review: ReviewData) => async (dispatch: Dispatch) => {
     try {
-        await axios.post(API_BASE_URL + "/user/review", review);
+        await axios.post(API_BASE_URL + "/users/review", review);
         dispatch(userAddedReviewSuccess());
         window.location.reload();
     } catch (error) {

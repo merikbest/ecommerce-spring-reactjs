@@ -18,7 +18,7 @@ export const fetchOrder = () => async (dispatch: Dispatch) => {
 export const addOrder = (order: any, history: any) => async (dispatch: Dispatch) => {
     try {
         dispatch(showLoader());
-        await axios.post(API_BASE_URL + "/order", order);
+        await axios.post(API_BASE_URL + "/users/order", order);
         history.push("/order/finalize");
         localStorage.removeItem("perfumes");
         dispatch(orderAddedSuccess());
@@ -30,7 +30,7 @@ export const addOrder = (order: any, history: any) => async (dispatch: Dispatch)
 export const fetchUserOrders = () => async (dispatch: Dispatch) => {
     const response = await axios({
         method: "GET",
-        url: API_BASE_URL + "/user/orders",
+        url: API_BASE_URL + "/users/orders",
         headers: {
             "Content-Type": "application/json",
             "Authorization": localStorage.getItem("token")
@@ -40,6 +40,6 @@ export const fetchUserOrders = () => async (dispatch: Dispatch) => {
 };
 
 export const finalizeOrder = () => async (dispatch: Dispatch) => {
-    const response = await axios.get(API_BASE_URL + "/order/finalize");
+    const response = await axios.get(API_BASE_URL + "/users/order/finalize");
     dispatch(orderConfirmedSuccess(response.data));
 };

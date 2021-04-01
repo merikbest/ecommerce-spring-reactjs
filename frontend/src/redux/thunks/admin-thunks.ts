@@ -33,7 +33,7 @@ export const addPerfume = (data: FormData) => async (dispatch: Dispatch) => {
 };
 
 export const fetchPerfumes = () => async (dispatch: Dispatch) => {
-    const response = await axios.get(API_BASE_URL + "/home");
+    const response = await axios.get(API_BASE_URL + "/perfumes");
     dispatch(getPerfumes(response.data));
 };
 
