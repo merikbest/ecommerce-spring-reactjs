@@ -1,8 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.mapper;
 
 import com.gmail.merikbest2015.ecommerce.domain.Order;
-import com.gmail.merikbest2015.ecommerce.dto.order.OrderDtoIn;
-import com.gmail.merikbest2015.ecommerce.dto.order.OrderDtoOut;
+import com.gmail.merikbest2015.ecommerce.dto.order.OrderRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponseDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -22,52 +22,29 @@ public class OrderMapperTest {
 
     @Test
     public void convertToEntity() {
-        OrderDtoIn orderDtoIn = new OrderDtoIn();
-        orderDtoIn.setFirstName(FIRST_NAME);
-        orderDtoIn.setLastName(LAST_NAME);
-        orderDtoIn.setCity(CITY);
-        orderDtoIn.setAddress(ADDRESS);
-        orderDtoIn.setEmail(ORDER_EMAIL);
-        orderDtoIn.setPostIndex(POST_INDEX);
-        orderDtoIn.setPhoneNumber(PHONE_NUMBER);
-        orderDtoIn.setTotalPrice(TOTAL_PRICE);
+        OrderRequestDto orderRequestDto = new OrderRequestDto();
+        orderRequestDto.setFirstName(FIRST_NAME);
+        orderRequestDto.setLastName(LAST_NAME);
+        orderRequestDto.setCity(CITY);
+        orderRequestDto.setAddress(ADDRESS);
+        orderRequestDto.setEmail(ORDER_EMAIL);
+        orderRequestDto.setPostIndex(POST_INDEX);
+        orderRequestDto.setPhoneNumber(PHONE_NUMBER);
+        orderRequestDto.setTotalPrice(TOTAL_PRICE);
 
-        Order order = modelMapper.map(orderDtoIn, Order.class);
-        assertEquals(orderDtoIn.getFirstName(), order.getFirstName());
-        assertEquals(orderDtoIn.getLastName(), order.getLastName());
-        assertEquals(orderDtoIn.getAddress(), order.getAddress());
-        assertEquals(orderDtoIn.getCity(), order.getCity());
-        assertEquals(orderDtoIn.getEmail(), order.getEmail());
-        assertEquals(orderDtoIn.getPostIndex(), order.getPostIndex());
-        assertEquals(orderDtoIn.getPhoneNumber(), order.getPhoneNumber());
-        assertEquals(orderDtoIn.getTotalPrice(), order.getTotalPrice());
+        Order order = modelMapper.map(orderRequestDto, Order.class);
+        assertEquals(orderRequestDto.getFirstName(), order.getFirstName());
+        assertEquals(orderRequestDto.getLastName(), order.getLastName());
+        assertEquals(orderRequestDto.getAddress(), order.getAddress());
+        assertEquals(orderRequestDto.getCity(), order.getCity());
+        assertEquals(orderRequestDto.getEmail(), order.getEmail());
+        assertEquals(orderRequestDto.getPostIndex(), order.getPostIndex());
+        assertEquals(orderRequestDto.getPhoneNumber(), order.getPhoneNumber());
+        assertEquals(orderRequestDto.getTotalPrice(), order.getTotalPrice());
     }
 
     @Test
-    public void convertToDtoIn() {
-        Order order = new Order();
-        order.setFirstName(FIRST_NAME);
-        order.setLastName(LAST_NAME);
-        order.setCity(CITY);
-        order.setAddress(ADDRESS);
-        order.setEmail(ORDER_EMAIL);
-        order.setPostIndex(POST_INDEX);
-        order.setPhoneNumber(PHONE_NUMBER);
-        order.setTotalPrice(TOTAL_PRICE);
-
-        OrderDtoIn orderDtoIn = modelMapper.map(order, OrderDtoIn.class);
-        assertEquals(order.getFirstName(), orderDtoIn.getFirstName());
-        assertEquals(order.getLastName(), orderDtoIn.getLastName());
-        assertEquals(order.getAddress(), orderDtoIn.getAddress());
-        assertEquals(order.getCity(), orderDtoIn.getCity());
-        assertEquals(order.getEmail(), orderDtoIn.getEmail());
-        assertEquals(order.getPostIndex(), orderDtoIn.getPostIndex());
-        assertEquals(order.getPhoneNumber(), orderDtoIn.getPhoneNumber());
-        assertEquals(order.getTotalPrice(), orderDtoIn.getTotalPrice());
-    }
-
-    @Test
-    public void convertToDtoOut() {
+    public void convertToResponseDto() {
         Order order = new Order();
         order.setId(1L);
         order.setFirstName(FIRST_NAME);
@@ -79,15 +56,15 @@ public class OrderMapperTest {
         order.setPhoneNumber(PHONE_NUMBER);
         order.setTotalPrice(TOTAL_PRICE);
 
-        OrderDtoOut orderDtoOut = modelMapper.map(order, OrderDtoOut.class);
-        assertEquals(order.getId(), orderDtoOut.getId());
-        assertEquals(order.getFirstName(), orderDtoOut.getFirstName());
-        assertEquals(order.getLastName(), orderDtoOut.getLastName());
-        assertEquals(order.getAddress(), orderDtoOut.getAddress());
-        assertEquals(order.getCity(), orderDtoOut.getCity());
-        assertEquals(order.getEmail(), orderDtoOut.getEmail());
-        assertEquals(order.getPostIndex(), orderDtoOut.getPostIndex());
-        assertEquals(order.getPhoneNumber(), orderDtoOut.getPhoneNumber());
-        assertEquals(order.getTotalPrice(), orderDtoOut.getTotalPrice());
+        OrderResponseDto orderResponseDto = modelMapper.map(order, OrderResponseDto.class);
+        assertEquals(order.getId(), orderResponseDto.getId());
+        assertEquals(order.getFirstName(), orderResponseDto.getFirstName());
+        assertEquals(order.getLastName(), orderResponseDto.getLastName());
+        assertEquals(order.getAddress(), orderResponseDto.getAddress());
+        assertEquals(order.getCity(), orderResponseDto.getCity());
+        assertEquals(order.getEmail(), orderResponseDto.getEmail());
+        assertEquals(order.getPostIndex(), orderResponseDto.getPostIndex());
+        assertEquals(order.getPhoneNumber(), orderResponseDto.getPhoneNumber());
+        assertEquals(order.getTotalPrice(), orderResponseDto.getTotalPrice());
     }
 }

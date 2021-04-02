@@ -1,9 +1,6 @@
 package com.gmail.merikbest2015.ecommerce.service.Impl;
 
-import com.gmail.merikbest2015.ecommerce.domain.Perfume;
-import com.gmail.merikbest2015.ecommerce.domain.Review;
-import com.gmail.merikbest2015.ecommerce.domain.Role;
-import com.gmail.merikbest2015.ecommerce.domain.User;
+import com.gmail.merikbest2015.ecommerce.domain.*;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
 import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
@@ -95,17 +92,6 @@ public class UserServiceImlTest {
     }
 
     @Test
-    public void saveUser() {
-        User user = new User();
-        user.setEmail(USER_EMAIL);
-        userService.saveUser(user);
-
-        when(userRepository.save(user)).thenReturn(user);
-        assertNotNull(user.getEmail());
-        verify(userRepository, times(1)).save(user);
-    }
-
-    @Test
     public void getCart() {
         List<Long> perfumeIds = new ArrayList<>(Arrays.asList(2L, 4L));
         Perfume firstPerfume = new Perfume();
@@ -172,6 +158,37 @@ public class UserServiceImlTest {
     }
 
     @Test
+    public void registerOauthUser() {
+        User user = new User();
+        user.setEmail(USER_EMAIL);
+        user.setUsername(FIRST_NAME);
+        user.setActive(true);
+        user.setRoles(Collections.singleton(Role.USER));
+        user.setProvider(AuthProvider.GOOGLE);
+
+        when(userRepository.save(user)).thenReturn(user);
+        userService.registerOauthUser(USER_EMAIL, FIRST_NAME);
+        assertEquals(USER_EMAIL, user.getEmail());
+        assertNull(user.getPassword());
+        verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
+    public void updateOauthUser() {
+        User user = new User();
+        user.setEmail(USER_EMAIL);
+        user.setUsername(FIRST_NAME);
+        user.setProvider(AuthProvider.GOOGLE);
+
+        when(userRepository.save(user)).thenReturn(user);
+        userService.updateOauthUser(user, FIRST_NAME);
+        assertEquals(USER_EMAIL, user.getEmail());
+        assertEquals(AuthProvider.GOOGLE, user.getProvider());
+        assertNull(user.getPassword());
+        verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
     public void sendPasswordResetCode() {
         User user = new User();
         user.setEmail(USER_EMAIL);
@@ -225,14 +242,14 @@ public class UserServiceImlTest {
     public void updateProfile() {
         User user = new User();
         user.setEmail(USER_EMAIL);
-        user.setPassword(USER_PASSWORD);
+        user.setUsername(FIRST_NAME);
 
-        when(passwordEncoder.encode(USER_PASSWORD)).thenReturn(user.getPassword());
+        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(user);
         when(userRepository.save(user)).thenReturn(user);
-        userService.updateProfile(user, USER_PASSWORD, USER_EMAIL);
+        userService.updateProfile(USER_EMAIL, FIRST_NAME);
         assertEquals(USER_EMAIL, user.getEmail());
-        assertEquals(USER_PASSWORD, user.getPassword());
-        verify(passwordEncoder, times(1)).encode(user.getPassword());
+        assertEquals(FIRST_NAME, user.getUsername());
+        verify(userRepository, times(1)).findByEmail(user.getEmail());
         verify(userRepository, times(1)).save(user);
     }
 

@@ -1,7 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeDtoIn;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequestDto;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -46,27 +46,32 @@ public class AdminControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    private PerfumeRequestDto perfumeRequestDto;
+
+    @Before
+    public void init() {
+        perfumeRequestDto = new PerfumeRequestDto();
+        perfumeRequestDto.setPerfumer(PERFUMER_CHANEL);
+        perfumeRequestDto.setPerfumeTitle(PERFUME_TITLE);
+        perfumeRequestDto.setYear(YEAR);
+        perfumeRequestDto.setCountry(COUNTRY);
+        perfumeRequestDto.setPerfumeGender(PERFUME_GENDER);
+        perfumeRequestDto.setFragranceTopNotes(FRAGRANCE_TOP_NOTES);
+        perfumeRequestDto.setFragranceMiddleNotes(FRAGRANCE_MIDDLE_NOTES);
+        perfumeRequestDto.setFragranceBaseNotes(FRAGRANCE_BASE_NOTES);
+        perfumeRequestDto.setPrice(PRICE);
+        perfumeRequestDto.setVolume(VOLUME);
+        perfumeRequestDto.setType(TYPE);
+    }
+
     @Test
     public void addPerfume() throws Exception {
-        PerfumeDtoIn perfumeDtoIn = new PerfumeDtoIn();
-        perfumeDtoIn.setPerfumer(PERFUMER_CHANEL);
-        perfumeDtoIn.setPerfumeTitle(PERFUME_TITLE);
-        perfumeDtoIn.setYear(YEAR);
-        perfumeDtoIn.setCountry(COUNTRY);
-        perfumeDtoIn.setPerfumeGender(PERFUME_GENDER);
-        perfumeDtoIn.setFragranceTopNotes(FRAGRANCE_TOP_NOTES);
-        perfumeDtoIn.setFragranceMiddleNotes(FRAGRANCE_MIDDLE_NOTES);
-        perfumeDtoIn.setFragranceBaseNotes(FRAGRANCE_BASE_NOTES);
-        perfumeDtoIn.setPrice(PRICE);
-        perfumeDtoIn.setVolume(VOLUME);
-        perfumeDtoIn.setType(TYPE);
-
         FileInputStream inputFile = new FileInputStream(FILE_PATH);
         MockMultipartFile multipartFile = new MockMultipartFile("file", FILE_NAME, MediaType.MULTIPART_FORM_DATA_VALUE, inputFile);
-        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeDtoIn).getBytes());
+        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequestDto).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        mockMvc.perform(multipart("/api/v1/admin/add")
+        mockMvc.perform(multipart(URL_ADMIN_ADD)
                 .file(multipartFile)
                 .file(jsonFile))
                 .andExpect(status().isOk());
@@ -74,11 +79,11 @@ public class AdminControllerTest {
 
     @Test
     public void addPerfume_ShouldInputFieldsAreEmpty() throws Exception {
-        PerfumeDtoIn perfumeDtoIn = new PerfumeDtoIn();
-        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeDtoIn).getBytes());
+        PerfumeRequestDto perfumeRequestDto = new PerfumeRequestDto();
+        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequestDto).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        mockMvc.perform(multipart("/api/v1/admin/add")
+        mockMvc.perform(multipart(URL_ADMIN_ADD)
                 .file(jsonFile))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.perfumeTitleError", is("Fill in the input field")))
@@ -96,7 +101,7 @@ public class AdminControllerTest {
 
     @Test
     public void getAllOrders() throws Exception {
-        mockMvc.perform(get("/api/v1/admin/orders"))
+        mockMvc.perform(get(URL_ADMIN_BASIC + "/orders"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
                 .andExpect(jsonPath("$[*].totalPrice", hasItem(TOTAL_PRICE)))
@@ -113,7 +118,7 @@ public class AdminControllerTest {
 
     @Test
     public void getUser() throws Exception {
-        mockMvc.perform(get("/api/v1/admin/user/122"))
+        mockMvc.perform(get(URL_ADMIN_GET_USER + USER_ID))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(USER_ID))
                 .andExpect(jsonPath("$.username").value(FIRST_NAME))
@@ -122,7 +127,7 @@ public class AdminControllerTest {
 
     @Test
     public void getAllUsers() throws Exception {
-        mockMvc.perform(get("/api/v1/admin/user/all"))
+        mockMvc.perform(get(URL_ADMIN_GET_USER + "all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id", hasItem(USER_ID)))
                 .andExpect(jsonPath("$[*].username", hasItem(FIRST_NAME)))

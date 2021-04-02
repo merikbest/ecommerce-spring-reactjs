@@ -1,6 +1,23 @@
 package com.gmail.merikbest2015.ecommerce.util;
 
 public class TestConstants {
+
+    public static final String URL_ADMIN_BASIC = "/api/v1/admin";
+    public static final String URL_ADMIN_ADD = "/api/v1/admin/add";
+    public static final String URL_ADMIN_GET_USER = "/api/v1/admin/user/";
+    public static final String URL_AUTH_BASIC = "/api/v1/auth";
+    public static final String URL_AUTH_LOGIN = "/api/v1/auth/login";
+    public static final String URL_AUTH_FORGOT = "/api/v1/auth/forgot";
+    public static final String URL_AUTH_RESET = "/api/v1/auth/reset";
+    public static final String URL_PERFUMES_BASIC = "/api/v1/perfumes";
+    public static final String URL_PERFUMES_SEARCH = "/api/v1/perfumes/search";
+    public static final String URL_PERFUMES_GRAPHQL = "/api/v1/perfumes/graphql";
+    public static final String URL_REGISTRATION_BASIC = "/api/v1/registration";
+    public static final String URL_REGISTRATION_ACTIVATE = "/api/v1/registration/activate/{code}";
+    public static final String URL_USERS_BASIC = "/api/v1/users";
+    public static final String URL_USERS_ORDER = "/api/v1/users/order";
+    public static final String URL_USERS_REVIEW = "/api/v1/users/review";
+
     public static final Integer USER_ID = 122;
     public static final String USER_EMAIL = "test123@test.com";
     public static final String USER_PASSWORD = "admin";
@@ -40,5 +57,26 @@ public class TestConstants {
     public static final String TYPE = "Eau de parfum";
 
     public static final String FILE_NAME = "Chanel N5.jpg";
-    public static final String FILE_PATH = "C:/Users/merik/IdeaProjects/ecommerce-spring-reactjs/src/main/resources/uploads/ChanelN5.jpg";
+    public static final String FILE_PATH = "C:/Users/merik/IdeaProjects/ecommerce-spring-reactjs/src/main/resources/uploads/empty.jpg";
+
+    public static final String GRAPHQL_QUERY_PERFUMES = "" +
+            "{\n" +
+            "    perfumes {\n" +
+            "        id\n" +
+            "        perfumeTitle\n" +
+            "        perfumer\n" +
+            "        price\n" +
+            "        filename\n" +
+            "    }\n" +
+            "}";
+
+    public static final String GRAPHQL_QUERY_PERFUME = "" +
+            "{\n" +
+            "    perfume(id: 2) {\n" +
+            "        id\n" +
+            "        perfumeTitle\n" +
+            "        perfumer\n" +
+            "        price\n" +
+            "    }\n" +
+            "}";
 }

@@ -3,7 +3,6 @@ package com.gmail.merikbest2015.ecommerce.service.Impl;
 import com.gmail.merikbest2015.ecommerce.domain.Order;
 import com.gmail.merikbest2015.ecommerce.domain.OrderItem;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
-import com.gmail.merikbest2015.ecommerce.dto.order.OrderDtoIn;
 import com.gmail.merikbest2015.ecommerce.repository.OrderItemRepository;
 import com.gmail.merikbest2015.ecommerce.repository.OrderRepository;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
@@ -125,5 +124,10 @@ public class OrderServiceImplTest {
         assertEquals(ORDER_EMAIL, order.getEmail());
         assertNotNull(orderItem1);
         assertNotNull(orderItem2);
+        verify(mailSender, times(1))
+                .send(
+                        ArgumentMatchers.eq(order.getEmail()),
+                        ArgumentMatchers.eq("Order #" + order.getId()),
+                        ArgumentMatchers.anyString());
     }
 }

@@ -2,9 +2,10 @@ package com.gmail.merikbest2015.ecommerce.mapper;
 
 import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.domain.User;
-import com.gmail.merikbest2015.ecommerce.dto.review.ReviewDtoIn;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserDtoIn;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserDtoOut;
+import com.gmail.merikbest2015.ecommerce.dto.RegistrationRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserResponseDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -23,54 +24,48 @@ public class UserMapperTest {
     private ModelMapper modelMapper;
 
     @Test
-    public void convertUserToEntity() {
-        UserDtoIn userDtoIn = new UserDtoIn();
-        userDtoIn.setUsername(FIRST_NAME);
-        userDtoIn.setEmail(USER_EMAIL);
-        userDtoIn.setPassword(USER_PASSWORD);
+    public void convertUserRequestDtoToEntity() {
+        UserRequestDto userRequestDto = new UserRequestDto();
+        userRequestDto.setUsername(FIRST_NAME);
+        userRequestDto.setEmail(USER_EMAIL);
 
-        User user = modelMapper.map(userDtoIn, User.class);
-        assertEquals(userDtoIn.getUsername(), user.getUsername());
-        assertEquals(userDtoIn.getEmail(), user.getEmail());
-        assertEquals(userDtoIn.getPassword(), user.getPassword());
+        User user = modelMapper.map(userRequestDto, User.class);
+        assertEquals(userRequestDto.getUsername(), user.getUsername());
+        assertEquals(userRequestDto.getEmail(), user.getEmail());
     }
 
     @Test
-    public void convertToDtoIn() {
-        User user = new User();
-        user.setUsername(FIRST_NAME);
-        user.setEmail(USER_EMAIL);
-        user.setPassword(USER_PASSWORD);
+    public void convertRegistrationRequestDtoToEntity() {
+        RegistrationRequestDto registrationRequestDto = new RegistrationRequestDto();
+        registrationRequestDto.setUsername(FIRST_NAME);
+        registrationRequestDto.setEmail(USER_EMAIL);
+        registrationRequestDto.setPassword(USER_PASSWORD);
 
-        UserDtoIn userDtoIn = modelMapper.map(user, UserDtoIn.class);
-        assertEquals(user.getUsername(), userDtoIn.getUsername());
-        assertEquals(user.getEmail(), userDtoIn.getEmail());
-        assertEquals(user.getPassword(), userDtoIn.getPassword());
-    }
-
-    @Test
-    public void convertToDtoOut() {
-        User user = new User();
-        user.setId(1L);
-        user.setUsername(FIRST_NAME);
-        user.setEmail(USER_EMAIL);
-        user.setActive(true);
-
-        UserDtoOut userDtoOut = modelMapper.map(user, UserDtoOut.class);
-        assertEquals(user.getId(), userDtoOut.getId());
-        assertEquals(user.getUsername(), userDtoOut.getUsername());
-        assertEquals(user.getEmail(), userDtoOut.getEmail());
-        assertEquals(user.isActive(), userDtoOut.isActive());
+        User user = modelMapper.map(registrationRequestDto, User.class);
+        assertEquals(registrationRequestDto.getUsername(), user.getUsername());
+        assertEquals(registrationRequestDto.getEmail(), user.getEmail());
+        assertEquals(registrationRequestDto.getPassword(), user.getPassword());
     }
 
     @Test
     public void convertReviewToEntity() {
-        ReviewDtoIn reviewDtoIn = new ReviewDtoIn();
-        reviewDtoIn.setAuthor(FIRST_NAME);
-        reviewDtoIn.setMessage("Hello World!");
+        ReviewRequestDto reviewRequestDto = new ReviewRequestDto();
+        reviewRequestDto.setAuthor(FIRST_NAME);
+        reviewRequestDto.setMessage("Hello World!");
 
-        Review review = modelMapper.map(reviewDtoIn, Review.class);
-        assertEquals(reviewDtoIn.getAuthor(), review.getAuthor());
-        assertEquals(reviewDtoIn.getMessage(), review.getMessage());
+        Review review = modelMapper.map(reviewRequestDto, Review.class);
+        assertEquals(reviewRequestDto.getAuthor(), review.getAuthor());
+        assertEquals(reviewRequestDto.getMessage(), review.getMessage());
+    }
+
+    @Test
+    public void convertToResponseDto() {
+        User user = new User();
+        user.setUsername(FIRST_NAME);
+        user.setEmail(USER_EMAIL);
+
+        UserResponseDto userRequestDto = modelMapper.map(user, UserResponseDto.class);
+        assertEquals(user.getUsername(), userRequestDto.getUsername());
+        assertEquals(user.getEmail(), userRequestDto.getEmail());
     }
 }

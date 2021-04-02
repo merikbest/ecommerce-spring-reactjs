@@ -1,7 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserDtoIn;
+import com.gmail.merikbest2015.ecommerce.dto.RegistrationRequestDto;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,15 +35,25 @@ public class RegistrationControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
+    private RegistrationRequestDto registrationRequestDto;
+
+    @Before
+    public void init() {
+        registrationRequestDto = new RegistrationRequestDto();
+        registrationRequestDto.setEmail("testtest@test.com");
+        registrationRequestDto.setPassword(USER_PASSWORD);
+        registrationRequestDto.setPassword2(USER_PASSWORD);
+        registrationRequestDto.setUsername(FIRST_NAME);
+        registrationRequestDto.setCaptcha("12345");
+    }
+
     @Test
     public void registration_ShouldPassword2BeEmpty() throws Exception {
-        UserDtoIn userDtoIn = new UserDtoIn();
-        userDtoIn.setEmail("testtest@test.com");
-        userDtoIn.setUsername(FIRST_NAME);
-        userDtoIn.setCaptcha("12345");
+        registrationRequestDto.setPassword("");
+        registrationRequestDto.setPassword2("");
 
-        mockMvc.perform(post("/api/v1/registration")
-                .content(mapper.writeValueAsString(userDtoIn))
+        mockMvc.perform(post(URL_REGISTRATION_BASIC)
+                .content(mapper.writeValueAsString(registrationRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.password2Error", is("Password confirmation cannot be empty.")));
@@ -50,15 +61,10 @@ public class RegistrationControllerTest {
 
     @Test
     public void registration_ShouldPasswordsNotMatch() throws Exception {
-        UserDtoIn userDtoIn = new UserDtoIn();
-        userDtoIn.setEmail("testtest@test.com");
-        userDtoIn.setPassword(USER_PASSWORD);
-        userDtoIn.setUsername(FIRST_NAME);
+        registrationRequestDto.setPassword2("12345");
 
-        mockMvc.perform(post("/api/v1/registration")
-                .param("password2", "12345")
-                .param("g-recaptcha-response", "")
-                .content(mapper.writeValueAsString(userDtoIn))
+        mockMvc.perform(post(URL_REGISTRATION_BASIC)
+                .content(mapper.writeValueAsString(registrationRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.passwordError", is("Passwords do not match.")));
@@ -66,15 +72,10 @@ public class RegistrationControllerTest {
 
     @Test
     public void registration_ShouldUserEmailIsExist() throws Exception {
-        UserDtoIn userDtoIn = new UserDtoIn();
-        userDtoIn.setEmail(USER_EMAIL);
-        userDtoIn.setPassword(USER_PASSWORD);
-        userDtoIn.setPassword2(USER_PASSWORD);
-        userDtoIn.setUsername(FIRST_NAME);
-        userDtoIn.setCaptcha("123");
+        registrationRequestDto.setEmail(USER_EMAIL);
 
-        mockMvc.perform(post("/api/v1/registration")
-                .content(mapper.writeValueAsString(userDtoIn))
+        mockMvc.perform(post(URL_REGISTRATION_BASIC)
+                .content(mapper.writeValueAsString(registrationRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.emailError").value("Email is already used."));
@@ -82,24 +83,24 @@ public class RegistrationControllerTest {
 
     @Test
     public void registration_ShouldInputFieldsAreEmpty() throws Exception {
-        mockMvc.perform(post("/api/v1/registration")
+        mockMvc.perform(post(URL_REGISTRATION_BASIC)
                 .param("password2", "")
                 .param("g-recaptcha-response", "")
-                .content(mapper.writeValueAsString(new UserDtoIn()))
+                .content(mapper.writeValueAsString(new RegistrationRequestDto()))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void activateEmailCode() throws Exception {
-        mockMvc.perform(get("/api/v1/registration/activate/{code}", USER_ACTIVATION_CODE))
+        mockMvc.perform(get(URL_REGISTRATION_ACTIVATE, USER_ACTIVATION_CODE))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("User successfully activated.")));
     }
 
     @Test
     public void activateEmailCode_ShouldNotFoundActivationCode() throws Exception {
-        mockMvc.perform(get("/api/v1/registration/activate/{code}", "123"))
+        mockMvc.perform(get(URL_REGISTRATION_ACTIVATE, "123"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$", is("Activation code not found.")));
     }

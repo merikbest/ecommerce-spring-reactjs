@@ -1,8 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.mapper;
 
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeDtoIn;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeDtoOut;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponseDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -22,64 +22,35 @@ public class PerfumeMapperTest {
 
     @Test
     public void convertToEntity() {
-        PerfumeDtoIn perfumeDtoIn = new PerfumeDtoIn();
-        perfumeDtoIn.setPerfumer(PERFUMER_CHANEL);
-        perfumeDtoIn.setPerfumeTitle(PERFUME_TITLE);
-        perfumeDtoIn.setYear(YEAR);
-        perfumeDtoIn.setCountry(COUNTRY);
-        perfumeDtoIn.setPerfumeGender(PERFUME_GENDER);
-        perfumeDtoIn.setFragranceTopNotes(FRAGRANCE_TOP_NOTES);
-        perfumeDtoIn.setFragranceMiddleNotes(FRAGRANCE_MIDDLE_NOTES);
-        perfumeDtoIn.setFragranceBaseNotes(FRAGRANCE_BASE_NOTES);
-        perfumeDtoIn.setPrice(PRICE);
-        perfumeDtoIn.setVolume(VOLUME);
-        perfumeDtoIn.setType(TYPE);
+        PerfumeRequestDto perfumeRequestDto = new PerfumeRequestDto();
+        perfumeRequestDto.setPerfumer(PERFUMER_CHANEL);
+        perfumeRequestDto.setPerfumeTitle(PERFUME_TITLE);
+        perfumeRequestDto.setYear(YEAR);
+        perfumeRequestDto.setCountry(COUNTRY);
+        perfumeRequestDto.setPerfumeGender(PERFUME_GENDER);
+        perfumeRequestDto.setFragranceTopNotes(FRAGRANCE_TOP_NOTES);
+        perfumeRequestDto.setFragranceMiddleNotes(FRAGRANCE_MIDDLE_NOTES);
+        perfumeRequestDto.setFragranceBaseNotes(FRAGRANCE_BASE_NOTES);
+        perfumeRequestDto.setPrice(PRICE);
+        perfumeRequestDto.setVolume(VOLUME);
+        perfumeRequestDto.setType(TYPE);
 
-        Perfume perfume = modelMapper.map(perfumeDtoIn, Perfume.class);
-        assertEquals(perfumeDtoIn.getPerfumer(), perfume.getPerfumer());
-        assertEquals(perfumeDtoIn.getPerfumeTitle(), perfume.getPerfumeTitle());
-        assertEquals(perfumeDtoIn.getYear(), perfume.getYear());
-        assertEquals(perfumeDtoIn.getCountry(), perfume.getCountry());
-        assertEquals(perfumeDtoIn.getPerfumeGender(), perfume.getPerfumeGender());
-        assertEquals(perfumeDtoIn.getFragranceTopNotes(), perfume.getFragranceTopNotes());
-        assertEquals(perfumeDtoIn.getFragranceMiddleNotes(), perfume.getFragranceMiddleNotes());
-        assertEquals(perfumeDtoIn.getFragranceBaseNotes(), perfume.getFragranceBaseNotes());
-        assertEquals(perfumeDtoIn.getPrice(), perfume.getPrice());
-        assertEquals(perfumeDtoIn.getVolume(), perfume.getVolume());
-        assertEquals(perfumeDtoIn.getType(), perfume.getType());
+        Perfume perfume = modelMapper.map(perfumeRequestDto, Perfume.class);
+        assertEquals(perfumeRequestDto.getPerfumer(), perfume.getPerfumer());
+        assertEquals(perfumeRequestDto.getPerfumeTitle(), perfume.getPerfumeTitle());
+        assertEquals(perfumeRequestDto.getYear(), perfume.getYear());
+        assertEquals(perfumeRequestDto.getCountry(), perfume.getCountry());
+        assertEquals(perfumeRequestDto.getPerfumeGender(), perfume.getPerfumeGender());
+        assertEquals(perfumeRequestDto.getFragranceTopNotes(), perfume.getFragranceTopNotes());
+        assertEquals(perfumeRequestDto.getFragranceMiddleNotes(), perfume.getFragranceMiddleNotes());
+        assertEquals(perfumeRequestDto.getFragranceBaseNotes(), perfume.getFragranceBaseNotes());
+        assertEquals(perfumeRequestDto.getPrice(), perfume.getPrice());
+        assertEquals(perfumeRequestDto.getVolume(), perfume.getVolume());
+        assertEquals(perfumeRequestDto.getType(), perfume.getType());
     }
 
     @Test
-    public void convertToDtoIn() {
-        Perfume perfume = new Perfume();
-        perfume.setPerfumer(PERFUMER_CHANEL);
-        perfume.setPerfumeTitle(PERFUME_TITLE);
-        perfume.setYear(YEAR);
-        perfume.setCountry(COUNTRY);
-        perfume.setPerfumeGender(PERFUME_GENDER);
-        perfume.setFragranceTopNotes(FRAGRANCE_TOP_NOTES);
-        perfume.setFragranceMiddleNotes(FRAGRANCE_MIDDLE_NOTES);
-        perfume.setFragranceBaseNotes(FRAGRANCE_BASE_NOTES);
-        perfume.setPrice(PRICE);
-        perfume.setVolume(VOLUME);
-        perfume.setType(TYPE);
-
-        PerfumeDtoIn perfumeDtoIn = modelMapper.map(perfume, PerfumeDtoIn.class);
-        assertEquals(perfume.getPerfumer(), perfumeDtoIn.getPerfumer());
-        assertEquals(perfume.getPerfumeTitle(), perfumeDtoIn.getPerfumeTitle());
-        assertEquals(perfume.getYear(), perfumeDtoIn.getYear());
-        assertEquals(perfume.getCountry(), perfumeDtoIn.getCountry());
-        assertEquals(perfume.getPerfumeGender(), perfumeDtoIn.getPerfumeGender());
-        assertEquals(perfume.getFragranceTopNotes(), perfumeDtoIn.getFragranceTopNotes());
-        assertEquals(perfume.getFragranceMiddleNotes(), perfumeDtoIn.getFragranceMiddleNotes());
-        assertEquals(perfume.getFragranceBaseNotes(), perfumeDtoIn.getFragranceBaseNotes());
-        assertEquals(perfume.getPrice(), perfumeDtoIn.getPrice());
-        assertEquals(perfume.getVolume(), perfumeDtoIn.getVolume());
-        assertEquals(perfume.getType(), perfumeDtoIn.getType());
-    }
-
-    @Test
-    public void convertToDtoOut() {
+    public void convertToResponseDto() {
         Perfume perfume = new Perfume();
         perfume.setId(1L);
         perfume.setPerfumer(PERFUMER_CHANEL);
@@ -94,18 +65,18 @@ public class PerfumeMapperTest {
         perfume.setVolume(VOLUME);
         perfume.setType(TYPE);
 
-        PerfumeDtoOut perfumeDtoOut = modelMapper.map(perfume, PerfumeDtoOut.class);
-        assertEquals(perfume.getId(), perfumeDtoOut.getId());
-        assertEquals(perfume.getPerfumer(), perfumeDtoOut.getPerfumer());
-        assertEquals(perfume.getPerfumeTitle(), perfumeDtoOut.getPerfumeTitle());
-        assertEquals(perfume.getYear(), perfumeDtoOut.getYear());
-        assertEquals(perfume.getCountry(), perfumeDtoOut.getCountry());
-        assertEquals(perfume.getPerfumeGender(), perfumeDtoOut.getPerfumeGender());
-        assertEquals(perfume.getFragranceTopNotes(), perfumeDtoOut.getFragranceTopNotes());
-        assertEquals(perfume.getFragranceMiddleNotes(), perfumeDtoOut.getFragranceMiddleNotes());
-        assertEquals(perfume.getFragranceBaseNotes(), perfumeDtoOut.getFragranceBaseNotes());
-        assertEquals(perfume.getPrice(), perfumeDtoOut.getPrice());
-        assertEquals(perfume.getVolume(), perfumeDtoOut.getVolume());
-        assertEquals(perfume.getType(), perfumeDtoOut.getType());
+        PerfumeResponseDto perfumeResponseDto = modelMapper.map(perfume, PerfumeResponseDto.class);
+        assertEquals(perfume.getId(), perfumeResponseDto.getId());
+        assertEquals(perfume.getPerfumer(), perfumeResponseDto.getPerfumer());
+        assertEquals(perfume.getPerfumeTitle(), perfumeResponseDto.getPerfumeTitle());
+        assertEquals(perfume.getYear(), perfumeResponseDto.getYear());
+        assertEquals(perfume.getCountry(), perfumeResponseDto.getCountry());
+        assertEquals(perfume.getPerfumeGender(), perfumeResponseDto.getPerfumeGender());
+        assertEquals(perfume.getFragranceTopNotes(), perfumeResponseDto.getFragranceTopNotes());
+        assertEquals(perfume.getFragranceMiddleNotes(), perfumeResponseDto.getFragranceMiddleNotes());
+        assertEquals(perfume.getFragranceBaseNotes(), perfumeResponseDto.getFragranceBaseNotes());
+        assertEquals(perfume.getPrice(), perfumeResponseDto.getPrice());
+        assertEquals(perfume.getVolume(), perfumeResponseDto.getVolume());
+        assertEquals(perfume.getType(), perfumeResponseDto.getType());
     }
 }

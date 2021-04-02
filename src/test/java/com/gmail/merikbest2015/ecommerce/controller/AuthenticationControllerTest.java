@@ -2,7 +2,8 @@ package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmail.merikbest2015.ecommerce.dto.AuthenticationRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.PasswordResetDto;
+import com.gmail.merikbest2015.ecommerce.dto.PasswordResetRequestDto;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,26 +36,36 @@ public class AuthenticationControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
+    private AuthenticationRequestDto authenticationRequestDto;
+    private PasswordResetRequestDto passwordResetRequestDto;
+
+    @Before
+    public void init() {
+        authenticationRequestDto = new AuthenticationRequestDto();
+        authenticationRequestDto.setEmail(USER_EMAIL);
+
+        passwordResetRequestDto = new PasswordResetRequestDto();
+        passwordResetRequestDto.setEmail(USER_EMAIL);
+        passwordResetRequestDto.setPassword(USER_PASSWORD);
+        passwordResetRequestDto.setPassword2(USER_PASSWORD);
+    }
+
     @Test
     public void login() throws Exception {
-        AuthenticationRequestDto requestDto = new AuthenticationRequestDto();
-        requestDto.setEmail(USER_EMAIL);
-        requestDto.setPassword(USER_PASSWORD);
+        authenticationRequestDto.setPassword(USER_PASSWORD);
 
-        mockMvc.perform(post("/api/v1/auth/login")
-                .content(mapper.writeValueAsString(requestDto))
+        mockMvc.perform(post(URL_AUTH_LOGIN)
+                .content(mapper.writeValueAsString(authenticationRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void login_ShouldEmailOrPasswordBeNotValid() throws Exception {
-        AuthenticationRequestDto request = new AuthenticationRequestDto();
-        request.setEmail(USER_EMAIL);
-        request.setPassword("123");
+        authenticationRequestDto.setPassword("123");
 
-        mockMvc.perform(post("/api/v1/auth/login")
-                .content(mapper.writeValueAsString(request))
+        mockMvc.perform(post(URL_AUTH_LOGIN)
+                .content(mapper.writeValueAsString(authenticationRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$", is("Incorrect password or email")));
@@ -62,11 +73,8 @@ public class AuthenticationControllerTest {
 
     @Test
     public void forgotPassword() throws Exception {
-        PasswordResetDto passwordResetDto = new PasswordResetDto();
-        passwordResetDto.setEmail(USER_EMAIL);
-
-        mockMvc.perform(post("/api/v1/auth/forgot")
-                .content(mapper.writeValueAsString(passwordResetDto))
+        mockMvc.perform(post(URL_AUTH_FORGOT)
+                .content(mapper.writeValueAsString(passwordResetRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("Reset password code is send to your E-mail")));
@@ -74,11 +82,10 @@ public class AuthenticationControllerTest {
 
     @Test
     public void forgotPassword_ShouldEmailBeNotValid() throws Exception {
-        PasswordResetDto passwordResetDto = new PasswordResetDto();
-        passwordResetDto.setEmail(EMAIL_FAILURE);
+        passwordResetRequestDto.setEmail(EMAIL_FAILURE);
 
-        mockMvc.perform(post("/api/v1/auth/forgot")
-                .content(mapper.writeValueAsString(passwordResetDto))
+        mockMvc.perform(post(URL_AUTH_FORGOT)
+                .content(mapper.writeValueAsString(passwordResetRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$", is("Email not found")));
@@ -86,7 +93,7 @@ public class AuthenticationControllerTest {
 
     @Test
     public void getPasswordResetCode() throws Exception {
-        mockMvc.perform(get("/api/v1/auth/reset/{code}", USER_PASSWORD_RESET_CODE))
+        mockMvc.perform(get(URL_AUTH_RESET + "/{code}", USER_PASSWORD_RESET_CODE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(USER2_ID))
                 .andExpect(jsonPath("$.email").value(USER2_EMAIL))
@@ -96,13 +103,8 @@ public class AuthenticationControllerTest {
 
     @Test
     public void passwordReset() throws Exception {
-        PasswordResetDto passwordResetDto = new PasswordResetDto();
-        passwordResetDto.setEmail(USER_EMAIL);
-        passwordResetDto.setPassword(USER_PASSWORD);
-        passwordResetDto.setPassword2(USER_PASSWORD);
-
-        mockMvc.perform(post("/api/v1/auth/reset")
-                .content(mapper.writeValueAsString(passwordResetDto))
+        mockMvc.perform(post(URL_AUTH_RESET)
+                .content(mapper.writeValueAsString(passwordResetRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("Password successfully changed!")));
@@ -110,13 +112,10 @@ public class AuthenticationControllerTest {
 
     @Test
     public void passwordReset_ShouldPasswordsNotMatch() throws Exception {
-        PasswordResetDto passwordResetDto = new PasswordResetDto();
-        passwordResetDto.setEmail(USER_EMAIL);
-        passwordResetDto.setPassword(USER_PASSWORD);
-        passwordResetDto.setPassword2("12345");
+        passwordResetRequestDto.setPassword2("12345");
 
-        mockMvc.perform(post("/api/v1/auth/reset")
-                .content(mapper.writeValueAsString(passwordResetDto))
+        mockMvc.perform(post(URL_AUTH_RESET)
+                .content(mapper.writeValueAsString(passwordResetRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.passwordError", is("Passwords do not match.")));
@@ -124,12 +123,10 @@ public class AuthenticationControllerTest {
 
     @Test
     public void passwordReset_ShouldPassword2BeEmpty() throws Exception {
-        PasswordResetDto passwordResetDto = new PasswordResetDto();
-        passwordResetDto.setEmail(USER_EMAIL);
-        passwordResetDto.setPassword(USER_PASSWORD);
+        passwordResetRequestDto.setPassword2("");
 
-        mockMvc.perform(post("/api/v1/auth/reset")
-                .content(mapper.writeValueAsString(passwordResetDto))
+        mockMvc.perform(post(URL_AUTH_RESET)
+                .content(mapper.writeValueAsString(passwordResetRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.password2Error", is("Password confirmation cannot be empty.")));
