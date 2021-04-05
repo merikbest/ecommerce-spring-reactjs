@@ -7,7 +7,7 @@ export type Pagination = {
     ellipsis: boolean
 };
 
-const usePagination: ({itemsPerPage, data, startFrom}: { itemsPerPage: number; data: Array<Perfume>; startFrom: any }) => {
+const usePagination: ({itemsPerPage, perfumes, startFrom}: { itemsPerPage: number; perfumes: Array<Perfume>; startFrom: any }) => {
     pagination: Array<Pagination>;
     changePage: (page: number, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
     setFilteredData: (value: (((prevState: Array<Perfume>) => Array<Perfume>) | Array<Perfume>)) => void;
@@ -15,10 +15,10 @@ const usePagination: ({itemsPerPage, data, startFrom}: { itemsPerPage: number; d
     setSearching: (value: (((prevState: boolean) => boolean) | boolean)) => void;
     slicedData: Array<Perfume>;
     prevPage: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
-} = ({itemsPerPage, data, startFrom}) => {
+} = ({itemsPerPage, perfumes, startFrom}) => {
 
     const [searching, setSearching] = useState<boolean>(false);
-    const [filteredData, setFilteredData] = useState<Array<Perfume>>(data);
+    const [filteredData, setFilteredData] = useState<Array<Perfume>>(perfumes);
     const perPage: number = itemsPerPage ? itemsPerPage : 12;
     const pages: number = Math.ceil(filteredData.length / perPage);
     const pagination: Array<Pagination> = [];

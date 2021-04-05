@@ -6,7 +6,6 @@ import {
     addPerfumeSuccess,
     getAllUsers,
     getAllUsersOrders,
-    getPerfumes,
     getUser,
     reset,
     updatePerfumeFailure,
@@ -25,19 +24,13 @@ export const addPerfume = (data: FormData) => async (dispatch: Dispatch) => {
                 "Authorization": localStorage.getItem("token")
             }
         });
-        window.scrollTo(0, 0);
         dispatch(addPerfumeSuccess());
     } catch (error) {
         dispatch(addPerfumeFailure(error.response.data));
     }
 };
 
-export const fetchPerfumes = () => async (dispatch: Dispatch) => {
-    const response = await axios.get(API_BASE_URL + "/perfumes");
-    dispatch(getPerfumes(response.data));
-};
-
-export const updatePerfume = (data: FormData, history: any) => async (dispatch: Dispatch) => {
+export const updatePerfume = (data: FormData) => async (dispatch: Dispatch) => {
     try {
         const response = await axios({
             method: "PUT",
@@ -49,7 +42,6 @@ export const updatePerfume = (data: FormData, history: any) => async (dispatch: 
             }
         });
         dispatch(updatePerfumeSuccess(response.data));
-        history.push("/account");
     } catch (error) {
         dispatch(updatePerfumeFailure(error.response.data));
     }

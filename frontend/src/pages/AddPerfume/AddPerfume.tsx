@@ -4,7 +4,6 @@ import {faPlusSquare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import ToastShow from "../../component/Toasts/ToastShow";
-import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import {addPerfume, formReset} from "../../redux/thunks/admin-thunks";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 import {PerfumeErrors} from "../../types/types";
@@ -24,9 +23,9 @@ type InitialStateType = {
     file: string | Blob
 };
 
-const AddProduct: FC = () => {
+const AddPerfume: FC = () => {
     const dispatch = useDispatch();
-    const success: boolean = useSelector((state: AppStateType) => state.admin.success);
+    const isPerfumeAdded: boolean = useSelector((state: AppStateType) => state.admin.isPerfumeAdded);
     const errors: Partial<PerfumeErrors> = useSelector((state: AppStateType) => state.admin.errors);
 
     const initialState: InitialStateType = {
@@ -75,17 +74,16 @@ const AddProduct: FC = () => {
     } = errors;
 
     useEffect(() => {
-        dispatch(formReset());
-    }, []);
-
-    useEffect(() => {
-        if (success) {
+        if (isPerfumeAdded) {
             setState({...initialState});
             setShowToast(true);
-            setTimeout(() => setShowToast(false), 5000);
+            setTimeout(() => {
+                setShowToast(false)
+                dispatch(formReset());
+            }, 5000);
             window.scrollTo(0, 0);
         }
-    },[success]);
+    }, [isPerfumeAdded]);
 
     const onFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
@@ -104,18 +102,15 @@ const AddProduct: FC = () => {
         setState(prevState => ({...prevState, file: event.target.files[0]}));
     };
 
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>): void => {
         const {name, value} = event.target;
         setState(prevState => ({...prevState, [name]: value}));
     };
 
     return (
-        <div>
-            <AccountNavbar/>
-            <div className="container" style={{"display": showToast ? "block" : "none"}}>
-                <ToastShow showToast={showToast} message={"Perfume successfully added!"}/>
-            </div>
-            <div className="container mt-5">
+        <>
+            <ToastShow showToast={showToast} message={"Perfume successfully added!"}/>
+            <div className="container">
                 <h4><FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Add perfume</h4>
                 <br/>
                 <form onSubmit={onFormSubmit}>
@@ -170,13 +165,13 @@ const AddProduct: FC = () => {
                     <div className="form row mt-3">
                         <div className="col">
                             <label>Perfume type: </label>
-                            <input
-                                type="text"
-                                className={typeError ? "form-control is-invalid" : "form-control"}
-                                name="type"
-                                value={type}
-                                placeholder="Enter the perfume type"
-                                onChange={handleInputChange}/>
+                            <select name="type"
+                                    className={typeError ? "form-control is-invalid" : "form-control"}
+                                    onChange={handleInputChange}>
+                                <option hidden={true} value=""></option>
+                                <option value="Eau de Parfum">Eau de Parfum</option>
+                                <option value="Eau de Toilette">Eau de Toilette</option>
+                            </select>
                             <div className="invalid-feedback">{typeError}</div>
                         </div>
                         <div className="col">
@@ -194,13 +189,13 @@ const AddProduct: FC = () => {
                     <div className="form row mt-3">
                         <div className="col">
                             <label>Gender: </label>
-                            <input
-                                type="text"
-                                className={perfumeGenderError ? "form-control is-invalid" : "form-control"}
-                                name="perfumeGender"
-                                value={perfumeGender}
-                                placeholder="Enter the gender"
-                                onChange={handleInputChange}/>
+                            <select name="perfumeGender"
+                                    className={perfumeGenderError ? "form-control is-invalid" : "form-control"}
+                                    onChange={handleInputChange}>
+                                <option hidden={true} value=""></option>
+                                <option value="male">male</option>
+                                <option value="female">female</option>
+                            </select>
                             <div className="invalid-feedback">{perfumeGenderError}</div>
                         </div>
                         <div className="col">
@@ -262,8 +257,8 @@ const AddProduct: FC = () => {
                     </button>
                 </form>
             </div>
-        </div>
+        </>
     );
 };
 
-export default AddProduct;
+export default AddPerfume;

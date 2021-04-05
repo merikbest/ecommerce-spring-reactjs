@@ -10,7 +10,7 @@ type PropsType = {
 
 const ToastShow: FC<PropsType> = ({showToast, message}) => {
     return (
-        <Toast className={"border border-success bg-success text white mt-3"} show={showToast}>
+        <Toast className={"border border-success bg-success text white"} show={showToast}>
             <Toast.Header className={"bg-success text-white"} closeButton={false}>
                 <strong className="mr-auto">Success</strong>
             </Toast.Header>

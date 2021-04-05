@@ -1,0 +1,20 @@
+.personal_data {
+    padding-left: 50px;
+}
+
+.personal_data_title {
+    margin-bottom: 30px;
+}
+
+.personal_data_item {
+    font-weight: bold;
+}
+
+.personal_data_text {
+    margin-left: 10px;
+    font-weight: normal;
+}
+
+.personal_data_btn {
+    margin-top: 10px;
+}

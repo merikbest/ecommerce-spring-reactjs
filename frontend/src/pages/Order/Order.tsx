@@ -9,24 +9,25 @@ import {validateEmail} from "../../utils/input-validators";
 import PageLoader from "../../component/PageLoader/PageLoader";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 import {useHistory} from "react-router-dom";
-import {OrderError, Perfume} from "../../types/types";
+import {OrderError, Perfume, User} from "../../types/types";
 
 const Order: FC = () => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const usersData: Partial<User> = useSelector((state: AppStateType) => state.user.user);
     const perfumes: Array<Perfume> = useSelector((state: AppStateType) => state.cart.perfumes);
     const totalPrice: number = useSelector((state: AppStateType) => state.cart.totalPrice);
     const errors: Partial<OrderError> = useSelector((state: AppStateType) => state.order.errors);
     const loading: boolean = useSelector((state: AppStateType) => state.order.loading);
     const perfumesFromLocalStorage: Map<number, number> = new Map(JSON.parse(localStorage.getItem("perfumes") as string));
 
-    const [firstName, setFirstName] = useState<string>("");
-    const [lastName, setLastName] = useState<string>("");
-    const [city, setCity] = useState<string>("");
-    const [address, setAddress] = useState<string>("");
-    const [postIndex, setPostIndex] = useState<string>("");
-    const [phoneNumber, setPhoneNumber] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
+    const [firstName, setFirstName] = useState<string | undefined>(usersData.firstName);
+    const [lastName, setLastName] = useState<string | undefined>(usersData.lastName);
+    const [city, setCity] = useState<string | undefined>(usersData.city);
+    const [address, setAddress] = useState<string | undefined>(usersData.address);
+    const [postIndex, setPostIndex] = useState<string | undefined>(usersData.postIndex);
+    const [phoneNumber, setPhoneNumber] = useState<string | undefined>(usersData.phoneNumber);
+    const [email, setEmail] = useState<string | undefined>(usersData.email);
     const [validateEmailError, setValidateEmailError] = useState<string>("");
 
     const {
@@ -47,7 +48,7 @@ const Order: FC = () => {
         event.preventDefault();
 
         const perfumesId = Object.fromEntries(new Map(JSON.parse(localStorage.getItem("perfumes") as string)));
-        const validateEmailError: string = validateEmail(email);
+        const validateEmailError: string | undefined = validateEmail(email);
 
         if (validateEmailError) {
             setValidateEmailError(validateEmailError);

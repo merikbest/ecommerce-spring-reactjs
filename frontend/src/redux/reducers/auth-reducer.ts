@@ -3,7 +3,6 @@ import {FORM_RESET} from "../action-types/admin-action-types";
 import {
     ACTIVATE_ACCOUNT_FAILURE,
     ACTIVATE_ACCOUNT_SUCCESS,
-    FETCH_ACCOUNT_SUCCESS,
     FORGOT_PASSWORD_FAILURE,
     FORGOT_PASSWORD_SUCCESS,
     LOGIN_FAILURE,
@@ -23,7 +22,6 @@ type InitialStateType = {
     user: Partial<User>
     userEmail: string | null
     userRole: string | null
-    isLoggedIn: boolean
     isRegistered: boolean
     loading: boolean
     success: string
@@ -35,7 +33,6 @@ const initialState: InitialStateType = {
     user: {},
     userEmail: "",
     userRole: "",
-    isLoggedIn: false,
     isRegistered: false,
     loading: false,
     success: "",
@@ -50,7 +47,7 @@ const reducer = (state: InitialStateType = initialState, action: AuthActionTypes
             return {...state, loading: true, errors: {}};
 
         case LOGIN_SUCCESS:
-            return {...state, isLoggedIn: true, userRole: action.payload};
+            return {...state, userRole: action.payload};
 
         case LOGIN_FAILURE:
             return {...state, error: action.payload};
@@ -86,10 +83,7 @@ const reducer = (state: InitialStateType = initialState, action: AuthActionTypes
             return {...state, errors: action.payload};
 
         case LOGOUT_SUCCESS:
-            return {...state, isLoggedIn: false, userRole: ""};
-
-        case FETCH_ACCOUNT_SUCCESS:
-            return {...state, isLoggedIn: true, userRole: action.payload.roles[0], userEmail: action.payload.email};
+            return {...state, userRole: ""};
 
         case FORM_RESET:
             return {...state, error: "", errors: {}, success: "", isRegistered: false, loading: false};

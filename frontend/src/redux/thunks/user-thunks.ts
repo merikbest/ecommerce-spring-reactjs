@@ -2,9 +2,17 @@ import axios from 'axios';
 import {Dispatch} from "redux";
 
 import {API_BASE_URL} from "../../utils/constants/url";
-import {userAddedReviewFailure, userAddedReviewSuccess, userUpdatedSuccess} from "../actions/user-actions";
-import {fetchAccountSuccess} from '../actions/auth-actions';
-import {ReviewData, UserData} from "../../types/types";
+import {
+    fetchUserSuccess,
+    userAddedReviewFailure,
+    userAddedReviewSuccess,
+    userUpdatedFailure,
+    userUpdatedSuccess,
+    userUpdatedPasswordSuccess,
+    userUpdatedPasswordFailure,
+    resetInputForm
+} from "../actions/user-actions";
+import {ReviewData, UserEdit, UserResetPasswordData} from "../../types/types";
 
 export const fetchUserInfo = () => async (dispatch: Dispatch) => {
     const response = await axios({
@@ -14,26 +22,45 @@ export const fetchUserInfo = () => async (dispatch: Dispatch) => {
             "Content-Type": "application/json",
             "Authorization": localStorage.getItem("token")
         }
-    }).then(response => {
-        localStorage.setItem("email", response.data.email);
-        localStorage.setItem("userRole", response.data.roles);
-        localStorage.setItem("isLoggedIn", "true");
-        dispatch(fetchAccountSuccess(response.data));
     });
+    localStorage.setItem("email", response.data.email);
+    localStorage.setItem("userRole", response.data.roles);
+    localStorage.setItem("isLoggedIn", "true");
+    dispatch(fetchUserSuccess(response.data));
 };
 
-export const updateUserInfo = (userData: UserData, history: any) => async (dispatch: Dispatch) => {
-    axios({
-        method: "PUT",
-        url: API_BASE_URL + "/users/edit",
-        data: userData,
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": localStorage.getItem("token")
-        }
-    });
-    dispatch(userUpdatedSuccess());
-    history.push("/account");
+export const updateUserInfo = (userEdit: UserEdit) => async (dispatch: Dispatch) => {
+    try {
+        const response = await axios({
+            method: "PUT",
+            url: API_BASE_URL + "/users/edit",
+            data: userEdit,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+        dispatch(userUpdatedSuccess(response.data));
+    } catch (error) {
+        dispatch(userUpdatedFailure(error.response.data));
+    }
+};
+
+export const updateUserPassword = (data: UserResetPasswordData) => async (dispatch: Dispatch) => {
+    try {
+        const response = await axios({
+            method: "PUT",
+            url: API_BASE_URL + "/users/edit/password",
+            data: data,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": localStorage.getItem("token")
+            }
+        });
+        dispatch(userUpdatedPasswordSuccess(response.data));
+    } catch (error) {
+        dispatch(userUpdatedPasswordFailure(error.response.data));
+    }
 };
 
 export const addReviewToPerfume = (review: ReviewData) => async (dispatch: Dispatch) => {
@@ -44,4 +71,8 @@ export const addReviewToPerfume = (review: ReviewData) => async (dispatch: Dispa
     } catch (error) {
         dispatch(userAddedReviewFailure(error.response.data));
     }
+};
+
+export const resetForm = () => (dispatch: Dispatch) => {
+    dispatch(resetInputForm());
 };

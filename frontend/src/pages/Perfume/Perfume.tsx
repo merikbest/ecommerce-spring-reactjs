@@ -4,18 +4,18 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCartPlus, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 
 import {IMG_URL} from "../../utils/constants/url";
-import {fetchPerfume, fetchPerfumeByQuery} from "../../redux/thunks/perfume-thunks";
+import {fetchPerfumeByQuery} from "../../redux/thunks/perfume-thunks";
 import {addReviewToPerfume} from "../../redux/thunks/user-thunks";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 import {RouteComponentProps, useHistory} from "react-router-dom";
-import {ReviewData, Review, ReviewError} from "../../types/types";
+import {Review, ReviewData, ReviewError} from "../../types/types";
 
 const Perfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const perfume = useSelector((state: AppStateType) => state.perfume.perfume);
     const reviews: Array<Review> = useSelector((state: AppStateType) => state.perfume.reviews);
-    const errors: Partial<ReviewError> = useSelector((state: AppStateType) => state.user.errors);
+    const errors: Partial<ReviewError> = useSelector((state: AppStateType) => state.user.reviewErrors);
 
     const [author, setAuthor] = useState<string>("");
     const [message, setMessage] = useState<string>("");

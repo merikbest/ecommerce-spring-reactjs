@@ -6,47 +6,43 @@ import {
     FETCH_USER_SUCCESS,
     FETCH_ALL_USERS_SUCCESS,
     FETCH_ALL_USERS_ORDERS_SUCCESS,
-    FORM_RESET,
-    FETCH_PERFUMES
+    FORM_RESET
 } from "../action-types/admin-action-types";
-import {Order, PerfumeErrors, Perfume, User} from "../../types/types";
+import {Order, PerfumeErrors, User} from "../../types/types";
 import {AdminActionTypes} from "../action-types/admin-action-types";
 
 type InitialStateType = {
-    perfumes: Array<Perfume>
     orders: Array<Order>
     users: Array<User>
     user: Partial<User>
     errors: Partial<PerfumeErrors>
-    success: boolean
+    isPerfumeAdded: boolean
+    isPerfumeEdited: boolean
 };
 
 const initialState: InitialStateType = {
-    perfumes: [],
     orders: [],
     users: [],
     user: {},
     errors: {},
-    success: false
+    isPerfumeAdded: false,
+    isPerfumeEdited: false
 };
 
 const reducer = (state: InitialStateType = initialState, action: AdminActionTypes): InitialStateType => {
 
     switch (action.type) {
-        case FETCH_PERFUMES:
-            return {...state, perfumes: action.payload};
-
         case PERFUME_ADDED_SUCCESS:
-            return {...state, success: true, errors: {}};
+            return {...state, isPerfumeAdded: true, errors: {}};
 
         case PERFUME_ADDED_FAILURE:
-            return {...state, success: false, errors: action.payload};
+            return {...state, isPerfumeAdded: false, errors: action.payload};
 
         case PERFUME_UPDATED_SUCCESS:
-            return {...state, success: true, errors: {}};
+            return {...state, isPerfumeEdited: true, errors: {}};
 
         case PERFUME_UPDATED_FAILURE:
-            return {...state, success: false, errors: action.payload};
+            return {...state, isPerfumeEdited: false, errors: action.payload};
 
         case FETCH_USER_SUCCESS:
             return {...state, user: action.payload};
@@ -58,7 +54,7 @@ const reducer = (state: InitialStateType = initialState, action: AdminActionType
             return {...state, orders: action.payload};
 
         case FORM_RESET:
-            return {...state, success: false, errors: {}};
+            return {...state, isPerfumeAdded: false, isPerfumeEdited: false, errors: {}};
 
         default:
             return state;

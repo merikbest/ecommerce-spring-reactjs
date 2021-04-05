@@ -7,13 +7,13 @@ import SearchForm from "../SearchForm/SearchForm";
 import {Perfume} from "../../types/types";
 
 type PropsType = {
-    data: Array<Perfume>
+    perfumes: Array<Perfume>
     itemsPerPage: number
     startFrom?: number
     searchByData: Array<{ label: string, value: string }>
 };
 
-const MenuCards: FC<PropsType> = ({data, itemsPerPage, startFrom, searchByData}) => {
+const MenuCards: FC<PropsType> = ({perfumes, itemsPerPage, startFrom, searchByData}) => {
     const {
         slicedData,
         pagination,
@@ -22,13 +22,13 @@ const MenuCards: FC<PropsType> = ({data, itemsPerPage, startFrom, searchByData})
         changePage,
         setFilteredData,
         setSearching
-    } = usePagination({itemsPerPage, data, startFrom});
+    } = usePagination({itemsPerPage, perfumes, startFrom});
 
     return (
         <div className="container">
             <div className="container-fluid row mt-5 ml-2">
                 <SearchForm
-                    data={data}
+                    data={perfumes}
                     searchByData={searchByData}
                     setFilteredData={setFilteredData}
                     setSearching={setSearching}/>
@@ -44,6 +44,7 @@ const MenuCards: FC<PropsType> = ({data, itemsPerPage, startFrom, searchByData})
                         {slicedData.map((perfume: Perfume) => {
                             return (
                                 <PerfumeCardItem
+                                    key={perfume.id}
                                     perfume={perfume}
                                     colSize={3}
                                     link={"/product"}

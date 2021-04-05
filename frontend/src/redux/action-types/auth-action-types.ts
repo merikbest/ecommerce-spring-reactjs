@@ -3,7 +3,6 @@ import {ResetActionType} from "./admin-action-types";
 
 export const ACTIVATE_ACCOUNT_FAILURE = "ACTIVATE_ACCOUNT_FAILURE";
 export const ACTIVATE_ACCOUNT_SUCCESS = "ACTIVATE_ACCOUNT_SUCCESS";
-export const FETCH_ACCOUNT_SUCCESS = "FETCH_ACCOUNT_SUCCESS";
 export const FORGOT_PASSWORD_FAILURE = "FORGOT_PASSWORD_FAILURE";
 export const FORGOT_PASSWORD_SUCCESS = "FORGOT_PASSWORD_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
@@ -31,10 +30,9 @@ export type ResetPasswordCodeSuccessActionType = { type: typeof RESET_PASSWORD_C
 export type ResetPasswordCodeFailureActionType = { type: typeof RESET_PASSWORD_CODE_FAILURE, payload: string };
 export type ResetPasswordSuccessActionType = { type: typeof RESET_PASSWORD_SUCCESS, payload: string };
 export type ResetPasswordFailureActionType = { type: typeof RESET_PASSWORD_FAILURE, payload: AuthErrors };
-export type FetchAccountSuccessActionType = { type: typeof FETCH_ACCOUNT_SUCCESS, payload: User };
 
 export type AuthActionTypes = LoginSuccessActionType | LoginFailureActionType | ShowLoaderActionType |
     RegisterSuccessActionType | RegisterFailureActionType | LogoutSuccessActionType | ActivateAccountSuccessActionType |
     ActivateAccountFailureActionType | ForgotPasswordSuccessActionType | ForgotPasswordFailureActionType |
     ResetPasswordCodeSuccessActionType | ResetPasswordCodeFailureActionType | ResetPasswordSuccessActionType |
-    ResetPasswordFailureActionType | FetchAccountSuccessActionType | ResetActionType;
+    ResetPasswordFailureActionType | ResetActionType;

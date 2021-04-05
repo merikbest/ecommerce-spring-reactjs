@@ -3,7 +3,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {faEdit, faUserEdit} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import AccountNavbar from "../../component/AccountNavbar/AccountNavbar";
 import {fetchUser} from "../../redux/thunks/admin-thunks";
 import {RouteComponentProps} from "react-router-dom";
 import {AppStateType} from "../../redux/reducers/root-reducer";
@@ -13,7 +12,7 @@ const EditUser: FC<RouteComponentProps<{id: string}>> = ({match}) => {
     const dispatch = useDispatch();
     const userData: Partial<User> = useSelector((state: AppStateType) => state.admin.user);
     const [user, setUser] = useState<Partial<User>>({});
-    const {username, roles} = user;
+    const {firstName, roles} = user;
 
     useEffect(() => {
         dispatch(fetchUser(match.params.id));
@@ -34,10 +33,9 @@ const EditUser: FC<RouteComponentProps<{id: string}>> = ({match}) => {
     };
 
     return (
-        <div>
-            <AccountNavbar/>
-            <div className="container mt-5">
-                <h4><FontAwesomeIcon className="mr-2" icon={faUserEdit}/> User: {username}</h4>
+        <>
+            <div className="container">
+                <h4><FontAwesomeIcon className="mr-2" icon={faUserEdit}/> User: {firstName}</h4>
                 <form onSubmit={onFormSubmit}>
                     <div className="form-group row mt-5">
                         <label className="col-sm-2 col-form-label">User name: </label>
@@ -45,8 +43,8 @@ const EditUser: FC<RouteComponentProps<{id: string}>> = ({match}) => {
                             <input
                                 type="text"
                                 className="form-control"
-                                name="username"
-                                value={username}
+                                name="firstName"
+                                value={firstName}
                                 onChange={handleInputChange}/>
                         </div>
                     </div>
@@ -80,7 +78,7 @@ const EditUser: FC<RouteComponentProps<{id: string}>> = ({match}) => {
                     </button>
                 </form>
             </div>
-        </div>
+        </>
     );
 };
 

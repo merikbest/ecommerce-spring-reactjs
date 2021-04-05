@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import {Route, Switch} from "react-router-dom";
-import {useSelector} from "react-redux";
 
 import Menu from "../Menu/Menu";
 import Contacts from "../Contacts/Contacts";
@@ -12,27 +11,15 @@ import Registration from "../Registration/Registration";
 import Account from "../Account/Account";
 import Order from "../Order/Order";
 import OrderFinalize from "../OrderFinalize/OrderFinalize";
-import AddProduct from "../AddProduct/AddProduct";
-import OrdersList from "../OrdersList/OrdersList";
-import UserList from "../UserList/UserList";
-import EditUser from "../EditUser/EditUser";
-import UserEditProfile from "../UserEditProfile/UserEditProfile";
-import EditPerfume from "../EditPerfume/EditPerfume";
-import UserOrdersList from "../UserOrdersList/UserOrdersList";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import ResetPassword from "../ResetPassword/ResetPassword";
 import Cart from "../Cart/Cart";
-import EditPerfumes from "../EditPerfumesList/EditPerfumes";
-import {AppStateType} from "../../redux/reducers/root-reducer";
 import Perfume from "../Perfume/Perfume";
 import OAuth2RedirectHandler from "../../utils/oauth2/OAuth2RedirectHandler";
 
 const App: FC = () => {
-    const userRole: string | null = useSelector((state: AppStateType) => state.auth.userRole);
-    const isAdmin: boolean = userRole === "ADMIN";
-
     return (
-        <div>
+        <>
             <NavBar/>
             <Switch>
                 <Route exact path="/" component={Home}/>
@@ -44,31 +31,16 @@ const App: FC = () => {
                 <Route exact path="/menu" component={Menu}/>
                 <Route exact path="/product/:id" component={Perfume}/>
                 <Route exact path="/contacts" component={Contacts}/>
-                <Route exact path="/account" component={Account}/>
                 <Route exact path="/cart" component={Cart}/>
                 <Route exact path="/order" component={Order}/>
                 <Route exact path="/order/finalize" component={OrderFinalize}/>
-                <Route exact path="/admin/add" render={() => (isAdmin) ?
-                    (<Route component={AddProduct}/>) : (<Route component={Home}/>)}/>
-                <Route exact path="/admin/orders" render={() => (isAdmin) ?
-                    (<Route component={OrdersList}/>) : (<Route component={Home}/>)}/>
-                <Route exact path="/admin/users/all" render={() => (isAdmin) ?
-                    (<Route component={UserList}/>) : (<Route component={Home}/>)}/>
-                <Route exact path="/admin/user/:id" render={() => (isAdmin) ?
-                    (<Route component={EditUser}/>) : (<Route component={Home}/>)}/>
-                <Route exact path="/product/list/edit" render={() => (isAdmin) ?
-                    (<Route component={EditPerfumes}/>) : (<Route component={Home}/>)}/>
-                <Route exact path="/product/list/edit/:id" render={() => (isAdmin) ?
-                    (<Route component={EditPerfume}/>) : (<Route component={Home}/>)}/>
-                <Route exact path="/user/edit" render={() => localStorage.getItem("isLoggedIn") ?
-                    (<Route component={UserEditProfile}/>) : (<Route component={Home}/>)}/>
-                <Route exact path="/user/orders" render={() => localStorage.getItem("isLoggedIn") ?
-                    (<Route component={UserOrdersList}/>) : (<Route component={Home}/>)}/>
-                <Route exact path="/oauth2/redirect" component={OAuth2RedirectHandler}/>
+                <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}/>
+                <Route path="/account" render={() => localStorage.getItem("token") ?
+                    (<Route component={Account}/>) : (<Route component={Home}/>)}/>
                 <Route path="*" component={Home}/>
             </Switch>
             <Footer/>
-        </div>
+        </>
     );
 };
 

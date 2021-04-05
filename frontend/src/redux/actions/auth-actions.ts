@@ -2,7 +2,6 @@ import {AuthErrors, User} from "../../types/types";
 import {
     ACTIVATE_ACCOUNT_FAILURE,
     ACTIVATE_ACCOUNT_SUCCESS,
-    FETCH_ACCOUNT_SUCCESS,
     FORGOT_PASSWORD_FAILURE,
     FORGOT_PASSWORD_SUCCESS,
     LOGIN_FAILURE,
@@ -17,7 +16,6 @@ import {
     SHOW_LOADER,
     ActivateAccountFailureActionType,
     ActivateAccountSuccessActionType,
-    FetchAccountSuccessActionType,
     ForgotPasswordFailureActionType,
     ForgotPasswordSuccessActionType,
     LoginFailureActionType,
@@ -100,7 +98,3 @@ export const resetPasswordFailure = (errors: AuthErrors): ResetPasswordFailureAc
     payload: errors
 });
 
-export const fetchAccountSuccess = (user: User): FetchAccountSuccessActionType => ({
-    type: FETCH_ACCOUNT_SUCCESS,
-    payload: user
-});

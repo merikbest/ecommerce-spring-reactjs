@@ -12,7 +12,7 @@ import {Perfume} from "../../types/types";
 const NavBar: FC = () => {
     const dispatch = useDispatch();
     const perfumes: Array<Perfume> = useSelector((state: AppStateType) => state.cart.perfumes);
-    const isLoggedIn: boolean = useSelector((state: AppStateType) => state.auth.isLoggedIn);
+    const isLoggedIn: boolean = useSelector((state: AppStateType) => state.user.isLoggedIn);
 
     const handleLogout = () => {
         dispatch(logout())

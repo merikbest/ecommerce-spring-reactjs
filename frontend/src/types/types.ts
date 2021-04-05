@@ -82,13 +82,33 @@ export type OrderError = {
 
 export type User = {
     id: number
-    username: string
     email: string
-    active: boolean
+    firstName: string
+    lastName: string
+    city: string
+    address: string
+    phoneNumber: string
+    postIndex: string
     activationCode: string | null
     passwordResetCode: string | null
-    token: string | null
+    active: boolean
+    provider: string
     roles: Array<string>
+};
+
+export type UserEdit = {
+    id: number | undefined
+    firstName: string | undefined
+    lastName: string | undefined
+    city: string | undefined
+    address: string | undefined
+    phoneNumber: string | undefined
+    postIndex: string | undefined
+};
+
+export type UserEditErrors = {
+    firstNameError: string
+    lastNameError: string
 };
 
 export type UserData = {

@@ -86,7 +86,7 @@ const Menu: FC = () => {
                     </li>
                 </ul>
             </nav>
-            <Route exact component={() => <MenuCards data={perfumes} itemsPerPage={16} searchByData={[
+            <Route exact component={() => <MenuCards perfumes={perfumes} itemsPerPage={16} searchByData={[
                 {label: 'Brand', value: 'perfumer'},
                 {label: 'Perfume title', value: 'perfumeTitle'},
                 {label: 'Manufacturer country', value: 'country'}]}/>}/>
