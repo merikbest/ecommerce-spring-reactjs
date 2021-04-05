@@ -108,10 +108,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void registerOauthUser(String email, String username) {
+    public void registerOauthUser(String email, String firstName, String lastName) {
         User user = new User();
         user.setEmail(email);
-        user.setUsername(username);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setProvider(AuthProvider.GOOGLE);
@@ -119,8 +120,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void updateOauthUser(User user, String username) {
-        user.setUsername(username);
+    public void updateOauthUser(User user, String firstName) {
+        user.setFirstName(firstName);
         user.setProvider(AuthProvider.GOOGLE);
         userRepository.save(user);
     }
@@ -146,7 +147,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public void sendMessage(User user, List<String> emailMessages, String subject, String code, String urlPart) {
         if (!StringUtils.isEmpty(user.getEmail())) {
             String message = String.format("Hello, %s! \n" + "%s \n" + "%s http://%s/%s/%s",
-                    user.getUsername(),
+                    user.getFirstName(),
                     emailMessages.get(0),
                     emailMessages.get(1),
                     hostname,
@@ -180,7 +181,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public void userSave(String username, Map<String, String> form, User user) {
-        user.setUsername(username);
+        user.setFirstName(username);
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
                 .collect(Collectors.toSet());
@@ -196,10 +197,16 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void updateProfile(String email, String username) {
-        User user = userRepository.findByEmail(email);
-        user.setUsername(username);
-        userRepository.save(user);
+    public User updateProfile(String email, User user) {
+        User userFromDb = userRepository.findByEmail(email);
+        userFromDb.setFirstName(user.getFirstName());
+        userFromDb.setLastName(user.getLastName());
+        userFromDb.setCity(user.getCity());
+        userFromDb.setAddress(user.getAddress());
+        userFromDb.setPhoneNumber(user.getPhoneNumber());
+        userFromDb.setPostIndex(user.getPostIndex());
+        userRepository.save(userFromDb);
+        return userFromDb;
     }
 
     @Override

@@ -70,15 +70,20 @@ create table user_role
     roles   varchar(255)
 );
 
-create table usr
+create table users
 (
-    id                  int8    not null,
+    id                  int8 not null,
+    email               varchar(255),
+    first_name          varchar(255),
+    last_name           varchar(255),
+    city                varchar(255),
+    address             varchar(255),
+    phone_number        varchar(255),
+    post_index          varchar(255),
     activation_code     varchar(255),
     active              boolean not null,
-    email               varchar(255),
     password            varchar(255),
     password_reset_code varchar(255),
-    username            varchar(255),
     provider            varchar(255),
     primary key (id)
 );
@@ -90,4 +95,4 @@ alter table if exists orders_order_items add constraint FK7nw03p9mxq154wvbsonaq0
 alter table if exists orders_order_items add constraint FK3l8rktw0f4w5t6tift31e2d7c foreign key (order_id) references orders;
 alter table if exists perfume_reviews add constraint FKq51iuslnvq3nw8teocq9y7ag8 foreign key (reviews_id) references review;
 alter table if exists perfume_reviews add constraint FK7k3k0ru1omu7xdtdamtrl276 foreign key (perfume_id) references perfume;
-alter table if exists user_role add constraint FKfpm8swft53ulq2hl11yplpr5 foreign key (user_id) references usr;
+alter table if exists user_role add constraint FKfpm8swft53ulq2hl11yplpr5 foreign key (user_id) references users;

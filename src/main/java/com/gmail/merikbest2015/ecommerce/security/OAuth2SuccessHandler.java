@@ -30,15 +30,15 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
                                         Authentication authentication) throws IOException {
         DefaultOAuth2User oAuth2User = (DefaultOAuth2User) authentication.getPrincipal();
         String email = (String) oAuth2User.getAttributes().get("email");
-        String username = (String) oAuth2User.getAttributes().get("name");
+        String firstName = (String) oAuth2User.getAttributes().get("given_name");
+        String lastName = (String) oAuth2User.getAttributes().get("family_name");
         String token = jwtProvider.createToken(email, "USER");
         User user = userService.findUserByEmail(email);
 
         if (user == null) {
-            userService.registerOauthUser(email, username);
-        } else {
-            userService.updateOauthUser(user, username);
+            userService.registerOauthUser(email, firstName, lastName);
         }
+
         String uri = UriComponentsBuilder.fromUriString("http://" + hostname + "/oauth2/redirect")
                 .queryParam("token", token)
                 .build().toUriString();

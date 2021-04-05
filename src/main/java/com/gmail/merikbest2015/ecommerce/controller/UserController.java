@@ -1,5 +1,6 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
+import com.gmail.merikbest2015.ecommerce.dto.PasswordResetRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponseDto;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponseDto;
@@ -7,9 +8,11 @@ import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserResponseDto;
 import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
+import com.gmail.merikbest2015.ecommerce.exception.PasswordException;
 import com.gmail.merikbest2015.ecommerce.mapper.OrderMapper;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
 import com.gmail.merikbest2015.ecommerce.security.UserPrincipal;
+import com.gmail.merikbest2015.ecommerce.utils.ControllerUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -33,14 +36,27 @@ public class UserController {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<String> updateUserInfo(@AuthenticationPrincipal UserPrincipal user,
-                                                 @Valid @RequestBody UserRequestDto request,
-                                                 BindingResult bindingResult) {
+    public ResponseEntity<UserResponseDto> updateUserInfo(@AuthenticationPrincipal UserPrincipal user,
+                                                          @Valid @RequestBody UserRequestDto request,
+                                                          BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
-            userMapper.updateProfile(user.getEmail(), request.getUsername());
-            return ResponseEntity.ok("User updated successfully.");
+            return ResponseEntity.ok(userMapper.updateProfile(user.getEmail(), request));
+        }
+    }
+
+    @PutMapping("/edit/password")
+    public ResponseEntity<String> updateUserPassword(@AuthenticationPrincipal UserPrincipal user,
+                                                     @Valid @RequestBody PasswordResetRequestDto passwordReset,
+                                                     BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        } else if (ControllerUtils.isPasswordDifferent(passwordReset.getPassword(), passwordReset.getPassword2())) {
+            throw new PasswordException("Passwords do not match.");
+        } else {
+            userMapper.passwordReset(user.getEmail(), passwordReset.getPassword());
+            return ResponseEntity.ok("Password successfully changed!");
         }
     }
 

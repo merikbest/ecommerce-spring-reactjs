@@ -23,7 +23,7 @@ public interface UserService {
 
     boolean registerUser(User user);
 
-    void registerOauthUser(String email, String username);
+    void registerOauthUser(String email, String firstName, String lastName);
 
     void updateOauthUser(User user, String username);
 
@@ -35,7 +35,7 @@ public interface UserService {
 
     void userSave(String username, Map<String, String> form, User user);
 
-    void updateProfile(String email, String username);
+    User updateProfile(String email, User user);
 
     void addReviewToPerfume(Review review, Long perfumeId);
 }

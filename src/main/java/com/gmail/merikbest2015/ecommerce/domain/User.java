@@ -7,15 +7,20 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "usr")
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String username;
-    private String password;
     private String email;
+    private String password;
+    private String firstName;
+    private String lastName;
+    private String city;
+    private String address;
+    private String phoneNumber;
+    private String postIndex;
     private String activationCode;
     private String passwordResetCode;
     private boolean active;
