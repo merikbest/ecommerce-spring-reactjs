@@ -50,7 +50,7 @@ public class UserControllerTest {
         mockMvc.perform(get(URL_USERS_BASIC + "/info"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty())
-                .andExpect(jsonPath("$.username").value(FIRST_NAME))
+                .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
                 .andExpect(jsonPath("$.email").value(USER_EMAIL))
                 .andExpect(jsonPath("$.roles").value(ROLE_USER));
     }
@@ -59,13 +59,17 @@ public class UserControllerTest {
     @WithUserDetails(USER_EMAIL)
     public void updateUserInfo() throws Exception {
         UserRequestDto userRequestDto = new UserRequestDto();
-        userRequestDto.setUsername(USER2_NAME);
+        userRequestDto.setFirstName(USER2_NAME);
+        userRequestDto.setLastName(USER2_NAME);
 
         mockMvc.perform(put(URL_USERS_BASIC + "/edit")
                 .content(mapper.writeValueAsString(userRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("User updated successfully.")));
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.email").value(USER_EMAIL))
+                .andExpect(jsonPath("$.firstName").value(USER2_NAME))
+                .andExpect(jsonPath("$.lastName").value(USER2_NAME));
     }
 
     @Test

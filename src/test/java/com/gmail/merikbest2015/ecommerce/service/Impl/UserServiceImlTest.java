@@ -114,13 +114,13 @@ public class UserServiceImlTest {
         user.setId(123L);
         user.setEmail(USER_EMAIL);
         user.setActive(true);
-        user.setUsername(FIRST_NAME);
+        user.setFirstName(FIRST_NAME);
         user.setRoles(Collections.singleton(Role.USER));
 
         when(userRepository.findByEmail(USER_EMAIL)).thenReturn(user);
         assertEquals(123L, user.getId());
         assertEquals(USER_EMAIL, user.getEmail());
-        assertEquals(FIRST_NAME, user.getUsername());
+        assertEquals(FIRST_NAME, user.getFirstName());
         userService.login(USER_EMAIL);
         verify(userRepository, times(1)).findByEmail(user.getEmail());
         verify(jwtProvider, times(1)).createToken(user.getEmail(), user.getRoles().iterator().next().name());
@@ -131,12 +131,12 @@ public class UserServiceImlTest {
         User user = new User();
         user.setEmail(USER_EMAIL);
         user.setActive(true);
-        user.setUsername(FIRST_NAME);
+        user.setFirstName(FIRST_NAME);
         user.setRoles(Collections.singleton(Role.USER));
 
         when(userRepository.findByEmail(USER_EMAIL)).thenReturn(user);
         assertEquals(USER_EMAIL, user.getEmail());
-        assertEquals(FIRST_NAME, user.getUsername());
+        assertEquals(FIRST_NAME, user.getFirstName());
         assertTrue(user.isActive());
     }
 
@@ -161,14 +161,17 @@ public class UserServiceImlTest {
     public void registerOauthUser() {
         User user = new User();
         user.setEmail(USER_EMAIL);
-        user.setUsername(FIRST_NAME);
+        user.setFirstName(FIRST_NAME);
+        user.setLastName(LAST_NAME);
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setProvider(AuthProvider.GOOGLE);
 
         when(userRepository.save(user)).thenReturn(user);
-        userService.registerOauthUser(USER_EMAIL, FIRST_NAME);
+        userService.registerOauthUser(USER_EMAIL, FIRST_NAME, LAST_NAME);
         assertEquals(USER_EMAIL, user.getEmail());
+        assertEquals(FIRST_NAME, user.getFirstName());
+        assertEquals(LAST_NAME, user.getLastName());
         assertNull(user.getPassword());
         verify(userRepository, times(1)).save(user);
     }
@@ -177,7 +180,7 @@ public class UserServiceImlTest {
     public void updateOauthUser() {
         User user = new User();
         user.setEmail(USER_EMAIL);
-        user.setUsername(FIRST_NAME);
+        user.setFirstName(FIRST_NAME);
         user.setProvider(AuthProvider.GOOGLE);
 
         when(userRepository.save(user)).thenReturn(user);
@@ -242,13 +245,13 @@ public class UserServiceImlTest {
     public void updateProfile() {
         User user = new User();
         user.setEmail(USER_EMAIL);
-        user.setUsername(FIRST_NAME);
+        user.setFirstName(FIRST_NAME);
 
         when(userRepository.findByEmail(USER_EMAIL)).thenReturn(user);
         when(userRepository.save(user)).thenReturn(user);
-        userService.updateProfile(USER_EMAIL, FIRST_NAME);
+        userService.updateProfile(USER_EMAIL, user);
         assertEquals(USER_EMAIL, user.getEmail());
-        assertEquals(FIRST_NAME, user.getUsername());
+        assertEquals(FIRST_NAME, user.getFirstName());
         verify(userRepository, times(1)).findByEmail(user.getEmail());
         verify(userRepository, times(1)).save(user);
     }

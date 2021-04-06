@@ -43,7 +43,7 @@ public class RegistrationControllerTest {
         registrationRequestDto.setEmail("testtest@test.com");
         registrationRequestDto.setPassword(USER_PASSWORD);
         registrationRequestDto.setPassword2(USER_PASSWORD);
-        registrationRequestDto.setUsername(FIRST_NAME);
+        registrationRequestDto.setFirstName(FIRST_NAME);
         registrationRequestDto.setCaptcha("12345");
     }
 

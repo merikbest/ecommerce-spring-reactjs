@@ -26,23 +26,23 @@ public class UserMapperTest {
     @Test
     public void convertUserRequestDtoToEntity() {
         UserRequestDto userRequestDto = new UserRequestDto();
-        userRequestDto.setUsername(FIRST_NAME);
+        userRequestDto.setFirstName(FIRST_NAME);
         userRequestDto.setEmail(USER_EMAIL);
 
         User user = modelMapper.map(userRequestDto, User.class);
-        assertEquals(userRequestDto.getUsername(), user.getUsername());
+        assertEquals(userRequestDto.getFirstName(), user.getFirstName());
         assertEquals(userRequestDto.getEmail(), user.getEmail());
     }
 
     @Test
     public void convertRegistrationRequestDtoToEntity() {
         RegistrationRequestDto registrationRequestDto = new RegistrationRequestDto();
-        registrationRequestDto.setUsername(FIRST_NAME);
+        registrationRequestDto.setFirstName(FIRST_NAME);
         registrationRequestDto.setEmail(USER_EMAIL);
         registrationRequestDto.setPassword(USER_PASSWORD);
 
         User user = modelMapper.map(registrationRequestDto, User.class);
-        assertEquals(registrationRequestDto.getUsername(), user.getUsername());
+        assertEquals(registrationRequestDto.getFirstName(), user.getFirstName());
         assertEquals(registrationRequestDto.getEmail(), user.getEmail());
         assertEquals(registrationRequestDto.getPassword(), user.getPassword());
     }
@@ -61,11 +61,11 @@ public class UserMapperTest {
     @Test
     public void convertToResponseDto() {
         User user = new User();
-        user.setUsername(FIRST_NAME);
+        user.setFirstName(FIRST_NAME);
         user.setEmail(USER_EMAIL);
 
         UserResponseDto userRequestDto = modelMapper.map(user, UserResponseDto.class);
-        assertEquals(user.getUsername(), userRequestDto.getUsername());
+        assertEquals(user.getFirstName(), userRequestDto.getFirstName());
         assertEquals(user.getEmail(), userRequestDto.getEmail());
     }
 }

@@ -97,7 +97,7 @@ public class AuthenticationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(USER2_ID))
                 .andExpect(jsonPath("$.email").value(USER2_EMAIL))
-                .andExpect(jsonPath("$.username").value(USER2_NAME))
+                .andExpect(jsonPath("$.firstName").value(USER2_NAME))
                 .andExpect(jsonPath("$.passwordResetCode").value(USER_PASSWORD_RESET_CODE));
     }
 

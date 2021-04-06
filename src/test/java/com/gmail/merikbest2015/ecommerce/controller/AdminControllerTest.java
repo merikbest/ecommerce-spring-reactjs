@@ -2,6 +2,7 @@ package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserRequestDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,8 +24,7 @@ import java.io.FileInputStream;
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -117,11 +117,33 @@ public class AdminControllerTest {
     }
 
     @Test
+    public void getUserOrdersByEmail() throws Exception {
+        UserRequestDto userRequestDto = new UserRequestDto();
+        userRequestDto.setEmail(USER_EMAIL);
+
+        mockMvc.perform(post(URL_ADMIN_BASIC + "/order")
+                .content(mapper.writeValueAsString(userRequestDto))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*].id").isNotEmpty())
+                .andExpect(jsonPath("$[*].totalPrice", hasItem(TOTAL_PRICE)))
+                .andExpect(jsonPath("$[*].date").isNotEmpty())
+                .andExpect(jsonPath("$[*].firstName", hasItem(FIRST_NAME)))
+                .andExpect(jsonPath("$[*].lastName", hasItem(LAST_NAME)))
+                .andExpect(jsonPath("$[*].city", hasItem(CITY)))
+                .andExpect(jsonPath("$[*].address", hasItem(ADDRESS)))
+                .andExpect(jsonPath("$[*].email", hasItem(USER_EMAIL)))
+                .andExpect(jsonPath("$[*].phoneNumber", hasItem(PHONE_NUMBER)))
+                .andExpect(jsonPath("$[*].postIndex", hasItem(POST_INDEX)))
+                .andExpect(jsonPath("$[*].orderItems").isNotEmpty());
+    }
+
+    @Test
     public void getUser() throws Exception {
         mockMvc.perform(get(URL_ADMIN_GET_USER + USER_ID))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(USER_ID))
-                .andExpect(jsonPath("$.username").value(FIRST_NAME))
+                .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
                 .andExpect(jsonPath("$.email").value(USER_EMAIL));
     }
 
@@ -130,7 +152,7 @@ public class AdminControllerTest {
         mockMvc.perform(get(URL_ADMIN_GET_USER + "all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id", hasItem(USER_ID)))
-                .andExpect(jsonPath("$[*].username", hasItem(FIRST_NAME)))
+                .andExpect(jsonPath("$[*].firstName", hasItem(FIRST_NAME)))
                 .andExpect(jsonPath("$[*].email", hasItem(USER_EMAIL)));
     }
 }
