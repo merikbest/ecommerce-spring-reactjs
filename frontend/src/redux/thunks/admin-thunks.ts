@@ -5,8 +5,9 @@ import {
     addPerfumeFailure,
     addPerfumeSuccess,
     getAllUsers,
+    getUserInfo,
     getAllUsersOrders,
-    getUser,
+    getUserOrders,
     reset,
     updatePerfumeFailure,
     updatePerfumeSuccess
@@ -59,6 +60,19 @@ export const fetchAllUsersOrders = () => async (dispatch: Dispatch) => {
     dispatch(getAllUsersOrders(response.data));
 };
 
+export const fetchUserOrders = (email: string | undefined) => async (dispatch: Dispatch) => {
+    const response = await axios({
+        method: "POST",
+        url: API_BASE_URL + "/admin/order",
+        data: {email: email},
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": localStorage.getItem("token")
+        }
+    });
+    dispatch(getUserOrders(response.data));
+};
+
 export const fetchAllUsers = () => async (dispatch: Dispatch) => {
     const response = await axios({
         method: "GET",
@@ -71,7 +85,7 @@ export const fetchAllUsers = () => async (dispatch: Dispatch) => {
     dispatch(getAllUsers(response.data));
 };
 
-export const fetchUser = (id: string) => async (dispatch: Dispatch) => {
+export const fetchUserInfo = (id: string) => async (dispatch: Dispatch) => {
     const response = await axios({
         method: "GET",
         url: API_BASE_URL + "/admin/user/" + id,
@@ -80,7 +94,7 @@ export const fetchUser = (id: string) => async (dispatch: Dispatch) => {
             "Authorization": localStorage.getItem("token")
         }
     });
-    dispatch(getUser(response.data));
+    dispatch(getUserInfo(response.data));
 };
 
 export const formReset = () => async (dispatch: Dispatch) => {

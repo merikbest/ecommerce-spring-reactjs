@@ -4,12 +4,12 @@ import {useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAddressCard, faEdit, faEyeSlash} from "@fortawesome/free-solid-svg-icons";
 
-import {User} from "../../types/types";
-import {AppStateType} from "../../redux/reducers/root-reducer";
+import {User} from "../../../types/types";
+import {AppStateType} from "../../../redux/reducers/root-reducer";
 import EditPersonalData from "../EditPersonalData/EditPersonalData";
-import "./UsersPersonalData.css";
+import "./PersonalData.css";
 
-const UsersPersonalData: FC = () => {
+const PersonalData: FC = () => {
     const usersData: Partial<User> = useSelector((state: AppStateType) => state.user.user);
     const {email, firstName, lastName, city, address, phoneNumber, postIndex} = usersData;
     const location = useLocation();
@@ -56,4 +56,4 @@ const UsersPersonalData: FC = () => {
     );
 };
 
-export default UsersPersonalData;
+export default PersonalData;

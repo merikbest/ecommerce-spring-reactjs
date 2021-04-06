@@ -13,17 +13,15 @@ const OrdersTable: FC<PropsType> = ({orders}) => {
     return (
         <div className="container">
             <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faShoppingBag}/> List of all orders</h4>
-            <table className="table">
-                <thead>
+            <table className="table mt-4 border text-center">
+                <thead className="table-active">
                 <tr>
-                    <th scope="col">Order №</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Post index</th>
-                    <th scope="col">Goods</th>
-                    <th scope="col">Sum, $</th>
-                    <th scope="col"></th>
+                    <th>Order №</th>
+                    <th>Date</th>
+                    <th>Customer</th>
+                    <th>Email</th>
+                    <th>Sum, $</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -33,21 +31,15 @@ const OrdersTable: FC<PropsType> = ({orders}) => {
                             <th>{order.id}</th>
                             <th>{order.date}</th>
                             <th>{order.firstName + " " + order.lastName}</th>
-                            <th>{order.city + " " + order.address}</th>
-                            <th>{order.postIndex}</th>
-                            <th>
-                                {order.orderItems.map((orderItems) => {
-                                    return (
-                                        <p key={orderItems.perfume.id}>Perfume Id:
-                                            <Link
-                                                to={`/product/${orderItems.perfume.id}`}>{orderItems.perfume.id}</Link>
-                                        </p>
-                                    )
-                                })}
-                            </th>
+                            <th>{order.email}</th>
                             <th>{order.totalPrice}</th>
+                            <th>
+                                <Link to={{pathname: `/account/user/orders/${order.id}`, state: order}}>
+                                    Show more
+                                </Link>
+                            </th>
                         </tr>
-                    )
+                    );
                 })}
                 </tbody>
             </table>

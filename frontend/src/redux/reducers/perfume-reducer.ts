@@ -1,6 +1,6 @@
 import {Perfume, Review} from "../../types/types";
-import {FETCH_PERFUMES} from "../action-types/admin-action-types";
 import {
+    FETCH_PERFUMES,
     FETCH_PERFUME_SUCCESS,
     FETCH_PERFUMES_BY_FILTER_PARAMS_SUCCESS,
     FETCH_PERFUMES_BY_GENDER_SUCCESS,

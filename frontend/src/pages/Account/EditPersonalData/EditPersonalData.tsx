@@ -2,10 +2,10 @@ import React, {ChangeEvent, FC, FormEvent, useEffect, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck} from "@fortawesome/free-solid-svg-icons";
 
-import {User, UserEdit, UserEditErrors} from "../../types/types";
+import {User, UserEdit, UserEditErrors} from "../../../types/types";
 import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../redux/reducers/root-reducer";
-import {resetForm, updateUserInfo} from '../../redux/thunks/user-thunks';
+import {AppStateType} from "../../../redux/reducers/root-reducer";
+import {resetForm, updateUserInfo} from '../../../redux/thunks/user-thunks';
 import "./EditPersonalData.css";
 
 const EditPersonalData: FC = () => {

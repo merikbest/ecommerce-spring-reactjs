@@ -30,9 +30,7 @@ const NavBar: FC = () => {
         );
         signOut = (
             <Link to={"/"} onClick={handleLogout}>
-                <button className="btn btn-dark mr-3" style={{color: "white"}}>
-                    <FontAwesomeIcon className="mr-2" icon={faSignOutAlt}/>Exit
-                </button>
+                <FontAwesomeIcon className="mr-2" icon={faSignOutAlt}/>EXIT
             </Link>
         );
     } else {

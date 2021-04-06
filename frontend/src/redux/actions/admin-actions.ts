@@ -1,29 +1,24 @@
 import {Order, Perfume, PerfumeErrors, User} from "../../types/types";
 import {
+    AddPerfumeFailureActionType,
+    AddPerfumeSuccessActionType,
     FETCH_ALL_USERS_ORDERS_SUCCESS,
     FETCH_ALL_USERS_SUCCESS,
-    FETCH_PERFUMES,
-    FETCH_USER_SUCCESS,
+    FETCH_USER_ORDERS_SUCCESS,
+    FETCH_USER_INFO_SUCCESS,
     FORM_RESET,
+    GetAllUsersActionType,
+    GetAllUsersOrdersActionType,
+    GetUserInfoActionType,
+    GetUserOrdersActionType,
     PERFUME_ADDED_FAILURE,
     PERFUME_ADDED_SUCCESS,
     PERFUME_UPDATED_FAILURE,
     PERFUME_UPDATED_SUCCESS,
-    AddPerfumeFailureActionType,
-    AddPerfumeSuccessActionType,
     ResetActionType,
     UpdatePerfumeFailureActionType,
-    UpdatePerfumeSuccessActionType,
-    GetAllUsersActionType,
-    GetAllUsersOrdersActionType,
-    GetPerfumesActionType,
-    GetUserActionType,
+    UpdatePerfumeSuccessActionType
 } from "../action-types/admin-action-types";
-
-export const getPerfumes = (perfumes: Array<Perfume>): GetPerfumesActionType => ({
-    type: FETCH_PERFUMES,
-    payload: perfumes
-});
 
 export const addPerfumeSuccess = (): AddPerfumeSuccessActionType => ({
     type: PERFUME_ADDED_SUCCESS
@@ -49,13 +44,18 @@ export const getAllUsersOrders = (orders: Array<Order>): GetAllUsersOrdersAction
     payload: orders
 });
 
+export const getUserOrders = (orders: Array<Order>): GetUserOrdersActionType => ({
+    type: FETCH_USER_ORDERS_SUCCESS,
+    payload: orders
+});
+
 export const getAllUsers = (users: Array<User>): GetAllUsersActionType => ({
     type: FETCH_ALL_USERS_SUCCESS,
     payload: users
 });
 
-export const getUser = (user: User): GetUserActionType => ({
-    type: FETCH_USER_SUCCESS,
+export const getUserInfo = (user: User): GetUserInfoActionType => ({
+    type: FETCH_USER_INFO_SUCCESS,
     payload: user
 });
 

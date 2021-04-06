@@ -57,6 +57,11 @@ public class AdminController {
         return ResponseEntity.ok(orderMapper.findAllOrders());
     }
 
+    @PostMapping("/order")
+    public ResponseEntity<List<OrderResponseDto>> getUserOrdersByEmail(@RequestBody UserRequestDto user) {
+        return ResponseEntity.ok(orderMapper.findOrderByEmail(user.getEmail()));
+    }
+
     @GetMapping("/user/{id}")
     public ResponseEntity<UserResponseDto> getUser(@PathVariable("id") Long userId) {
         return ResponseEntity.ok(userMapper.findUserById(userId));

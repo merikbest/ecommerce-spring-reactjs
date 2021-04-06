@@ -1,5 +1,6 @@
 import {Perfume} from "../../types/types";
 import {
+    FETCH_PERFUMES,
     FETCH_PERFUME_SUCCESS,
     FETCH_PERFUMES_BY_FILTER_PARAMS_SUCCESS,
     FETCH_PERFUMES_BY_GENDER_SUCCESS,
@@ -11,8 +12,14 @@ import {
     FetchPerfumesByFilterParamsSuccessActionType,
     FetchPerfumesByGenderSuccessActionType,
     FetchPerfumesByPerfumerSuccessActionType,
-    FetchPerfumeSuccessActionType
+    FetchPerfumeSuccessActionType,
+    GetPerfumesActionType,
 } from "../action-types/perfume-action-types";
+
+export const getPerfumes = (perfumes: Array<Perfume>): GetPerfumesActionType => ({
+    type: FETCH_PERFUMES,
+    payload: perfumes
+});
 
 export const fetchPerfumesByQuerySuccess = (perfumes: Array<Perfume>): FetchPerfumesByQuerySuccessActionType => ({
     type: FETCH_PERFUMES_BY_QUERY_SUCCESS,

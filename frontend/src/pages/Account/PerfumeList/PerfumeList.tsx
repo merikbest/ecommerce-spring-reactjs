@@ -2,18 +2,18 @@ import React, {FC} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faList} from "@fortawesome/free-solid-svg-icons";
 
-import {Perfume} from "../../types/types";
-import PaginationItem from "../../component/Pagination/PaginationItem";
-import SearchForm from "../../component/SearchForm/SearchForm";
-import PerfumeCardItem from "../../component/PerfumeCardItem/PerfumeCardItem";
-import usePagination from "../../component/Pagination/usePagination";
+import {Perfume} from "../../../types/types";
+import PaginationItem from "../../../component/Pagination/PaginationItem";
+import SearchForm from "../../../component/SearchForm/SearchForm";
+import PerfumeCardItem from "../../../component/PerfumeCardItem/PerfumeCardItem";
+import usePagination from "../../../component/Pagination/usePagination";
 
 type PropsType = {
     startFrom?: number
     perfumes: Array<Perfume>
 };
 
-const EditPerfumes: FC<PropsType> = ({startFrom, perfumes}) => {
+const PerfumeList: FC<PropsType> = ({startFrom, perfumes}) => {
     const itemsPerPage = 24;
     const searchByData = [
         {label: 'Brand', value: 'perfumer'},
@@ -69,4 +69,4 @@ const EditPerfumes: FC<PropsType> = ({startFrom, perfumes}) => {
     );
 };
 
-export default EditPerfumes;
+export default PerfumeList;

@@ -3,10 +3,10 @@ import {useDispatch, useSelector} from "react-redux";
 import {faPlusSquare} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import ToastShow from "../../component/Toasts/ToastShow";
-import {addPerfume, formReset} from "../../redux/thunks/admin-thunks";
-import {AppStateType} from "../../redux/reducers/root-reducer";
-import {PerfumeErrors} from "../../types/types";
+import ToastShow from "../../../component/Toasts/ToastShow";
+import {addPerfume, formReset} from "../../../redux/thunks/admin-thunks";
+import {AppStateType} from "../../../redux/reducers/root-reducer";
+import {PerfumeErrors} from "../../../types/types";
 
 type InitialStateType = {
     perfumeTitle: string

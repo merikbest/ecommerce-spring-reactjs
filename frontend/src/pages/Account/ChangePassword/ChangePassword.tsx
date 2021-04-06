@@ -1,14 +1,14 @@
 import React, {FC, FormEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {faEdit, faLock, faUndo} from "@fortawesome/free-solid-svg-icons";
+import {faLock, faUndo} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import {AuthErrors, UserResetPasswordData} from "../../types/types";
-import {AppStateType} from "../../redux/reducers/root-reducer";
-import {updateUserPassword, resetForm} from "../../redux/thunks/user-thunks";
-import "./UserChangePassword.css";
+import {AuthErrors, UserResetPasswordData} from "../../../types/types";
+import {AppStateType} from "../../../redux/reducers/root-reducer";
+import {resetForm, updateUserPassword} from "../../../redux/thunks/user-thunks";
+import "./ChangePassword.css";
 
-const UserChangePassword: FC = () => {
+const ChangePassword: FC = () => {
     const dispatch = useDispatch();
     const errors: Partial<AuthErrors> = useSelector((state: AppStateType) => state.user.userResetPasswordErrors);
     const success: string = useSelector((state: AppStateType) => state.user.successMessage);
@@ -68,4 +68,4 @@ const UserChangePassword: FC = () => {
     );
 };
 
-export default UserChangePassword;
+export default ChangePassword;

@@ -3,12 +3,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {faShoppingBag} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import {Order} from "../../types/types";
-import {AppStateType} from "../../redux/reducers/root-reducer";
-import {fetchUserOrders} from "../../redux/thunks/order-thunks";
-import OrdersTable from "../../component/OrdersTable/OrdersTable";
+import {Order} from "../../../types/types";
+import {AppStateType} from "../../../redux/reducers/root-reducer";
+import {fetchUserOrders} from "../../../redux/thunks/order-thunks";
+import OrdersTable from "../../../component/OrdersTable/OrdersTable";
 
-const UserOrdersList: FC = () => {
+const PersonalOrdersList: FC = () => {
     const dispatch = useDispatch();
     const orders: Array<Order> = useSelector((state: AppStateType) => state.order.orders);
 
@@ -27,4 +27,4 @@ const UserOrdersList: FC = () => {
     );
 };
 
-export default UserOrdersList;
+export default PersonalOrdersList;

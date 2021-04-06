@@ -2,8 +2,8 @@ import axios from 'axios';
 import {Dispatch} from "redux";
 
 import {API_BASE_URL} from "../../utils/constants/url";
-import {getPerfumes} from "../actions/admin-actions";
 import {
+    getPerfumes,
     fetchPerfumesByQuerySuccess,
     fetchPerfumeByQuerySuccess,
     fetchPerfumesByFilterParamsSuccess,

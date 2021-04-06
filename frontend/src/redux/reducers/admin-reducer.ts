@@ -3,9 +3,10 @@ import {
     PERFUME_UPDATED_SUCCESS,
     PERFUME_ADDED_FAILURE,
     PERFUME_UPDATED_FAILURE,
-    FETCH_USER_SUCCESS,
+    FETCH_USER_INFO_SUCCESS,
     FETCH_ALL_USERS_SUCCESS,
     FETCH_ALL_USERS_ORDERS_SUCCESS,
+    FETCH_USER_ORDERS_SUCCESS,
     FORM_RESET
 } from "../action-types/admin-action-types";
 import {Order, PerfumeErrors, User} from "../../types/types";
@@ -13,6 +14,7 @@ import {AdminActionTypes} from "../action-types/admin-action-types";
 
 type InitialStateType = {
     orders: Array<Order>
+    userOrders: Array<Order>
     users: Array<User>
     user: Partial<User>
     errors: Partial<PerfumeErrors>
@@ -22,6 +24,7 @@ type InitialStateType = {
 
 const initialState: InitialStateType = {
     orders: [],
+    userOrders: [],
     users: [],
     user: {},
     errors: {},
@@ -44,7 +47,7 @@ const reducer = (state: InitialStateType = initialState, action: AdminActionType
         case PERFUME_UPDATED_FAILURE:
             return {...state, isPerfumeEdited: false, errors: action.payload};
 
-        case FETCH_USER_SUCCESS:
+        case FETCH_USER_INFO_SUCCESS:
             return {...state, user: action.payload};
 
         case FETCH_ALL_USERS_SUCCESS:
@@ -52,6 +55,9 @@ const reducer = (state: InitialStateType = initialState, action: AdminActionType
 
         case FETCH_ALL_USERS_ORDERS_SUCCESS:
             return {...state, orders: action.payload};
+
+        case FETCH_USER_ORDERS_SUCCESS:
+            return {...state, userOrders: action.payload};
 
         case FORM_RESET:
             return {...state, isPerfumeAdded: false, isPerfumeEdited: false, errors: {}};

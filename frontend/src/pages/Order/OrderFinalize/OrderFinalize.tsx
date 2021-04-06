@@ -1,9 +1,9 @@
 import React, {FC, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import {finalizeOrder} from "../../redux/thunks/order-thunks";
-import {clearCart} from "../../redux/thunks/cart-thunks";
-import {AppStateType} from "../../redux/reducers/root-reducer";
+import {finalizeOrder} from "../../../redux/thunks/order-thunks";
+import {clearCart} from "../../../redux/thunks/cart-thunks";
+import {AppStateType} from "../../../redux/reducers/root-reducer";
 
 const OrderFinalize: FC = () => {
     const dispatch = useDispatch();

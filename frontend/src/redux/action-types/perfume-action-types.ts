@@ -1,6 +1,6 @@
 import {Perfume} from "../../types/types";
-import {GetPerfumesActionType} from "./admin-action-types";
 
+export const FETCH_PERFUMES = "FETCH_PERFUMES";
 export const FETCH_PERFUMES_BY_QUERY_SUCCESS = "FETCH_PERFUMES_BY_QUERY_SUCCESS";
 export const FETCH_PERFUME_BY_QUERY_SUCCESS = "FETCH_PERFUME_BY_QUERY_SUCCESS";
 export const FETCH_PERFUME_SUCCESS = "FETCH_PERFUME_SUCCESS";
@@ -8,6 +8,7 @@ export const FETCH_PERFUMES_BY_GENDER_SUCCESS = "FETCH_PERFUMES_BY_GENDER_SUCCES
 export const FETCH_PERFUMES_BY_PERFUMER_SUCCESS = "FETCH_PERFUMES_BY_PERFUMER_SUCCESS";
 export const FETCH_PERFUMES_BY_FILTER_PARAMS_SUCCESS = "FETCH_PERFUMES_BY_FILTER_PARAMS_SUCCESS";
 
+export type GetPerfumesActionType = { type: typeof FETCH_PERFUMES, payload: Array<Perfume> };
 export type FetchPerfumesByQuerySuccessActionType = { type: typeof FETCH_PERFUMES_BY_QUERY_SUCCESS, payload: Array<Perfume> };
 export type FetchPerfumeByQuerySuccessActionType = { type: typeof FETCH_PERFUME_BY_QUERY_SUCCESS, payload: Perfume };
 export type FetchPerfumeSuccessActionType = { type: typeof FETCH_PERFUME_SUCCESS, payload: Perfume };

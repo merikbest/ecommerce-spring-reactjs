@@ -48,7 +48,7 @@ const Order: FC = () => {
         event.preventDefault();
 
         const perfumesId = Object.fromEntries(new Map(JSON.parse(localStorage.getItem("perfumes") as string)));
-        const validateEmailError: string | undefined = validateEmail(email);
+        const validateEmailError: string = validateEmail(email);
 
         if (validateEmailError) {
             setValidateEmailError(validateEmailError);

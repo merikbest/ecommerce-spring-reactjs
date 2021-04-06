@@ -9,16 +9,17 @@ import {Perfume} from "../../types/types";
 import {formReset} from "../../redux/thunks/admin-thunks";
 import {fetchUserInfo} from "../../redux/thunks/user-thunks";
 import {fetchPerfumes} from "../../redux/thunks/perfume-thunks";
-import UserOrdersList from "../UserOrdersList/UserOrdersList";
-import UserChangePassword from "../UserChangePassword/UserChangePassword";
-import UsersPersonalData from "../UsersPersonalData/UsersPersonalData";
+import PersonalOrdersList from "./PersonalOrdersList/PersonalOrdersList";
+import ChangePassword from "./ChangePassword/ChangePassword";
+import PersonalData from "./PersonalData/PersonalData";
 import AccountItem from "./AccountItem";
-import AddPerfume from "../AddPerfume/AddPerfume";
-import OrdersList from "../OrdersList/OrdersList";
-import UserList from "../UserList/UserList";
-import EditPerfumes from "../EditPerfumes/EditPerfumes";
-import EditUser from "../EditUser/EditUser";
-import EditPerfume from "../EditPerfume/EditPerfume";
+import AddPerfume from "./AddPerfume/AddPerfume";
+import OrdersList from "./OrdersList/OrdersList";
+import UsersList from "./UsersList/UsersList";
+import PerfumeList from "./PerfumeList/PerfumeList";
+import ManageUser from "./ManageUser/ManageUser";
+import EditPerfume from "./EditPerfume/EditPerfume";
+import ManageUserOrder from "./ManageUserOrder/ManageUserOrder";
 import "./Account.css";
 
 const Account: FC = () => {
@@ -35,9 +36,7 @@ const Account: FC = () => {
         <div className="account-container container">
             <div className="row mt-5">
                 <div className="col-md-2">
-                    <div>
-                        <h4><FontAwesomeIcon className="mr-2" icon={faUser}/>My Account</h4>
-                    </div>
+                    <h4><FontAwesomeIcon className="mr-2" icon={faUser}/>My Account</h4>
                     <NavLink to={"/account/user/info"}
                              className="account-sidebar-link nav-link"
                              activeClassName="is-active">Personal data</NavLink>
@@ -68,17 +67,18 @@ const Account: FC = () => {
                 </div>
                 <div className="col-md-10">
                     <Route exact path="/account" component={() => <AccountItem/>}/>
-                    <Route path="/account/user/info" component={() => <UsersPersonalData/>}/>
-                    <Route path="/account/user/edit" component={() => <UserChangePassword/>}/>
-                    <Route path="/account/user/orders" component={() => <UserOrdersList/>}/>
+                    <Route path="/account/user/info" component={() => <PersonalData/>}/>
+                    <Route path="/account/user/edit" component={() => <ChangePassword/>}/>
+                    <Route exact path="/account/user/orders" component={() => <PersonalOrdersList/>}/>
+                    <Route exact path="/account/user/orders/:id" component={() => <ManageUserOrder/>}/>
                     {(localStorage.getItem("userRole") === "ADMIN") ?
                         <>
                             <Route path="/account/admin/add" component={() => <AddPerfume/>}/>
-                            <Route exact path="/account/admin/perfumes" component={() => <EditPerfumes perfumes={perfumes}/>}/>
+                            <Route exact path="/account/admin/perfumes" component={() => <PerfumeList perfumes={perfumes}/>}/>
                             <Route exact path="/account/admin/perfumes/:id" component={(props: RouteComponentProps<{ id: string }>) => <EditPerfume {...props}/>}/>
-                            <Route path="/account/admin/orders" component={() => <OrdersList/>}/>
-                            <Route exact path="/account/admin/users" component={() => <UserList/>}/>
-                            <Route exact path="/account/admin/users/:id" component={(props: RouteComponentProps<{ id: string }>) => <EditUser {...props}/>}/>
+                            <Route exact path="/account/admin/orders" component={() => <OrdersList/>}/>
+                            <Route exact path="/account/admin/users" component={() => <UsersList/>}/>
+                            <Route exact path="/account/admin/users/:id" component={(props: RouteComponentProps<{ id: string }>) => <ManageUser {...props}/>}/>
                         </> : <Redirect to={"/account"}/>}
                 </div>
             </div>

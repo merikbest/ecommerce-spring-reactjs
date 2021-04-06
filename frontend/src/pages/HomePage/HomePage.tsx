@@ -5,7 +5,7 @@ import CarouselImageSlider from "../../component/CarouselImageSlider/CarouselIma
 import SliderBrands from "../../component/SliderBrands/SliderBrands";
 import SliderCards from "../../component/PerfumeCardsSlider/PerfumeCardsSlider";
 
-const Home: FC = () => {
+const HomePage: FC = () => {
     return (
         <div>
             <CarouselImageSlider/>
@@ -16,4 +16,4 @@ const Home: FC = () => {
     );
 };
 
-export default Home;
+export default HomePage;

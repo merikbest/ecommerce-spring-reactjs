@@ -4,11 +4,11 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit} from "@fortawesome/free-solid-svg-icons";
 import {RouteComponentProps} from 'react-router-dom';
 
-import {fetchPerfume} from "../../redux/thunks/perfume-thunks";
-import {formReset, updatePerfume} from "../../redux/thunks/admin-thunks";
-import {IMG_URL} from "../../utils/constants/url";
-import {AppStateType} from "../../redux/reducers/root-reducer";
-import {Perfume, PerfumeErrors} from "../../types/types";
+import {fetchPerfume} from "../../../redux/thunks/perfume-thunks";
+import {formReset, updatePerfume} from "../../../redux/thunks/admin-thunks";
+import {IMG_URL} from "../../../utils/constants/url";
+import {AppStateType} from "../../../redux/reducers/root-reducer";
+import {Perfume, PerfumeErrors} from "../../../types/types";
 
 const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
     const dispatch = useDispatch();
