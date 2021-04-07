@@ -5,14 +5,15 @@ import {
     addPerfumeFailure,
     addPerfumeSuccess,
     getAllUsers,
-    getUserInfo,
     getAllUsersOrders,
+    getUserInfo,
     getUserOrders,
     reset,
     updatePerfumeFailure,
     updatePerfumeSuccess
 } from "../actions/admin-actions";
 import {Dispatch} from "redux";
+import {fetchPerfumeSuccess} from "../actions/perfume-actions";
 
 export const addPerfume = (data: FormData) => async (dispatch: Dispatch) => {
     try {
@@ -42,7 +43,8 @@ export const updatePerfume = (data: FormData) => async (dispatch: Dispatch) => {
                 "Authorization": localStorage.getItem("token")
             }
         });
-        dispatch(updatePerfumeSuccess(response.data));
+        dispatch(updatePerfumeSuccess());
+        dispatch(fetchPerfumeSuccess(response.data));
     } catch (error) {
         dispatch(updatePerfumeFailure(error.response.data));
     }

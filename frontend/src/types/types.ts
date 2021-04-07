@@ -118,7 +118,8 @@ export type UserData = {
 
 export type UserRegistration = {
     email: string
-    username: string
+    firstName: string
+    lastName: string
     password: string
     password2: string
     captcha: string | null
@@ -133,7 +134,8 @@ export type UserResetPasswordData = {
 export type AuthErrors = {
     captchaError: string
     emailError: string
-    usernameError: string
+    firstNameError: string
+    lastNameError: string
     passwordError: string
     password2Error: string
 };

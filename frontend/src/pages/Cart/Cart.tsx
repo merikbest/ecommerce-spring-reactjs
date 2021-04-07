@@ -72,7 +72,7 @@ const Cart: FC = () => {
     };
 
     return (
-        <div className="container mt-5 pb-5">
+        <div className="container mt-5 pb-5" style={{minHeight: "350px"}}>
             {loading ? <Spinner/> :
                 <div>
                     {perfumes.length === 0 ?

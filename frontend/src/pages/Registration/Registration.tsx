@@ -14,9 +14,10 @@ const Registration: FC = () => {
     const isRegistered: boolean = useSelector((state: AppStateType) => state.auth.isRegistered);
     const loading: boolean = useSelector((state: AppStateType) => state.auth.loading);
     const errors: Partial<AuthErrors> = useSelector((state: AppStateType) => state.auth.errors);
-    const {emailError, usernameError, passwordError, password2Error} = errors;
+    const {emailError, firstNameError, lastNameError, passwordError, password2Error} = errors;
     const [email, setEmail] = useState<string>("");
-    const [username, setUsername] = useState<string>("");
+    const [firstName, setFirstName] = useState<string>("");
+    const [lastName, setLastName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [password2, setPassword2] = useState<string>("");
     const [captchaValue, setCaptchaValue] = useState<string | null>("");
@@ -27,7 +28,8 @@ const Registration: FC = () => {
 
     useEffect(() => {
         setEmail("");
-        setUsername("");
+        setFirstName("");
+        setLastName("");
         setPassword("");
         setPassword2("");
         setCaptchaValue("");
@@ -35,7 +37,7 @@ const Registration: FC = () => {
 
     const onClickSignUp = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        const userRegistrationData: UserRegistration = {email, username, password, password2, captcha: captchaValue}
+        const userRegistrationData: UserRegistration = {email, firstName, lastName, password, password2, captcha: captchaValue}
         dispatch(registration(userRegistrationData));
         // @ts-ignore
         window.grecaptcha.reset();
@@ -73,16 +75,29 @@ const Registration: FC = () => {
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">User name: </label>
+                    <label className="col-sm-2 col-form-label">First name: </label>
                     <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faUser}/>
                     <div className="col-sm-4">
                         <input
                             type="text"
-                            name="username"
-                            value={username}
-                            className={usernameError ? "form-control is-invalid" : "form-control"}
-                            onChange={(event) => setUsername(event.target.value)}/>
-                        <div className="invalid-feedback">{usernameError}</div>
+                            name="firstName"
+                            value={firstName}
+                            className={firstNameError ? "form-control is-invalid" : "form-control"}
+                            onChange={(event) => setFirstName(event.target.value)}/>
+                        <div className="invalid-feedback">{firstNameError}</div>
+                    </div>
+                </div>
+                <div className="form-group row">
+                    <label className="col-sm-2 col-form-label">Last name: </label>
+                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faUser}/>
+                    <div className="col-sm-4">
+                        <input
+                            type="text"
+                            name="lastName"
+                            value={lastName}
+                            className={lastNameError ? "form-control is-invalid" : "form-control"}
+                            onChange={(event) => setLastName(event.target.value)}/>
+                        <div className="invalid-feedback">{lastNameError}</div>
                     </div>
                 </div>
                 <div className="form-group row">

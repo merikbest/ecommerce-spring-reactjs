@@ -1,11 +1,11 @@
-import {Order, Perfume, PerfumeErrors, User} from "../../types/types";
+import {Order, PerfumeErrors, User} from "../../types/types";
 import {
     AddPerfumeFailureActionType,
     AddPerfumeSuccessActionType,
     FETCH_ALL_USERS_ORDERS_SUCCESS,
     FETCH_ALL_USERS_SUCCESS,
-    FETCH_USER_ORDERS_SUCCESS,
     FETCH_USER_INFO_SUCCESS,
+    FETCH_USER_ORDERS_SUCCESS,
     FORM_RESET,
     GetAllUsersActionType,
     GetAllUsersOrdersActionType,
@@ -29,9 +29,8 @@ export const addPerfumeFailure = (error: PerfumeErrors): AddPerfumeFailureAction
     payload: error
 });
 
-export const updatePerfumeSuccess = (perfume: Perfume): UpdatePerfumeSuccessActionType => ({
-    type: PERFUME_UPDATED_SUCCESS,
-    payload: perfume
+export const updatePerfumeSuccess = (): UpdatePerfumeSuccessActionType => ({
+    type: PERFUME_UPDATED_SUCCESS
 });
 
 export const updatePerfumeFailure = (error: PerfumeErrors): UpdatePerfumeFailureActionType => ({

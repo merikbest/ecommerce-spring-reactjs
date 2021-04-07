@@ -24,7 +24,6 @@ import "./Account.css";
 
 const Account: FC = () => {
     const dispatch = useDispatch();
-    const perfumes: Array<Perfume> = useSelector((state: AppStateType) => state.perfume.perfumes);
 
     useEffect(() => {
         dispatch(formReset());
@@ -74,7 +73,7 @@ const Account: FC = () => {
                     {(localStorage.getItem("userRole") === "ADMIN") ?
                         <>
                             <Route path="/account/admin/add" component={() => <AddPerfume/>}/>
-                            <Route exact path="/account/admin/perfumes" component={() => <PerfumeList perfumes={perfumes}/>}/>
+                            <Route exact path="/account/admin/perfumes" component={() => <PerfumeList/>}/>
                             <Route exact path="/account/admin/perfumes/:id" component={(props: RouteComponentProps<{ id: string }>) => <EditPerfume {...props}/>}/>
                             <Route exact path="/account/admin/orders" component={() => <OrdersList/>}/>
                             <Route exact path="/account/admin/users" component={() => <UsersList/>}/>

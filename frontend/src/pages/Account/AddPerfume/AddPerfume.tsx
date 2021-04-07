@@ -7,6 +7,7 @@ import ToastShow from "../../../component/Toasts/ToastShow";
 import {addPerfume, formReset} from "../../../redux/thunks/admin-thunks";
 import {AppStateType} from "../../../redux/reducers/root-reducer";
 import {PerfumeErrors} from "../../../types/types";
+import {fetchPerfumes} from "../../../redux/thunks/perfume-thunks";
 
 type InitialStateType = {
     perfumeTitle: string
@@ -82,6 +83,7 @@ const AddPerfume: FC = () => {
                 dispatch(formReset());
             }, 5000);
             window.scrollTo(0, 0);
+            dispatch(fetchPerfumes());
         }
     }, [isPerfumeAdded]);
 

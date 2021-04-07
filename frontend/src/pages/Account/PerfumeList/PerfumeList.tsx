@@ -1,19 +1,22 @@
 import React, {FC} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faList} from "@fortawesome/free-solid-svg-icons";
+import {useSelector} from "react-redux";
 
 import {Perfume} from "../../../types/types";
 import PaginationItem from "../../../component/Pagination/PaginationItem";
 import SearchForm from "../../../component/SearchForm/SearchForm";
 import PerfumeCardItem from "../../../component/PerfumeCardItem/PerfumeCardItem";
 import usePagination from "../../../component/Pagination/usePagination";
+import {AppStateType} from "../../../redux/reducers/root-reducer";
 
 type PropsType = {
     startFrom?: number
-    perfumes: Array<Perfume>
 };
 
-const PerfumeList: FC<PropsType> = ({startFrom, perfumes}) => {
+const PerfumeList: FC<PropsType> = ({startFrom}) => {
+    const perfumes: Array<Perfume> = useSelector((state: AppStateType) => state.perfume.perfumes);
+
     const itemsPerPage = 24;
     const searchByData = [
         {label: 'Brand', value: 'perfumer'},

@@ -20,7 +20,7 @@ const PerfumeCardsSlider: FC = () => {
     }, []);
 
     const addCarouselItems = (array: Array<Perfume>, counter: number) => {
-        const perfumesId: Array<number> = [39, 56, 119, 59, 47, 95, 89, 98, 52, 40, 92, 99];
+        const perfumesId: Array<number> = [26, 43, 46, 106, 34, 76, 82, 85, 27, 39, 79, 86];
 
         return (
             <Carousel.Item>

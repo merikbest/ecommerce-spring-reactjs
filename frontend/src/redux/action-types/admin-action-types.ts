@@ -1,4 +1,4 @@
-import {Order, Perfume, PerfumeErrors, User} from "../../types/types";
+import {Order, PerfumeErrors, User} from "../../types/types";
 
 export const FETCH_ALL_USERS_ORDERS_SUCCESS = "FETCH_ALL_USERS_ORDERS_SUCCESS";
 export const FETCH_USER_ORDERS_SUCCESS = "FETCH_USER_ORDERS_SUCCESS";
@@ -12,7 +12,7 @@ export const PERFUME_UPDATED_SUCCESS = "PERFUME_UPDATED_SUCCESS";
 
 export type AddPerfumeSuccessActionType = { type: typeof PERFUME_ADDED_SUCCESS };
 export type AddPerfumeFailureActionType = { type: typeof PERFUME_ADDED_FAILURE, payload: PerfumeErrors };
-export type UpdatePerfumeSuccessActionType = { type: typeof PERFUME_UPDATED_SUCCESS, payload: Perfume };
+export type UpdatePerfumeSuccessActionType = { type: typeof PERFUME_UPDATED_SUCCESS};
 export type UpdatePerfumeFailureActionType = { type: typeof PERFUME_UPDATED_FAILURE, payload: PerfumeErrors };
 export type GetAllUsersOrdersActionType = { type: typeof FETCH_ALL_USERS_ORDERS_SUCCESS, payload: Array<Order> };
 export type GetUserOrdersActionType = { type: typeof FETCH_USER_ORDERS_SUCCESS, payload: Array<Order> };
