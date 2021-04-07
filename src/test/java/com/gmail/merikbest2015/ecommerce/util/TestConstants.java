@@ -20,7 +20,7 @@ public class TestConstants {
 
     public static final Integer USER_ID = 122;
     public static final String USER_EMAIL = "test123@test.com";
-    public static final String USER_PASSWORD = "admin";
+    public static final String USER_PASSWORD = "admin123";
     public static final String ROLE_USER = "USER";
 
     public static final String USER_PASSWORD_RESET_CODE = "3f9bcdb0-2241-4c34-803e-598b497d571f";

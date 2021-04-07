@@ -56,12 +56,12 @@ public class RegistrationControllerTest {
                 .content(mapper.writeValueAsString(registrationRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.password2Error", is("Password confirmation cannot be empty.")));
+                .andExpect(jsonPath("$.password2Error", is("The password confirmation must be between 6 and 16 characters long")));
     }
 
     @Test
     public void registration_ShouldPasswordsNotMatch() throws Exception {
-        registrationRequestDto.setPassword2("12345");
+        registrationRequestDto.setPassword2("12345678");
 
         mockMvc.perform(post(URL_REGISTRATION_BASIC)
                 .content(mapper.writeValueAsString(registrationRequestDto))
@@ -72,7 +72,13 @@ public class RegistrationControllerTest {
 
     @Test
     public void registration_ShouldUserEmailIsExist() throws Exception {
+        RegistrationRequestDto registrationRequestDto = new RegistrationRequestDto();
         registrationRequestDto.setEmail(USER_EMAIL);
+        registrationRequestDto.setPassword(USER_PASSWORD);
+        registrationRequestDto.setPassword2(USER_PASSWORD);
+        registrationRequestDto.setFirstName(FIRST_NAME);
+        registrationRequestDto.setLastName(LAST_NAME);
+        registrationRequestDto.setCaptcha("12345");
 
         mockMvc.perform(post(URL_REGISTRATION_BASIC)
                 .content(mapper.writeValueAsString(registrationRequestDto))

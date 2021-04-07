@@ -73,7 +73,9 @@ public class PerfumeServiceImpl implements PerfumeService {
 
     @Override
     public Perfume savePerfume(Perfume perfume, MultipartFile file) {
-        if (file == null) {
+        if (file == null && perfume.getFilename() != null) {
+            return perfumeRepository.save(perfume);
+        } else if (file == null || perfume.getFilename() == null) {
             perfume.setFilename("empty.jpg");
         } else {
             File uploadDir = new File(uploadPath);

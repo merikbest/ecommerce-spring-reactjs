@@ -11,7 +11,8 @@ import java.util.List;
 public class Perfume {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "perfume_id_seq")
+    @SequenceGenerator(name = "perfume_id_seq", sequenceName = "perfume_id_seq", initialValue = 109, allocationSize = 1)
     private Long id;
     private String perfumeTitle;
     private String perfumer;

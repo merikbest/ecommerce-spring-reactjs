@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 public class PerfumeRequestDto {
 
     private Long id;
+    private String filename;
 
     @NotBlank(message = "Fill in the input field")
     @Length(max = 255)

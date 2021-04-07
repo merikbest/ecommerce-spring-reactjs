@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
 public class RegistrationRequestDto {
@@ -11,13 +12,16 @@ public class RegistrationRequestDto {
     @NotBlank(message = "Fill captcha.")
     private String captcha;
 
-    @NotBlank(message = "Username cannot be empty")
+    @NotBlank(message = "First name cannot be empty")
     private String firstName;
 
-    @NotBlank(message = "Password cannot be empty")
+    @NotBlank(message = "Last name cannot be empty")
+    private String lastName;
+
+    @Size(min = 6, max = 16, message = "The password must be between 6 and 16 characters long")
     private String password;
 
-    @NotBlank(message = "Password confirmation cannot be empty.")
+    @Size(min = 6, max = 16, message = "The password confirmation must be between 6 and 16 characters long")
     private String password2;
 
     @Email(message = "Incorrect email")
