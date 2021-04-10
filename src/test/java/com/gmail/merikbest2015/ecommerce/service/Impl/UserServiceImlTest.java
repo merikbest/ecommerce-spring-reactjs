@@ -5,6 +5,8 @@ import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
 import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
 import com.gmail.merikbest2015.ecommerce.security.JwtProvider;
+import com.gmail.merikbest2015.ecommerce.security.oauth2.GoogleOAuth2UserInfo;
+import com.gmail.merikbest2015.ecommerce.security.oauth2.OAuth2UserInfo;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -159,32 +161,42 @@ public class UserServiceImlTest {
 
     @Test
     public void registerOauthUser() {
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("sub", 123456);
+        attributes.put("name", FIRST_NAME);
+        attributes.put("email", USER_EMAIL);
+        GoogleOAuth2UserInfo userInfo = new GoogleOAuth2UserInfo(attributes);
+
         User user = new User();
         user.setEmail(USER_EMAIL);
         user.setFirstName(FIRST_NAME);
-        user.setLastName(LAST_NAME);
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setProvider(AuthProvider.GOOGLE);
 
         when(userRepository.save(user)).thenReturn(user);
-        userService.registerOauthUser(USER_EMAIL, FIRST_NAME, LAST_NAME);
+        userService.registerOauth2User("google", userInfo);
         assertEquals(USER_EMAIL, user.getEmail());
         assertEquals(FIRST_NAME, user.getFirstName());
-        assertEquals(LAST_NAME, user.getLastName());
         assertNull(user.getPassword());
         verify(userRepository, times(1)).save(user);
     }
 
     @Test
     public void updateOauthUser() {
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("sub", 123456);
+        attributes.put("name", FIRST_NAME);
+        attributes.put("email", USER_EMAIL);
+        GoogleOAuth2UserInfo userInfo = new GoogleOAuth2UserInfo(attributes);
+
         User user = new User();
         user.setEmail(USER_EMAIL);
         user.setFirstName(FIRST_NAME);
         user.setProvider(AuthProvider.GOOGLE);
 
         when(userRepository.save(user)).thenReturn(user);
-        userService.updateOauthUser(user, FIRST_NAME);
+        userService.updateOauth2User(user, "google", userInfo);
         assertEquals(USER_EMAIL, user.getEmail());
         assertEquals(AuthProvider.GOOGLE, user.getProvider());
         assertNull(user.getPassword());

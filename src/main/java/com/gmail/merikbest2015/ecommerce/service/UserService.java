@@ -3,6 +3,8 @@ package com.gmail.merikbest2015.ecommerce.service;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.domain.User;
+import com.gmail.merikbest2015.ecommerce.security.oauth2.OAuth2UserInfo;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -23,9 +25,9 @@ public interface UserService {
 
     boolean registerUser(User user);
 
-    void registerOauthUser(String email, String firstName, String lastName);
+    User registerOauth2User(String provider, OAuth2UserInfo oAuth2UserInfo);
 
-    void updateOauthUser(User user, String username);
+    User updateOauth2User(User user, String provider, OAuth2UserInfo oAuth2UserInfo);
 
     boolean activateUser(String code);
 

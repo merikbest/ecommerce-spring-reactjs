@@ -6,6 +6,7 @@ import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
 import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
 import com.gmail.merikbest2015.ecommerce.security.JwtProvider;
 import com.gmail.merikbest2015.ecommerce.security.UserPrincipal;
+import com.gmail.merikbest2015.ecommerce.security.oauth2.OAuth2UserInfo;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -108,22 +110,21 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void registerOauthUser(String email, String firstName, String lastName) {
+    public User registerOauth2User(String provider, OAuth2UserInfo oAuth2UserInfo) {
         User user = new User();
-        user.setEmail(email);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
+        user.setEmail(oAuth2UserInfo.getEmail());
+        user.setFirstName(oAuth2UserInfo.getName());
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
-        user.setProvider(AuthProvider.GOOGLE);
-        userRepository.save(user);
+        user.setProvider(AuthProvider.valueOf(provider.toUpperCase()));
+        return userRepository.save(user);
     }
 
     @Override
-    public void updateOauthUser(User user, String firstName) {
-        user.setFirstName(firstName);
-        user.setProvider(AuthProvider.GOOGLE);
-        userRepository.save(user);
+    public User updateOauth2User(User user, String provider, OAuth2UserInfo oAuth2UserInfo) {
+        user.setFirstName(oAuth2UserInfo.getName());
+        user.setProvider(AuthProvider.valueOf(provider.toUpperCase()));
+        return userRepository.save(user);
     }
 
     @Override

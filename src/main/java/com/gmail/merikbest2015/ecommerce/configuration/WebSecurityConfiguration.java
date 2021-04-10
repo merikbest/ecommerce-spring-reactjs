@@ -1,7 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.configuration;
 
+import com.gmail.merikbest2015.ecommerce.security.oauth2.CustomOAuth2UserService;
 import com.gmail.merikbest2015.ecommerce.security.JwtConfigurer;
-import com.gmail.merikbest2015.ecommerce.security.OAuth2SuccessHandler;
+import com.gmail.merikbest2015.ecommerce.security.oauth2.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JwtConfigurer jwtConfigurer;
     private final OAuth2SuccessHandler oauthSuccessHandler;
+    private final CustomOAuth2UserService oAuth2UserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -38,10 +40,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/api/v1/users/review",
                         "/img/**",
                         "/static/**").permitAll()
+                .antMatchers("/auth/**", "/oauth2/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
-                .authorizationEndpoint().baseUri("/api/v1/login/google")
+                .authorizationEndpoint().baseUri("/oauth2/authorize")
+                .and()
+                .userInfoEndpoint().userService(oAuth2UserService)
                 .and()
                 .successHandler(oauthSuccessHandler)
                 .and()
