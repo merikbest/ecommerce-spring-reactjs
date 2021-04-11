@@ -1,0 +1,30 @@
+.social-btn {
+    border: 1px solid #ced4da
+}
+
+.social-btn:hover {
+    color: white;
+    background-color: #00A1DF;
+}
+
+.social-btn img {
+    float: left;
+}
+
+.social-btn.google img {
+    height: 30px;
+    margin-top: -3px;
+}
+
+.social-btn.facebook img {
+    height: 22px;
+    margin-left: 3px;
+}
+
+.social-btn.github img {
+    height: 24px;
+    margin-left: 3px;
+}
+
+
+

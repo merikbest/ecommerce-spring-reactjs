@@ -7,6 +7,10 @@ import {faEnvelope, faLock, faSignInAlt} from "@fortawesome/free-solid-svg-icons
 import {activateAccount, formReset, login} from "../../redux/thunks/auth-thunks";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 import {UserData} from "../../types/types";
+import googleLogo from "../../img/google.png";
+import facebookLogo from "../../img/facebook.png";
+import githubLogo from "../../img/github.png";
+import "./Login.css";
 
 const Login: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
     const dispatch = useDispatch();
@@ -32,45 +36,59 @@ const Login: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
 
     return (
         <div id="container" className="container mt-5">
-            <h4><FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>SIGN IN</h4>
-            <hr/>
-            {error ? <div className="alert alert-danger col-6" role="alert">{error}</div> : null}
-            {success ? <div className="alert alert-success col-6" role="alert">{success}</div> : null}
-            <Link to={"/forgot"}>Forgot password?</Link>
-            <form onSubmit={onClickSignIn}>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">E-mail: </label>
-                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faEnvelope}/>
-                    <div className="col-sm-4">
-                        <input
-                            className="form-control"
-                            type="email"
-                            name="email"
-                            value={email}
-                            onChange={(event) => setEmail(event.target.value)}/>
+            <div className="row">
+                <div className="col-md-6">
+                    <h4><FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>SIGN IN</h4>
+                    <hr/>
+                    {error ? <div className="alert alert-danger col-6" role="alert">{error}</div> : null}
+                    {success ? <div className="alert alert-success col-6" role="alert">{success}</div> : null}
+                    <form onSubmit={onClickSignIn}>
+                        <div className="form-group row">
+                            <label className="col-sm-4 col-form-label">E-mail: </label>
+                            <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faEnvelope}/>
+                            <div className="col-sm-7">
+                                <input
+                                    className="form-control"
+                                    type="email"
+                                    name="email"
+                                    value={email}
+                                    onChange={(event) => setEmail(event.target.value)}/>
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <label className="col-sm-4 col-form-label">Password: </label>
+                            <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
+                            <div className="col-sm-7">
+                                <input
+                                    className="form-control"
+                                    type="password"
+                                    name="password"
+                                    value={password}
+                                    onChange={(event) => setPassword(event.target.value)}/>
+                            </div>
+                        </div>
+                        <div className="form-group row">
+                            <button type="submit" className="btn btn-dark mx-3">
+                                <FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>Sign in
+                            </button>
+                            <Link to={"/forgot"} style={{position: "relative", top: "8px"}}>Forgot password?</Link>
+                        </div>
+                    </form>
+                </div>
+                <div className="col-md-6">
+                    <div className="mt-5">
+                        <a className="btn btn-block social-btn google"
+                           href="http://localhost:8080/oauth2/authorize/google">
+                            <img src={googleLogo} alt="google"/>Log in with Google</a>
+                        <a className="btn btn-block social-btn facebook"
+                           href="http://localhost:8080/oauth2/authorize/facebook">
+                            <img src={facebookLogo} alt="facebook"/>Log in with Facebook</a>
+                        <a className="btn btn-block social-btn github"
+                           href="http://localhost:8080/oauth2/authorize/github">
+                            <img src={githubLogo} alt="github"/>Log in with Github</a>
                     </div>
                 </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Password: </label>
-                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
-                    <div className="col-sm-4">
-                        <input
-                            className="form-control"
-                            type="password"
-                            name="password"
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}/>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <button type="submit" className="btn btn-dark mx-3">
-                        <FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>Sign in
-                    </button>
-                    <div style={{position: "relative", top: "8px"}}>
-                        <p>Or sign in with <a href="http://localhost:8080/api/v1/login/google">Google</a></p>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
     );
 };
