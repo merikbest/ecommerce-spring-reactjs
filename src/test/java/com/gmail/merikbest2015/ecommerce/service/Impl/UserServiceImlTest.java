@@ -163,13 +163,15 @@ public class UserServiceImlTest {
     public void registerOauthUser() {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("sub", 123456);
-        attributes.put("name", FIRST_NAME);
+        attributes.put("given_name", FIRST_NAME);
+        attributes.put("family_name", LAST_NAME);
         attributes.put("email", USER_EMAIL);
         GoogleOAuth2UserInfo userInfo = new GoogleOAuth2UserInfo(attributes);
 
         User user = new User();
         user.setEmail(USER_EMAIL);
         user.setFirstName(FIRST_NAME);
+        user.setLastName(LAST_NAME);
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setProvider(AuthProvider.GOOGLE);
@@ -178,6 +180,7 @@ public class UserServiceImlTest {
         userService.registerOauth2User("google", userInfo);
         assertEquals(USER_EMAIL, user.getEmail());
         assertEquals(FIRST_NAME, user.getFirstName());
+        assertEquals(LAST_NAME, user.getLastName());
         assertNull(user.getPassword());
         verify(userRepository, times(1)).save(user);
     }
@@ -186,18 +189,22 @@ public class UserServiceImlTest {
     public void updateOauthUser() {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("sub", 123456);
-        attributes.put("name", FIRST_NAME);
+        attributes.put("given_name", FIRST_NAME);
+        attributes.put("family_name", LAST_NAME);
         attributes.put("email", USER_EMAIL);
         GoogleOAuth2UserInfo userInfo = new GoogleOAuth2UserInfo(attributes);
 
         User user = new User();
         user.setEmail(USER_EMAIL);
         user.setFirstName(FIRST_NAME);
+        user.setLastName(LAST_NAME);
         user.setProvider(AuthProvider.GOOGLE);
 
         when(userRepository.save(user)).thenReturn(user);
         userService.updateOauth2User(user, "google", userInfo);
         assertEquals(USER_EMAIL, user.getEmail());
+        assertEquals(FIRST_NAME, user.getFirstName());
+        assertEquals(LAST_NAME, user.getLastName());
         assertEquals(AuthProvider.GOOGLE, user.getProvider());
         assertNull(user.getPassword());
         verify(userRepository, times(1)).save(user);

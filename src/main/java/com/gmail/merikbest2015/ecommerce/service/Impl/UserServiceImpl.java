@@ -113,7 +113,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public User registerOauth2User(String provider, OAuth2UserInfo oAuth2UserInfo) {
         User user = new User();
         user.setEmail(oAuth2UserInfo.getEmail());
-        user.setFirstName(oAuth2UserInfo.getName());
+        user.setFirstName(oAuth2UserInfo.getFirstName());
+        user.setLastName(oAuth2UserInfo.getLastName());
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setProvider(AuthProvider.valueOf(provider.toUpperCase()));
@@ -122,7 +123,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User updateOauth2User(User user, String provider, OAuth2UserInfo oAuth2UserInfo) {
-        user.setFirstName(oAuth2UserInfo.getName());
+        user.setFirstName(oAuth2UserInfo.getFirstName());
+        user.setLastName(oAuth2UserInfo.getLastName());
         user.setProvider(AuthProvider.valueOf(provider.toUpperCase()));
         return userRepository.save(user);
     }
