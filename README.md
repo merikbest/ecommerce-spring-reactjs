@@ -5,8 +5,6 @@
 </a>
 
 E-commerce project developed using Spring Boot and React.js.<br>
-This project is second version of [OnlineShop](https://github.com/merikbest/OnlineShop) with RESTful services, JWT authentication and frontend built using ReactJS. <br>
-Look demo below.
 
 #### An actual version of build is deployed on AWS:
 http://perfumeweb.tk <br>
@@ -17,6 +15,8 @@ Password: admin
 
 * Back-end: Spring (Boot, Data, Security), JPA / Hibernate, PostgreSQL, JUnit, Mockito
 * Front-end: React.js, Redux, Bootstrap, CSS
+* Security: JWT, OAuth2 Google, Facebook, Github
+* REST API, GraphQL API
 * AWS: EC2, S3, PostgreSQL RDS
 * Server Build: Maven
 * Client Build: npm, yarn, webpack
@@ -24,6 +24,7 @@ Password: admin
 ## Features
 
 * Authentication with JWT and Email validation.
+* Authentication with Google, Facebook or Github
 * Customers can search for the product according to the specified criteria.
 * Customers can add and delete products from the shopping cart.
 * Customers can order the products in the shopping cart.
@@ -48,17 +49,21 @@ Password: admin
 
 ## Screenshots
 
-Menu page      |  Product page
+Menu page  |  Product page
 :------------------------:|:-------------------------:
 ![Menu page](https://i.ibb.co/tCXNx2b/0-menu-page.png)  |  ![Product page](https://i.ibb.co/wp7PHrP/1-product-page.png)
 
-List of users      |  List of orders
+List of users  |  List of orders
 :------------------------:|:-------------------------:
-![List of users](https://i.ibb.co/n0LHcL4/2-List-of-users.png)  |  ![List of orders](https://i.ibb.co/th6HPVH/4-list-of-orders.png)
+![List of users](https://i.ibb.co/T88cFZt/all-users.jpg)  |  ![List of orders](https://i.ibb.co/4f7F0hk/all-orders.jpg)
 
-Add perfume page     |  Password change
+User profile page  |  User order page
 :------------------------:|:-------------------------:
-![Add perfume page](https://i.ibb.co/HVxnxpC/3-add-perfume.png)  |  ![Password change](https://i.ibb.co/Vgtkj0w/5-password-change.png)
+![List of users](https://i.ibb.co/KDF3FZX/user-page.jpg)  |  ![List of orders](https://i.ibb.co/rkbDMB9/order-page.jpg)
+
+Add perfume page  |  Edit perfume page
+:------------------------:|:-------------------------:
+![Add perfume page](https://i.ibb.co/KGKhJxR/add-perfume.jpg)  |  ![Password change](https://i.ibb.co/cTddspr/edit-perfume.jpg)
 
 
 
