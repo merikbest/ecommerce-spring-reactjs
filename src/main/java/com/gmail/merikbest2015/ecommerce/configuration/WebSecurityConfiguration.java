@@ -40,7 +40,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/api/v1/users/review",
                         "/img/**",
                         "/static/**").permitAll()
-                .antMatchers("/auth/**", "/oauth2/**").permitAll()
+                .antMatchers("/auth/**", "/oauth2/**", "/**/*swagger*/**", "/v2/api-docs").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()

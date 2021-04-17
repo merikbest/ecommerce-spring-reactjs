@@ -9,6 +9,7 @@ import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
 import com.gmail.merikbest2015.ecommerce.mapper.OrderMapper;
 import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
+import com.gmail.merikbest2015.ecommerce.utils.swagger.AdminAPI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/api/v1/admin")
-public class AdminController {
+public class AdminController implements AdminAPI {
 
     private final UserMapper userMapper;
     private final PerfumeMapper perfumeMapper;

@@ -8,6 +8,7 @@ import com.gmail.merikbest2015.ecommerce.exception.PasswordConfirmationException
 import com.gmail.merikbest2015.ecommerce.exception.PasswordException;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
 import com.gmail.merikbest2015.ecommerce.utils.ControllerUtils;
+import com.gmail.merikbest2015.ecommerce.utils.swagger.AuthenticationAPI;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
-public class AuthenticationController {
+public class AuthenticationController implements AuthenticationAPI {
 
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
