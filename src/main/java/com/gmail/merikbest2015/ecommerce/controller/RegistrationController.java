@@ -6,7 +6,6 @@ import com.gmail.merikbest2015.ecommerce.exception.EmailException;
 import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
 import com.gmail.merikbest2015.ecommerce.exception.PasswordException;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
-import com.gmail.merikbest2015.ecommerce.utils.swagger.RegistrationAPI;
 import com.gmail.merikbest2015.ecommerce.utils.ControllerUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +20,7 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/registration")
-public class RegistrationController implements RegistrationAPI {
+public class RegistrationController {
 
     @Value("${recaptcha.secret}")
     private String secret;

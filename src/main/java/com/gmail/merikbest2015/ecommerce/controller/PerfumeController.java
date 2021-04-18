@@ -4,7 +4,6 @@ import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponseDto;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeSearchRequestDto;
 import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
-import com.gmail.merikbest2015.ecommerce.utils.swagger.PerfumeAPI;
 import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/perfumes")
-public class PerfumeController implements PerfumeAPI {
+public class PerfumeController {
 
     private final PerfumeMapper perfumeMapper;
 
