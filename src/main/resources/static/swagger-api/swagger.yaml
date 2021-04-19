@@ -86,6 +86,8 @@ paths:
               examples:
                 PerfumeError:
                   $ref: "#/components/schemas/PerfumeError"
+      security:
+        - token: []
 
   /api/v1/admin/edit:
     put:
@@ -160,6 +162,8 @@ paths:
               examples:
                 PerfumeError:
                   $ref: "#/components/schemas/PerfumeError"
+      security:
+        - token: []
 
   /api/v1/admin/orders:
     get:
@@ -177,6 +181,8 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/OrderResponse"
+      security:
+        - token: []
 
   /api/v1/admin/order:
     post:
@@ -201,6 +207,8 @@ paths:
             'application/json':
               schema:
                 $ref: "#/components/schemas/OrderResponse"
+      security:
+        - token: []
 
   /api/v1/admin/user/{id}:
     get:
@@ -222,6 +230,8 @@ paths:
             'application/json':
               schema:
                 $ref: "#/components/schemas/User"
+      security:
+        - token: []
 
   /api/v1/admin/users:
     get:
@@ -239,6 +249,8 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
+      security:
+        - token: []
 
   /api/v1/auth/login:
     post:
@@ -276,7 +288,7 @@ paths:
                   data:
                     type: string
                     example: "Incorrect password or email"
-          
+
   /api/v1/auth/forgot:
     post:
       tags:
@@ -313,8 +325,8 @@ paths:
                 properties:
                   data:
                     type: string
-                    example: "Email not found"  
-      
+                    example: "Email not found"
+
   /api/v1/auth/reset/{code}:
     get:
       tags:
@@ -343,7 +355,7 @@ paths:
                 properties:
                   data:
                     type: string
-                    example: "Password reset code is invalid!" 
+                    example: "Password reset code is invalid!"
 
   /api/v1/auth/reset:
     post:
@@ -382,9 +394,19 @@ paths:
               schema:
                 type: object
                 properties:
-                  data:
-                    type: string
-                    example: "Passwords do not match." 
+                  passwordError:
+                    type: "string"
+                  password2Error:
+                    type: "string"
+              examples:
+                PasswordMatchError:
+                  summary: "Password Match Error"
+                  value:
+                    passwordError: "Passwords do not match."
+                PasswordConfirmationError:
+                  summary: "Password Confirmation Error"
+                  value:
+                    password2Error: "Password confirmation cannot be empty."
 
   /api/v1/perfumes:
     get:
@@ -423,7 +445,7 @@ paths:
             'application/json':
               schema:
                 $ref: "#/components/schemas/PerfumeResponse"
-                
+
   /api/v1/perfumes/search:
     post:
       tags:
@@ -462,7 +484,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/PerfumeResponse"
-                  
+
   /api/v1/perfumes/search/gender:
     post:
       tags:
@@ -489,8 +511,8 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PerfumeResponse"   
-    
+                  $ref: "#/components/schemas/PerfumeResponse"
+
   /api/v1/perfumes/search/perfumer:
     post:
       tags:
@@ -517,8 +539,8 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PerfumeResponse"    
-    
+                  $ref: "#/components/schemas/PerfumeResponse"
+
   /api/v1/perfumes/graphql/perfumes:
     post:
       tags:
@@ -535,7 +557,7 @@ paths:
                 query:
                   type: "string"
                   example: "{ perfumes {id perfumeTitle perfumer price filename} }"
-                  
+
       responses:
         "200":
           description: "OK"
@@ -549,7 +571,7 @@ paths:
                     id:
                       type: "integer"
                       format: int64
-                    perfumeTitle: 
+                    perfumeTitle:
                       type: "string"
                     perfumer:
                       type: "string"
@@ -558,7 +580,7 @@ paths:
                       format: int32
                     filename:
                       type: "string"
-                  example: 
+                  example:
                     id: 43
                     perfumeTitle: "Sauvage"
                     perfumer: "Dior"
@@ -592,7 +614,7 @@ paths:
                   id:
                     type: "integer"
                     format: int64
-                  perfumeTitle: 
+                  perfumeTitle:
                     type: "string"
                   perfumer:
                     type: "string"
@@ -601,7 +623,7 @@ paths:
                     format: int32
                   filename:
                     type: "string"
-                example: 
+                example:
                   id: 43
                   perfumeTitle: "Sauvage"
                   perfumer: "Dior"
@@ -656,9 +678,28 @@ paths:
               schema:
                 type: object
                 properties:
-                  data:
-                    type: string
-                    example: "Email is already used."
+                  passwordError:
+                    type: "string"
+                  password2Error:
+                    type: "string"
+              examples:
+                PasswordMatchError:
+                  summary: "Password Match Error"
+                  value:
+                    passwordError: "Passwords do not match."
+                EmailError:
+                  summary: "Email Error"
+                  value:
+                    emailError: "Email is already used."
+                BindingResultError:
+                  summary: "Binding Result Errors"
+                  value:
+                    captchaError: "Fill captcha."
+                    firstNameError: "First name cannot be empty"
+                    lastNameError: "Last name cannot be empty"
+                    passwordError: "The password must be between 6 and 16 characters long"
+                    password2Error: "The password confirmation must be between 6 and 16 characters long"
+                    emailError: "Incorrect email"
 
   /api/v1/registration/activate/{code}:
     get:
@@ -708,6 +749,8 @@ paths:
             'application/json':
               schema:
                 $ref: "#/components/schemas/User"
+      security:
+        - token: []
 
   /api/v1/users/edit:
     put:
@@ -740,8 +783,8 @@ paths:
                   type: "string"
                   example: "123456"
               required:
-              - firstName
-              - lastName
+                - firstName
+                - lastName
       responses:
         "200":
           description: "OK"
@@ -758,11 +801,261 @@ paths:
                 properties:
                   firstNameError:
                     type: string
-                    example: "First name cannot be empty"        
+                    example: "First name cannot be empty"
                   lastNameError:
                     type: string
                     example: "Last name cannot be empty"
+      security:
+        - token: []
+
+  /api/v1/users/edit/password:
+    put:
+      tags:
+        - "UserController"
+      summary: "Change user password"
+      operationId: "updateUserPassword"
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                password:
+                  type: "string"
+                  example: "1234567890"
+                password2:
+                  type: "string"
+                  example: "1234567890"
+              required:
+                - password
+                - password2
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Password successfully changed!"
+        "400":
+          description: "Bad Request"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  passwordError:
+                    type: "string"
+                  password2Error:
+                    type: "string"
+              examples:
+                BindingResultError:
+                  summary: "Binding Result Errors"
+                  value:
+                    passwordError: "The password must be between 6 and 16 characters long"
+                    password2Error: "The password confirmation must be between 6 and 16 characters long"
+                MatchPasswordError:
+                  summary: "Match Password Error"
+                  value:
+                    data: "Passwords do not match."
+      security:
+        - token: []
+
+  /api/v1/users/cart:
+    post:
+      tags:
+        - "UserController"
+      summary: "Get perfumes by ids"
+      operationId: "getCart"
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: "array"
+              items:
+                type: "integer"
+                format: int32
+              example: [1, 2, 3]
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PerfumeResponse"
+
+  /api/v1/users/orders:
+    get:
+      tags:
+        - "UserController"
+      summary: "Get all user orders by email"
+      operationId: "getAllUserOrders"
+      parameters: []
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
+      security:
+        - token: []
+
+  /api/v1/users/order:
+    post:
+      tags:
+        - "UserController"
+      summary: "Post order"
+      operationId: "postOrder"
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                totalPrice:
+                  type: "number"
+                  format: "double"
+                  example: 100
+                firstName:
+                  type: "string"
+                  example: "John"
+                lastName:
+                  type: "string"
+                  example: "Doe"
+                city:
+                  type: "string"
+                  example: "New York"
+                address:
+                  type: "string"
+                  example: "Wall Street 1"
+                email:
+                  type: "string"
+                  example: "test123@test.com"
+                phoneNumber:
+                  type: "string"
+                  example: "123456"
+                postIndex:
+                  type: "integer"
+                  format: "int32"
+                  example: 123456
+                perfumesId:
+                  type: "object"
+                  properties:
+                    43:
+                      type: integer
+                      example: 1
+              required:
+                - firstName
+                - lastName
+                - city
+                - address
+                - email
+                - phoneNumber
+                - postIndex
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
+        "400":
+          description: "Bad Request"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  firstNameError:
+                    type: "string"
+                    example: "Fill in the input field"
+                  lastNameError:
+                    type: "string"
+                    example: "Fill in the input field"
+                  cityError:
+                    type: "string"
+                    example: "Fill in the input field"
+                  addressError:
+                    type: "string"
+                    example: "Fill in the input field"
+                  emailError:
+                    type: "string"
+                    example: "Email cannot be empty"
+                  phoneNumberError:
+                    type: "string"
+                    example: "Phone number cannot be empty"
+                  postIndexError:
+                    type: "string"
+                    example: "Post index cannot be empty"
+
+  /api/v1/users/review:
+    post:
+      tags:
+        - "UserController"
+      summary: "Add review to perfume"
+      operationId: "addReviewToPerfume"
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                perfumeId:
+                  type: "number"
+                  format: "int64"
+                  example: 43
+                author:
+                  type: "string"
+                  example: "John Doe"
+                message:
+                  type: "string"
+                  example: "Hello World!"
+              required:
+                - perfumeId
+                - author
+                - message
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Review added successfully."
+        "400":
+          description: "Bad Request"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  authorError:
+                    type: "string"
+                    example: "Fill in the input field"
+                  messageError:
+                    type: "string"
+                    example: "Fill in the input field"
+
 components:
+  securitySchemes:
+    token:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
     PerfumeResponse:
       type: "object"
@@ -933,12 +1226,6 @@ components:
         perfume:
           $ref: "#/components/schemas/PerfumeResponse"
 
-    UserEmail:
-      type: "object"
-      properties:
-        email:
-          type: "string"
-
     User:
       type: "object"
       properties:
@@ -985,14 +1272,6 @@ components:
             type: "string"
             example: "USER"
 
-    AuthenticationRequest:
-      type: "object"
-      properties:
-        email:
-          type: "string"
-        password:
-          type: "string"
-
     AuthenticationResponse:
       type: "object"
       properties:
@@ -1002,11 +1281,3 @@ components:
           type: "string"
         userRole:
           type: "string"
-
-    AuthenticationError:
-      type: "object"
-      properties:
-        data:
-          type: "string"
-
-          
