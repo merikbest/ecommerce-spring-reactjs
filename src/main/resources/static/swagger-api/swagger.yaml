@@ -1052,9 +1052,9 @@ paths:
 components:
   securitySchemes:
     token:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+      type: apiKey
+      name: Authorization
+      in: header
 
   schemas:
     PerfumeResponse:
