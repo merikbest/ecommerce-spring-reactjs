@@ -18,9 +18,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class PerfumeServiceImpl implements PerfumeService {
 
+    private final PerfumeRepository perfumeRepository;
+
     @Value("${upload.path}")
     private String uploadPath;
-    private final PerfumeRepository perfumeRepository;
 
     @Override
     public DataFetcher<Perfume> getPerfumeByQuery() {

@@ -7,6 +7,7 @@ import com.gmail.merikbest2015.ecommerce.repository.OrderItemRepository;
 import com.gmail.merikbest2015.ecommerce.repository.OrderRepository;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.service.OrderService;
+import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,10 +30,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Long finalizeOrder() {
-        List<Order> orders = orderRepository.findAll();
-        Order orderIndex = orders.get(orders.size() - 1);
-        return orderIndex.getId();
+    public DataFetcher<List<Order>> getAllOrdersByQuery() {
+        return dataFetchingEnvironment -> orderRepository.findAll();
+    }
+
+    @Override
+    public DataFetcher<Order> getOrderByQuery() {
+        return dataFetchingEnvironment -> {
+            Long orderId = Long.parseLong(dataFetchingEnvironment.getArgument("id"));
+            return orderRepository.findById(orderId).get();
+        };
     }
 
     @Override
@@ -93,5 +100,12 @@ public class OrderServiceImpl implements OrderService {
                 "Total price: $" + order.getTotalPrice();
         mailSender.send(order.getEmail(), subject, message);
         return order;
+    }
+
+    @Override
+    public Long finalizeOrder() {
+        List<Order> orders = orderRepository.findAll();
+        Order orderIndex = orders.get(orders.size() - 1);
+        return orderIndex.getId();
     }
 }

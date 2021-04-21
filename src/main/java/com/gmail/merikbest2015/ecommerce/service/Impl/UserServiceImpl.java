@@ -8,6 +8,7 @@ import com.gmail.merikbest2015.ecommerce.security.JwtProvider;
 import com.gmail.merikbest2015.ecommerce.security.UserPrincipal;
 import com.gmail.merikbest2015.ecommerce.security.oauth2.OAuth2UserInfo;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
+import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.LockedException;
@@ -15,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -26,15 +26,15 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserDetailsService, UserService {
 
-    @Value("${hostname}")
-    private String hostname;
-
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
     private final MailSender mailSender;
     private final PasswordEncoder passwordEncoder;
     private final PerfumeRepository perfumeRepository;
     private final ReviewRepository reviewRepository;
+
+    @Value("${hostname}")
+    private String hostname;
 
     @Override
     public User findUserById(Long userId) {
@@ -49,6 +49,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public List<User> findAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public DataFetcher<User> getUserByQuery() {
+        return dataFetchingEnvironment -> {
+            Long userId = Long.parseLong(dataFetchingEnvironment.getArgument("id"));
+            return userRepository.findById(userId).get();
+        };
+    }
+
+    @Override
+    public DataFetcher<List<User>> getAllUsersByQuery() {
+        return dataFetchingEnvironment -> userRepository.findAll();
     }
 
     @Override

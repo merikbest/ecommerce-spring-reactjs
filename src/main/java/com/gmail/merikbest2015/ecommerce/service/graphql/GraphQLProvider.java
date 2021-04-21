@@ -1,12 +1,15 @@
 package com.gmail.merikbest2015.ecommerce.service.graphql;
 
+import com.gmail.merikbest2015.ecommerce.service.OrderService;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
+import com.gmail.merikbest2015.ecommerce.service.UserService;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
 import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -18,17 +21,17 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-public class GraphQLPerfumeProvider {
+public class GraphQLProvider {
 
     private final PerfumeService perfumeService;
+    private final OrderService orderService;
+    private final UserService userService;
 
-    @Value("classpath:graphql/perfume.graphql")
+    @Value("classpath:graphql/schemas.graphql")
     private Resource resource;
-    private GraphQL graphQL;
 
-    public GraphQL getGraphQL() {
-        return graphQL;
-    }
+    @Getter
+    private GraphQL graphQL;
 
     @PostConstruct
     public void loadSchema() throws IOException {
@@ -43,7 +46,11 @@ public class GraphQLPerfumeProvider {
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring
                         .dataFetcher("perfumes", perfumeService.getAllPerfumesByQuery())
-                        .dataFetcher("perfume", perfumeService.getPerfumeByQuery()))
+                        .dataFetcher("perfume", perfumeService.getPerfumeByQuery())
+                        .dataFetcher("orders", orderService.getAllOrdersByQuery())
+                        .dataFetcher("order", orderService.getOrderByQuery())
+                        .dataFetcher("users", userService.getAllUsersByQuery())
+                        .dataFetcher("user", userService.getUserByQuery()))
                 .build();
     }
 }
