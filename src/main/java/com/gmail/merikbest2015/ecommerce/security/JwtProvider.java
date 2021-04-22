@@ -1,6 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.security;
 
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -17,8 +18,10 @@ import java.util.Base64;
 import java.util.Date;
 
 @Component
+@RequiredArgsConstructor
 public class JwtProvider {
 
+    @Qualifier("userDetailsServiceImpl") @Lazy
     private final UserDetailsService userDetailsService;
 
     @Value("${jwt.header}")
@@ -29,10 +32,6 @@ public class JwtProvider {
 
     @Value("${jwt.expiration}")
     private long validityInMilliseconds;
-
-    public JwtProvider(@Lazy @Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
 
     @PostConstruct
     protected void init() {

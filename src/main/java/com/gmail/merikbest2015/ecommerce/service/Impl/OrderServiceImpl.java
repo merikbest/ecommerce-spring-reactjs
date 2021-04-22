@@ -9,6 +9,7 @@ import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.service.OrderService;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,6 +33,22 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public DataFetcher<List<Order>> getAllOrdersByQuery() {
         return dataFetchingEnvironment -> orderRepository.findAll();
+    }
+
+    @Override
+    public DataFetcher<List<Order>> getUserOrdersByEmailQuery() {
+        return dataFetchingEnvironment -> {
+            String email = dataFetchingEnvironment.getArgument("email").toString();
+            return orderRepository.findOrderByEmail(email);
+        };
+    }
+
+    @Override
+    public DataFetcher<List<Order>> getUserOrdersByQuery() {
+        return dataFetchingEnvironment -> {
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            return orderRepository.findOrderByEmail(email);
+        };
     }
 
     @Override

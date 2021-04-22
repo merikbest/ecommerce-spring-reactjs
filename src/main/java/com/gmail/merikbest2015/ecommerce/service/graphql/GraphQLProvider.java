@@ -48,6 +48,7 @@ public class GraphQLProvider {
                         .dataFetcher("perfumes", perfumeService.getAllPerfumesByQuery())
                         .dataFetcher("perfume", perfumeService.getPerfumeByQuery())
                         .dataFetcher("orders", orderService.getAllOrdersByQuery())
+                        .dataFetcher("orders", orderService.getUserOrdersByQuery())
                         .dataFetcher("order", orderService.getOrderByQuery())
                         .dataFetcher("users", userService.getAllUsersByQuery())
                         .dataFetcher("user", userService.getUserByQuery()))

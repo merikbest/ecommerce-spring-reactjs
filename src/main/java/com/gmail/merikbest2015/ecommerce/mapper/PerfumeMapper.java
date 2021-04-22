@@ -4,8 +4,6 @@ import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponseDto;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
-import com.gmail.merikbest2015.ecommerce.service.graphql.GraphQLProvider;
-import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -20,7 +18,6 @@ public class PerfumeMapper {
 
     private final ModelMapper modelMapper;
     private final PerfumeService perfumeService;
-    private final GraphQLProvider perfumeProvider;
 
     private Perfume convertToEntity(PerfumeRequestDto perfumeRequestDto) {
         return modelMapper.map(perfumeRequestDto, Perfume.class);
@@ -58,13 +55,5 @@ public class PerfumeMapper {
 
     public PerfumeResponseDto savePerfume(PerfumeRequestDto perfumeRequestDto, MultipartFile file) {
         return convertToResponseDto(perfumeService.savePerfume(convertToEntity(perfumeRequestDto), file));
-    }
-
-    public ExecutionResult getAllPerfumesByQuery(String query) {
-        return perfumeProvider.getGraphQL().execute(query);
-    }
-
-    public ExecutionResult getPerfumeByQuery(String query) {
-        return perfumeProvider.getGraphQL().execute(query);
     }
 }

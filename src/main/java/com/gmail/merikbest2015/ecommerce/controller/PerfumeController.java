@@ -4,6 +4,7 @@ import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponseDto;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeSearchRequestDto;
 import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
+import com.gmail.merikbest2015.ecommerce.service.graphql.GraphQLProvider;
 import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 public class PerfumeController {
 
     private final PerfumeMapper perfumeMapper;
+    private final GraphQLProvider graphQLProvider;
 
     @GetMapping
     public ResponseEntity<List<PerfumeResponseDto>> getAllPerfumes() {
@@ -45,11 +47,11 @@ public class PerfumeController {
 
     @PostMapping("/graphql/perfumes")
     public ResponseEntity<ExecutionResult> getAllPerfumesByQuery(@RequestBody GraphQLRequestDto request) {
-        return ResponseEntity.ok(perfumeMapper.getAllPerfumesByQuery(request.getQuery()));
+        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
     @PostMapping("/graphql/perfume")
     public ResponseEntity<ExecutionResult> getPerfumeByQuery(@RequestBody GraphQLRequestDto request) {
-        return ResponseEntity.ok(perfumeMapper.getPerfumeByQuery(request.getQuery()));
+        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 }

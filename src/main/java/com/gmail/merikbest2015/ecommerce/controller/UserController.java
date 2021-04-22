@@ -1,5 +1,6 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
+import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.PasswordResetRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponseDto;
@@ -12,7 +13,9 @@ import com.gmail.merikbest2015.ecommerce.exception.PasswordException;
 import com.gmail.merikbest2015.ecommerce.mapper.OrderMapper;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
 import com.gmail.merikbest2015.ecommerce.security.UserPrincipal;
+import com.gmail.merikbest2015.ecommerce.service.graphql.GraphQLProvider;
 import com.gmail.merikbest2015.ecommerce.utils.ControllerUtils;
+import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -29,10 +32,16 @@ public class UserController {
 
     private final UserMapper userMapper;
     private final OrderMapper orderMapper;
+    private final GraphQLProvider graphQLProvider;
 
     @GetMapping("/info")
     public ResponseEntity<UserResponseDto> getUserInfo(@AuthenticationPrincipal UserPrincipal user) {
         return ResponseEntity.ok(userMapper.findUserByEmail(user.getEmail()));
+    }
+
+    @PostMapping("/graphql/info")
+    public ResponseEntity<ExecutionResult> getUserInfoByQuery(@RequestBody GraphQLRequestDto request) {
+        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
     @PutMapping("/edit")
@@ -66,8 +75,13 @@ public class UserController {
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<List<OrderResponseDto>> getAllUserOrders(@AuthenticationPrincipal UserPrincipal user) {
+    public ResponseEntity<List<OrderResponseDto>> getUserOrders(@AuthenticationPrincipal UserPrincipal user) {
         return ResponseEntity.ok(orderMapper.findOrderByEmail(user.getEmail()));
+    }
+
+    @PostMapping("/graphql/orders")
+    public ResponseEntity<ExecutionResult> getUserOrdersByQuery(@RequestBody GraphQLRequestDto request) {
+        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
     @PostMapping("/order")

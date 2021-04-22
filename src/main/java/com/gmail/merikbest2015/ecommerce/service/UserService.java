@@ -1,12 +1,10 @@
 package com.gmail.merikbest2015.ecommerce.service;
 
-import com.gmail.merikbest2015.ecommerce.domain.Order;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.security.oauth2.OAuth2UserInfo;
 import graphql.schema.DataFetcher;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 
 import java.util.List;
 import java.util.Map;
