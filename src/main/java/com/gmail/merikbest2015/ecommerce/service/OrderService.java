@@ -14,6 +14,8 @@ public interface OrderService {
 
     Order postOrder(Order validOrder, Map<Long, Long> perfumesId);
 
+    List<Order> deleteOrder(Long orderId);
+
     Long finalizeOrder();
 
     DataFetcher<List<Order>> getAllOrdersByQuery();

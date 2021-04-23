@@ -1,8 +1,10 @@
 package com.gmail.merikbest2015.ecommerce.mapper;
 
 import com.gmail.merikbest2015.ecommerce.domain.Order;
+import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponseDto;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponseDto;
 import com.gmail.merikbest2015.ecommerce.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -26,25 +28,29 @@ public class OrderMapper {
         return modelMapper.map(order, OrderResponseDto.class);
     }
 
-    public List<OrderResponseDto> findAllOrders() {
-        return orderService.findAll()
-                .stream()
+    private List<OrderResponseDto> convertListToResponseDto(List<Order> orders) {
+        return orders.stream()
                 .map(this::convertToResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<OrderResponseDto> findAllOrders() {
+        return convertListToResponseDto(orderService.findAll());
     }
 
     public List<OrderResponseDto> findOrderByEmail(String email) {
-        return orderService.findOrderByEmail(email)
-                .stream()
-                .map(this::convertToResponseDto)
-                .collect(Collectors.toList());
+        return convertListToResponseDto(orderService.findOrderByEmail(email));
     }
 
-    public Long finalizeOrder() {
-        return orderService.finalizeOrder();
+    public List<OrderResponseDto> deleteOrder(Long orderId) {
+        return convertListToResponseDto(orderService.deleteOrder(orderId));
     }
 
     public OrderResponseDto postOrder(OrderRequestDto orderRequestDto) {
         return convertToResponseDto(orderService.postOrder(convertToEntity(orderRequestDto), orderRequestDto.getPerfumesId()));
+    }
+
+    public Long finalizeOrder() {
+        return orderService.finalizeOrder();
     }
 }

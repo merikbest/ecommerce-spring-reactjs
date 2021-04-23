@@ -11,6 +11,7 @@ import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +118,15 @@ public class OrderServiceImpl implements OrderService {
                 "Total price: $" + order.getTotalPrice();
         mailSender.send(order.getEmail(), subject, message);
         return order;
+    }
+
+    @Override
+    @Transactional
+    public List<Order> deleteOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).get();
+        order.getOrderItems().forEach(orderItem -> orderItemRepository.deleteById(orderItem.getId()));
+        orderRepository.delete(order);
+        return orderRepository.findAll();
     }
 
     @Override
