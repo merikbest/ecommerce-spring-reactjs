@@ -4,20 +4,19 @@ import {
     FETCH_USER_ORDERS_SUCCESS,
     ORDER_ADDED_FAILURE,
     ORDER_ADDED_SUCCESS,
-    ORDER_CONFIRMED_SUCCESS,
     FetchOrderSuccessActionType,
     FetchUserOrdersActionType,
     OrderAddedFailureActionType,
-    OrderAddedSuccessActionType,
-    OrderConfirmedSuccess
+    OrderAddedSuccessActionType
 } from "../action-types/order-action-types";
 
 export const fetchOrderSuccess = (): FetchOrderSuccessActionType => ({
     type: FETCH_ORDER_SUCCESS
 });
 
-export const orderAddedSuccess = (): OrderAddedSuccessActionType => ({
-    type: ORDER_ADDED_SUCCESS
+export const orderAddedSuccess = (order: Order): OrderAddedSuccessActionType => ({
+    type: ORDER_ADDED_SUCCESS,
+    payload: order
 });
 
 export const orderAddedFailure = (errors: OrderError): OrderAddedFailureActionType => ({
@@ -28,9 +27,4 @@ export const orderAddedFailure = (errors: OrderError): OrderAddedFailureActionTy
 export const fetchUserOrdersSuccess = (orders: Array<Order>): FetchUserOrdersActionType => ({
     type: FETCH_USER_ORDERS_SUCCESS,
     payload: orders
-});
-
-export const orderConfirmedSuccess = (orderIndex: string): OrderConfirmedSuccess => ({
-    type: ORDER_CONFIRMED_SUCCESS,
-    payload: orderIndex
 });

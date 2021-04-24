@@ -5,21 +5,20 @@ import {
     FETCH_USER_ORDERS_SUCCESS,
     ORDER_ADDED_FAILURE,
     ORDER_ADDED_SUCCESS,
-    ORDER_CONFIRMED_SUCCESS,
     OrderActionTypes
 } from "../action-types/order-action-types";
 
 type InitialStateType = {
+    order:  Partial<Order>
     orders: Array<Order>
     errors: Partial<OrderError>
-    orderIndex: string
     loading: boolean
 };
 
 const initialState: InitialStateType = {
+    order: {},
     orders: [],
     errors: {},
-    orderIndex: "",
     loading: false
 };
 
@@ -33,13 +32,10 @@ const reducer = (state: InitialStateType = initialState, action: OrderActionType
             return {...state, errors: {}, loading: false};
 
         case ORDER_ADDED_SUCCESS:
-            return {...state, loading: false};
+            return {...state, order: action.payload, loading: false};
 
         case ORDER_ADDED_FAILURE:
             return {...state, errors: action.payload, loading: false};
-
-        case ORDER_CONFIRMED_SUCCESS:
-            return {...state, orderIndex: action.payload};
 
         case FETCH_USER_ORDERS_SUCCESS:
             return {...state, orders: action.payload};

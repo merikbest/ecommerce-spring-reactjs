@@ -7,6 +7,7 @@ import {
     FETCH_PERFUMES_BY_PERFUMER_SUCCESS,
     FETCH_PERFUMES_BY_QUERY_SUCCESS,
     FETCH_PERFUME_BY_QUERY_SUCCESS,
+    FETCH_PERFUME_REVIEWS_SUCCESS,
     PerfumeActionTypes,
 } from "../action-types/perfume-action-types";
 
@@ -32,6 +33,9 @@ const reducer = (state: InitialStateType = initialState, action: PerfumeActionTy
             return {...state, perfumes: action.payload};
 
         case FETCH_PERFUME_SUCCESS:
+            return {...state, perfume: action.payload, reviews: action.payload.reviews};
+
+        case FETCH_PERFUME_REVIEWS_SUCCESS:
             return {...state, perfume: action.payload, reviews: action.payload.reviews};
 
         case FETCH_PERFUME_BY_QUERY_SUCCESS:

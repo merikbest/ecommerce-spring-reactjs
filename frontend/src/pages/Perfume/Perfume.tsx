@@ -46,6 +46,8 @@ const Perfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
         event.preventDefault();
         const review: ReviewData = {perfumeId: match.params.id as string, author, message}
         dispatch(addReviewToPerfume(review));
+        setAuthor("");
+        setMessage("");
     };
 
     return (
