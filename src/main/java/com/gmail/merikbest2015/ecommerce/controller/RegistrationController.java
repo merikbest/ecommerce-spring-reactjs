@@ -8,12 +8,10 @@ import com.gmail.merikbest2015.ecommerce.exception.PasswordException;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
 import com.gmail.merikbest2015.ecommerce.utils.ControllerUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 
@@ -22,17 +20,14 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/registration")
 public class RegistrationController {
 
-    @Value("${recaptcha.secret}")
-    private String secret;
-
     private final UserMapper userMapper;
-    private final RestTemplate restTemplate;
+    private final ControllerUtils controllerUtils;
 
     @PostMapping
     public ResponseEntity<String> registration(@Valid @RequestBody RegistrationRequestDto user, BindingResult bindingResult) {
-        ControllerUtils.captchaValidation(secret, user.getCaptcha(), restTemplate);
+        controllerUtils.captchaValidation(user.getCaptcha());
 
-        if (ControllerUtils.isPasswordDifferent(user.getPassword(), user.getPassword2())) {
+        if (controllerUtils.isPasswordDifferent(user.getPassword(), user.getPassword2())) {
             throw new PasswordException("Passwords do not match.");
         }
         if (bindingResult.hasErrors()) {

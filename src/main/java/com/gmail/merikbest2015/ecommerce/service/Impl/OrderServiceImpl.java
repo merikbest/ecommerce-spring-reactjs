@@ -128,11 +128,4 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.delete(order);
         return orderRepository.findAll();
     }
-
-    @Override
-    public Long finalizeOrder() {
-        List<Order> orders = orderRepository.findAll();
-        Order orderIndex = orders.get(orders.size() - 1);
-        return orderIndex.getId();
-    }
 }

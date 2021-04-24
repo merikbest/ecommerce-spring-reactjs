@@ -1,10 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.mapper;
 
 import com.gmail.merikbest2015.ecommerce.domain.Order;
-import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponseDto;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponseDto;
 import com.gmail.merikbest2015.ecommerce.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -48,9 +46,5 @@ public class OrderMapper {
 
     public OrderResponseDto postOrder(OrderRequestDto orderRequestDto) {
         return convertToResponseDto(orderService.postOrder(convertToEntity(orderRequestDto), orderRequestDto.getPerfumesId()));
-    }
-
-    public Long finalizeOrder() {
-        return orderService.finalizeOrder();
     }
 }

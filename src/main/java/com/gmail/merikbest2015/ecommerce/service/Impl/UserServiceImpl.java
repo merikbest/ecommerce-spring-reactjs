@@ -175,11 +175,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void passwordReset(String email, String password) {
+    public String passwordReset(String email, String password) {
         User user = userRepository.findByEmail(email);
         user.setPassword(passwordEncoder.encode(password));
         user.setPasswordResetCode(null);
         userRepository.save(user);
+        return "Password successfully changed!";
     }
 
     @Override
@@ -226,9 +227,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void addReviewToPerfume(Review review, Long perfumeId) {
+    public Perfume addReviewToPerfume(Review review, Long perfumeId) {
         Perfume perfume = perfumeRepository.getOne(perfumeId);
         perfume.getReviews().add(review);
         reviewRepository.save(review);
+        return perfume;
     }
 }

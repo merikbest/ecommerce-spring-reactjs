@@ -1,7 +1,6 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.order.OrderRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponseDto;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponseDto;

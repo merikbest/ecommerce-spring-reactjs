@@ -37,11 +37,11 @@ public interface UserService {
 
     boolean sendPasswordResetCode(String email);
 
-    void passwordReset(String email, String password);
+    String passwordReset(String email, String password);
 
     void userSave(String username, Map<String, String> form, User user);
 
     User updateProfile(String email, User user);
 
-    void addReviewToPerfume(Review review, Long perfumeId);
+    Perfume addReviewToPerfume(Review review, Long perfumeId);
 }

@@ -64,7 +64,7 @@ public class OrderServiceImplTest {
         orderList.add(order2);
 
         when(orderRepository.findAll()).thenReturn(orderList);
-        orderService.finalizeOrder();
+//        orderService.finalizeOrder();
         assertEquals(2, orderList.get(orderList.size() - 1).getId());
         verify(orderRepository, times(1)).findAll();
     }

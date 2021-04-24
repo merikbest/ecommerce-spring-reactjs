@@ -16,8 +16,6 @@ public interface OrderService {
 
     List<Order> deleteOrder(Long orderId);
 
-    Long finalizeOrder();
-
     DataFetcher<List<Order>> getAllOrdersByQuery();
 
     DataFetcher<List<Order>> getUserOrdersByEmailQuery();

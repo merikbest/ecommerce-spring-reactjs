@@ -23,7 +23,7 @@ public class PerfumeMapper {
         return modelMapper.map(perfumeRequestDto, Perfume.class);
     }
 
-    private PerfumeResponseDto convertToResponseDto(Perfume perfume) {
+    PerfumeResponseDto convertToResponseDto(Perfume perfume) {
         return modelMapper.map(perfume, PerfumeResponseDto.class);
     }
 

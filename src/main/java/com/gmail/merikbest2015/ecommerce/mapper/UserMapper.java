@@ -4,6 +4,7 @@ import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.RegistrationRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponseDto;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponseDto;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserResponseDto;
@@ -34,6 +35,10 @@ public class UserMapper {
 
     private Review convertToEntity(ReviewRequestDto reviewRequestDto) {
         return modelMapper.map(reviewRequestDto, Review.class);
+    }
+
+    private ReviewResponseDto convertToResponseDto(Review review) {
+        return modelMapper.map(review, ReviewResponseDto.class);
     }
 
     public UserResponseDto convertToResponseDto(User user) {
@@ -79,8 +84,8 @@ public class UserMapper {
         return userService.sendPasswordResetCode(email);
     }
 
-    public void passwordReset(String email, String password) {
-        userService.passwordReset(email, password);
+    public String passwordReset(String email, String password) {
+        return userService.passwordReset(email, password);
     }
 
     public void userSave(String username, Map<String, String> form, UserRequestDto userRequestDto) {
@@ -91,7 +96,7 @@ public class UserMapper {
         return convertToResponseDto(userService.updateProfile(email, convertToEntity(userRequestDto)));
     }
 
-    public void addReviewToPerfume(ReviewRequestDto reviewRequestDto, Long perfumeId) {
-        userService.addReviewToPerfume(convertToEntity(reviewRequestDto), perfumeId);
+    public PerfumeResponseDto addReviewToPerfume(ReviewRequestDto reviewRequestDto, Long perfumeId) {
+        return perfumeMapper.convertToResponseDto(userService.addReviewToPerfume(convertToEntity(reviewRequestDto), perfumeId));
     }
 }

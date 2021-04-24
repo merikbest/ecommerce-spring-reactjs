@@ -25,6 +25,7 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
+    private final ControllerUtils controllerUtils;
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody AuthenticationRequestDto request) {
@@ -56,13 +57,12 @@ public class AuthenticationController {
 
     @PostMapping("/reset")
     public ResponseEntity<String> passwordReset(@RequestBody PasswordResetRequestDto passwordReset) {
-        if (ControllerUtils.isPasswordConfirmEmpty(passwordReset.getPassword2())) {
+        if (controllerUtils.isPasswordConfirmEmpty(passwordReset.getPassword2())) {
             throw new PasswordConfirmationException("Password confirmation cannot be empty.");
         }
-        if (ControllerUtils.isPasswordDifferent(passwordReset.getPassword(), passwordReset.getPassword2())) {
+        if (controllerUtils.isPasswordDifferent(passwordReset.getPassword(), passwordReset.getPassword2())) {
             throw new PasswordException("Passwords do not match.");
         }
-        userMapper.passwordReset(passwordReset.getEmail(), passwordReset.getPassword());
-        return ResponseEntity.ok("Password successfully changed!");
+        return ResponseEntity.ok(userMapper.passwordReset(passwordReset.getEmail(), passwordReset.getPassword()));
     }
 }
