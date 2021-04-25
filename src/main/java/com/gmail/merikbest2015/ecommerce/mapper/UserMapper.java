@@ -3,10 +3,9 @@ package com.gmail.merikbest2015.ecommerce.mapper;
 import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.RegistrationRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponseDto;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponseDto;
+import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserResponseDto;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +34,6 @@ public class UserMapper {
 
     private Review convertToEntity(ReviewRequestDto reviewRequestDto) {
         return modelMapper.map(reviewRequestDto, Review.class);
-    }
-
-    private ReviewResponseDto convertToResponseDto(Review review) {
-        return modelMapper.map(review, ReviewResponseDto.class);
     }
 
     public UserResponseDto convertToResponseDto(User user) {

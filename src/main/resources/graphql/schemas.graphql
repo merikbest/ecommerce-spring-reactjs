@@ -6,6 +6,7 @@ type Query {
     perfumes: [Perfume]
     perfume(id: ID): Perfume
     orders: [Order]
+    ordersByEmail(email: String): [Order]
     order(id: ID): Order
     users: [User]
     user(id: ID): User

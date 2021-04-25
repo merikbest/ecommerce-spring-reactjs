@@ -54,22 +54,6 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void finalizeOrder() {
-        Order order1 = new Order();
-        order1.setId(1L);
-        Order order2 = new Order();
-        order2.setId(2L);
-        List<Order> orderList = new ArrayList<>();
-        orderList.add(order1);
-        orderList.add(order2);
-
-        when(orderRepository.findAll()).thenReturn(orderList);
-//        orderService.finalizeOrder();
-        assertEquals(2, orderList.get(orderList.size() - 1).getId());
-        verify(orderRepository, times(1)).findAll();
-    }
-
-    @Test
     public void findOrderByEmail() {
         Order order1 = new Order();
         order1.setEmail(ORDER_EMAIL);

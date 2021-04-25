@@ -1,6 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserRequestDto;
 import org.junit.Before;
@@ -46,10 +47,12 @@ public class AdminControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    private GraphQLRequestDto graphQLRequestDto;
     private PerfumeRequestDto perfumeRequestDto;
 
     @Before
     public void init() {
+        graphQLRequestDto = new GraphQLRequestDto();
         perfumeRequestDto = new PerfumeRequestDto();
         perfumeRequestDto.setPerfumer(PERFUMER_CHANEL);
         perfumeRequestDto.setPerfumeTitle(PERFUME_TITLE);
@@ -139,6 +142,12 @@ public class AdminControllerTest {
     }
 
     @Test
+    public void deleteOrder() throws Exception {
+        mockMvc.perform(delete(URL_ADMIN_BASIC + "/order/delete/111"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void getUser() throws Exception {
         mockMvc.perform(get(URL_ADMIN_GET_USER + USER_ID))
                 .andExpect(status().isOk())
@@ -154,5 +163,91 @@ public class AdminControllerTest {
                 .andExpect(jsonPath("$[*].id", hasItem(USER_ID)))
                 .andExpect(jsonPath("$[*].firstName", hasItem(FIRST_NAME)))
                 .andExpect(jsonPath("$[*].email", hasItem(USER_EMAIL)));
+    }
+
+    @Test
+    public void getUserByQuery() throws Exception {
+        graphQLRequestDto.setQuery(GRAPHQL_QUERY_USER);
+
+        mockMvc.perform(post(URL_ADMIN_GRAPHQL + "/user")
+                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.user.id", equalTo(USER_ID)))
+                .andExpect(jsonPath("$.data.user.email", equalTo(USER_EMAIL)))
+                .andExpect(jsonPath("$.data.user.firstName", equalTo(FIRST_NAME)))
+                .andExpect(jsonPath("$.data.user.lastName", equalTo(LAST_NAME)))
+                .andExpect(jsonPath("$.data.user.city", equalTo(CITY)))
+                .andExpect(jsonPath("$.data.user.address", equalTo(ADDRESS)))
+                .andExpect(jsonPath("$.data.user.phoneNumber", equalTo(PHONE_NUMBER)))
+                .andExpect(jsonPath("$.data.user.postIndex", equalTo("1234567890")))
+                .andExpect(jsonPath("$.data.user.activationCode", equalTo(null)))
+                .andExpect(jsonPath("$.data.user.passwordResetCode", equalTo(null)))
+                .andExpect(jsonPath("$.data.user.active", equalTo(true)))
+                .andExpect(jsonPath("$.data.user.roles[0]", equalTo(ROLE_USER)));
+    }
+
+    @Test
+    public void getUsersByQuery() throws Exception {
+        graphQLRequestDto.setQuery(GRAPHQL_QUERY_USERS);
+
+        mockMvc.perform(post(URL_ADMIN_GRAPHQL + "/user/all")
+                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.users[*].id").isNotEmpty())
+                .andExpect(jsonPath("$.data.users[*].email").isNotEmpty())
+                .andExpect(jsonPath("$.data.users[*].firstName").isNotEmpty())
+                .andExpect(jsonPath("$.data.users[*].lastName").isNotEmpty())
+                .andExpect(jsonPath("$.data.users[*].city").isNotEmpty())
+                .andExpect(jsonPath("$.data.users[*].address").isNotEmpty())
+                .andExpect(jsonPath("$.data.users[*].phoneNumber").isNotEmpty())
+                .andExpect(jsonPath("$.data.users[*].postIndex").isNotEmpty())
+                .andExpect(jsonPath("$.data.users[*].activationCode").isNotEmpty())
+                .andExpect(jsonPath("$.data.users[*].passwordResetCode").isNotEmpty())
+                .andExpect(jsonPath("$.data.users[*].active").isNotEmpty())
+                .andExpect(jsonPath("$.data.users[*].roles").isNotEmpty());
+    }
+
+    @Test
+    public void getOrdersByQuery() throws Exception {
+        graphQLRequestDto.setQuery(GRAPHQL_QUERY_ORDERS);
+
+        mockMvc.perform(post(URL_ADMIN_GRAPHQL + "/orders")
+                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.orders[*].id").isNotEmpty())
+                .andExpect(jsonPath("$.data.orders[*].totalPrice").isNotEmpty())
+                .andExpect(jsonPath("$.data.orders[*].date").isNotEmpty())
+                .andExpect(jsonPath("$.data.orders[*].firstName").isNotEmpty())
+                .andExpect(jsonPath("$.data.orders[*].lastName").isNotEmpty())
+                .andExpect(jsonPath("$.data.orders[*].city").isNotEmpty())
+                .andExpect(jsonPath("$.data.orders[*].address").isNotEmpty())
+                .andExpect(jsonPath("$.data.orders[*].email").isNotEmpty())
+                .andExpect(jsonPath("$.data.orders[*].phoneNumber").isNotEmpty())
+                .andExpect(jsonPath("$.data.orders[*].postIndex").isNotEmpty())
+                .andExpect(jsonPath("$.data.orders[*].orderItems[*].perfume").isNotEmpty());
+    }
+
+    @Test
+    public void getUserOrdersByEmailQuery() throws Exception {
+        graphQLRequestDto.setQuery(GRAPHQL_QUERY_ORDERS_BY_EMAIL);
+
+        mockMvc.perform(post(URL_ADMIN_GRAPHQL + "/order")
+                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.ordersByEmail[*].id").isNotEmpty())
+                .andExpect(jsonPath("$.data.ordersByEmail[*].totalPrice").isNotEmpty())
+                .andExpect(jsonPath("$.data.ordersByEmail[*].date").isNotEmpty())
+                .andExpect(jsonPath("$.data.ordersByEmail[*].firstName").isNotEmpty())
+                .andExpect(jsonPath("$.data.ordersByEmail[*].lastName").isNotEmpty())
+                .andExpect(jsonPath("$.data.ordersByEmail[*].city").isNotEmpty())
+                .andExpect(jsonPath("$.data.ordersByEmail[*].address").isNotEmpty())
+                .andExpect(jsonPath("$.data.ordersByEmail[*].email").isNotEmpty())
+                .andExpect(jsonPath("$.data.ordersByEmail[*].phoneNumber").isNotEmpty())
+                .andExpect(jsonPath("$.data.ordersByEmail[*].postIndex").isNotEmpty())
+                .andExpect(jsonPath("$.data.ordersByEmail[*].orderItems[*].perfume").isNotEmpty());
     }
 }

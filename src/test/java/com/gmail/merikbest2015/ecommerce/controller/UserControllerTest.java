@@ -1,6 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequestDto;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserRequestDto;
@@ -57,6 +58,30 @@ public class UserControllerTest {
 
     @Test
     @WithUserDetails(USER_EMAIL)
+    public void getUserInfoByQuery() throws Exception {
+        GraphQLRequestDto graphQLRequestDto = new GraphQLRequestDto();
+        graphQLRequestDto.setQuery(GRAPHQL_QUERY_USER);
+
+        mockMvc.perform(post(URL_USERS_GRAPHQL + "/info")
+                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.user.id", equalTo(USER_ID)))
+                .andExpect(jsonPath("$.data.user.email", equalTo(USER_EMAIL)))
+                .andExpect(jsonPath("$.data.user.firstName", equalTo(FIRST_NAME)))
+                .andExpect(jsonPath("$.data.user.lastName", equalTo(LAST_NAME)))
+                .andExpect(jsonPath("$.data.user.city", equalTo(CITY)))
+                .andExpect(jsonPath("$.data.user.address", equalTo(ADDRESS)))
+                .andExpect(jsonPath("$.data.user.phoneNumber", equalTo(PHONE_NUMBER)))
+                .andExpect(jsonPath("$.data.user.postIndex", equalTo("1234567890")))
+                .andExpect(jsonPath("$.data.user.activationCode", equalTo(null)))
+                .andExpect(jsonPath("$.data.user.passwordResetCode", equalTo(null)))
+                .andExpect(jsonPath("$.data.user.active", equalTo(true)))
+                .andExpect(jsonPath("$.data.user.roles[0]", equalTo(ROLE_USER)));
+    }
+
+    @Test
+    @WithUserDetails(USER_EMAIL)
     public void updateUserInfo() throws Exception {
         UserRequestDto userRequestDto = new UserRequestDto();
         userRequestDto.setFirstName(USER2_NAME);
@@ -102,7 +127,7 @@ public class UserControllerTest {
 
     @Test
     @WithUserDetails(USER_EMAIL)
-    public void getAllUserOrders() throws Exception {
+    public void getUserOrders() throws Exception {
         mockMvc.perform(get(URL_USERS_BASIC + "/orders"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
@@ -116,6 +141,29 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$[*].phoneNumber", hasItem(PHONE_NUMBER)))
                 .andExpect(jsonPath("$[*].postIndex", hasItem(POST_INDEX)))
                 .andExpect(jsonPath("$[*].orderItems").isNotEmpty());
+    }
+
+    @Test
+    @WithUserDetails(USER_EMAIL)
+    public void getUserOrdersByQuery() throws Exception {
+        GraphQLRequestDto graphQLRequestDto = new GraphQLRequestDto();
+        graphQLRequestDto.setQuery(GRAPHQL_QUERY_ORDERS);
+
+        mockMvc.perform(post(URL_USERS_GRAPHQL + "/orders")
+                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.orders[*].id").isNotEmpty())
+                .andExpect(jsonPath("$.data.orders[*].totalPrice", hasItem(TOTAL_PRICE)))
+                .andExpect(jsonPath("$.data.orders[*].date").isNotEmpty())
+                .andExpect(jsonPath("$.data.orders[*].firstName", hasItem(FIRST_NAME)))
+                .andExpect(jsonPath("$.data.orders[*].lastName", hasItem(LAST_NAME)))
+                .andExpect(jsonPath("$.data.orders[*].city", hasItem(CITY)))
+                .andExpect(jsonPath("$.data.orders[*].address", hasItem(ADDRESS)))
+                .andExpect(jsonPath("$.data.orders[*].email", hasItem(USER_EMAIL)))
+                .andExpect(jsonPath("$.data.orders[*].phoneNumber", hasItem(PHONE_NUMBER)))
+                .andExpect(jsonPath("$.data.orders[*].postIndex", hasItem(POST_INDEX)))
+                .andExpect(jsonPath("$.data.orders[*].orderItems").isNotEmpty());
     }
 
     @Test
@@ -167,13 +215,6 @@ public class UserControllerTest {
     }
 
     @Test
-    public void finalizeOrder() throws Exception {
-        mockMvc.perform(get(URL_USERS_ORDER + "/finalize"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isNotEmpty());
-    }
-
-    @Test
     public void addReviewToPerfume() throws Exception {
         ReviewRequestDto reviewRequestDto = new ReviewRequestDto();
         reviewRequestDto.setPerfumeId(2L);
@@ -184,7 +225,12 @@ public class UserControllerTest {
                 .content(mapper.writeValueAsString(reviewRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("Review added successfully.")));
+                .andExpect(jsonPath("$.id", equalTo(2)))
+                .andExpect(jsonPath("$.perfumeTitle", equalTo("Boss Bottled Night")))
+                .andExpect(jsonPath("$.perfumer", equalTo("Hugo Boss")))
+                .andExpect(jsonPath("$.price", equalTo(35)))
+                .andExpect(jsonPath("$.reviews[0].author", equalTo(FIRST_NAME)))
+                .andExpect(jsonPath("$.reviews[0].message", equalTo("Hello world")));
     }
 
     @Test
