@@ -38,6 +38,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/api/v1/users/cart",
                         "/api/v1/users/order/**",
                         "/api/v1/users/review",
+                        "/websocket", "/websocket/**",
                         "/img/**",
                         "/static/**").permitAll()
                 .antMatchers("/auth/**", "/oauth2/**", "/**/*swagger*/**", "/v2/api-docs").permitAll()
