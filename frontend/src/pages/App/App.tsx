@@ -14,7 +14,7 @@ import OrderFinalize from "../Order/OrderFinalize/OrderFinalize";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import ResetPassword from "../ResetPassword/ResetPassword";
 import Cart from "../Cart/Cart";
-import Perfume from "../Perfume/Perfume";
+import Product from "../Product/Product";
 import OAuth2RedirectHandler from "../../utils/oauth2/OAuth2RedirectHandler";
 
 const App: FC = () => {
@@ -29,7 +29,7 @@ const App: FC = () => {
                 <Route exact path="/reset/:code" component={ResetPassword}/>
                 <Route exact path="/activate/:code" component={Login}/>
                 <Route exact path="/menu" component={Menu}/>
-                <Route exact path="/product/:id" component={Perfume}/>
+                <Route exact path="/product/:id" component={Product}/>
                 <Route exact path="/contacts" component={Contacts}/>
                 <Route exact path="/cart" component={Cart}/>
                 <Route exact path="/order" component={Order}/>

@@ -55,7 +55,7 @@ const reducer = (state: InitialStateType = initialState, action: UserActionsType
             return {...state, reviewErrors: action.payload};
 
         case RESET_INPUT_FORM:
-            return {...state, userResetPasswordErrors: {}, successMessage: "", userEditErrors: {}};
+            return {...state, userResetPasswordErrors: {}, successMessage: "", userEditErrors: {}, reviewErrors: {}};
 
         case LOGOUT_SUCCESS:
             return {...state, user: {}, isLoggedIn: false}

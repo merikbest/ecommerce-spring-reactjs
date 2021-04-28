@@ -11,7 +11,7 @@ import {
     fetchPerfumesByPerfumerSuccess,
     fetchPerfumeSuccess
 } from "../actions/perfume-actions";
-import {FilterParamsType} from "../../types/types";
+import {FilterParamsType, Perfume} from "../../types/types";
 import {getAllPerfumesByQuery, getPerfumeByQuery} from "../../utils/graphql-query/perfume";
 
 export const fetchPerfumesByQuery = () => async (dispatch: Dispatch) => {
@@ -47,4 +47,8 @@ export const fetchPerfumesByGender = (gender: { perfumeGender: string }) => asyn
 export const fetchPerfumesByPerfumer = (perfumer: { perfumer: string }) => async (dispatch: Dispatch) => {
     const response = await axios.post(API_BASE_URL + "/perfumes/search/perfumer", perfumer);
     dispatch(fetchPerfumesByPerfumerSuccess(response.data));
+};
+
+export const fetchPerfumeReviewsWS = (response: Perfume) => async (dispatch: Dispatch) => {
+    dispatch(fetchPerfumeSuccess(response));
 };

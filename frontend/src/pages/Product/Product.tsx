@@ -2,15 +2,19 @@ import React, {FC, FormEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCartPlus, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
+import SockJS from "sockjs-client";
+import {CompatClient, Stomp} from '@stomp/stompjs';
 
 import {IMG_URL} from "../../utils/constants/url";
-import {fetchPerfumeByQuery} from "../../redux/thunks/perfume-thunks";
-import {addReviewToPerfume} from "../../redux/thunks/user-thunks";
+import {fetchPerfumeByQuery, fetchPerfumeReviewsWS} from "../../redux/thunks/perfume-thunks";
+import {addReviewToPerfume, resetForm} from "../../redux/thunks/user-thunks";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 import {RouteComponentProps, useHistory} from "react-router-dom";
 import {Review, ReviewData, ReviewError} from "../../types/types";
 
-const Perfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
+let stompClient: CompatClient | null = null;
+
+const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const perfume = useSelector((state: AppStateType) => state.perfume.perfume);
@@ -25,7 +29,16 @@ const Perfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
         // GraphQL example
         dispatch(fetchPerfumeByQuery(match.params.id));
         // dispatch(fetchPerfume(match.params.id));
+        dispatch(resetForm());
         window.scrollTo(0, 0);
+        const socket = new SockJS("http://localhost:8080/websocket");
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, () => {
+            stompClient?.subscribe("/topic/reviews/" + match.params.id, (response: any) => {
+                dispatch(fetchPerfumeReviewsWS(JSON.parse(response.body)));
+            });
+        });
+        return () => stompClient?.disconnect();
     }, []);
 
     const addToCart = (): void => {
@@ -169,4 +182,4 @@ const Perfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
     );
 };
 
-export default Perfume;
+export default Product;
