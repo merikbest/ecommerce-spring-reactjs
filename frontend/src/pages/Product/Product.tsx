@@ -11,6 +11,7 @@ import {addReviewToPerfume, resetForm} from "../../redux/thunks/user-thunks";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 import {RouteComponentProps, useHistory} from "react-router-dom";
 import {Review, ReviewData, ReviewError} from "../../types/types";
+import StarRatingComponent from 'react-star-rating-component';
 
 let stompClient: CompatClient | null = null;
 
@@ -23,6 +24,7 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
 
     const [author, setAuthor] = useState<string>("");
     const [message, setMessage] = useState<string>("");
+    const [mark, setMark] = useState<number>(0);
     const {authorError, messageError} = errors;
 
     useEffect(() => {
@@ -75,6 +77,14 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                     <h2>{perfume.perfumeTitle}</h2>
                     <h3>{perfume.perfumer}</h3>
                     <p>Product code: <span>{perfume.id}</span></p>
+                    <div className="row">
+                        <div className="col-md-2">
+                            <StarRatingComponent name={"start"} value={5} starCount={5} />
+                        </div>
+                        <div className="col-md-10">
+                            <span style={{paddingBottom: "50px"}}>{perfume.reviews?.length} reviews</span>
+                        </div>
+                    </div>
                     <p style={{color: "#54C0A1"}}>In Stock</p>
                     <div className="row ml-1">
                         <h6 className="mr-5"><span>${perfume.price}</span>.00</h6>
@@ -154,15 +164,29 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                 <form onSubmit={addReview}>
                     <div className="form-group border mt-5">
                         <div className="mx-3 my-3">
-                            <label><span className="text-danger"><b>*</b></span> Your name</label>
-                            <input
-                                type="text"
-                                className={authorError ? "form-control is-invalid" : "form-control"}
-                                name="author"
-                                value={author}
-                                onChange={(event) => setAuthor(event.target.value)}/>
-                            <div className="invalid-feedback">{authorError}</div>
-                            <label><span className="text-danger"><b>*</b></span> Message text</label>
+                            <div className="row">
+                                <div className="col-md-4">
+                                    <label><span className="text-danger"><b>*</b></span> Your name</label>
+                                    <input
+                                        type="text"
+                                        className={authorError ? "form-control is-invalid" : "form-control"}
+                                        name="author"
+                                        value={author}
+                                        onChange={(event) => setAuthor(event.target.value)}/>
+                                    <div className="invalid-feedback">{authorError}</div>
+                                    <label><span className="text-danger"><b>*</b></span> Message text</label>
+                                </div>
+                                <div className="col-md-8">
+                                    <label><span className="text-danger"><b>*</b></span> Your mark</label>
+                                    <div>
+                                    <StarRatingComponent
+                                        name="start"
+                                        onStarClick={(value) => setMark(value)}
+                                        starCount={5}
+                                        value={mark}/>
+                                    </div>
+                                </div>
+                            </div>
                             <textarea
                                 rows={4}
                                 className={messageError ? "form-control is-invalid" : "form-control"}
