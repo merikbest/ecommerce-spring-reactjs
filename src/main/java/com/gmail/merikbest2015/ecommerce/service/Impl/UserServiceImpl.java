@@ -11,6 +11,7 @@ import com.gmail.merikbest2015.ecommerce.service.UserService;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public List<User> findAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAllByOrderByIdAsc();
     }
 
     @Override
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public DataFetcher<List<User>> getAllUsersByQuery() {
-        return dataFetchingEnvironment -> userRepository.findAll();
+        return dataFetchingEnvironment -> userRepository.findAllByOrderByIdAsc();
     }
 
     @Override
@@ -229,7 +230,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public Perfume addReviewToPerfume(Review review, Long perfumeId) {
         Perfume perfume = perfumeRepository.getOne(perfumeId);
-        perfume.getReviews().add(review);
+        List<Review> reviews = perfume.getReviews();
+        reviews.add(review);
+        double totalReviews = reviews.size();
+        double sumRating = reviews.stream().mapToInt(Review::getRating).sum();
+        perfume.setPerfumeRating(sumRating / totalReviews);
         reviewRepository.save(review);
         return perfume;
     }

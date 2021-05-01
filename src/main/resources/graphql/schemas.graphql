@@ -27,6 +27,7 @@ type Perfume {
     price: Int
     volume: String
     type: String
+    perfumeRating: Float
     reviews: [Review]
 }
 
@@ -35,6 +36,7 @@ type Review {
     author: String
     message: String
     date: String
+    rating: Int
 }
 
 type Order {

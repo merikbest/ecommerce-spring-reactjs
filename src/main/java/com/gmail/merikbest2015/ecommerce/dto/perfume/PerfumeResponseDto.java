@@ -22,6 +22,7 @@ public class PerfumeResponseDto {
     private Integer price;
     private String volume;
     private String type;
+    private Double perfumeRating;
     private List<ReviewResponseDto> reviews;
     private MultipartFile file;
 }

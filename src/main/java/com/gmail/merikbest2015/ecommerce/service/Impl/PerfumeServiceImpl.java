@@ -33,7 +33,7 @@ public class PerfumeServiceImpl implements PerfumeService {
 
     @Override
     public DataFetcher<List<Perfume>> getAllPerfumesByQuery() {
-        return dataFetchingEnvironment -> perfumeRepository.findAll();
+        return dataFetchingEnvironment -> perfumeRepository.findAllByOrderByIdAsc();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class PerfumeServiceImpl implements PerfumeService {
 
     @Override
     public List<Perfume> findAllPerfumes() {
-        return perfumeRepository.findAll();
+        return perfumeRepository.findAllByOrderByIdAsc();
     }
 
     @Override
@@ -57,7 +57,7 @@ public class PerfumeServiceImpl implements PerfumeService {
         } else if (!perfumers.isEmpty() || !genders.isEmpty()) {
             perfumeList = perfumeRepository.findByPerfumerInOrPerfumeGenderInOrderByPriceDesc(perfumers, genders);
         } else {
-            perfumeList = perfumeRepository.findAll();
+            perfumeList = perfumeRepository.findAllByOrderByIdAsc();
         }
         return perfumeList;
     }

@@ -49,6 +49,7 @@ create table perfume
     type                   varchar(255),
     volume                 varchar(255),
     year                   int4,
+    perfume_rating         float8,
     primary key (id)
 );
 
@@ -64,6 +65,7 @@ create table review
     author  varchar(255),
     date    date,
     message varchar(255),
+    rating  int4,
     primary key (id)
 );
 

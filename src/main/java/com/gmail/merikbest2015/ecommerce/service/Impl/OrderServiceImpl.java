@@ -28,12 +28,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findAll() {
-        return orderRepository.findAll();
+        return orderRepository.findAllByOrderByIdAsc();
     }
 
     @Override
     public DataFetcher<List<Order>> getAllOrdersByQuery() {
-        return dataFetchingEnvironment -> orderRepository.findAll();
+        return dataFetchingEnvironment -> orderRepository.findAllByOrderByIdAsc();
     }
 
     @Override
@@ -126,6 +126,6 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(orderId).get();
         order.getOrderItems().forEach(orderItem -> orderItemRepository.deleteById(orderItem.getId()));
         orderRepository.delete(order);
-        return orderRepository.findAll();
+        return orderRepository.findAllByOrderByIdAsc();
     }
 }

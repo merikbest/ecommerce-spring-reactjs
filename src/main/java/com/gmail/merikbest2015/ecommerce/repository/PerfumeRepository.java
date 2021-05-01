@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface PerfumeRepository extends JpaRepository<Perfume, Long> {
 
+    List<Perfume> findAllByOrderByIdAsc();
+
     List<Perfume> findByPerfumerInAndPerfumeGenderInOrderByPriceDesc(List<String> perfumers, List<String> genders);
 
     List<Perfume> findByPerfumerInOrPerfumeGenderInOrderByPriceDesc(List<String> perfumers, List<String> genders);

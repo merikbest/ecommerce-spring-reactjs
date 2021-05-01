@@ -27,6 +27,7 @@ public class Perfume {
     private Integer price;
     private String volume;
     private String type;
+    private Double perfumeRating;
 
     @OneToMany
     private List<Review> reviews;
