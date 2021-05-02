@@ -1,6 +1,5 @@
-import axios from 'axios';
+import {Dispatch} from "redux";
 
-import {API_BASE_URL} from "../../utils/constants/url";
 import {showLoader} from "../actions/auth-actions";
 import {
     fetchOrderSuccess,
@@ -8,7 +7,7 @@ import {
     orderAddedFailure,
     orderAddedSuccess
 } from "../actions/order-actions";
-import {Dispatch} from "redux";
+import RequestService from '../../utils/request-service';
 
 export const fetchOrder = () => async (dispatch: Dispatch) => {
     dispatch(fetchOrderSuccess());
@@ -17,7 +16,7 @@ export const fetchOrder = () => async (dispatch: Dispatch) => {
 export const addOrder = (order: any, history: any) => async (dispatch: Dispatch) => {
     try {
         dispatch(showLoader());
-        const response = await axios.post(API_BASE_URL + "/users/order", order);
+        const response = await RequestService.post("/users/order", order);
         history.push("/order/finalize");
         localStorage.removeItem("perfumes");
         dispatch(orderAddedSuccess(response.data));
@@ -27,13 +26,6 @@ export const addOrder = (order: any, history: any) => async (dispatch: Dispatch)
 };
 
 export const fetchUserOrders = () => async (dispatch: Dispatch) => {
-    const response = await axios({
-        method: "GET",
-        url: API_BASE_URL + "/users/orders",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": localStorage.getItem("token")
-        }
-    });
+    const response = await RequestService.get("/users/orders", true);
     dispatch(fetchUserOrdersSuccess(response.data));
 };

@@ -22,6 +22,7 @@ type InitialStateType = {
     fragranceBaseNotes: string
     price: string
     file: string | Blob
+    perfumeRating: number
 };
 
 const AddPerfume: FC = () => {
@@ -41,7 +42,8 @@ const AddPerfume: FC = () => {
         fragranceMiddleNotes: "",
         fragranceBaseNotes: "",
         price: "",
-        file: ""
+        file: "",
+        perfumeRating: 0
     };
 
     const [{
@@ -56,7 +58,8 @@ const AddPerfume: FC = () => {
         fragranceMiddleNotes,
         fragranceBaseNotes,
         price,
-        file
+        file,
+        perfumeRating
     }, setState] = useState(initialState);
     const [showToast, setShowToast] = useState(false);
 
@@ -94,7 +97,7 @@ const AddPerfume: FC = () => {
         bodyFormData.append("file", file);
         bodyFormData.append("perfume", new Blob([JSON.stringify({
             perfumeTitle, perfumer, year, country, type, volume, perfumeGender, fragranceTopNotes,
-            fragranceMiddleNotes, fragranceBaseNotes, price
+            fragranceMiddleNotes, fragranceBaseNotes, price, perfumeRating
         })], {type: "application/json"}));
 
         dispatch(addPerfume(bodyFormData));

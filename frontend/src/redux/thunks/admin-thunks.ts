@@ -1,6 +1,5 @@
-import axios from 'axios';
+import {Dispatch} from "redux";
 
-import {API_BASE_URL} from "../../utils/constants/url";
 import {
     addPerfumeFailure,
     addPerfumeSuccess,
@@ -12,20 +11,12 @@ import {
     updatePerfumeFailure,
     updatePerfumeSuccess
 } from "../actions/admin-actions";
-import {Dispatch} from "redux";
 import {fetchPerfumeSuccess} from "../actions/perfume-actions";
+import RequestService from '../../utils/request-service';
 
 export const addPerfume = (data: FormData) => async (dispatch: Dispatch) => {
     try {
-        await axios({
-            method: "POST",
-            url: API_BASE_URL + "/admin/add",
-            data: data,
-            headers: {
-                "Content-Type": "multipart/form-data",
-                "Authorization": localStorage.getItem("token")
-            }
-        });
+        await RequestService.post("/admin/add", data, true, "multipart/form-data")
         dispatch(addPerfumeSuccess());
     } catch (error) {
         dispatch(addPerfumeFailure(error.response.data));
@@ -34,15 +25,7 @@ export const addPerfume = (data: FormData) => async (dispatch: Dispatch) => {
 
 export const updatePerfume = (data: FormData) => async (dispatch: Dispatch) => {
     try {
-        const response = await axios({
-            method: "PUT",
-            url: API_BASE_URL + "/admin/edit",
-            data: data,
-            headers: {
-                "Content-Type": "multipart/form-data",
-                "Authorization": localStorage.getItem("token")
-            }
-        });
+        const response = await RequestService.put("/admin/edit", data, true, "multipart/form-data");
         dispatch(updatePerfumeSuccess());
         dispatch(fetchPerfumeSuccess(response.data));
     } catch (error) {
@@ -51,51 +34,22 @@ export const updatePerfume = (data: FormData) => async (dispatch: Dispatch) => {
 };
 
 export const fetchAllUsersOrders = () => async (dispatch: Dispatch) => {
-    const response = await axios({
-        method: "GET",
-        url: API_BASE_URL + "/admin/orders",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": localStorage.getItem("token")
-        }
-    });
+    const response = await RequestService.get("/admin/orders", true);
     dispatch(getAllUsersOrders(response.data));
 };
 
 export const fetchUserOrders = (email: string | undefined) => async (dispatch: Dispatch) => {
-    const response = await axios({
-        method: "POST",
-        url: API_BASE_URL + "/admin/order",
-        data: {email: email},
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": localStorage.getItem("token")
-        }
-    });
+    const response = await RequestService.post("/admin/order", {email: email}, true);
     dispatch(getUserOrders(response.data));
 };
 
 export const fetchAllUsers = () => async (dispatch: Dispatch) => {
-    const response = await axios({
-        method: "GET",
-        url: API_BASE_URL + "/admin/user/all",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": localStorage.getItem("token")
-        }
-    });
+    const response = await RequestService.get("/admin/user/all", true);
     dispatch(getAllUsers(response.data));
 };
 
 export const fetchUserInfo = (id: string) => async (dispatch: Dispatch) => {
-    const response = await axios({
-        method: "GET",
-        url: API_BASE_URL + "/admin/user/" + id,
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": localStorage.getItem("token")
-        }
-    });
+    const response = await RequestService.get("/admin/user/" + id, true);
     dispatch(getUserInfo(response.data));
 };
 

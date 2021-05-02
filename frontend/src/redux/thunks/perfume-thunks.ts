@@ -1,7 +1,5 @@
-import axios from 'axios';
 import {Dispatch} from "redux";
 
-import {API_BASE_URL} from "../../utils/constants/url";
 import {
     getPerfumes,
     fetchPerfumesByQuerySuccess,
@@ -13,40 +11,40 @@ import {
 } from "../actions/perfume-actions";
 import {FilterParamsType, Perfume} from "../../types/types";
 import {getAllPerfumesByQuery, getPerfumeByQuery} from "../../utils/graphql-query/perfume";
+import RequestService from '../../utils/request-service';
 
 export const fetchPerfumesByQuery = () => async (dispatch: Dispatch) => {
-    const response = await axios.post(API_BASE_URL + "/perfumes/graphql/perfumes", {query: getAllPerfumesByQuery});
+    const response = await RequestService.post("/perfumes/graphql/perfumes", {query: getAllPerfumesByQuery});
     dispatch(fetchPerfumesByQuerySuccess(response.data.data.perfumes));
 };
 
 export const fetchPerfumeByQuery = (id: string) => async (dispatch: Dispatch) => {
-    const response = await axios.post(API_BASE_URL + "/perfumes/graphql/perfume", {query: getPerfumeByQuery(id)});
+    const response = await RequestService.post("/perfumes/graphql/perfume", {query: getPerfumeByQuery(id)});
     dispatch(fetchPerfumeByQuerySuccess(response.data.data.perfume));
-    console.log(response.data.data.perfume)
 };
 
 export const fetchPerfumes = () => async (dispatch: Dispatch) => {
-    const response = await axios.get(API_BASE_URL + "/perfumes");
+    const response = await RequestService.get("/perfumes");
     dispatch(getPerfumes(response.data));
 };
 
 export const fetchPerfume = (id: string) => async (dispatch: Dispatch) => {
-    const response = await axios.get(API_BASE_URL + "/perfumes/" + id);
+    const response = await RequestService.get("/perfumes/" + id);
     dispatch(fetchPerfumeSuccess(response.data));
 };
 
 export const fetchPerfumesByFilterParams = (filter: FilterParamsType) => async (dispatch: Dispatch) => {
-    const response = await axios.post(API_BASE_URL + "/perfumes/search", filter);
+    const response = await RequestService.post("/perfumes/search", filter);
     dispatch(fetchPerfumesByFilterParamsSuccess(response.data));
 };
 
 export const fetchPerfumesByGender = (gender: { perfumeGender: string }) => async (dispatch: Dispatch) => {
-    const response = await axios.post(API_BASE_URL + "/perfumes/search/gender", gender);
+    const response = await RequestService.post("/perfumes/search/gender", gender);
     dispatch(fetchPerfumesByGenderSuccess(response.data));
 };
 
 export const fetchPerfumesByPerfumer = (perfumer: { perfumer: string }) => async (dispatch: Dispatch) => {
-    const response = await axios.post(API_BASE_URL + "/perfumes/search/perfumer", perfumer);
+    const response = await RequestService.post("/perfumes/search/perfumer", perfumer);
     dispatch(fetchPerfumesByPerfumerSuccess(response.data));
 };
 
