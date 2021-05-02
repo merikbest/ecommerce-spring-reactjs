@@ -22,6 +22,7 @@ export const fetchPerfumesByQuery = () => async (dispatch: Dispatch) => {
 export const fetchPerfumeByQuery = (id: string) => async (dispatch: Dispatch) => {
     const response = await axios.post(API_BASE_URL + "/perfumes/graphql/perfume", {query: getPerfumeByQuery(id)});
     dispatch(fetchPerfumeByQuerySuccess(response.data.data.perfume));
+    console.log(response.data.data.perfume)
 };
 
 export const fetchPerfumes = () => async (dispatch: Dispatch) => {

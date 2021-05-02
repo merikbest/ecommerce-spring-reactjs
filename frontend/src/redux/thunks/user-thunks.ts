@@ -7,6 +7,7 @@ import {
     fetchUserSuccess,
     resetInputForm,
     userAddedReviewFailure,
+    userAddedReviewSuccess,
     userUpdatedFailure,
     userUpdatedPasswordFailure,
     userUpdatedPasswordSuccess,
@@ -67,6 +68,7 @@ export const addReviewToPerfume = (review: ReviewData) => async (dispatch: Dispa
     try {
         const response = await axios.post(API_BASE_URL + "/users/review", review);
         dispatch(fetchPerfumeReviewsSuccess(response.data));
+        dispatch(userAddedReviewSuccess());
     } catch (error) {
         dispatch(userAddedReviewFailure(error.response.data));
     }

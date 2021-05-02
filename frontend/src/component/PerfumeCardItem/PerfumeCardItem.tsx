@@ -5,6 +5,7 @@ import 'react-lazy-load-image-component/src/effects/blur.css';
 
 import {IMG_URL} from "../../utils/constants/url";
 import {Perfume} from "../../types/types";
+import StarRating from "../StarRating/StarRating";
 
 type PropsType = {
     key: number
@@ -17,14 +18,15 @@ type PropsType = {
 const PerfumeCardItem: FC<PropsType> = ({key,perfume, colSize, link, btnName}) => {
     return (
         <div key={key} className={`col-lg-${colSize}`}>
-            <div className="card mb-5" style={{height: "293px"}}>
+            <div className="card mb-5" style={{height: "320px"}}>
                 <LazyLoadImage
                     effect="blur"
                     className="d-block mx-auto"
                     style={{width: "89px", height: "89px"}}
                     src={IMG_URL + `${perfume.filename}`}/>
                 <div className="card-body text-center">
-                    <h5>{perfume.perfumeTitle}</h5>
+                    <StarRating perfumeRating={perfume.perfumeRating}/>
+                    <h6>{perfume.perfumeTitle}</h6>
                     <h6>{perfume.perfumer}</h6>
                     <h6><span>${perfume.price}</span>.00</h6>
                 </div>

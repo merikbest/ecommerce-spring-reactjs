@@ -19,6 +19,7 @@ type InitialStateType = {
     userEditErrors: Partial<UserEditErrors>
     userResetPasswordErrors: Partial<AuthErrors>
     reviewErrors: Partial<ReviewError>
+    isReviewAdded: boolean
 };
 
 const initialState: InitialStateType = {
@@ -27,7 +28,8 @@ const initialState: InitialStateType = {
     successMessage: "",
     userEditErrors: {},
     userResetPasswordErrors: {},
-    reviewErrors: {}
+    reviewErrors: {},
+    isReviewAdded: false
 };
 
 const reducer = (state: InitialStateType = initialState, action: UserActionsTypes): InitialStateType => {
@@ -49,10 +51,10 @@ const reducer = (state: InitialStateType = initialState, action: UserActionsType
             return {...state, userResetPasswordErrors: action.payload};
 
         case USER_ADDED_REVIEW_SUCCESS:
-            return {...state, reviewErrors: {}};
+            return {...state, reviewErrors: {}, isReviewAdded: true};
 
         case USER_ADDED_REVIEW_FAILURE:
-            return {...state, reviewErrors: action.payload};
+            return {...state, reviewErrors: action.payload, isReviewAdded: false};
 
         case RESET_INPUT_FORM:
             return {...state, userResetPasswordErrors: {}, successMessage: "", userEditErrors: {}, reviewErrors: {}};

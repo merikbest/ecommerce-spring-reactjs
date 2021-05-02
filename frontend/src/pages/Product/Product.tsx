@@ -1,31 +1,33 @@
 import React, {FC, FormEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCartPlus, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
+import {faCartPlus, faPaperPlane, faStar} from "@fortawesome/free-solid-svg-icons";
 import SockJS from "sockjs-client";
 import {CompatClient, Stomp} from '@stomp/stompjs';
+import StarRatingComponent from 'react-star-rating-component';
 
 import {IMG_URL} from "../../utils/constants/url";
 import {fetchPerfumeByQuery, fetchPerfumeReviewsWS} from "../../redux/thunks/perfume-thunks";
 import {addReviewToPerfume, resetForm} from "../../redux/thunks/user-thunks";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 import {RouteComponentProps, useHistory} from "react-router-dom";
-import {Review, ReviewData, ReviewError} from "../../types/types";
-import StarRatingComponent from 'react-star-rating-component';
+import {Perfume, Review, ReviewData, ReviewError} from "../../types/types";
+import halfStar from "../../img/star-half.svg";
 
 let stompClient: CompatClient | null = null;
 
 const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const perfume = useSelector((state: AppStateType) => state.perfume.perfume);
+    const perfume: Partial<Perfume> = useSelector((state: AppStateType) => state.perfume.perfume);
     const reviews: Array<Review> = useSelector((state: AppStateType) => state.perfume.reviews);
     const errors: Partial<ReviewError> = useSelector((state: AppStateType) => state.user.reviewErrors);
+    const isReviewAdded: boolean = useSelector((state: AppStateType) => state.user.isReviewAdded);
 
     const [author, setAuthor] = useState<string>("");
     const [message, setMessage] = useState<string>("");
-    const [mark, setMark] = useState<number>(0);
-    const {authorError, messageError} = errors;
+    const [rating, setRating] = useState<number>(0);
+    const {authorError, messageError, ratingError} = errors;
 
     useEffect(() => {
         // GraphQL example
@@ -43,6 +45,12 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
         return () => stompClient?.disconnect();
     }, []);
 
+    useEffect(() => {
+        setAuthor("");
+        setMessage("");
+        setRating(0);
+    }, [isReviewAdded]);
+
     const addToCart = (): void => {
         const perfumeId: number | undefined = perfume.id;
         let data: string | null = localStorage.getItem("perfumes");
@@ -55,14 +63,24 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
         }
         localStorage.setItem("perfumes", JSON.stringify(Array.from(cart.entries())));
         history.push("/cart");
-    }
+    };
 
     const addReview = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        const review: ReviewData = {perfumeId: match.params.id as string, author, message}
+        const review: ReviewData = {perfumeId: match.params.id as string, author, message, rating}
         dispatch(addReviewToPerfume(review));
-        setAuthor("");
-        setMessage("");
+    };
+
+    const renderStars = (perfumeRating: number = 5) => {
+        return (
+            <StarRatingComponent
+                renderStarIconHalf={() => <img src={halfStar} alt="halfStar" style={{width: "14.5px", marginBottom: "2px"}} />}
+                renderStarIcon={() => <FontAwesomeIcon className="fa-sm" icon={faStar}/>}
+                name={"star"}
+                starCount={5}
+                editing={false}
+                value={perfumeRating}/>
+        );
     };
 
     return (
@@ -79,7 +97,7 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                     <p>Product code: <span>{perfume.id}</span></p>
                     <div className="row">
                         <div className="col-md-2">
-                            <StarRatingComponent name={"start"} value={5} starCount={5} />
+                            {renderStars(perfume.perfumeRating === 0 ? 5 : perfume.perfumeRating)}
                         </div>
                         <div className="col-md-10">
                             <span style={{paddingBottom: "50px"}}>{perfume.reviews?.length} reviews</span>
@@ -148,11 +166,17 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                         return (
                             <div key={review.id}>
                                 <div className="form row mt-5">
-                                    <div className="col-3">
+                                    <div className="col-md-3">
                                         <p><b>{review.author}</b></p>
                                         <p>{review.date}</p>
+                                        <StarRatingComponent
+                                            name="star"
+                                            value={review.rating}
+                                            renderStarIcon={() => <FontAwesomeIcon className="fa-sm" icon={faStar}/>}
+                                            starCount={5}
+                                            editing={false}/>
                                     </div>
-                                    <div className="col">
+                                    <div className="col-md-9">
                                         <p>{review.message}</p>
                                     </div>
                                 </div>
@@ -179,11 +203,13 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                                 <div className="col-md-8">
                                     <label><span className="text-danger"><b>*</b></span> Your mark</label>
                                     <div>
-                                    <StarRatingComponent
-                                        name="start"
-                                        onStarClick={(value) => setMark(value)}
-                                        starCount={5}
-                                        value={mark}/>
+                                        <StarRatingComponent
+                                            name="star"
+                                            starCount={5}
+                                            value={rating}
+                                            onStarClick={(value) => setRating(value)}
+                                            renderStarIcon={() => <FontAwesomeIcon className="fa-sm" icon={faStar}/>}/>
+                                        <div className="invalid-feedback d-block">{ratingError}</div>
                                     </div>
                                 </div>
                             </div>

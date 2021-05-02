@@ -13,6 +13,7 @@ export type Perfume = {
     description: string
     filename: string
     price: number
+    perfumeRating: number
     file: any
     reviews: Array<Review>
 };
@@ -35,6 +36,7 @@ export type Review = {
     id: number
     author: string
     message: string
+    rating: number
     date: any
 };
 
@@ -42,11 +44,13 @@ export type ReviewData = {
     perfumeId: number | string
     author: string
     message: string
+    rating: number
 };
 
 export type ReviewError = {
     authorError: string
     messageError: string
+    ratingError: string
 };
 
 export type Order = {

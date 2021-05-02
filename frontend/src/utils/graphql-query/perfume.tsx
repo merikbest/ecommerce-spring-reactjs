@@ -6,6 +6,7 @@ export const getAllPerfumesByQuery = `
             perfumer
             price
             filename
+            perfumeRating
         }
     }
 `;
@@ -26,11 +27,13 @@ export const getPerfumeByQuery = (id: string) => `
             price
             volume
             type
+            perfumeRating
             reviews {
                 id
                 author
                 message
                 date
+                rating
             }
         }
     }
