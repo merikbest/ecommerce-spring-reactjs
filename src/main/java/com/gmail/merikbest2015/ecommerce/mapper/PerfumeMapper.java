@@ -37,12 +37,16 @@ public class PerfumeMapper {
         return convertToResponseDto(perfumeService.findPerfumeById(perfumeId));
     }
 
+    public List<PerfumeResponseDto> findPerfumesByIds(List<Long> perfumesId) {
+        return convertListToResponseDto(perfumeService.findPerfumesByIds(perfumesId));
+    }
+
     public List<PerfumeResponseDto> findAllPerfumes() {
         return convertListToResponseDto(perfumeService.findAllPerfumes());
     }
 
-    public List<PerfumeResponseDto> filter(List<String> perfumers, List<String> genders, List<Integer> prices) {
-        return convertListToResponseDto(perfumeService.filter(perfumers, genders, prices));
+    public List<PerfumeResponseDto> filter(List<String> perfumers, List<String> genders, List<Integer> prices, boolean sortByPrice) {
+        return convertListToResponseDto(perfumeService.filter(perfumers, genders, prices, sortByPrice));
     }
 
     public List<PerfumeResponseDto> findByPerfumerOrderByPriceDesc(String perfumer) {
@@ -55,5 +59,9 @@ public class PerfumeMapper {
 
     public PerfumeResponseDto savePerfume(PerfumeRequestDto perfumeRequestDto, MultipartFile file) {
         return convertToResponseDto(perfumeService.savePerfume(convertToEntity(perfumeRequestDto), file));
+    }
+
+    public List<PerfumeResponseDto> deleteOrder(Long perfumeId) {
+        return convertListToResponseDto(perfumeService.deletePerfume(perfumeId));
     }
 }

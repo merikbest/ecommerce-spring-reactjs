@@ -47,10 +47,10 @@ public class PerfumeServiceImplTest {
         perfumeList.add(new Perfume());
         perfumeList.add(new Perfume());
 
-        when(perfumeRepository.findAll()).thenReturn(perfumeList);
+        when(perfumeRepository.findAllByOrderByIdAsc()).thenReturn(perfumeList);
         perfumeService.findAllPerfumes();
         assertEquals(2, perfumeList.size());
-        verify(perfumeRepository, times(1)).findAll();
+        verify(perfumeRepository, times(1)).findAllByOrderByIdAsc();
     }
 
     @Test
@@ -58,9 +58,11 @@ public class PerfumeServiceImplTest {
         Perfume perfumeChanel = new Perfume();
         perfumeChanel.setPerfumer(PERFUMER_CHANEL);
         perfumeChanel.setPerfumeGender(PERFUME_GENDER);
+        perfumeChanel.setPrice(101);
         Perfume perfumeCreed = new Perfume();
         perfumeCreed.setPerfumer(PERFUMER_CREED);
         perfumeCreed.setPerfumeGender(PERFUME_GENDER);
+        perfumeCreed.setPrice(102);
 
         List<Perfume> perfumeList = new ArrayList<>();
         perfumeList.add(perfumeChanel);
@@ -73,18 +75,16 @@ public class PerfumeServiceImplTest {
         List<String> genders = new ArrayList<>();
         genders.add(PERFUME_GENDER);
 
-        when(perfumeRepository.findByPerfumerInAndPerfumeGenderInOrderByPriceDesc(perfumers, genders)).thenReturn(perfumeList);
-        perfumeService.filter(perfumers, genders, new ArrayList<>());
+        when(perfumeRepository.findByPerfumerIn(perfumers)).thenReturn(perfumeList);
+        perfumeService.filter(perfumers, new ArrayList<>(), new ArrayList<>(), false);
         assertEquals(2, perfumeList.size());
         assertEquals(perfumeList.get(0).getPerfumer(), PERFUMER_CHANEL);
-        verify(perfumeRepository, times(1))
-                .findByPerfumerInAndPerfumeGenderInOrderByPriceDesc(perfumers, genders);
+        verify(perfumeRepository, times(1)).findByPerfumerIn(perfumers);
 
-        when(perfumeRepository.findByPerfumerInOrPerfumeGenderInOrderByPriceDesc(perfumers, new ArrayList<>())).thenReturn(perfumeList);
-        perfumeService.filter(perfumers, new ArrayList<>(), new ArrayList<>());
+        when(perfumeRepository.findByPerfumeGenderIn(genders)).thenReturn(perfumeList);
+        perfumeService.filter(new ArrayList<>(), genders, new ArrayList<>(), false);
         assertEquals(2, perfumeList.size());
-        verify(perfumeRepository, times(1))
-                .findByPerfumerInOrPerfumeGenderInOrderByPriceDesc(perfumers, new ArrayList<>());
+        verify(perfumeRepository, times(1)).findByPerfumeGenderIn(genders);
     }
 
     @Test

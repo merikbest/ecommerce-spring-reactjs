@@ -77,9 +77,9 @@ public class UserServiceImlTest {
         usersList.add(new User());
         userService.findAllUsers();
 
-        when(userRepository.findAll()).thenReturn(usersList);
+        when(userRepository.findAllByOrderByIdAsc()).thenReturn(usersList);
         assertEquals(2, usersList.size());
-        verify(userRepository, times(1)).findAll();
+        verify(userRepository, times(1)).findAllByOrderByIdAsc();
     }
 
     @Test
@@ -279,6 +279,7 @@ public class UserServiceImlTest {
     public void addReviewToPerfume() {
         List<Review> reviewList = new ArrayList<>();
         Review review = new Review();
+        review.setRating(5);
         reviewList.add(review);
         Perfume perfume = new Perfume();
         perfume.setId(123L);

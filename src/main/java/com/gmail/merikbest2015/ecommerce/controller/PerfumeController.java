@@ -30,9 +30,14 @@ public class PerfumeController {
         return ResponseEntity.ok(perfumeMapper.findPerfumeById(perfumeId));
     }
 
+    @PostMapping("/ids")
+    public ResponseEntity<List<PerfumeResponseDto>> getPerfumesByIds(@RequestBody List<Long> perfumesIds) {
+        return ResponseEntity.ok(perfumeMapper.findPerfumesByIds(perfumesIds));
+    }
+
     @PostMapping("/search")
     public ResponseEntity<List<PerfumeResponseDto>> findPerfumesByFilterParams(@RequestBody PerfumeSearchRequestDto filter) {
-        return ResponseEntity.ok(perfumeMapper.filter(filter.getPerfumers(), filter.getGenders(), filter.getPrices()));
+        return ResponseEntity.ok(perfumeMapper.filter(filter.getPerfumers(), filter.getGenders(), filter.getPrices(), filter.isSortByPrice()));
     }
 
     @PostMapping("/search/gender")
@@ -43,6 +48,11 @@ public class PerfumeController {
     @PostMapping("/search/perfumer")
     public ResponseEntity<List<PerfumeResponseDto>> findByPerfumer(@RequestBody PerfumeSearchRequestDto filter) {
         return ResponseEntity.ok(perfumeMapper.findByPerfumerOrderByPriceDesc(filter.getPerfumer()));
+    }
+
+    @PostMapping("/graphql/ids")
+    public ResponseEntity<ExecutionResult> getPerfumesByIdsQuery(@RequestBody GraphQLRequestDto request) {
+        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
     @PostMapping("/graphql/perfumes")

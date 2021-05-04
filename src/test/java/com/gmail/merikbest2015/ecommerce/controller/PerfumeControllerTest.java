@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
@@ -93,6 +94,28 @@ public class PerfumeControllerTest {
     }
 
     @Test
+    public void getPerfumesByIds() throws Exception {
+        mockMvc.perform(post(URL_PERFUMES_BASIC + "/ids")
+                .content(mapper.writeValueAsString(Arrays.asList(16L, 17L, 18L)))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*].id").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].year").isNotEmpty())
+                .andExpect(jsonPath("$[*].country").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumeGender").isNotEmpty())
+                .andExpect(jsonPath("$[*].fragranceTopNotes").isNotEmpty())
+                .andExpect(jsonPath("$[*].fragranceMiddleNotes").isNotEmpty())
+                .andExpect(jsonPath("$[*].fragranceBaseNotes").isNotEmpty())
+                .andExpect(jsonPath("$[*].description").isNotEmpty())
+                .andExpect(jsonPath("$[*].filename").isNotEmpty())
+                .andExpect(jsonPath("$[*].price").isNotEmpty())
+                .andExpect(jsonPath("$[*].volume").isNotEmpty())
+                .andExpect(jsonPath("$[*].type").isNotEmpty());
+    }
+
+    @Test
     public void findPerfumesByFilterParams() throws Exception {
         mockMvc.perform(post(URL_PERFUMES_SEARCH)
                 .content(mapper.writeValueAsString(filter))
@@ -162,6 +185,19 @@ public class PerfumeControllerTest {
                 .andExpect(jsonPath("$[*].price").isNotEmpty())
                 .andExpect(jsonPath("$[*].volume").isNotEmpty())
                 .andExpect(jsonPath("$[*].type").isNotEmpty());
+    }
+    @Test
+    public void getPerfumesByIdsQuery() throws Exception {
+        graphQLRequestDto.setQuery(GRAPHQL_QUERY_PERFUMES_BY_IDS);
+
+        mockMvc.perform(post(URL_PERFUMES_GRAPHQL + "/ids")
+                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.perfumesIds[*].id").isNotEmpty())
+                .andExpect(jsonPath("$.data.perfumesIds[*].perfumeTitle").isNotEmpty())
+                .andExpect(jsonPath("$.data.perfumesIds[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$.data.perfumesIds[*].price").isNotEmpty());
     }
 
     @Test

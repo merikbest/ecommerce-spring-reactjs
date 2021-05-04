@@ -47,10 +47,10 @@ public class OrderServiceImplTest {
         orderList.add(new Order());
         orderList.add(new Order());
 
-        when(orderRepository.findAll()).thenReturn(orderList);
+        when(orderRepository.findAllByOrderByIdAsc()).thenReturn(orderList);
         orderService.findAll();
         assertEquals(2, orderList.size());
-        verify(orderRepository, times(1)).findAll();
+        verify(orderRepository, times(1)).findAllByOrderByIdAsc();
     }
 
     @Test

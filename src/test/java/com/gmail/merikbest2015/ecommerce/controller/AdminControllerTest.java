@@ -24,6 +24,8 @@ import java.io.FileInputStream;
 
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.collection.IsIterableWithSize.iterableWithSize;
+import static org.hamcrest.number.OrderingComparison.greaterThan;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -100,6 +102,28 @@ public class AdminControllerTest {
                 .andExpect(jsonPath("$.priceError", is("Fill in the input field")))
                 .andExpect(jsonPath("$.volumeError", is("Fill in the input field")))
                 .andExpect(jsonPath("$.typeError", is("Fill in the input field")));
+    }
+
+    @Test
+    public void deletePerfume() throws Exception {
+        mockMvc.perform(delete(URL_ADMIN_BASIC + "/delete/59"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*].id").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].year").isNotEmpty())
+                .andExpect(jsonPath("$[*].country").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumeGender").isNotEmpty())
+                .andExpect(jsonPath("$[*].fragranceTopNotes").isNotEmpty())
+                .andExpect(jsonPath("$[*].fragranceMiddleNotes").isNotEmpty())
+                .andExpect(jsonPath("$[*].fragranceBaseNotes").isNotEmpty())
+                .andExpect(jsonPath("$[*].description").isNotEmpty())
+                .andExpect(jsonPath("$[*].filename").isNotEmpty())
+                .andExpect(jsonPath("$[*].price").isNotEmpty())
+                .andExpect(jsonPath("$[*].volume").isNotEmpty())
+                .andExpect(jsonPath("$[*].type").isNotEmpty())
+                .andExpect(jsonPath("$[*].reviews[*]", iterableWithSize(greaterThan(1))))
+                .andExpect(jsonPath("$[*].reviews[*].author").isNotEmpty());
     }
 
     @Test

@@ -46,6 +46,7 @@ public class GraphQLProvider {
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring
                         .dataFetcher("perfumes", perfumeService.getAllPerfumesByQuery())
+                        .dataFetcher("perfumesIds", perfumeService.getAllPerfumesByIdsQuery())
                         .dataFetcher("perfume", perfumeService.getPerfumeByQuery())
                         .dataFetcher("orders", orderService.getAllOrdersByQuery())
                         .dataFetcher("ordersByEmail", orderService.getUserOrdersByEmailQuery())

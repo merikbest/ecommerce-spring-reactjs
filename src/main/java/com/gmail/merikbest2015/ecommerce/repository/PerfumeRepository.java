@@ -11,11 +11,11 @@ public interface PerfumeRepository extends JpaRepository<Perfume, Long> {
 
     List<Perfume> findAllByOrderByIdAsc();
 
-    List<Perfume> findByPerfumerInAndPerfumeGenderInOrderByPriceDesc(List<String> perfumers, List<String> genders);
+    List<Perfume> findByPerfumerIn(List<String> perfumers);
 
-    List<Perfume> findByPerfumerInOrPerfumeGenderInOrderByPriceDesc(List<String> perfumers, List<String> genders);
+    List<Perfume> findByPerfumeGenderIn(List<String> genders);
 
-    List<Perfume> findByPriceBetweenOrderByPriceDesc(Integer startingPrice, Integer endingPrice);
+    List<Perfume> findByPriceBetween(Integer startingPrice, Integer endingPrice);
 
     List<Perfume> findByPerfumerOrderByPriceDesc(String perfumer);
 

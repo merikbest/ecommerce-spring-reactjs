@@ -4,6 +4,7 @@ schema {
 
 type Query {
     perfumes: [Perfume]
+    perfumesIds(ids: [ID]): [Perfume]
     perfume(id: ID): Perfume
     orders: [Order]
     ordersByEmail(email: String): [Order]

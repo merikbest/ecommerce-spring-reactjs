@@ -70,6 +70,7 @@ public class TestConstants {
             "email phoneNumber postIndex orderItems { id amount quantity perfume { id perfumeTitle perfumer price filename } } } }";
     public static final String GRAPHQL_QUERY_ORDERS_BY_EMAIL = "{ ordersByEmail(email: \"test123@test.com\") { id totalPrice date firstName lastName city address " +
             "email phoneNumber postIndex orderItems { id amount quantity perfume { id perfumeTitle perfumer price filename } } } }";
+    public static final String GRAPHQL_QUERY_PERFUMES_BY_IDS = "{ perfumesIds(ids: [16,17,18]) { id perfumeTitle perfumer price } }";
     public static final String GRAPHQL_QUERY_PERFUMES = "{ perfumes { id perfumeTitle perfumer price filename } }";
     public static final String GRAPHQL_QUERY_PERFUME = "{ perfume(id: 2) { id perfumeTitle perfumer price } }";
 }

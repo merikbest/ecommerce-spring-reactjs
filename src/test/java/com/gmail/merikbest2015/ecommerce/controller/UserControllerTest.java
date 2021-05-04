@@ -220,6 +220,7 @@ public class UserControllerTest {
         reviewRequestDto.setPerfumeId(2L);
         reviewRequestDto.setAuthor(FIRST_NAME);
         reviewRequestDto.setMessage("Hello world");
+        reviewRequestDto.setRating(5);
 
         mockMvc.perform(post(URL_USERS_REVIEW)
                 .content(mapper.writeValueAsString(reviewRequestDto))

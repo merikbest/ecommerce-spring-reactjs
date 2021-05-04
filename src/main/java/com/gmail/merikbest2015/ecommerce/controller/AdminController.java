@@ -55,6 +55,11 @@ public class AdminController {
         }
     }
 
+    @DeleteMapping("/delete/{perfumeId}")
+    public ResponseEntity<List<PerfumeResponseDto>> deletePerfume(@PathVariable(value = "perfumeId") Long perfumeId) {
+        return ResponseEntity.ok(perfumeMapper.deleteOrder(perfumeId));
+    }
+
     @GetMapping("/orders")
     public ResponseEntity<List<OrderResponseDto>> getAllOrders() {
         return ResponseEntity.ok(orderMapper.findAllOrders());

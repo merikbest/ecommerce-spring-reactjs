@@ -66,6 +66,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order postOrder(Order validOrder, Map<Long, Long> perfumesId) {
         Order order = new Order();
         List<OrderItem> orderItemList = new ArrayList<>();
