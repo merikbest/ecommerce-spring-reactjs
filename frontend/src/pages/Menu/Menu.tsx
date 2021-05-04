@@ -15,6 +15,7 @@ import {
 import "./MenuStyle.css";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 import {FilterParamsType, Perfume} from "../../types/types";
+import ScrollButton from "../../component/ScrollButton/ScrollButton";
 
 const Menu: FC = () => {
     const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const Menu: FC = () => {
         genders: [],
         prices: []
     });
+    const [sortByPrice, setSortByPrice] = useState<boolean>();
     const {state} = useLocation<{ id: string }>();
 
     useEffect(() => {
@@ -58,12 +60,20 @@ const Menu: FC = () => {
             let priceValues = handlePrice(filters as number);
             newFilters[category] = priceValues;
         }
-        getProducts(newFilters)
+        getProducts({...newFilters, sortByPrice})
         setFilterParams(newFilters);
+    };
+
+    const handleSortByPrice = (sortedBy: boolean, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
+        event.preventDefault();
+
+        setSortByPrice(sortedBy);
+        getProducts({...filterParams, sortByPrice: sortedBy});
     };
 
     return (
         <div className="container d-flex">
+            <ScrollButton/>
             <nav id="sidebar">
                 <div className="sidebar-header">
                     <h3>Perfumes</h3>
@@ -86,10 +96,16 @@ const Menu: FC = () => {
                     </li>
                 </ul>
             </nav>
-            <Route exact component={() => <MenuCards perfumes={perfumes} itemsPerPage={16} searchByData={[
-                {label: 'Brand', value: 'perfumer'},
-                {label: 'Perfume title', value: 'perfumeTitle'},
-                {label: 'Manufacturer country', value: 'country'}]}/>}/>
+            <Route exact component={() =>
+                <MenuCards
+                    data={perfumes}
+                    itemsPerPage={16}
+                    searchByData={[
+                        {label: 'Brand', value: 'perfumer'},
+                        {label: 'Perfume title', value: 'perfumeTitle'},
+                        {label: 'Manufacturer country', value: 'country'}]}
+                    sortByPrice={sortByPrice}
+                    handleSortByPrice={handleSortByPrice}/>}/>
         </div>
     );
 };

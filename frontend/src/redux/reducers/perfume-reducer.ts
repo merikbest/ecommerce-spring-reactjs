@@ -1,5 +1,6 @@
 import {Perfume, Review} from "../../types/types";
 import {
+    LOADING_PERFUME,
     FETCH_PERFUMES,
     FETCH_PERFUME_SUCCESS,
     FETCH_PERFUMES_BY_FILTER_PARAMS_SUCCESS,
@@ -8,24 +9,29 @@ import {
     FETCH_PERFUMES_BY_QUERY_SUCCESS,
     FETCH_PERFUME_BY_QUERY_SUCCESS,
     FETCH_PERFUME_REVIEWS_SUCCESS,
-    PerfumeActionTypes,
+    PerfumeActionTypes
 } from "../action-types/perfume-action-types";
 
 type InitialStateType = {
     perfumes: Array<Perfume>,
     perfume: Partial<Perfume>,
-    reviews: Array<Review>
+    reviews: Array<Review>,
+    isPerfumeLoading: boolean
 };
 
 const initialState: InitialStateType = {
     perfumes: [],
     perfume: {},
-    reviews: []
+    reviews: [],
+    isPerfumeLoading: false
 };
 
 const reducer = (state: InitialStateType = initialState, action: PerfumeActionTypes): InitialStateType => {
 
     switch (action.type) {
+        case LOADING_PERFUME:
+            return {...state, isPerfumeLoading: true};
+
         case FETCH_PERFUMES:
             return {...state, perfumes: action.payload};
 
@@ -33,13 +39,13 @@ const reducer = (state: InitialStateType = initialState, action: PerfumeActionTy
             return {...state, perfumes: action.payload};
 
         case FETCH_PERFUME_SUCCESS:
-            return {...state, perfume: action.payload, reviews: action.payload.reviews};
+            return {...state, perfume: action.payload, reviews: action.payload.reviews, isPerfumeLoading: false};
 
         case FETCH_PERFUME_REVIEWS_SUCCESS:
             return {...state, perfume: action.payload, reviews: action.payload.reviews};
 
         case FETCH_PERFUME_BY_QUERY_SUCCESS:
-            return {...state, perfume: action.payload, reviews: action.payload.reviews};
+            return {...state, perfume: action.payload, reviews: action.payload.reviews, isPerfumeLoading: false};
 
         case FETCH_PERFUMES_BY_GENDER_SUCCESS:
             return {...state, perfumes: action.payload};

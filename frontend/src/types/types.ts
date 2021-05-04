@@ -148,6 +148,7 @@ export type FilterParamsType = {
     perfumers: Array<string>
     genders: Array<string>
     prices: Array<number>
+    sortByPrice?: boolean
 };
 
 export type PerfumePrice = {

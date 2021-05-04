@@ -38,3 +38,16 @@ export const getPerfumeByQuery = (id: string) => `
         }
     }
 `;
+
+export const gePerfumesByIdsQuery = (ids: Array<number>) => `
+    {
+        perfumesIds(ids: [${ids}]) {
+            id
+            perfumeTitle
+            perfumer
+            price
+            filename
+            perfumeRating
+        }
+    }
+`;

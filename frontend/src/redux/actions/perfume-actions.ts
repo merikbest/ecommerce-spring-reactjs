@@ -1,5 +1,6 @@
 import {Perfume} from "../../types/types";
 import {
+    LOADING_PERFUME,
     FETCH_PERFUMES,
     FETCH_PERFUME_SUCCESS,
     FETCH_PERFUME_REVIEWS_SUCCESS,
@@ -16,7 +17,12 @@ import {
     FetchPerfumeSuccessActionType,
     GetPerfumesActionType,
     FetchPerfumeReviewsSuccessActionType,
+    LoadingPerfumeActionType
 } from "../action-types/perfume-action-types";
+
+export const loadingPerfume = (): LoadingPerfumeActionType => ({
+    type: LOADING_PERFUME
+});
 
 export const getPerfumes = (perfumes: Array<Perfume>): GetPerfumesActionType => ({
     type: FETCH_PERFUMES,

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {Perfume} from "../../types/types";
 
 export type Pagination = {
     id: number
@@ -7,23 +6,23 @@ export type Pagination = {
     ellipsis: boolean
 };
 
-const usePagination: ({itemsPerPage, perfumes, startFrom}: { itemsPerPage: number; perfumes: Array<Perfume>; startFrom: any }) => {
+const usePagination: ({itemsPerPage, data, startFrom}: { itemsPerPage: number, data: Array<any>, startFrom: any }) => {
     pagination: Array<Pagination>;
     changePage: (page: number, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
-    setFilteredData: (value: (((prevState: Array<Perfume>) => Array<Perfume>) | Array<Perfume>)) => void;
+    setFilteredData: (value: (((prevState: Array<any>) => Array<any>) | Array<any>)) => void;
     nextPage: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
     setSearching: (value: (((prevState: boolean) => boolean) | boolean)) => void;
-    slicedData: Array<Perfume>;
+    slicedData: Array<any>;
     prevPage: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
-} = ({itemsPerPage, perfumes, startFrom}) => {
+} = ({itemsPerPage, data, startFrom}) => {
 
     const [searching, setSearching] = useState<boolean>(false);
-    const [filteredData, setFilteredData] = useState<Array<Perfume>>(perfumes);
+    const [filteredData, setFilteredData] = useState<Array<any>>(data);
     const perPage: number = itemsPerPage ? itemsPerPage : 12;
     const pages: number = Math.ceil(filteredData.length / perPage);
     const pagination: Array<Pagination> = [];
     const [currentPage, setCurrentPage] = useState<number>(startFrom <= pages ? startFrom : 1);
-    const [slicedData, setSlicedData] = useState<Array<Perfume>>([...filteredData].slice((currentPage - 1) * perPage, currentPage * perPage));
+    const [slicedData, setSlicedData] = useState<Array<any>>([...filteredData].slice((currentPage - 1) * perPage, currentPage * perPage));
 
     useEffect(() => {
         setSlicedData([...filteredData].slice((currentPage - 1) * perPage, currentPage * perPage));

@@ -1,11 +1,9 @@
 import React, {FC, useEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {NavLink, Redirect, Route, RouteComponentProps} from "react-router-dom";
 import {faUser} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import {AppStateType} from "../../redux/reducers/root-reducer";
-import {Perfume} from "../../types/types";
 import {formReset} from "../../redux/thunks/admin-thunks";
 import {fetchUserInfo} from "../../redux/thunks/user-thunks";
 import {fetchPerfumes} from "../../redux/thunks/perfume-thunks";

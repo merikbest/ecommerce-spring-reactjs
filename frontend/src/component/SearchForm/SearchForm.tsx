@@ -39,7 +39,7 @@ const SearchForm: FC<PropsType> = ({data, searchByData, setFilteredData, setSear
         <form onSubmit={submitHandler} style={{justifyContent: 'center'}}>
             <div className="row">
                 {searchByData && searchByData.length > 0 &&
-                <div className="col-sm-6">
+                <div className="col-md-4">
                     <select className="form-control" value={searchBy}
                             onChange={(event) => setSearchBy(event.target.value)}>
                         {searchByData.map((data, index) => (
@@ -47,7 +47,7 @@ const SearchForm: FC<PropsType> = ({data, searchByData, setFilteredData, setSear
                         ))}
                     </select>
                 </div>}
-                <div className="col">
+                <div className="col-md-3">
                     <input
                         type="text"
                         className="form-control"
@@ -55,8 +55,10 @@ const SearchForm: FC<PropsType> = ({data, searchByData, setFilteredData, setSear
                         value={search}
                         onChange={(event) => setSearch(event.target.value)}/>
                 </div>
-                <button type="submit" className="btn btn-dark">
-                    <FontAwesomeIcon icon={faSearch}/> Search</button>
+                <div className="col-md-5">
+                    <button type="submit" className="btn btn-dark">
+                        <FontAwesomeIcon icon={faSearch}/> Search</button>
+                </div>
             </div>
         </form>
     );

@@ -6,6 +6,7 @@ import SliderBrands from "../../component/SliderBrands/SliderBrands";
 import SliderCards from "../../component/PerfumeCardsSlider/PerfumeCardsSlider";
 import {useDispatch} from "react-redux";
 import {fetchCart} from "../../redux/thunks/cart-thunks";
+import ScrollButton from "../../component/ScrollButton/ScrollButton";
 
 const HomePage: FC = () => {
     const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const HomePage: FC = () => {
 
     return (
         <div>
+            <ScrollButton/>
             <CarouselImageSlider/>
             <SliderBrands/>
             <HomePageTheme/>

@@ -11,7 +11,7 @@ import {
     updatePerfumeFailure,
     updatePerfumeSuccess
 } from "../actions/admin-actions";
-import {fetchPerfumeSuccess} from "../actions/perfume-actions";
+import {fetchPerfumeSuccess, getPerfumes} from "../actions/perfume-actions";
 import RequestService from '../../utils/request-service';
 
 export const addPerfume = (data: FormData) => async (dispatch: Dispatch) => {
@@ -31,6 +31,11 @@ export const updatePerfume = (data: FormData) => async (dispatch: Dispatch) => {
     } catch (error) {
         dispatch(updatePerfumeFailure(error.response.data));
     }
+};
+
+export const deletePerfume = (id?: number) => async (dispatch: Dispatch) => {
+    const response = await RequestService.delete("/admin/delete/" + id, true);
+    dispatch(getPerfumes(response.data));
 };
 
 export const fetchAllUsersOrders = () => async (dispatch: Dispatch) => {

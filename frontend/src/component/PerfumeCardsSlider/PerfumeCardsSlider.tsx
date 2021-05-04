@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
 import {IMG_URL} from "../../utils/constants/url";
-import {fetchPerfumes, fetchPerfumesByQuery} from "../../redux/thunks/perfume-thunks"
+import {fetchPerfumesByIds, fetchPerfumesByIdsQuery} from "../../redux/thunks/perfume-thunks"
 import "./PerfumeCardsSlider.css";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 import {Perfume} from "../../types/types";
@@ -13,15 +13,16 @@ import StarRating from "../StarRating/StarRating";
 const PerfumeCardsSlider: FC = () => {
     const dispatch = useDispatch();
     const perfumes: Array<Perfume> = useSelector((state: AppStateType) => state.perfume.perfumes);
+    const perfumesId: Array<number> = [26, 43, 46, 106, 34, 76, 82, 85, 27, 39, 79, 86];
 
     useEffect(() => {
         // GraphQL example
-        dispatch(fetchPerfumesByQuery());
-        // dispatch(fetchPerfumes());
+        dispatch(fetchPerfumesByIdsQuery(perfumesId));
+        // dispatch(fetchPerfumesByIds(perfumesId));
     }, []);
 
     const addCarouselItems = (array: Array<Perfume>, counter: number) => {
-        const perfumesId: Array<number> = [26, 43, 46, 106, 34, 76, 82, 85, 27, 39, 79, 86];
+
         return (
             <Carousel.Item>
                 <div className="card-deck">

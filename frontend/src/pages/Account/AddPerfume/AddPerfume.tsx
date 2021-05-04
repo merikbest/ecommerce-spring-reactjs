@@ -43,7 +43,7 @@ const AddPerfume: FC = () => {
         fragranceBaseNotes: "",
         price: "",
         file: "",
-        perfumeRating: 0
+        perfumeRating: 0.0
     };
 
     const [{
