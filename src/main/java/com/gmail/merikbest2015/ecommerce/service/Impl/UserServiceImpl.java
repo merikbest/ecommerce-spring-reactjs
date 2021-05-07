@@ -8,17 +8,16 @@ import com.gmail.merikbest2015.ecommerce.security.JwtProvider;
 import com.gmail.merikbest2015.ecommerce.security.UserPrincipal;
 import com.gmail.merikbest2015.ecommerce.security.oauth2.OAuth2UserInfo;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
+import com.gmail.merikbest2015.ecommerce.service.email.MailSender;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,9 +27,9 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserDetailsService, UserService {
 
     private final JwtProvider jwtProvider;
-    private final UserRepository userRepository;
     private final MailSender mailSender;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
     private final PerfumeRepository perfumeRepository;
     private final ReviewRepository reviewRepository;
 
@@ -104,10 +103,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public boolean registerUser(User user) {
         User userFromDb = userRepository.findByEmail(user.getEmail());
-
-        if (userFromDb != null) {
-            return false;
-        }
+        if (userFromDb != null) return false;
         user.setActive(false);
         user.setRoles(Collections.singleton(Role.USER));
         user.setProvider(AuthProvider.LOCAL);
@@ -116,10 +112,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         userRepository.save(user);
 
         String subject = "Activation code";
-        List<String> emailMessages = new ArrayList<>();
-        emailMessages.add("Welcome to Perfume online store.");
-        emailMessages.add("Please follow the link ");
-        sendMessage(user, emailMessages, subject, user.getActivationCode(), "activate");
+        String template = "registration-template";
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("firstName", user.getFirstName());
+        attributes.put("registrationUrl", "http://" + hostname + "/activate/" + user.getActivationCode());
+        mailSender.sendMessageHtml(user.getEmail(), subject, template, attributes);
         return true;
     }
 
@@ -146,33 +143,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public boolean sendPasswordResetCode(String email) {
         User user = userRepository.findByEmail(email);
-
-        if (user == null) {
-            return false;
-        }
+        if (user == null) return false;
         user.setPasswordResetCode(UUID.randomUUID().toString());
         userRepository.save(user);
 
         String subject = "Password reset";
-        List<String> emailMessages = new ArrayList<>();
-        emailMessages.add("We have received a request to reset the password for your account.");
-        emailMessages.add("To reset your password, follow this link ");
-        sendMessage(user, emailMessages, subject, user.getPasswordResetCode(), "reset");
+        String template = "password-reset-template";
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("firstName", user.getFirstName());
+        attributes.put("resetUrl", "http://" + hostname + "/reset/" + user.getPasswordResetCode());
+        mailSender.sendMessageHtml(user.getEmail(), subject, template, attributes);
         return true;
-    }
-
-    public void sendMessage(User user, List<String> emailMessages, String subject, String code, String urlPart) {
-        if (!StringUtils.isEmpty(user.getEmail())) {
-            String message = String.format("Hello, %s! \n" + "%s \n" + "%s http://%s/%s/%s",
-                    user.getFirstName(),
-                    emailMessages.get(0),
-                    emailMessages.get(1),
-                    hostname,
-                    urlPart,
-                    code
-            );
-            mailSender.send(user.getEmail(), subject, message);
-        }
     }
 
     @Override
@@ -187,10 +168,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public boolean activateUser(String code) {
         User user = userRepository.findByActivationCode(code);
-
-        if (user == null) {
-            return false;
-        }
+        if (user == null) return false;
         user.setActivationCode(null);
         user.setActive(true);
         userRepository.save(user);

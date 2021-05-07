@@ -7,6 +7,7 @@ import com.gmail.merikbest2015.ecommerce.repository.OrderItemRepository;
 import com.gmail.merikbest2015.ecommerce.repository.OrderRepository;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.service.OrderService;
+import com.gmail.merikbest2015.ecommerce.service.email.MailSender;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,7 +82,6 @@ public class OrderServiceImpl implements OrderService {
             orderItemList.add(orderItem);
             orderItemRepository.save(orderItem);
         }
-
         order.getOrderItems().addAll(orderItemList);
         order.setTotalPrice(validOrder.getTotalPrice());
         order.setFirstName(validOrder.getFirstName());
@@ -92,32 +93,11 @@ public class OrderServiceImpl implements OrderService {
         order.setPhoneNumber(validOrder.getPhoneNumber());
         orderRepository.save(order);
 
-        StringBuilder perfumes = new StringBuilder();
-        order.getOrderItems().forEach((orderItem) ->
-        {
-            perfumes.append(orderItem.getPerfume().getPerfumer());
-            perfumes.append(" ");
-            perfumes.append(orderItem.getPerfume().getPerfumeTitle());
-            perfumes.append(" — $");
-            perfumes.append(orderItem.getPerfume().getPrice());
-            perfumes.append(".00 (quantity: ");
-            perfumes.append(orderItem.getQuantity());
-            perfumes.append(")");
-            perfumes.append("\n");
-        });
-
         String subject = "Order #" + order.getId();
-        String message = "Hello " + order.getFirstName() + "!\n" +
-                "Thank you for your order in Perfume online store.\n" +
-                "Your order number is " + order.getId() + "\n" +
-                "Date: " + order.getDate() + "\n" +
-                "Name: " + order.getFirstName() + " " + order.getLastName() + "\n" +
-                "Address: " + order.getCity() + ", " + order.getAddress() + "\n" +
-                "Post index: " + order.getPostIndex() + "\n" +
-                "Phone: " + order.getPhoneNumber() + "\n\n" +
-                "Perfumes: " + "\n" + perfumes + "\n" +
-                "Total price: $" + order.getTotalPrice();
-        mailSender.send(order.getEmail(), subject, message);
+        String template = "order-template";
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("order", order);
+        mailSender.sendMessageHtml(order.getEmail(), subject, template, attributes);
         return order;
     }
 

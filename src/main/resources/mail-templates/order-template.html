@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .table {
+            border-collapse: collapse;
+            width: 600px;
+            border-radius: 50px;
+            border: 1px solid #dee2e6;
+        }
+        .header {
+            width: 260px;
+            vertical-align: center;
+        }
+        .content {
+            height: 110px;
+            vertical-align: center;
+            padding: 0 15px
+        }
+        hr {
+            border: none;
+            color: #dee2e6;
+            background-color: #dee2e6;
+            height: 1px;
+        }
+    </style>
+</head>
+<body>
+<table align="center" class="table">
+    <tr>
+        <td style="background-color: #ffffff; padding: 40px 30px 40px 30px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
+                <tr>
+                    <td class="header" align="center">
+                        <h3>Order # <span th:text="${order.getId()}" th:remove="tag"></span></h3>
+                    </td>
+                    <td class="header" align="center">
+                        <img src="https://i.ibb.co/6YNPHCd/LOGO3.jpg" style="width: 180px; border-radius: 5px;"/>
+                    </td>
+                </tr>
+            </table>
+            <hr/>
+            <h3 style="text-align: center">Hello <span th:text="${order.getFirstName()}" th:remove="tag"></span>!</h3>
+            <p style="text-align: center">Thank you for your order in Perfume online store.</p>
+            <hr/>
+            <div class="text-left">
+                <p><b>Your order number is: <span th:text="${order.getId()}" th:remove="tag"></span></b></p>
+                <p><b>Date:</b> <span th:text="${order.getDate()}" th:remove="tag"></span></p>
+                <p><b>Name:</b> <span th:text="${order.getFirstName() + ' ' + order.getLastName()}"
+                                      th:remove="tag"></span></p>
+                <p><b>Address:</b> <span th:text="${order.getCity() + ' ' + order.getAddress()}" th:remove="tag"></span>
+                </p>
+                <p><b>Post index:</b> <span th:text="${order.getPostIndex()}" th:remove="tag"></span></p>
+                <p><b>Phone:</b> <span th:text="${order.getPhoneNumber()}" th:remove="tag"></span></p>
+            </div>
+            <th:block th:each="orderItem : ${order.getOrderItems()}">
+                <hr/>
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
+                    <tr>
+                        <td style="width: 95px;" class="content">
+                            <img style="width: 100%; height: auto"
+                                 th:src="@{https://raw.githubusercontent.com/merikbest/ecommerce-spring-reactjs/master/src/main/resources/uploads/{path} (path = ${orderItem.getPerfume().getFilename()})}"/>
+                        </td>
+                        <td style="width: 179px;" class="content">
+                            <p><b th:text="${orderItem.getPerfume().getPerfumer()}"></b><br/>
+                                <span style="font-size: 14px">
+                                    <span th:text="${orderItem.getPerfume().getPerfumeTitle()}"
+                                          th:remove="tag"></span><br/>
+                            <span th:text="${orderItem.getPerfume().getType()}" th:remove="tag"></span><br/>
+                            <span th:text="${orderItem.getPerfume().getVolume()}" th:remove="tag"></span> ml.</span>
+                            </p>
+                        </td>
+                        <td style="width: 54px;" class="content">
+                            <span th:text="${orderItem.getQuantity()}" th:remove="tag"></span> pcs.
+                        </td>
+                        <td style="width: 54px;" class="content">
+                            <span th:text="${orderItem.getPerfume().getPrice()}" th:remove="tag"></span> $
+                        </td>
+                    </tr>
+                </table>
+            </th:block>
+            <hr/>
+            <h3>Total price: $ <span th:text="${order.getTotalPrice()}" th:remove="tag"></span></h3>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

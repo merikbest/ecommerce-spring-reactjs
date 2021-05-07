@@ -6,6 +6,7 @@ import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.repository.OrderItemRepository;
 import com.gmail.merikbest2015.ecommerce.repository.OrderRepository;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
+import com.gmail.merikbest2015.ecommerce.service.email.MailSender;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
@@ -84,8 +85,12 @@ public class OrderServiceImplTest {
 
         OrderItem orderItem1 = new OrderItem();
         orderItem1.setPerfume(perfume1);
+        orderItem1.setAmount(192L);
+        orderItem1.setQuantity(1L);
         OrderItem orderItem2 = new OrderItem();
         orderItem2.setPerfume(perfume2);
+        orderItem2.setAmount(192L);
+        orderItem2.setQuantity(1L);
 
         Order order = new Order();
         order.setFirstName(FIRST_NAME);
@@ -97,6 +102,8 @@ public class OrderServiceImplTest {
         order.setPhoneNumber(PHONE_NUMBER);
         order.setTotalPrice(TOTAL_PRICE);
         order.setOrderItems(Arrays.asList(orderItem1, orderItem2));
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("order", order);
 
         when(perfumeRepository.findById(1L)).thenReturn(java.util.Optional.of(perfume1));
         when(perfumeRepository.findById(2L)).thenReturn(java.util.Optional.of(perfume2));
@@ -109,9 +116,10 @@ public class OrderServiceImplTest {
         assertNotNull(orderItem1);
         assertNotNull(orderItem2);
         verify(mailSender, times(1))
-                .send(
+                .sendMessageHtml(
                         ArgumentMatchers.eq(order.getEmail()),
                         ArgumentMatchers.eq("Order #" + order.getId()),
-                        ArgumentMatchers.anyString());
+                        ArgumentMatchers.eq("order-template"),
+                        ArgumentMatchers.eq(attributes));
     }
 }

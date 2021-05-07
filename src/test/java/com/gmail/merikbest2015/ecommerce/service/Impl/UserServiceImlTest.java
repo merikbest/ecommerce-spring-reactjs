@@ -6,7 +6,7 @@ import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
 import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
 import com.gmail.merikbest2015.ecommerce.security.JwtProvider;
 import com.gmail.merikbest2015.ecommerce.security.oauth2.GoogleOAuth2UserInfo;
-import com.gmail.merikbest2015.ecommerce.security.oauth2.OAuth2UserInfo;
+import com.gmail.merikbest2015.ecommerce.service.email.MailSender;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -145,18 +145,23 @@ public class UserServiceImlTest {
     @Test
     public void registerUser() {
         User user = new User();
+        user.setFirstName(FIRST_NAME);
         user.setEmail(USER_EMAIL);
         boolean isUserCreated = userService.registerUser(user);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("firstName", FIRST_NAME);
+        attributes.put("registrationUrl", "http://localhost:3000/activate/" + user.getActivationCode());
 
         assertTrue(isUserCreated);
         assertNotNull(user.getActivationCode());
         assertTrue(CoreMatchers.is(user.getRoles()).matches(Collections.singleton(Role.USER)));
         verify(userRepository, times(1)).save(user);
         verify(mailSender, times(1))
-                .send(
+                .sendMessageHtml(
                         ArgumentMatchers.eq(user.getEmail()),
                         ArgumentMatchers.eq("Activation code"),
-                        ArgumentMatchers.anyString());
+                        ArgumentMatchers.eq("registration-template"),
+                        ArgumentMatchers.eq(attributes));
     }
 
     @Test
@@ -219,15 +224,20 @@ public class UserServiceImlTest {
         when(userRepository.save(user)).thenReturn(user);
         when(userRepository.findByEmail(USER_EMAIL)).thenReturn(user);
         userService.sendPasswordResetCode(USER_EMAIL);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("firstName", null);
+        attributes.put("resetUrl", "http://localhost:3000/reset/" + user.getPasswordResetCode());
+
         assertEquals(USER_EMAIL, user.getEmail());
         assertNotNull(user.getPasswordResetCode());
         verify(userRepository, times(1)).save(user);
         verify(userRepository, times(1)).findByEmail(user.getEmail());
         verify(mailSender, times(1))
-                .send(
+                .sendMessageHtml(
                         ArgumentMatchers.eq(user.getEmail()),
                         ArgumentMatchers.eq("Password reset"),
-                        ArgumentMatchers.anyString());
+                        ArgumentMatchers.eq("password-reset-template"),
+                        ArgumentMatchers.eq(attributes));
     }
 
     @Test
