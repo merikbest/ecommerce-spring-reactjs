@@ -1,5 +1,5 @@
 import React, {FC, FormEvent, useEffect, useState} from 'react';
-import {RouteComponentProps, useHistory} from "react-router-dom";
+import {Route, RouteComponentProps, useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCartPlus, faPaperPlane, faStar} from "@fortawesome/free-solid-svg-icons";
@@ -168,7 +168,7 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                 </div>
                 <div className="mt-5">
                     <h3 className="text-center mb-5">REVIEWS</h3>
-                    <ProductReview data={reviews} itemsPerPage={5}/>
+                    <Route exact component={() => <ProductReview data={reviews} itemsPerPage={5}/>}/>
                     <form onSubmit={addReview}>
                         <div className="form-group border mt-5">
                             <div className="mx-3 my-3">

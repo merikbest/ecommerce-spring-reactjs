@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
 
-import {fetchPerfumeReviewsSuccess} from '../actions/perfume-actions';
+import {fetchPerfumeSuccess} from '../actions/perfume-actions';
 import {
     fetchUserSuccess,
     resetInputForm,
@@ -43,7 +43,7 @@ export const updateUserPassword = (data: UserResetPasswordData) => async (dispat
 export const addReviewToPerfume = (review: ReviewData) => async (dispatch: Dispatch) => {
     try {
         const response = await RequestService.post("/users/review", review);
-        dispatch(fetchPerfumeReviewsSuccess(response.data));
+        dispatch(fetchPerfumeSuccess(response.data));
         dispatch(userAddedReviewSuccess());
     } catch (error) {
         dispatch(userAddedReviewFailure(error.response.data));

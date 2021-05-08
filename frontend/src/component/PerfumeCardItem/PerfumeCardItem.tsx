@@ -15,15 +15,16 @@ type PropsType = {
     btnName: string
 };
 
-const PerfumeCardItem: FC<PropsType> = ({key,perfume, colSize, link, btnName}) => {
+const PerfumeCardItem: FC<PropsType> = ({key, perfume, colSize, link, btnName}) => {
     return (
         <div key={key} className={`col-lg-${colSize}`}>
             <div className="card mb-5" style={{height: "320px"}}>
-                <LazyLoadImage
-                    effect="blur"
-                    className="d-block mx-auto"
-                    style={{width: "89px", height: "89px"}}
-                    src={IMG_URL + `${perfume.filename}`}/>
+                <div style={{height: "92px", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <LazyLoadImage
+                        effect="blur"
+                        style={{width: "80px", marginTop: "20px"}}
+                        src={IMG_URL + `${perfume.filename}`}/>
+                </div>
                 <div className="card-body text-center">
                     <StarRating perfumeRating={perfume.perfumeRating}/>
                     <h6>{perfume.perfumeTitle}</h6>

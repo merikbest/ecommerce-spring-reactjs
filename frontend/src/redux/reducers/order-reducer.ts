@@ -8,7 +8,7 @@ import {
     OrderActionTypes
 } from "../action-types/order-action-types";
 
-type InitialStateType = {
+export type InitialStateType = {
     order:  Partial<Order>
     orders: Array<Order>
     errors: Partial<OrderError>

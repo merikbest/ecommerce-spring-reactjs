@@ -12,7 +12,7 @@ import {
     UserActionsTypes
 } from "../action-types/user-actions-types";
 
-type InitialStateType = {
+export type InitialStateType = {
     user: Partial<User>
     isLoggedIn: boolean
     successMessage: string

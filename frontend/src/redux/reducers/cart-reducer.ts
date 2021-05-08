@@ -8,7 +8,7 @@ import {
     CartActionTypes
 } from "../action-types/cart-action-types";
 
-type InitialStateType = {
+export type InitialStateType = {
     perfumes: Array<Perfume>
     loading: boolean
     totalPrice: number

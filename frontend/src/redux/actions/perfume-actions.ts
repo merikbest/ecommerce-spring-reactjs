@@ -3,7 +3,6 @@ import {
     LOADING_PERFUME,
     FETCH_PERFUMES,
     FETCH_PERFUME_SUCCESS,
-    FETCH_PERFUME_REVIEWS_SUCCESS,
     FETCH_PERFUMES_BY_FILTER_PARAMS_SUCCESS,
     FETCH_PERFUMES_BY_GENDER_SUCCESS,
     FETCH_PERFUMES_BY_PERFUMER_SUCCESS,
@@ -16,7 +15,6 @@ import {
     FetchPerfumesByPerfumerSuccessActionType,
     FetchPerfumeSuccessActionType,
     GetPerfumesActionType,
-    FetchPerfumeReviewsSuccessActionType,
     LoadingPerfumeActionType
 } from "../action-types/perfume-action-types";
 
@@ -41,11 +39,6 @@ export const fetchPerfumeByQuerySuccess = (perfume: Perfume): FetchPerfumeByQuer
 
 export const fetchPerfumeSuccess = (perfume: Perfume): FetchPerfumeSuccessActionType => ({
     type: FETCH_PERFUME_SUCCESS,
-    payload: perfume
-});
-
-export const fetchPerfumeReviewsSuccess = (perfume: Perfume): FetchPerfumeReviewsSuccessActionType => ({
-    type: FETCH_PERFUME_REVIEWS_SUCCESS,
     payload: perfume
 });
 

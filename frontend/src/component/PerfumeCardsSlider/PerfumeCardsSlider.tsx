@@ -31,8 +31,9 @@ const PerfumeCardsSlider: FC = () => {
                             if (perfume.id === perfumesId[i]) {
                                 return (
                                     <div className="card" key={perfume.id}>
-                                        <img className="d-block mx-auto w-50"
-                                             src={IMG_URL + `${perfume.filename}`}/>
+                                        <div style={{height: "130px", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                                            <img style={{width: "125px"}} src={IMG_URL + `${perfume.filename}`}/>
+                                        </div>
                                         <div className="card-body text-center">
                                             <h5>{perfume.perfumeTitle}</h5>
                                             <h6>{perfume.perfumer}</h6>

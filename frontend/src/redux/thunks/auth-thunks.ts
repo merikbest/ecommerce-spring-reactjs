@@ -36,8 +36,8 @@ export const login = (userData: UserData, history: any) => async (dispatch: Disp
 export const registration = (userRegistrationData: UserRegistration) => async (dispatch: Dispatch) => {
     try {
         dispatch(showLoader());
-        const response = await RequestService.post("/registration", userRegistrationData);
-        dispatch(registerSuccess(response.data));
+        await RequestService.post("/registration", userRegistrationData);
+        dispatch(registerSuccess());
     } catch (error) {
         dispatch(registerFailure(error.response.data));
     }

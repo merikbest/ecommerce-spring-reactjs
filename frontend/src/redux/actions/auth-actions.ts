@@ -44,9 +44,8 @@ export const showLoader = (): ShowLoaderActionType => ({
     type: SHOW_LOADER
 });
 
-export const registerSuccess = (message: string): RegisterSuccessActionType => ({
-    type: REGISTER_SUCCESS,
-    payload: message
+export const registerSuccess = (): RegisterSuccessActionType => ({
+    type: REGISTER_SUCCESS
 });
 
 export const registerFailure = (errors: AuthErrors): RegisterFailureActionType => ({

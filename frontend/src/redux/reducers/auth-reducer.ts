@@ -18,7 +18,7 @@ import {
     AuthActionTypes
 } from "../action-types/auth-action-types";
 
-type InitialStateType = {
+export type InitialStateType = {
     user: Partial<User>
     userEmail: string | null
     userRole: string | null

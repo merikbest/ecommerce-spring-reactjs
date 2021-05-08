@@ -12,7 +12,7 @@ import {
 import {Order, PerfumeErrors, User} from "../../types/types";
 import {AdminActionTypes} from "../action-types/admin-action-types";
 
-type InitialStateType = {
+export type InitialStateType = {
     orders: Array<Order>
     userOrders: Array<Order>
     users: Array<User>
