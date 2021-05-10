@@ -165,6 +165,31 @@ paths:
       security:
         - token: []
 
+  /api/v1/admin/delete/{id}:
+    delete:
+      tags:
+        - "AdminController"
+      summary: "Delete perfume"
+      operationId: "deletePerfume"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PerfumeResponse"
+      security:
+        - token: []
+
   /api/v1/admin/orders:
     get:
       tags:
@@ -210,6 +235,31 @@ paths:
       security:
         - token: []
 
+  /api/v1/admin/order/delete/{id}:
+    delete:
+      tags:
+        - "AdminController"
+      summary: "Delete order"
+      operationId: "deleteOrder"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
+      security:
+        - token: []
+
   /api/v1/admin/user/{id}:
     get:
       tags:
@@ -233,7 +283,7 @@ paths:
       security:
         - token: []
 
-  /api/v1/admin/users:
+  /api/v1/admin/user/all:
     get:
       tags:
         - "AdminController"
@@ -249,6 +299,170 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
+      security:
+        - token: []
+
+  /api/v1/admin/graphql/user:
+    post:
+      tags:
+        - "AdminController"
+      summary: "Get user by GraphQL query"
+      operationId: "getUserByQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ user(id: 2) { id email firstName lastName city address phoneNumber postIndex } }"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: "integer"
+                    format: int64
+                  email:
+                    type: "string"
+                  firstName:
+                    type: "string"
+                  lastName:
+                    type: "string"
+                  city:
+                    type: "string"
+                  address:
+                    type: "string"
+                  phoneNumber:
+                    type: "string"
+                  postIndex:
+                    type: "string"
+                example:
+                  id: 2
+                  email: "test123@test.com"
+                  firstName: "John"
+                  lastName: "Doe"
+                  city: "New York"
+                  address: "Wall Street 1"
+                  phoneNumber: "1234567890"
+                  postIndex: "1234567890"
+      security:
+        - token: []
+
+  /api/v1/admin/graphql/user/all:
+    post:
+      tags:
+        - "AdminController"
+      summary: "Get all users by GraphQL query"
+      operationId: "getAllUsersByQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ users { id email firstName lastName city address phoneNumber postIndex } }"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: "integer"
+                      format: int64
+                    email:
+                      type: "string"
+                    firstName:
+                      type: "string"
+                    lastName:
+                      type: "string"
+                    city:
+                      type: "string"
+                    address:
+                      type: "string"
+                    phoneNumber:
+                      type: "string"
+                    postIndex:
+                      type: "string"
+                  example:
+                    id: 2
+                    email: "test123@test.com"
+                    firstName: "John"
+                    lastName: "Doe"
+                    city: "New York"
+                    address: "Wall Street 1"
+                    phoneNumber: "1234567890"
+                    postIndex: "1234567890"
+      security:
+        - token: []
+
+  /api/v1/admin/graphql/orders:
+    post:
+      tags:
+        - "AdminController"
+      summary: "Get all orders by GraphQL query"
+      operationId: "getAllOrdersQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ orders { id totalPrice date firstName lastName city address email phoneNumber postIndex orderItems { id amount quantity perfume { id perfumeTitle perfumer price filename } } } }"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
+      security:
+        - token: []
+
+  /api/v1/admin/graphql/order:
+    post:
+      tags:
+        - "AdminController"
+      summary: "Get orders by user Email GraphQL query"
+      operationId: "getUserOrdersByEmailQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ ordersByEmail(email: test123@test.com) { id totalPrice date firstName lastName city address email phoneNumber postIndex orderItems { id amount quantity perfume { id perfumeTitle perfumer price filename } } } }"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
       security:
         - token: []
 
@@ -446,6 +660,31 @@ paths:
               schema:
                 $ref: "#/components/schemas/PerfumeResponse"
 
+  /api/v1/perfumes/ids:
+    post:
+      tags:
+        - "PerfumeController"
+      summary: "Get perfumes by ids"
+      operationId: "getPerfumesByIds"
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: "array"
+              items:
+                type: "integer"
+                format: int64
+              example: [1, 2, 3]
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PerfumeResponse"
+
   /api/v1/perfumes/search:
     post:
       tags:
@@ -540,6 +779,52 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/PerfumeResponse"
+
+  /api/v1/perfumes/graphql/ids:
+    post:
+      tags:
+        - "PerfumeController"
+      summary: "Get list of perfumes by ids GraphQL query"
+      operationId: "getPerfumesByIdsQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ perfumesIds(ids: [16,17,18]) {id perfumeTitle perfumer price filename} }"
+
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: "integer"
+                      format: int64
+                    perfumeTitle:
+                      type: "string"
+                    perfumer:
+                      type: "string"
+                    price:
+                      type: "integer"
+                      format: int32
+                    filename:
+                      type: "string"
+                  example:
+                    id: 43
+                    perfumeTitle: "Sauvage"
+                    perfumer: "Dior"
+                    price: 62
+                    filename: "empty.jpg"
 
   /api/v1/perfumes/graphql/perfumes:
     post:
@@ -752,6 +1037,59 @@ paths:
       security:
         - token: []
 
+  /api/v1/users/graphql/info:
+    post:
+      tags:
+        - "UserController"
+      summary: "Get authenticated user info by GraphQL query"
+      operationId: "getUserInfoByQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ user(id: 2) { id email password firstName lastName city address phoneNumber postIndex activationCode passwordResetCode active provider roles } }"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: "integer"
+                    format: int64
+                  email:
+                    type: "string"
+                  firstName:
+                    type: "string"
+                  lastName:
+                    type: "string"
+                  city:
+                    type: "string"
+                  address:
+                    type: "string"
+                  phoneNumber:
+                    type: "string"
+                  postIndex:
+                    type: "string"
+                example:
+                  id: 2
+                  email: "test123@test.com"
+                  firstName: "John"
+                  lastName: "Doe"
+                  city: "New York"
+                  address: "Wall Street 1"
+                  phoneNumber: "1234567890"
+                  postIndex: "1234567890"
+      security:
+        - token: []
+
   /api/v1/users/edit:
     put:
       tags:
@@ -907,6 +1245,35 @@ paths:
                   $ref: "#/components/schemas/OrderResponse"
       security:
         - token: []
+
+  /api/v1/user/graphql/orders:
+    post:
+      tags:
+        - "UserController"
+      summary: "Get all user orders by GraphQL query"
+      operationId: "getUserOrdersByQuery"
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                query:
+                  type: "string"
+                  example: "{ ordersByEmail(email: test123@test.com) { id totalPrice date firstName lastName city address email phoneNumber postIndex orderItems { id amount quantity perfume { id perfumeTitle perfumer price filename } } } }"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
+      security:
+        - token: []
+
 
   /api/v1/users/order:
     post:
