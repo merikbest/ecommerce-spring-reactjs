@@ -21,7 +21,7 @@ export const addOrder = (order: any, history: any) => async (dispatch: Dispatch)
         localStorage.removeItem("perfumes");
         dispatch(orderAddedSuccess(response.data));
     } catch (error) {
-        dispatch(orderAddedFailure(error.response.data));
+        dispatch(orderAddedFailure(error.response?.data));
     }
 };
 

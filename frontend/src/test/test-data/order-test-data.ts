@@ -1,5 +1,17 @@
 import {Order, OrderError} from "../../types/types";
 
+export const orderRequestData = {
+    "firstName": "John",
+    "lastName": "Doe",
+    "city": "New York",
+    "address": "Wall Street1",
+    "postIndex": 1234567890,
+    "phoneNumber": "1234567890",
+    "email": "test123@test.com",
+    "perfumesId": [33, 34],
+    "totalPrice": 840
+};
+
 export const orderData: Order = {
     "id": 1,
     "totalPrice": 840,

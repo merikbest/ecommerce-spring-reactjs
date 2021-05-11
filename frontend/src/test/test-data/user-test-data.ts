@@ -1,4 +1,12 @@
-import {AuthErrors, ReviewError, User, UserEditErrors} from "../../types/types";
+import {
+    AuthErrors,
+    ReviewData,
+    ReviewError,
+    User,
+    UserEditErrors,
+    UserRegistration,
+    UserResetPasswordData
+} from "../../types/types";
 
 export const userData: User = {
     "id": 2,
@@ -46,8 +54,30 @@ export const authErrorsData: AuthErrors = {
     password2Error: "Email cannot be empty"
 };
 
+export const reviewData: ReviewData = {
+    "perfumeId": 1,
+    "author": "John Doe",
+    "message": "Hello",
+    "rating": 5
+};
+
 export const reviewErrorsData: ReviewError = {
     authorError: "Fill in the input field",
     messageError: "Fill in the input field",
     ratingError: "Chose perfume rating"
+};
+
+export const userResetPasswordData: UserResetPasswordData = {
+    "email": "test123@test.com",
+    "password": "string",
+    "password2": "string"
+};
+
+export const userRegistrationData: UserRegistration = {
+    "email": "test123@test.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "password": "test123",
+    "password2": "test123",
+    "captcha": "test",
 };
