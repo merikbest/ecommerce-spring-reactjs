@@ -13,6 +13,7 @@ import {
 } from "../actions/user-actions";
 import {ReviewData, UserEdit, UserResetPasswordData} from "../../types/types";
 import RequestService from '../../utils/request-service';
+import {userByQuery} from "../../utils/graphql-query/users-query";
 
 export const fetchUserInfo = () => async (dispatch: Dispatch) => {
     const response = await RequestService.get("/users/info", true);
@@ -52,4 +53,13 @@ export const addReviewToPerfume = (review: ReviewData) => async (dispatch: Dispa
 
 export const resetForm = () => (dispatch: Dispatch) => {
     dispatch(resetInputForm());
+};
+
+// GraphQL query
+export const fetchUserInfoByQuery = (id: string) => async (dispatch: Dispatch) => {
+    const response = await RequestService.post("/users/graphql/info", {query: userByQuery(id)}, true);
+    localStorage.setItem("email", response.data.data.user.email);
+    localStorage.setItem("userRole", response.data.data.user.roles);
+    localStorage.setItem("isLoggedIn", "true");
+    dispatch(fetchUserSuccess(response.data.data.user));
 };

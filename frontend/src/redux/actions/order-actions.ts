@@ -4,10 +4,12 @@ import {
     FETCH_USER_ORDERS_SUCCESS,
     ORDER_ADDED_FAILURE,
     ORDER_ADDED_SUCCESS,
+    FETCH_USER_ORDERS_BY_QUERY_SUCCESS,
     FetchOrderSuccessActionType,
     FetchUserOrdersActionType,
     OrderAddedFailureActionType,
-    OrderAddedSuccessActionType
+    OrderAddedSuccessActionType,
+    FetchUserOrdersByQueryActionType
 } from "../action-types/order-action-types";
 
 export const fetchOrderSuccess = (): FetchOrderSuccessActionType => ({
@@ -26,5 +28,10 @@ export const orderAddedFailure = (errors: OrderError): OrderAddedFailureActionTy
 
 export const fetchUserOrdersSuccess = (orders: Array<Order>): FetchUserOrdersActionType => ({
     type: FETCH_USER_ORDERS_SUCCESS,
+    payload: orders
+});
+
+export const fetchUserOrdersByQuerySuccess = (orders: Array<Order>): FetchUserOrdersByQueryActionType => ({
+    type: FETCH_USER_ORDERS_BY_QUERY_SUCCESS,
     payload: orders
 });

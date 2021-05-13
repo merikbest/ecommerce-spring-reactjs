@@ -9,6 +9,7 @@ import {
     USER_UPDATED_PASSWORD_SUCCESS,
     USER_UPDATED_SUCCESS,
     RESET_INPUT_FORM,
+    FETCH_USER_BY_QUERY_SUCCESS,
     UserActionsTypes
 } from "../action-types/user-actions-types";
 
@@ -61,6 +62,9 @@ const reducer = (state: InitialStateType = initialState, action: UserActionsType
 
         case LOGOUT_SUCCESS:
             return {...state, user: {}, isLoggedIn: false}
+
+        case FETCH_USER_BY_QUERY_SUCCESS:
+            return {...state, user: action.payload, isLoggedIn: true}
 
         default:
             return state;

@@ -9,6 +9,7 @@ export const USER_UPDATED_PASSWORD_FAILURE = "USER_UPDATED_PASSWORD_FAILURE";
 export const USER_ADDED_REVIEW_SUCCESS = "USER_ADDED_REVIEW_SUCCESS";
 export const USER_ADDED_REVIEW_FAILURE = "USER_ADDED_REVIEW_FAILURE";
 export const RESET_INPUT_FORM = "RESET_INPUT_FORM";
+export const FETCH_USER_BY_QUERY_SUCCESS = "FETCH_USER_BY_QUERY_SUCCESS";
 
 export type FetchUserSuccessActionType = { type: typeof FETCH_USER_SUCCESS, payload: User };
 export type UserUpdatedSuccessActionType = { type: typeof USER_UPDATED_SUCCESS, payload: User };
@@ -18,7 +19,8 @@ export type UserUpdatedPasswordFailureActionType = {type: typeof USER_UPDATED_PA
 export type UserAddedReviewSuccessActionType = { type: typeof USER_ADDED_REVIEW_SUCCESS };
 export type UserAddedReviewFailureActionType = { type: typeof USER_ADDED_REVIEW_FAILURE, payload: ReviewError };
 export type ResetInputFormActionType = { type: typeof RESET_INPUT_FORM};
+export type FetchUserByQuerySuccessActionType = { type: typeof FETCH_USER_BY_QUERY_SUCCESS, payload: User };
 
 export type UserActionsTypes = UserUpdatedSuccessActionType | FetchUserSuccessActionType | UserUpdatedFailureActionType |
     UserUpdatedPasswordSuccessActionType | UserUpdatedPasswordFailureActionType | UserAddedReviewSuccessActionType |
-    UserAddedReviewFailureActionType | ResetInputFormActionType | LogoutSuccessActionType;
+    UserAddedReviewFailureActionType | ResetInputFormActionType | LogoutSuccessActionType | FetchUserByQuerySuccessActionType;

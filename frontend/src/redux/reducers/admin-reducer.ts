@@ -7,7 +7,11 @@ import {
     FETCH_ALL_USERS_SUCCESS,
     FETCH_ALL_USERS_ORDERS_SUCCESS,
     FETCH_USER_ORDERS_SUCCESS,
-    FORM_RESET
+    FORM_RESET,
+    FETCH_USER_INFO_BY_QUERY_SUCCESS,
+    FETCH_ALL_USERS_BY_QUERY_SUCCESS,
+    FETCH_ALL_USERS_ORDERS_BY_QUERY_SUCCESS,
+    FETCH_USER_ORDERS_BY_QUERY_SUCCESS
 } from "../action-types/admin-action-types";
 import {Order, PerfumeErrors, User} from "../../types/types";
 import {AdminActionTypes} from "../action-types/admin-action-types";
@@ -57,6 +61,18 @@ const reducer = (state: InitialStateType = initialState, action: AdminActionType
             return {...state, orders: action.payload};
 
         case FETCH_USER_ORDERS_SUCCESS:
+            return {...state, userOrders: action.payload};
+
+        case FETCH_USER_INFO_BY_QUERY_SUCCESS:
+            return {...state, user: action.payload};
+
+        case FETCH_ALL_USERS_BY_QUERY_SUCCESS:
+            return {...state, users: action.payload};
+
+        case FETCH_ALL_USERS_ORDERS_BY_QUERY_SUCCESS:
+            return {...state, orders: action.payload};
+
+        case FETCH_USER_ORDERS_BY_QUERY_SUCCESS:
             return {...state, userOrders: action.payload};
 
         case FORM_RESET:

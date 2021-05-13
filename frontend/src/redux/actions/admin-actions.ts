@@ -1,23 +1,31 @@
 import {Order, PerfumeErrors, User} from "../../types/types";
 import {
-    AddPerfumeFailureActionType,
-    AddPerfumeSuccessActionType,
     FETCH_ALL_USERS_ORDERS_SUCCESS,
     FETCH_ALL_USERS_SUCCESS,
     FETCH_USER_INFO_SUCCESS,
     FETCH_USER_ORDERS_SUCCESS,
     FORM_RESET,
-    GetAllUsersActionType,
-    GetAllUsersOrdersActionType,
-    GetUserInfoActionType,
-    GetUserOrdersActionType,
     PERFUME_ADDED_FAILURE,
     PERFUME_ADDED_SUCCESS,
     PERFUME_UPDATED_FAILURE,
     PERFUME_UPDATED_SUCCESS,
+    FETCH_ALL_USERS_BY_QUERY_SUCCESS,
+    FETCH_ALL_USERS_ORDERS_BY_QUERY_SUCCESS,
+    FETCH_USER_INFO_BY_QUERY_SUCCESS,
+    FETCH_USER_ORDERS_BY_QUERY_SUCCESS,
+    GetAllUsersActionType,
+    GetAllUsersOrdersActionType,
+    GetUserInfoActionType,
+    GetUserOrdersActionType,
     ResetActionType,
     UpdatePerfumeFailureActionType,
-    UpdatePerfumeSuccessActionType
+    UpdatePerfumeSuccessActionType,
+    AddPerfumeFailureActionType,
+    AddPerfumeSuccessActionType,
+    GetAllUsersByQueryActionType,
+    GetAllUsersOrdersByQueryActionType,
+    GetUserOrdersByQueryActionType,
+    GetUserInfoByQueryActionType,
 } from "../action-types/admin-action-types";
 
 export const addPerfumeSuccess = (): AddPerfumeSuccessActionType => ({
@@ -60,4 +68,24 @@ export const getUserInfo = (user: User): GetUserInfoActionType => ({
 
 export const reset = (): ResetActionType => ({
     type: FORM_RESET
+});
+
+export const getUserInfoByQuery = (user: User): GetUserInfoByQueryActionType => ({
+    type: FETCH_USER_INFO_BY_QUERY_SUCCESS,
+    payload: user
+});
+
+export const getAllUsersByQuery = (users: Array<User>): GetAllUsersByQueryActionType => ({
+    type: FETCH_ALL_USERS_BY_QUERY_SUCCESS,
+    payload: users
+});
+
+export const getAllUsersOrdersByQuery = (orders: Array<Order>): GetAllUsersOrdersByQueryActionType => ({
+    type: FETCH_ALL_USERS_ORDERS_BY_QUERY_SUCCESS,
+    payload: orders
+});
+
+export const getUserOrdersByQuery = (orders: Array<Order>): GetUserOrdersByQueryActionType => ({
+    type: FETCH_USER_ORDERS_BY_QUERY_SUCCESS,
+    payload: orders
 });

@@ -1,21 +1,23 @@
 import {AuthErrors, ReviewError, User, UserEditErrors} from "../../types/types";
 import {
     FETCH_USER_SUCCESS,
+    RESET_INPUT_FORM,
     USER_ADDED_REVIEW_FAILURE,
     USER_ADDED_REVIEW_SUCCESS,
     USER_UPDATED_FAILURE,
     USER_UPDATED_PASSWORD_FAILURE,
     USER_UPDATED_PASSWORD_SUCCESS,
     USER_UPDATED_SUCCESS,
-    RESET_INPUT_FORM,
-    FetchUserSuccessActionType,
+    FETCH_USER_BY_QUERY_SUCCESS,
     UserAddedReviewFailureActionType,
     UserAddedReviewSuccessActionType,
     UserUpdatedFailureActionType,
     UserUpdatedPasswordFailureActionType,
     UserUpdatedPasswordSuccessActionType,
     UserUpdatedSuccessActionType,
-    ResetInputFormActionType
+    ResetInputFormActionType,
+    FetchUserSuccessActionType,
+    FetchUserByQuerySuccessActionType
 } from "../action-types/user-actions-types";
 
 export const fetchUserSuccess = (user: User): FetchUserSuccessActionType => ({
@@ -54,4 +56,9 @@ export const userAddedReviewFailure = (errors: ReviewError): UserAddedReviewFail
 
 export const resetInputForm = (): ResetInputFormActionType => ({
     type: RESET_INPUT_FORM,
+});
+
+export const fetchUserByQuerySuccess = (user: User): FetchUserByQuerySuccessActionType => ({
+    type: FETCH_USER_BY_QUERY_SUCCESS,
+    payload: user
 });

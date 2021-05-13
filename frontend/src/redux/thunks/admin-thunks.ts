@@ -9,10 +9,16 @@ import {
     getUserOrders,
     reset,
     updatePerfumeFailure,
-    updatePerfumeSuccess
+    updatePerfumeSuccess,
+    getAllUsersByQuery,
+    getAllUsersOrdersByQuery,
+    getUserInfoByQuery,
+    getUserOrdersByQuery,
 } from "../actions/admin-actions";
 import {fetchPerfumeSuccess, getPerfumes} from "../actions/perfume-actions";
 import RequestService from '../../utils/request-service';
+import {userByQuery, usersByQuery} from "../../utils/graphql-query/users-query";
+import {ordersByEmailQuery, ordersByQuery} from "../../utils/graphql-query/orders-query";
 
 export const addPerfume = (data: FormData) => async (dispatch: Dispatch) => {
     try {
@@ -60,4 +66,25 @@ export const fetchUserInfo = (id: string) => async (dispatch: Dispatch) => {
 
 export const formReset = () => async (dispatch: Dispatch) => {
     dispatch(reset());
+};
+
+//GraphQL thunks
+export const fetchUserInfoByQuery = (id: string) => async (dispatch: Dispatch) => {
+    const response = await RequestService.post("/admin/graphql/user", {query: userByQuery(id)}, true);
+    dispatch(getUserInfoByQuery(response.data.data.user));
+};
+
+export const fetchAllUsersByQuery = () => async (dispatch: Dispatch) => {
+    const response = await RequestService.post("/admin/graphql/user/all", {query: usersByQuery}, true);
+    dispatch(getAllUsersByQuery(response.data.data.users));
+};
+
+export const fetchAllUsersOrdersByQuery = () => async (dispatch: Dispatch) => {
+    const response = await RequestService.post("/admin/graphql/orders", {query: ordersByQuery}, true);
+    dispatch(getAllUsersOrdersByQuery(response.data.data.orders));
+};
+
+export const fetchUserOrdersByEmailQuery = (email: string | undefined) => async (dispatch: Dispatch) => {
+    const response = await RequestService.post("/admin/graphql/order", {query: ordersByEmailQuery(email)}, true);
+    dispatch(getUserOrdersByQuery(response.data.data.ordersByEmail));
 };

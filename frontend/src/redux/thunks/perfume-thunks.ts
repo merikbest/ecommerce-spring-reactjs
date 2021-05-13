@@ -7,10 +7,11 @@ import {
     fetchPerfumesByFilterParamsSuccess,
     fetchPerfumesByGenderSuccess,
     fetchPerfumesByPerfumerSuccess,
-    fetchPerfumeSuccess, loadingPerfume
+    fetchPerfumeSuccess,
+    loadingPerfume
 } from "../actions/perfume-actions";
 import {FilterParamsType, Perfume} from "../../types/types";
-import {gePerfumesByIdsQuery, getAllPerfumesByQuery, getPerfumeByQuery} from "../../utils/graphql-query/perfume";
+import {gePerfumesByIdsQuery, getAllPerfumesByQuery, getPerfumeByQuery} from "../../utils/graphql-query/perfume-query";
 import RequestService from '../../utils/request-service';
 
 export const fetchPerfumes = () => async (dispatch: Dispatch) => {

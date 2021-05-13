@@ -5,6 +5,7 @@ import {
     FETCH_USER_ORDERS_SUCCESS,
     ORDER_ADDED_FAILURE,
     ORDER_ADDED_SUCCESS,
+    FETCH_USER_ORDERS_BY_QUERY_SUCCESS,
     OrderActionTypes
 } from "../action-types/order-action-types";
 
@@ -38,6 +39,9 @@ const reducer = (state: InitialStateType = initialState, action: OrderActionType
             return {...state, errors: action.payload, loading: false};
 
         case FETCH_USER_ORDERS_SUCCESS:
+            return {...state, orders: action.payload};
+
+        case FETCH_USER_ORDERS_BY_QUERY_SUCCESS:
             return {...state, orders: action.payload};
 
         default:
