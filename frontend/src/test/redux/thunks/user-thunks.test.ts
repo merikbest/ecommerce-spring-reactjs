@@ -14,10 +14,19 @@ import {
     userEditErrorsData,
     userResetPasswordData
 } from "../../test-data/user-test-data";
-import {addReviewToPerfume, fetchUserInfo, updateUserInfo, updateUserPassword} from "../../../redux/thunks/user-thunks";
 import {
-    fetchUserSuccess, userAddedReviewFailure, userAddedReviewSuccess,
-    userUpdatedFailure, userUpdatedPasswordFailure,
+    addReviewToPerfume,
+    fetchUserInfo,
+    fetchUserInfoByQuery,
+    updateUserInfo,
+    updateUserPassword} from "../../../redux/thunks/user-thunks";
+import {
+    fetchUserSuccess,
+    loadingUserInfo,
+    userAddedReviewFailure,
+    userAddedReviewSuccess,
+    userUpdatedFailure,
+    userUpdatedPasswordFailure,
     userUpdatedPasswordSuccess,
     userUpdatedSuccess
 } from "../../../redux/actions/user-actions";
@@ -35,10 +44,10 @@ describe("user actions", () => {
         store.clearActions();
     });
 
-    test("fetchUserInfo should dispatches FETCH_USER_SUCCESS on success", async () => {
+    test("fetchUserInfo should dispatches LOADING_USER_INFO and FETCH_USER_SUCCESS on success", async () => {
         mock.onGet(API_BASE_URL + "/users/info").reply(200, userData);
         await store.dispatch(fetchUserInfo());
-        let expectedActions = [fetchUserSuccess(userData)];
+        let expectedActions = [loadingUserInfo(), fetchUserSuccess(userData)];
         expect(store.getActions()).toEqual(expectedActions);
         expect(localStorage.getItem("email")).toEqual("test123@test.com");
         expect(localStorage.getItem("userRole")).toEqual("USER");
@@ -85,5 +94,15 @@ describe("user actions", () => {
         await store.dispatch(addReviewToPerfume(reviewData));
         let expectedActions = [userAddedReviewFailure(reviewErrorsData)];
         expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    test("fetchUserInfoByQuery should dispatches LOADING_USER_INFO and FETCH_USER_SUCCESS on success", async () => {
+        mock.onPost(API_BASE_URL + "/users/graphql/info").reply(200, {data: {user: userData}});
+        await store.dispatch(fetchUserInfoByQuery("1"));
+        let expectedActions = [loadingUserInfo(), fetchUserSuccess(userData)];
+        expect(store.getActions()).toEqual(expectedActions);
+        expect(localStorage.getItem("email")).toEqual("test123@test.com");
+        expect(localStorage.getItem("userRole")).toEqual("USER");
+        expect(localStorage.getItem("isLoggedIn")).toEqual("true");
     });
 });

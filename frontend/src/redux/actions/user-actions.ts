@@ -1,5 +1,6 @@
 import {AuthErrors, ReviewError, User, UserEditErrors} from "../../types/types";
 import {
+    LOADING_USER_INFO,
     FETCH_USER_SUCCESS,
     RESET_INPUT_FORM,
     USER_ADDED_REVIEW_FAILURE,
@@ -17,8 +18,13 @@ import {
     UserUpdatedSuccessActionType,
     ResetInputFormActionType,
     FetchUserSuccessActionType,
-    FetchUserByQuerySuccessActionType
+    FetchUserByQuerySuccessActionType,
+    LoadingUserInfoActionType
 } from "../action-types/user-actions-types";
+
+export const loadingUserInfo = (): LoadingUserInfoActionType => ({
+    type: LOADING_USER_INFO
+});
 
 export const fetchUserSuccess = (user: User): FetchUserSuccessActionType => ({
     type: FETCH_USER_SUCCESS,

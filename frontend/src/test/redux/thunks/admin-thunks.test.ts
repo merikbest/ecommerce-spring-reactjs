@@ -11,18 +11,22 @@ import {
     addPerfume,
     deletePerfume,
     fetchAllUsers,
+    fetchAllUsersByQuery,
     fetchAllUsersOrders,
+    fetchAllUsersOrdersByQuery,
     fetchUserInfo,
+    fetchUserInfoByQuery,
     fetchUserOrders,
+    fetchUserOrdersByEmailQuery,
     updatePerfume
 } from "../../../redux/thunks/admin-thunks";
 import {
     addPerfumeFailure,
     addPerfumeSuccess,
-    getAllUsers,
-    getAllUsersOrders,
-    getUserInfo,
-    getUserOrders,
+    getAllUsers, getAllUsersByQuery,
+    getAllUsersOrders, getAllUsersOrdersByQuery,
+    getUserInfo, getUserInfoByQuery,
+    getUserOrders, getUserOrdersByQuery, loadingData,
     updatePerfumeFailure,
     updatePerfumeSuccess
 } from "../../../redux/actions/admin-actions";
@@ -79,10 +83,10 @@ describe("admin actions", () => {
         expect(store.getActions()).toEqual(expectedActions);
     });
 
-    test("fetchAllUsersOrders should dispatches FETCH_ALL_USERS_ORDERS_SUCCESS on success", async () => {
+    test("fetchAllUsersOrders should dispatches LOADING_DATA and FETCH_ALL_USERS_ORDERS_SUCCESS on success", async () => {
         mock.onGet(API_BASE_URL + "/admin/orders").reply(200, ordersData);
         await store.dispatch(fetchAllUsersOrders());
-        let expectedActions = [getAllUsersOrders(ordersData)];
+        let expectedActions = [loadingData(), getAllUsersOrders(ordersData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
@@ -93,17 +97,45 @@ describe("admin actions", () => {
         expect(store.getActions()).toEqual(expectedActions);
     });
 
-    test("fetchAllUsers should dispatches FETCH_ALL_USERS_SUCCESS on success", async () => {
+    test("fetchAllUsers should dispatches LOADING_DATA and FETCH_ALL_USERS_SUCCESS on success", async () => {
         mock.onGet(API_BASE_URL + "/admin/user/all").reply(200, usersData);
         await store.dispatch(fetchAllUsers());
-        let expectedActions = [getAllUsers(usersData)];
+        let expectedActions = [loadingData(), getAllUsers(usersData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
-    test("fetchUserInfo should dispatches FETCH_USER_INFO_SUCCESS on success", async () => {
+    test("fetchUserInfo should dispatches LOADING_DATA and FETCH_USER_INFO_SUCCESS on success", async () => {
         mock.onGet(API_BASE_URL + "/admin/user/1").reply(200, userData);
         await store.dispatch(fetchUserInfo("1"));
-        let expectedActions = [getUserInfo(userData)];
+        let expectedActions = [loadingData(), getUserInfo(userData)];
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    test("fetchUserInfoByQuery should dispatches LOADING_DATA and FETCH_USER_INFO_BY_QUERY_SUCCESS on success", async () => {
+        mock.onPost(API_BASE_URL + "/admin/graphql/user").reply(200, {data: {user: userData}});
+        await store.dispatch(fetchUserInfoByQuery("1"));
+        let expectedActions = [loadingData(), getUserInfoByQuery(userData)];
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    test("fetchAllUsersByQuery should dispatches LOADING_DATA and FETCH_ALL_USERS_BY_QUERY_SUCCESS on success", async () => {
+        mock.onPost(API_BASE_URL + "/admin/graphql/user/all").reply(200, {data: {users: usersData}});
+        await store.dispatch(fetchAllUsersByQuery());
+        let expectedActions = [loadingData(), getAllUsersByQuery(usersData)];
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    test("fetchAllUsersOrdersByQuery should dispatches LOADING_DATA and FETCH_ALL_USERS_ORDERS_BY_QUERY_SUCCESS on success", async () => {
+        mock.onPost(API_BASE_URL + "/admin/graphql/orders").reply(200, {data: {orders: ordersData}});
+        await store.dispatch(fetchAllUsersOrdersByQuery());
+        let expectedActions = [loadingData(), getAllUsersOrdersByQuery(ordersData)];
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    test("fetchUserOrdersByEmailQuery should dispatches LOADING_DATA and FETCH_USER_ORDERS_BY_QUERY_SUCCESS on success", async () => {
+        mock.onPost(API_BASE_URL + "/admin/graphql/order").reply(200, {data: {ordersByEmail: ordersData}});
+        await store.dispatch(fetchUserOrdersByEmailQuery("test123@test.com"));
+        let expectedActions = [loadingData(), getUserOrdersByQuery(ordersData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 });

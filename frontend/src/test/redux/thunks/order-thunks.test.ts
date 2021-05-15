@@ -7,10 +7,15 @@ import axios from "axios";
 import {InitialStateType} from "../../../redux/reducers/order-reducer";
 import {API_BASE_URL} from "../../../utils/constants/url";
 import {orderData, orderErrorData, orderRequestData, ordersData} from "../../test-data/order-test-data";
-import {addOrder, fetchUserOrders} from "../../../redux/thunks/order-thunks";
+import {addOrder, fetchUserOrders, fetchUserOrdersByQuery} from "../../../redux/thunks/order-thunks";
 import {useHistory} from "react-router-dom";
 import {showLoader} from "../../../redux/actions/auth-actions";
-import {fetchUserOrdersSuccess, orderAddedFailure, orderAddedSuccess} from "../../../redux/actions/order-actions";
+import {
+    fetchUserOrdersByQuerySuccess,
+    fetchUserOrdersSuccess,
+    orderAddedFailure,
+    orderAddedSuccess
+} from "../../../redux/actions/order-actions";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore<InitialStateType, ThunkDispatch<InitialStateType, void, AnyAction>>(middlewares);
@@ -45,10 +50,17 @@ describe("order actions", () => {
 
     });
 
-    test("fetchUserOrders should dispatches FETCH_USER_ORDERS_SUCCESS on success", async () => {
+    test("fetchUserOrders should dispatches SHOW_LOADER and FETCH_USER_ORDERS_SUCCESS on success", async () => {
         mock.onGet(API_BASE_URL + "/users/orders").reply(200, ordersData);
-        let expectedActions = [fetchUserOrdersSuccess(ordersData)];
+        let expectedActions = [showLoader(), fetchUserOrdersSuccess(ordersData)];
         await store.dispatch(fetchUserOrders());
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+
+    test("fetchUserOrdersByQuery should SHOW_LOADER and dispatches FETCH_USER_ORDERS_SUCCESS on success", async () => {
+        mock.onPost(API_BASE_URL + "/users/graphql/orders").reply(200, {data: {ordersByEmail: ordersData}});
+        let expectedActions = [showLoader(), fetchUserOrdersByQuerySuccess(ordersData)];
+        await store.dispatch(fetchUserOrdersByQuery("test123@test.com"));
         expect(store.getActions()).toEqual(expectedActions);
     });
 });

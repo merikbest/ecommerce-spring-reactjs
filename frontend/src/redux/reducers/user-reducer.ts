@@ -10,12 +10,14 @@ import {
     USER_UPDATED_SUCCESS,
     RESET_INPUT_FORM,
     FETCH_USER_BY_QUERY_SUCCESS,
+    LOADING_USER_INFO,
     UserActionsTypes
 } from "../action-types/user-actions-types";
 
 export type InitialStateType = {
     user: Partial<User>
     isLoggedIn: boolean
+    isLoaded: boolean
     successMessage: string
     userEditErrors: Partial<UserEditErrors>
     userResetPasswordErrors: Partial<AuthErrors>
@@ -26,6 +28,7 @@ export type InitialStateType = {
 const initialState: InitialStateType = {
     user: {},
     isLoggedIn: false,
+    isLoaded: false,
     successMessage: "",
     userEditErrors: {},
     userResetPasswordErrors: {},
@@ -36,8 +39,11 @@ const initialState: InitialStateType = {
 const reducer = (state: InitialStateType = initialState, action: UserActionsTypes): InitialStateType => {
 
     switch (action.type) {
+        case LOADING_USER_INFO:
+            return {...state, isLoaded: true}
+
         case FETCH_USER_SUCCESS:
-            return {...state, user: action.payload, isLoggedIn: true}
+            return {...state, user: action.payload, isLoggedIn: true, isLoaded: false}
 
         case USER_UPDATED_SUCCESS:
             return {...state, user: action.payload, userEditErrors: {}};
@@ -64,7 +70,7 @@ const reducer = (state: InitialStateType = initialState, action: UserActionsType
             return {...state, user: {}, isLoggedIn: false}
 
         case FETCH_USER_BY_QUERY_SUCCESS:
-            return {...state, user: action.payload, isLoggedIn: true}
+            return {...state, user: action.payload, isLoggedIn: true, isLoaded: false}
 
         default:
             return state;

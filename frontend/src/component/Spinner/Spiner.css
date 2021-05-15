@@ -1,61 +1,81 @@
-@keyframes ldio-skmr27zgsyi {
-    0% { transform: translate(6px,40px) scale(0); }
-    25% { transform: translate(6px,40px) scale(0); }
-    50% { transform: translate(6px,40px) scale(1); }
-    75% { transform: translate(40px,40px) scale(1); }
-    100% { transform: translate(74px,40px) scale(1); }
+@keyframes ldio-11xg9onphdmo {
+    0% { opacity: 1 }
+    100% { opacity: 0 }
 }
-@keyframes ldio-skmr27zgsyi-r {
-    0% { transform: translate(74px,40px) scale(1); }
-    100% { transform: translate(74px,40px) scale(0); }
-}
-@keyframes ldio-skmr27zgsyi-c {
-    0% { background: #222222 }
-    25% { background: #00d8ff }
-    50% { background: #222222 }
-    75% { background: #00d8ff }
-    100% { background: #222222 }
-}
-.ldio-skmr27zgsyi div {
+.ldio-11xg9onphdmo div {
+    left: 94px;
+    top: 48px;
     position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    transform: translate(40px,40px) scale(1);
-    background: #222222;
-    animation: ldio-skmr27zgsyi 2.0833333333333335s infinite cubic-bezier(0,0.5,0.5,1);
-}
-.ldio-skmr27zgsyi div:nth-child(1) {
-    background: #00d8ff;
-    transform: translate(74px,40px) scale(1);
-    animation: ldio-skmr27zgsyi-r 0.5208333333333334s infinite cubic-bezier(0,0.5,0.5,1), ldio-skmr27zgsyi-c 2.0833333333333335s infinite step-start;
-}.ldio-skmr27zgsyi div:nth-child(2) {
-     animation-delay: -0.5208333333333334s;
-     background: #222222;
- }.ldio-skmr27zgsyi div:nth-child(3) {
-      animation-delay: -1.0416666666666667s;
-      background: #00d8ff;
-  }.ldio-skmr27zgsyi div:nth-child(4) {
-       animation-delay: -1.5625s;
-       background: #222222;
-   }.ldio-skmr27zgsyi div:nth-child(5) {
-        animation-delay: -2.0833333333333335s;
-        background: #00d8ff;
-    }
-.loadingio-spinner-ellipsis-aeb8fucc4h {
-    width: 71px;
-    height: 71px;
+    animation: ldio-11xg9onphdmo linear 1s infinite;
+    background: #000000;
+    width: 12px;
+    height: 24px;
+    border-radius: 6px / 12px;
+    transform-origin: 6px 52px;
+}.ldio-11xg9onphdmo div:nth-child(1) {
+     transform: rotate(0deg);
+     animation-delay: -0.9166666666666666s;
+     background: #000000;
+ }.ldio-11xg9onphdmo div:nth-child(2) {
+      transform: rotate(30deg);
+      animation-delay: -0.8333333333333334s;
+      background: #000000;
+  }.ldio-11xg9onphdmo div:nth-child(3) {
+       transform: rotate(60deg);
+       animation-delay: -0.75s;
+       background: #000000;
+   }.ldio-11xg9onphdmo div:nth-child(4) {
+        transform: rotate(90deg);
+        animation-delay: -0.6666666666666666s;
+        background: #000000;
+    }.ldio-11xg9onphdmo div:nth-child(5) {
+         transform: rotate(120deg);
+         animation-delay: -0.5833333333333334s;
+         background: #000000;
+     }.ldio-11xg9onphdmo div:nth-child(6) {
+          transform: rotate(150deg);
+          animation-delay: -0.5s;
+          background: #000000;
+      }.ldio-11xg9onphdmo div:nth-child(7) {
+           transform: rotate(180deg);
+           animation-delay: -0.4166666666666667s;
+           background: #000000;
+       }.ldio-11xg9onphdmo div:nth-child(8) {
+            transform: rotate(210deg);
+            animation-delay: -0.3333333333333333s;
+            background: #000000;
+        }.ldio-11xg9onphdmo div:nth-child(9) {
+             transform: rotate(240deg);
+             animation-delay: -0.25s;
+             background: #000000;
+         }.ldio-11xg9onphdmo div:nth-child(10) {
+              transform: rotate(270deg);
+              animation-delay: -0.16666666666666666s;
+              background: #000000;
+          }.ldio-11xg9onphdmo div:nth-child(11) {
+               transform: rotate(300deg);
+               animation-delay: -0.08333333333333333s;
+               background: #000000;
+           }.ldio-11xg9onphdmo div:nth-child(12) {
+                transform: rotate(330deg);
+                animation-delay: 0s;
+                background: #000000;
+            }
+.loadingio-spinner-spinner-52vjn4e2e18 {
+    width: 200px;
+    height: 200px;
     /*display: inline-block;*/
     overflow: hidden;
     margin-right: auto;
     margin-left: auto;
+    background: #ffffff;
 }
-.ldio-skmr27zgsyi {
+.ldio-11xg9onphdmo {
     width: 100%;
     height: 100%;
     position: relative;
-    transform: translateZ(0) scale(0.71);
+    transform: translateZ(0) scale(1);
     backface-visibility: hidden;
     transform-origin: 0 0; /* see note above */
 }
-.ldio-skmr27zgsyi div { box-sizing: content-box; }
+.ldio-11xg9onphdmo div { box-sizing: content-box; }

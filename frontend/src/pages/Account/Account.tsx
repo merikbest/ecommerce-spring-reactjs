@@ -6,7 +6,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {formReset} from "../../redux/thunks/admin-thunks";
 import {fetchUserInfo} from "../../redux/thunks/user-thunks";
-import {fetchPerfumes} from "../../redux/thunks/perfume-thunks";
 import PersonalOrdersList from "./PersonalOrdersList/PersonalOrdersList";
 import ChangePassword from "./ChangePassword/ChangePassword";
 import PersonalData from "./PersonalData/PersonalData";
@@ -26,7 +25,6 @@ const Account: FC = () => {
     useEffect(() => {
         dispatch(formReset());
         dispatch(fetchUserInfo());
-        dispatch(fetchPerfumes());
     }, []);
 
     return (

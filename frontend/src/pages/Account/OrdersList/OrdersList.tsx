@@ -9,12 +9,13 @@ import {Order} from "../../../types/types";
 const OrdersList: FC = () => {
     const dispatch = useDispatch();
     const adminOrders: Array<Order> = useSelector((state: AppStateType) => state.admin.orders);
+    const loading: boolean = useSelector((state: AppStateType) => state.admin.isLoaded);
 
     useEffect(() => {
         dispatch(fetchAllUsersOrders());
     }, []);
 
-    return (<OrdersTable orders={adminOrders}/>);
+    return (<OrdersTable loading={loading} orders={adminOrders}/>);
 };
 
 export default OrdersList;

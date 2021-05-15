@@ -46,24 +46,29 @@ test("Fetch Perfumes", () => {
     const state: InitialStateType = perfumeReducer(store.getState().perfume, getPerfumes(perfumes));
     expect(state.perfumes.length).toEqual(3);
     expect(state.perfumes[0]).toEqual(perfume);
+    expect(state.isPerfumeLoading).toBeFalsy();
 });
 
 test("Fetch Perfumes By Query", () => {
     const state: InitialStateType = perfumeReducer(store.getState().perfume, fetchPerfumesByQuerySuccess(perfumes));
     expect(state.perfumes.length).toEqual(3);
+    expect(state.isPerfumeLoading).toBeFalsy();
 });
 
 test("Fetch Perfumes By Gender", () => {
     const state: InitialStateType = perfumeReducer(store.getState().perfume, fetchPerfumesByGenderSuccess(perfumes));
     expect(state.perfumes.length).toEqual(3);
+    expect(state.isPerfumeLoading).toBeFalsy();
 });
 
 test("Fetch Perfumes By Perfumer", () => {
     const state: InitialStateType = perfumeReducer(store.getState().perfume, fetchPerfumesByPerfumerSuccess(perfumes));
     expect(state.perfumes.length).toEqual(3);
+    expect(state.isPerfumeLoading).toBeFalsy();
 });
 
 test("Fetch Perfumes By Filter Params", () => {
     const state: InitialStateType = perfumeReducer(store.getState().perfume, fetchPerfumesByFilterParamsSuccess(perfumes));
     expect(state.perfumes.length).toEqual(3);
+    expect(state.isPerfumeLoading).toBeFalsy();
 });

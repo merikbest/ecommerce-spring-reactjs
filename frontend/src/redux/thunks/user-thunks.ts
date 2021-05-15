@@ -3,6 +3,7 @@ import {Dispatch} from "redux";
 import {fetchPerfumeSuccess} from '../actions/perfume-actions';
 import {
     fetchUserSuccess,
+    loadingUserInfo,
     resetInputForm,
     userAddedReviewFailure,
     userAddedReviewSuccess,
@@ -16,6 +17,7 @@ import RequestService from '../../utils/request-service';
 import {userByQuery} from "../../utils/graphql-query/users-query";
 
 export const fetchUserInfo = () => async (dispatch: Dispatch) => {
+    dispatch(loadingUserInfo());
     const response = await RequestService.get("/users/info", true);
     localStorage.setItem("email", response.data.email);
     localStorage.setItem("userRole", response.data.roles);
@@ -57,6 +59,7 @@ export const resetForm = () => (dispatch: Dispatch) => {
 
 // GraphQL query
 export const fetchUserInfoByQuery = (id: string) => async (dispatch: Dispatch) => {
+    dispatch(loadingUserInfo());
     const response = await RequestService.post("/users/graphql/info", {query: userByQuery(id)}, true);
     localStorage.setItem("email", response.data.data.user.email);
     localStorage.setItem("userRole", response.data.data.user.roles);

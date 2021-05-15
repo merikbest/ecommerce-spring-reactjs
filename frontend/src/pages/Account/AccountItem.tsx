@@ -3,14 +3,20 @@ import {useSelector} from "react-redux";
 
 import {User} from "../../types/types";
 import {AppStateType} from "../../redux/reducers/root-reducer";
+import Spinner from "../../component/Spinner/Spinner";
 
 const AccountItem = () => {
     const usersData: Partial<User> = useSelector((state: AppStateType) => state.user.user);
+    const loading: boolean = useSelector((state: AppStateType) => state.user.isLoaded);
 
     return (
-        <h4 style={{display: "flex", justifyContent: "center"}}>
-            Hello {usersData.firstName} {usersData.lastName}!
-        </h4>
+        <>
+            {loading ? <Spinner/> :
+                <h4 style={{display: "flex", justifyContent: "center"}}>
+                    Hello {usersData.firstName} {usersData.lastName}!
+                </h4>
+            }
+        </>
     );
 };
 

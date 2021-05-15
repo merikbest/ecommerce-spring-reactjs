@@ -32,10 +32,10 @@ const reducer = (state: InitialStateType = initialState, action: PerfumeActionTy
             return {...state, isPerfumeLoading: true};
 
         case FETCH_PERFUMES:
-            return {...state, perfumes: action.payload};
+            return {...state, perfumes: action.payload, isPerfumeLoading: false};
 
         case FETCH_PERFUMES_BY_QUERY_SUCCESS:
-            return {...state, perfumes: action.payload};
+            return {...state, perfumes: action.payload, isPerfumeLoading: false};
 
         case FETCH_PERFUME_SUCCESS:
             return {...state, perfume: action.payload, reviews: action.payload.reviews, isPerfumeLoading: false};
@@ -44,13 +44,13 @@ const reducer = (state: InitialStateType = initialState, action: PerfumeActionTy
             return {...state, perfume: action.payload, reviews: action.payload.reviews, isPerfumeLoading: false};
 
         case FETCH_PERFUMES_BY_GENDER_SUCCESS:
-            return {...state, perfumes: action.payload};
+            return {...state, perfumes: action.payload, isPerfumeLoading: false};
 
         case FETCH_PERFUMES_BY_PERFUMER_SUCCESS:
-            return {...state, perfumes: action.payload};
+            return {...state, perfumes: action.payload, isPerfumeLoading: false};
 
         case FETCH_PERFUMES_BY_FILTER_PARAMS_SUCCESS:
-            return {...state, perfumes: action.payload};
+            return {...state, perfumes: action.payload, isPerfumeLoading: false};
 
         default:
             return state;

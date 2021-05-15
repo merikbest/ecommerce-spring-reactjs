@@ -13,6 +13,7 @@ import {
     FETCH_ALL_USERS_ORDERS_BY_QUERY_SUCCESS,
     FETCH_USER_INFO_BY_QUERY_SUCCESS,
     FETCH_USER_ORDERS_BY_QUERY_SUCCESS,
+    LOADING_DATA,
     GetAllUsersActionType,
     GetAllUsersOrdersActionType,
     GetUserInfoActionType,
@@ -26,7 +27,12 @@ import {
     GetAllUsersOrdersByQueryActionType,
     GetUserOrdersByQueryActionType,
     GetUserInfoByQueryActionType,
+    LoadingDataActionType
 } from "../action-types/admin-action-types";
+
+export const loadingData = (): LoadingDataActionType => ({
+    type: LOADING_DATA
+});
 
 export const addPerfumeSuccess = (): AddPerfumeSuccessActionType => ({
     type: PERFUME_ADDED_SUCCESS

@@ -28,11 +28,13 @@ export const addOrder = (order: any, history: any) => async (dispatch: Dispatch)
 };
 
 export const fetchUserOrders = () => async (dispatch: Dispatch) => {
+    dispatch(showLoader());
     const response = await RequestService.get("/users/orders", true);
     dispatch(fetchUserOrdersSuccess(response.data));
 };
 
 export const fetchUserOrdersByQuery = (email: string | undefined) => async (dispatch: Dispatch) => {
+    dispatch(showLoader());
     const response = await RequestService.post("/users/graphql/orders", {query: ordersByEmailQuery(email)}, true);
     dispatch(fetchUserOrdersByQuerySuccess(response.data.data.ordersByEmail));
 };

@@ -5,9 +5,14 @@ import {
     addPerfumeFailure,
     addPerfumeSuccess,
     getAllUsers,
+    getAllUsersByQuery,
     getAllUsersOrders,
+    getAllUsersOrdersByQuery,
     getUserInfo,
+    getUserInfoByQuery,
     getUserOrders,
+    getUserOrdersByQuery,
+    loadingData,
     reset,
     updatePerfumeFailure,
     updatePerfumeSuccess
@@ -31,6 +36,12 @@ beforeEach(() => {
     orders = ordersData;
     userOrders = ordersData;
 });
+
+test("Loading Data", () => {
+    const state: InitialStateType = adminReducer(store.getState().admin, loadingData());
+    expect(state.isLoaded).toBeTruthy();
+});
+
 
 test("Perfume Added Success", () => {
     const state: InitialStateType = adminReducer(store.getState().admin, addPerfumeSuccess());
@@ -59,21 +70,48 @@ test("Perfume Updated Failure", () => {
 test("Fetch User Info Success", () => {
     const state: InitialStateType = adminReducer(store.getState().admin, getUserInfo(user));
     expect(state.user).toEqual(user);
+    expect(state.isLoaded).toBeFalsy();
 });
 
 test("Fetch All Users Success", () => {
     const state: InitialStateType = adminReducer(store.getState().admin, getAllUsers(users));
     expect(state.users).toEqual(users);
+    expect(state.isLoaded).toBeFalsy();
 });
 
 test("Fetch All Users Orders Success", () => {
     const state: InitialStateType = adminReducer(store.getState().admin, getAllUsersOrders(orders));
     expect(state.orders).toEqual(orders);
+    expect(state.isLoaded).toBeFalsy();
 });
 
 test("Fetch User Orders Success", () => {
     const state: InitialStateType = adminReducer(store.getState().admin, getUserOrders(userOrders));
     expect(state.userOrders).toEqual(userOrders);
+});
+
+test("Fetch User Info By Query Success", () => {
+    const state: InitialStateType = adminReducer(store.getState().admin, getUserInfoByQuery(user));
+    expect(state.user).toEqual(user);
+    expect(state.isLoaded).toBeFalsy();
+});
+
+test("Fetch All Users By Query Success", () => {
+    const state: InitialStateType = adminReducer(store.getState().admin, getAllUsersByQuery(users));
+    expect(state.users).toEqual(users);
+    expect(state.isLoaded).toBeFalsy();
+});
+
+test("Fetch All Users Orders By Query Success", () => {
+    const state: InitialStateType = adminReducer(store.getState().admin, getAllUsersOrdersByQuery(orders));
+    expect(state.orders).toEqual(orders);
+    expect(state.isLoaded).toBeFalsy();
+});
+
+test("Fetch User Orders By Query Success", () => {
+    const state: InitialStateType = adminReducer(store.getState().admin, getUserOrdersByQuery(userOrders));
+    expect(state.userOrders).toEqual(userOrders);
+    expect(state.isLoaded).toBeFalsy();
 });
 
 test("Form Reset", () => {

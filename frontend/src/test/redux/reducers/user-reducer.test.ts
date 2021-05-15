@@ -2,7 +2,9 @@ import {createStore} from "redux";
 import rootReducer from "../../../redux/reducers/root-reducer";
 import userReducer, {InitialStateType} from "../../../redux/reducers/user-reducer";
 import {
+    fetchUserByQuerySuccess,
     fetchUserSuccess,
+    loadingUserInfo,
     resetInputForm,
     userAddedReviewFailure,
     userAddedReviewSuccess,
@@ -30,10 +32,16 @@ beforeEach(() => {
     reviewErrors = reviewErrorsData;
 });
 
+test("FLoading User Info", () => {
+    const state: InitialStateType = userReducer(store.getState().user, loadingUserInfo());
+    expect(state.isLoaded).toBeTruthy();
+});
+
 test("Fetch User Success", () => {
     const state: InitialStateType = userReducer(store.getState().user, fetchUserSuccess(user));
     expect(state.user).toEqual(user);
     expect(state.isLoggedIn).toBeTruthy();
+    expect(state.isLoaded).toBeFalsy();
 });
 
 test("User Updated Success", () => {
@@ -77,8 +85,15 @@ test("Reset Input Form", () => {
     expect(state.reviewErrors).toEqual({});
 });
 
-test("Reset Input Form", () => {
+test("Logout Success", () => {
     const state: InitialStateType = userReducer(store.getState().user, logoutSuccess());
     expect(state.user).toEqual({});
     expect(state.isLoggedIn).toBeFalsy();
+});
+
+test("Fetch User Success", () => {
+    const state: InitialStateType = userReducer(store.getState().user, fetchUserByQuerySuccess(user));
+    expect(state.user).toEqual(user);
+    expect(state.isLoggedIn).toBeTruthy();
+    expect(state.isLoaded).toBeFalsy();
 });

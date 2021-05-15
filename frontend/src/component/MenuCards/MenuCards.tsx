@@ -7,9 +7,11 @@ import PerfumeCardItem from "../PerfumeCardItem/PerfumeCardItem";
 import PaginationItem from "../Pagination/PaginationItem";
 import SearchForm from "../SearchForm/SearchForm";
 import {Perfume} from "../../types/types";
+import Spinner from "../Spinner/Spinner";
 
 type PropsType = {
     data: Array<Perfume>
+    loading: boolean
     itemsPerPage: number
     startFrom?: number
     searchByData: Array<{ label: string, value: string }>
@@ -17,7 +19,7 @@ type PropsType = {
     handleSortByPrice: (sortedBy: boolean, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
 };
 
-const MenuCards: FC<PropsType> = ({data, itemsPerPage, startFrom, searchByData, sortByPrice, handleSortByPrice}) => {
+const MenuCards: FC<PropsType> = ({data, loading, itemsPerPage, startFrom, searchByData, sortByPrice, handleSortByPrice}) => {
     const {
         slicedData,
         pagination,
@@ -69,23 +71,27 @@ const MenuCards: FC<PropsType> = ({data, itemsPerPage, startFrom, searchByData, 
                         </ul>
                     </div>
                 </div>
-                <div className="row">
-                    {slicedData.map((perfume: Perfume) => {
-                        return (
-                            <PerfumeCardItem
-                                key={perfume.id}
-                                perfume={perfume}
-                                colSize={3}
-                                link={"/product"}
-                                btnName={"SHOW MORE"}/>
-                        );
-                    })}
-                </div>
-                <PaginationItem
-                    pagination={pagination}
-                    prevPage={prevPage}
-                    changePage={changePage}
-                    nextPage={nextPage}/>
+                {loading ? <Spinner/> :
+                <>
+                    <div className="row">
+                        {slicedData.map((perfume: Perfume) => {
+                            return (
+                                <PerfumeCardItem
+                                    key={perfume.id}
+                                    perfume={perfume}
+                                    colSize={3}
+                                    link={"/product"}
+                                    btnName={"SHOW MORE"}/>
+                            );
+                        })}
+                    </div>
+                    <PaginationItem
+                        pagination={pagination}
+                        prevPage={prevPage}
+                        changePage={changePage}
+                        nextPage={nextPage}/>
+                </>
+                }
             </div>
         </div>
     );

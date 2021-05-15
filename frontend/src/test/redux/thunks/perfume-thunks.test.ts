@@ -40,10 +40,10 @@ describe("perfume actions", () => {
         store.clearActions();
     });
 
-    test("fetchPerfumes should dispatches FETCH_PERFUMES on success", async () => {
+    test("fetchPerfumes should dispatches LOADING_PERFUME and FETCH_PERFUMES on success", async () => {
         mock.onGet(API_BASE_URL + "/perfumes").reply(200, perfumesData);
         await store.dispatch(fetchPerfumes());
-        let expectedActions = [getPerfumes(perfumesData)];
+        let expectedActions = [loadingPerfume(), getPerfumes(perfumesData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
@@ -54,38 +54,38 @@ describe("perfume actions", () => {
         expect(store.getActions()).toEqual(expectedActions);
     });
 
-    test("fetchPerfumesByIds should dispatches FETCH_PERFUMES on success", async () => {
+    test("fetchPerfumesByIds should dispatches LOADING_PERFUME and FETCH_PERFUMES on success", async () => {
         mock.onPost(API_BASE_URL + "/perfumes/ids").reply(200, perfumesData);
         await store.dispatch(fetchPerfumesByIds([34, 35, 38]));
-        let expectedActions = [getPerfumes(perfumesData)];
+        let expectedActions = [loadingPerfume(), getPerfumes(perfumesData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
-    test("fetchPerfumesByFilterParams should dispatches FETCH_PERFUMES_BY_FILTER_PARAMS_SUCCESS on success", async () => {
+    test("fetchPerfumesByFilterParams should dispatches LOADING_PERFUME and FETCH_PERFUMES_BY_FILTER_PARAMS_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + "/perfumes/search").reply(200, perfumesData);
         await store.dispatch(fetchPerfumesByFilterParams({perfumers: ["Creed"], genders: [], prices: []}));
-        let expectedActions = [fetchPerfumesByFilterParamsSuccess(perfumesData)];
+        let expectedActions = [loadingPerfume(), fetchPerfumesByFilterParamsSuccess(perfumesData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
-    test("fetchPerfumesByGender should dispatches FETCH_PERFUMES_BY_GENDER_SUCCESS on success", async () => {
+    test("fetchPerfumesByGender should dispatches LOADING_PERFUME and FETCH_PERFUMES_BY_GENDER_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + "/perfumes/search/gender").reply(200, perfumesData);
         await store.dispatch(fetchPerfumesByGender({perfumeGender: "male"}));
-        let expectedActions = [fetchPerfumesByGenderSuccess(perfumesData)];
+        let expectedActions = [loadingPerfume(), fetchPerfumesByGenderSuccess(perfumesData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
-    test("fetchPerfumesByPerfumer should dispatches FETCH_PERFUMES_BY_PERFUMER_SUCCESS on success", async () => {
+    test("fetchPerfumesByPerfumer should dispatches LOADING_PERFUME and FETCH_PERFUMES_BY_PERFUMER_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + "/perfumes/search/perfumer").reply(200, perfumesData);
         await store.dispatch(fetchPerfumesByPerfumer({perfumer: "Creed"}));
-        let expectedActions = [fetchPerfumesByPerfumerSuccess(perfumesData)];
+        let expectedActions = [loadingPerfume(), fetchPerfumesByPerfumerSuccess(perfumesData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
-    test("fetchPerfumesByQuery should dispatches FETCH_PERFUMES_BY_QUERY_SUCCESS on success", async () => {
+    test("fetchPerfumesByQuery should dispatches LOADING_PERFUME and FETCH_PERFUMES_BY_QUERY_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + "/perfumes/graphql/perfumes").reply(200, {data: {perfumes: perfumesData}});
         await store.dispatch(fetchPerfumesByQuery());
-        let expectedActions = [fetchPerfumesByQuerySuccess(perfumesData)];
+        let expectedActions = [loadingPerfume(), fetchPerfumesByQuerySuccess(perfumesData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
@@ -96,10 +96,10 @@ describe("perfume actions", () => {
         expect(store.getActions()).toEqual(expectedActions);
     });
 
-    test("fetchPerfumesByIdsQuery should dispatches FETCH_PERFUMES_BY_QUERY_SUCCESS on success", async () => {
+    test("fetchPerfumesByIdsQuery should dispatches LOADING_PERFUME and FETCH_PERFUMES_BY_QUERY_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + "/perfumes/graphql/ids").reply(200, {data: {perfumesIds: perfumesData}});
         await store.dispatch(fetchPerfumesByIdsQuery([34, 35, 38]));
-        let expectedActions = [fetchPerfumesByQuerySuccess(perfumesData)];
+        let expectedActions = [loadingPerfume(), fetchPerfumesByQuerySuccess(perfumesData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 });

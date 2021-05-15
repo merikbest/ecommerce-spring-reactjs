@@ -39,10 +39,10 @@ const reducer = (state: InitialStateType = initialState, action: OrderActionType
             return {...state, errors: action.payload, loading: false};
 
         case FETCH_USER_ORDERS_SUCCESS:
-            return {...state, orders: action.payload};
+            return {...state, orders: action.payload, loading: false};
 
         case FETCH_USER_ORDERS_BY_QUERY_SUCCESS:
-            return {...state, orders: action.payload};
+            return {...state, orders: action.payload, loading: false};
 
         default:
             return state;

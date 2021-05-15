@@ -20,6 +20,7 @@ import ScrollButton from "../../component/ScrollButton/ScrollButton";
 const Menu: FC = () => {
     const dispatch = useDispatch();
     const perfumes: Array<Perfume> = useSelector((state: AppStateType) => state.perfume.perfumes);
+    const loading: boolean = useSelector((state: AppStateType) => state.perfume.isPerfumeLoading);
     const [filterParams, setFilterParams] = useState<FilterParamsType>({
         perfumers: [],
         genders: [],
@@ -99,6 +100,7 @@ const Menu: FC = () => {
             <Route exact component={() =>
                 <MenuCards
                     data={perfumes}
+                    loading={loading}
                     itemsPerPage={16}
                     searchByData={[
                         {label: 'Brand', value: 'perfumer'},

@@ -2,7 +2,7 @@ import {createStore} from "redux";
 import rootReducer from "../../../redux/reducers/root-reducer";
 import orderReducer, {InitialStateType} from "../../../redux/reducers/order-reducer";
 import {showLoader} from "../../../redux/actions/auth-actions";
-import {fetchOrderSuccess, fetchUserOrdersSuccess, orderAddedFailure, orderAddedSuccess} from "../../../redux/actions/order-actions";
+import {fetchOrderSuccess, fetchUserOrdersByQuerySuccess, fetchUserOrdersSuccess, orderAddedFailure, orderAddedSuccess} from "../../../redux/actions/order-actions";
 import {Order, OrderError} from "../../../types/types";
 import {orderData, orderErrorData, ordersData} from "../../test-data/order-test-data";
 
@@ -44,4 +44,11 @@ test("Added Order Failure", () => {
 test("Fetch User Orders", () => {
     const state: InitialStateType = orderReducer(store.getState().order, fetchUserOrdersSuccess(orders));
     expect(state.orders).toEqual(orders);
+    expect(state.loading).toBeFalsy();
+});
+
+test("Fetch User Orders By Query Success", () => {
+    const state: InitialStateType = orderReducer(store.getState().order, fetchUserOrdersByQuerySuccess(orders));
+    expect(state.orders).toEqual(orders);
+    expect(state.loading).toBeFalsy();
 });
