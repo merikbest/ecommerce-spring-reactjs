@@ -88,6 +88,17 @@ public class RegistrationControllerTest {
     }
 
     @Test
+    public void registration_ShouldCaptchaNotFilled() throws Exception {
+        registrationRequestDto.setCaptcha(null);
+
+        mockMvc.perform(post(URL_REGISTRATION_BASIC)
+                .content(mapper.writeValueAsString(registrationRequestDto))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.captchaError").value("Fill captcha."));
+    }
+
+    @Test
     public void registration_ShouldInputFieldsAreEmpty() throws Exception {
         mockMvc.perform(post(URL_REGISTRATION_BASIC)
                 .param("password2", "")

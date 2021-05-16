@@ -147,6 +147,8 @@ public class UserServiceImlTest {
         assertTrue(user.isActive());
     }
 
+    
+
     @Test
     public void registerUser() {
         User user = new User();

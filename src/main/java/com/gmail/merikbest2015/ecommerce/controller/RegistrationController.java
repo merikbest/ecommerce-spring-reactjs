@@ -1,10 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
+import com.gmail.merikbest2015.ecommerce.dto.CaptchaResponseDto;
 import com.gmail.merikbest2015.ecommerce.dto.RegistrationRequestDto;
-import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
-import com.gmail.merikbest2015.ecommerce.exception.EmailException;
-import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
-import com.gmail.merikbest2015.ecommerce.exception.PasswordException;
+import com.gmail.merikbest2015.ecommerce.exception.*;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
 import com.gmail.merikbest2015.ecommerce.utils.ControllerUtils;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +23,7 @@ public class RegistrationController {
 
     @PostMapping
     public ResponseEntity<String> registration(@Valid @RequestBody RegistrationRequestDto user, BindingResult bindingResult) {
-        controllerUtils.captchaValidation(user.getCaptcha());
+        CaptchaResponseDto captchaResponseDto = controllerUtils.captchaValidation(user.getCaptcha());
 
         if (controllerUtils.isPasswordDifferent(user.getPassword(), user.getPassword2())) {
             throw new PasswordException("Passwords do not match.");
@@ -35,6 +33,9 @@ public class RegistrationController {
         }
         if (!userMapper.registerUser(user)) {
             throw new EmailException("Email is already used.");
+        }
+        if (!captchaResponseDto.isSuccess()) {
+            throw new CaptchaException("Fill captcha.");
         }
         return ResponseEntity.ok("User successfully registered.");
     }
