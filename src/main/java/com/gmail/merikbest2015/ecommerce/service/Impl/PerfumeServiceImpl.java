@@ -70,6 +70,8 @@ public class PerfumeServiceImpl implements PerfumeService {
         List<Perfume> perfumeList = new ArrayList<>();
 
         if (!perfumers.isEmpty() || !genders.isEmpty() || !prices.isEmpty()) {
+            perfumeList = perfumeRepository.findAllByOrderByIdAsc();
+
             if (!perfumers.isEmpty()) {
                 if (!perfumeList.isEmpty()) {
                     List<Perfume> perfumersList = new ArrayList<>();
