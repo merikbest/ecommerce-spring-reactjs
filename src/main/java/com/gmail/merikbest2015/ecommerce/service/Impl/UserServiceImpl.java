@@ -176,23 +176,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void userSave(String username, Map<String, String> form, User user) {
-        user.setFirstName(username);
-        Set<String> roles = Arrays.stream(Role.values())
-                .map(Role::name)
-                .collect(Collectors.toSet());
-
-        user.getRoles().clear();
-
-        for (String key : form.keySet()) {
-            if (roles.contains(key)) {
-                user.getRoles().add(Role.valueOf(key));
-            }
-        }
-        userRepository.save(user);
-    }
-
-    @Override
     public User updateProfile(String email, User user) {
         User userFromDb = userRepository.findByEmail(email);
         userFromDb.setFirstName(user.getFirstName());

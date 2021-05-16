@@ -1,6 +1,3 @@
-delete from user_role;
-delete from users;
-
 -- password: admin123
 insert into users(id, email, first_name, last_name, city, address, phone_number, post_index, activation_code, active, password, password_reset_code, provider)
     values(1, 'admin@gmail.com', 'Admin', 'Admin', null, null, null, null, null, true, '$2a$08$kS2f5m8eYoNpc.ZECzndGuXiqaWmCaFfOGMQquodP48qrD7.cQG4y', null, 'LOCAL');

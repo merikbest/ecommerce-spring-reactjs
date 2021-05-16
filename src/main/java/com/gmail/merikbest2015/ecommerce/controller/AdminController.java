@@ -44,7 +44,7 @@ public class AdminController {
         }
     }
 
-    @PutMapping("/edit")
+    @PostMapping("/edit")
     public ResponseEntity<PerfumeResponseDto> updatePerfume(@RequestPart(name = "file", required = false) MultipartFile file,
                                                             @RequestPart("perfume") @Valid PerfumeRequestDto perfume,
                                                             BindingResult bindingResult) {

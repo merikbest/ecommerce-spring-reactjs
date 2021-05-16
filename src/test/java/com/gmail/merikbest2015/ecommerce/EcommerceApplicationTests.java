@@ -10,4 +10,8 @@ class EcommerceApplicationTests {
     void contextLoads() {
     }
 
+    @Test
+    public void main() {
+        EcommerceApplication.main(new String[] {});
+    }
 }

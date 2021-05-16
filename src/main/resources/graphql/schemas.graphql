@@ -74,6 +74,6 @@ type User {
     activationCode: String
     passwordResetCode: String
     active: Boolean
-    provider: [String]
+    provider: String
     roles: [String]
 }

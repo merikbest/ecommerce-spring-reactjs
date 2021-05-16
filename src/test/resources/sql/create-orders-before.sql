@@ -1,7 +1,3 @@
-delete from orders_order_items;
-delete from order_item;
-delete from orders;
-
 INSERT INTO orders (id, address, city, date, email, first_name, last_name, phone_number, post_index, total_price)
     VALUES (111, 'Wall Street 1', 'New York', '2021-02-06', 'test123@test.com', 'John', 'Doe', '1234567890', 1234567890, 56);
 

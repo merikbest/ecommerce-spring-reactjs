@@ -105,6 +105,41 @@ public class AdminControllerTest {
     }
 
     @Test
+    public void editPerfume() throws Exception {
+        FileInputStream inputFile = new FileInputStream(FILE_PATH);
+        MockMultipartFile multipartFile = new MockMultipartFile("file", FILE_NAME, MediaType.MULTIPART_FORM_DATA_VALUE, inputFile);
+        MockMultipartFile jsonFileEdit = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequestDto).getBytes());
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        perfumeRequestDto.setType("test");
+        mockMvc.perform(multipart(URL_ADMIN_EDIT)
+                .file(multipartFile)
+                .file(jsonFileEdit))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void editPerfume_ShouldInputFieldsAreEmpty() throws Exception {
+        PerfumeRequestDto perfumeRequestDto = new PerfumeRequestDto();
+        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequestDto).getBytes());
+        MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
+        mockMvc.perform(multipart(URL_ADMIN_EDIT)
+                .file(jsonFile))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.perfumeTitleError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.perfumerError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.yearError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.countryError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.perfumeGenderError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.fragranceTopNotesError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.fragranceMiddleNotesError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.fragranceBaseNotesError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.priceError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.volumeError", is("Fill in the input field")))
+                .andExpect(jsonPath("$.typeError", is("Fill in the input field")));
+    }
+
+    @Test
     public void deletePerfume() throws Exception {
         mockMvc.perform(delete(URL_ADMIN_BASIC + "/delete/59"))
                 .andExpect(status().isOk())

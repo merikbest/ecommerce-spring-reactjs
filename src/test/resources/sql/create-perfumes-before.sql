@@ -1,7 +1,3 @@
-delete from perfume_reviews;
-delete from review;
-delete from perfume;
-
 INSERT INTO perfume (id, country, description, filename, fragrance_base_notes, fragrance_middle_notes, fragrance_top_notes, perfume_gender, perfume_title, perfumer, price, type, volume, year, perfume_rating) VALUES (2, 'Germany', null, '4735a4c8-e1fc-43ce-8ff9-0bd28d00ce20.Hugo Boss Boss Bottled Night.jpg', 'Salmwood, Musky notes, Sandalwood', 'Cardamom, Jasmine, African violet', 'Birch leaf, Lavender', 'male', 'Boss Bottled Night', 'Hugo Boss', 35, 'Eau de Toilette', '100', 20100, 0);
 INSERT INTO perfume (id, country, description, filename, fragrance_base_notes, fragrance_middle_notes, fragrance_top_notes, perfume_gender, perfume_title, perfumer, price, type, volume, year, perfume_rating) VALUES (4, 'Germany', null, '17d6f8a1-aa84-4823-bd18-ccb0fdbe7fe9.Hugo Boss Hugo Man.jpg', 'Moss, Sandalwood, Fir balsam', 'Carnation, Geranium leaf, Jasmine', 'Basil, Grapefruit, Green apple, Mint', 'male', 'Hugo Man', 'Hugo Boss', 21, 'Eau de Toilette', '75', 19950, 0);
 INSERT INTO perfume (id, country, description, filename, fragrance_base_notes, fragrance_middle_notes, fragrance_top_notes, perfume_gender, perfume_title, perfumer, price, type, volume, year, perfume_rating) VALUES (16, 'Germany', null, 'ba9272ca-20af-4e41-89b7-24018be4acb1.Hugo Boss The Scent.jpg', 'Leather', 'Maninka fruit, Lavender', 'Ginger', 'male', 'The Scent', 'Hugo Boss', 45, 'Eau de Toilette', '100', 20150, 0);

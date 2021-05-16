@@ -16,6 +16,6 @@ public class ReviewRequestDto {
     @NotBlank(message = "Fill in the input field")
     private String message;
 
-    @Min(value = 1, message = "Chose perfume rating")
+    @Min(value = 1, message = "Choose perfume rating")
     private Integer rating;
 }

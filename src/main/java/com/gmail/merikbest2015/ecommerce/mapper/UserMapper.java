@@ -83,10 +83,6 @@ public class UserMapper {
         return userService.passwordReset(email, password);
     }
 
-    public void userSave(String username, Map<String, String> form, UserRequestDto userRequestDto) {
-        userService.userSave(username, form, convertToEntity(userRequestDto));
-    }
-
     public UserResponseDto updateProfile(String email, UserRequestDto userRequestDto) {
         return convertToResponseDto(userService.updateProfile(email, convertToEntity(userRequestDto)));
     }

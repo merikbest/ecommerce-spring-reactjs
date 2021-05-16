@@ -39,8 +39,6 @@ public interface UserService {
 
     String passwordReset(String email, String password);
 
-    void userSave(String username, Map<String, String> form, User user);
-
     User updateProfile(String email, User user);
 
     Perfume addReviewToPerfume(Review review, Long perfumeId);
