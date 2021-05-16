@@ -10,7 +10,6 @@ import com.gmail.merikbest2015.ecommerce.service.OrderService;
 import com.gmail.merikbest2015.ecommerce.service.email.MailSender;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,22 +42,6 @@ public class OrderServiceImpl implements OrderService {
         return dataFetchingEnvironment -> {
             String email = dataFetchingEnvironment.getArgument("email").toString();
             return orderRepository.findOrderByEmail(email);
-        };
-    }
-
-    @Override
-    public DataFetcher<List<Order>> getUserOrdersByQuery() {
-        return dataFetchingEnvironment -> {
-            String email = SecurityContextHolder.getContext().getAuthentication().getName();
-            return orderRepository.findOrderByEmail(email);
-        };
-    }
-
-    @Override
-    public DataFetcher<Order> getOrderByQuery() {
-        return dataFetchingEnvironment -> {
-            Long orderId = Long.parseLong(dataFetchingEnvironment.getArgument("id"));
-            return orderRepository.findById(orderId).get();
         };
     }
 

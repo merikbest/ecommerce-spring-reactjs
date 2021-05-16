@@ -32,7 +32,7 @@ export const addPerfume = (data: FormData) => async (dispatch: Dispatch) => {
 
 export const updatePerfume = (data: FormData) => async (dispatch: Dispatch) => {
     try {
-        const response = await RequestService.put("/admin/edit", data, true, "multipart/form-data");
+        const response = await RequestService.post("/admin/edit", data, true, "multipart/form-data");
         dispatch(updatePerfumeSuccess());
         dispatch(fetchPerfumeSuccess(response.data));
     } catch (error) {

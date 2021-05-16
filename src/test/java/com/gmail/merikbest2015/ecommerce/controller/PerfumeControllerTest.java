@@ -138,6 +138,40 @@ public class PerfumeControllerTest {
     }
 
     @Test
+    public void findPerfumesByFilterParamsPerfumers() throws Exception {
+        PerfumeSearchRequestDto filter = new PerfumeSearchRequestDto();
+        List<String> perfumers = new ArrayList<>();
+        perfumers.add(PERFUMER_CHANEL);
+        List<Integer> prices = new ArrayList<>();
+        prices.add(150);
+        prices.add(250);
+
+        filter.setPerfumers(perfumers);
+        filter.setGenders(new ArrayList<>());
+        filter.setPrices(prices);
+        filter.setSortByPrice(true);
+
+        mockMvc.perform(post(URL_PERFUMES_SEARCH)
+                .content(mapper.writeValueAsString(filter))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*].id").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].year").isNotEmpty())
+                .andExpect(jsonPath("$[*].country").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumeGender").isNotEmpty())
+                .andExpect(jsonPath("$[*].fragranceTopNotes").isNotEmpty())
+                .andExpect(jsonPath("$[*].fragranceMiddleNotes").isNotEmpty())
+                .andExpect(jsonPath("$[*].fragranceBaseNotes").isNotEmpty())
+                .andExpect(jsonPath("$[*].description").isNotEmpty())
+                .andExpect(jsonPath("$[*].filename").isNotEmpty())
+                .andExpect(jsonPath("$[*].price").isNotEmpty())
+                .andExpect(jsonPath("$[*].volume").isNotEmpty())
+                .andExpect(jsonPath("$[*].type").isNotEmpty());
+    }
+
+    @Test
     public void findByPerfumeGender() throws Exception {
         PerfumeSearchRequestDto filter = new PerfumeSearchRequestDto();
         filter.setPerfumeGender(PERFUME_GENDER);
