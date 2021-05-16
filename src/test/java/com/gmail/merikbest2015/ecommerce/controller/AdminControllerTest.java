@@ -71,13 +71,13 @@ public class AdminControllerTest {
 
     @Test
     public void addPerfume() throws Exception {
-        FileInputStream inputFile = new FileInputStream(FILE_PATH);
-        MockMultipartFile multipartFile = new MockMultipartFile("file", FILE_NAME, MediaType.MULTIPART_FORM_DATA_VALUE, inputFile);
+//        FileInputStream inputFile = new FileInputStream(FILE_PATH);
+//        MockMultipartFile multipartFile = new MockMultipartFile("file", FILE_NAME, MediaType.MULTIPART_FORM_DATA_VALUE, inputFile);
         MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequestDto).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         mockMvc.perform(multipart(URL_ADMIN_ADD)
-                .file(multipartFile)
+//                .file(multipartFile)
                 .file(jsonFile))
                 .andExpect(status().isOk());
     }
@@ -106,13 +106,13 @@ public class AdminControllerTest {
 
     @Test
     public void editPerfume() throws Exception {
-        FileInputStream inputFile = new FileInputStream(FILE_PATH);
-        MockMultipartFile multipartFile = new MockMultipartFile("file", FILE_NAME, MediaType.MULTIPART_FORM_DATA_VALUE, inputFile);
+//        FileInputStream inputFile = new FileInputStream(FILE_PATH);
+//        MockMultipartFile multipartFile = new MockMultipartFile("file", FILE_NAME, MediaType.MULTIPART_FORM_DATA_VALUE, inputFile);
         MockMultipartFile jsonFileEdit = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequestDto).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         perfumeRequestDto.setType("test");
         mockMvc.perform(multipart(URL_ADMIN_EDIT)
-                .file(multipartFile)
+//                .file(multipartFile)
                 .file(jsonFileEdit))
                 .andExpect(status().isOk());
     }
