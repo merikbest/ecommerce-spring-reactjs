@@ -1,5 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.service.Impl;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
@@ -12,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,9 +26,10 @@ public class PerfumeServiceImpl implements PerfumeService {
 
     private final PerfumeRepository perfumeRepository;
     private final ReviewRepository reviewRepository;
+    private AmazonS3 amazonS3;
 
-    @Value("${upload.path}")
-    private String uploadPath;
+    @Value("${aws.s3.bucket}")
+    private String bucketName;
 
     @Override
     public DataFetcher<Perfume> getPerfumeByQuery() {
@@ -125,19 +130,20 @@ public class PerfumeServiceImpl implements PerfumeService {
         if (file == null) {
             perfume.setFilename("empty.jpg");
         } else {
-            File uploadDir = new File(uploadPath);
-
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
-            }
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFilename = uuidFile + "." + file.getOriginalFilename();
+            File fileConvert = null;
             try {
-                file.transferTo(new File(uploadPath + "/" + resultFilename));
-            } catch (IOException e) {
+                fileConvert = convertMultiPartToFile(file);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            perfume.setFilename(resultFilename);
+            if (file != null) {
+                String resultFilename = generateFileName(file);
+                amazonS3.putObject(new PutObjectRequest(bucketName, resultFilename, fileConvert)
+                        .withCannedAcl(CannedAccessControlList.PublicRead));
+                perfume.setFilename(resultFilename);
+            } else {
+                perfume.setFilename("empty.jpg");
+            }
         }
         return perfumeRepository.save(perfume);
     }
@@ -149,5 +155,19 @@ public class PerfumeServiceImpl implements PerfumeService {
         perfume.getReviews().forEach(review -> reviewRepository.deleteById(review.getId()));
         perfumeRepository.delete(perfume);
         return perfumeRepository.findAllByOrderByIdAsc();
+    }
+
+    private File convertMultiPartToFile(MultipartFile file) throws IOException {
+        File convFile = new File(file.getOriginalFilename());
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convFile;
+    }
+
+    private String generateFileName(MultipartFile multiPart) {
+        String uuidFile = UUID.randomUUID().toString();
+        String resultFilename = uuidFile + "." + multiPart.getOriginalFilename();
+        return resultFilename;
     }
 }
