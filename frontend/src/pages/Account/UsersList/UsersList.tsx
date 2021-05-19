@@ -22,15 +22,15 @@ const UsersList: FC = () => {
         <div className="container">
             {loading ? <Spinner/> :
             <>
-                <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faUsers}/> List of all users</h4>
+                <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faUsers}/> Danh sách người dùng</h4>
                 <table className="table mt-4 border text-center">
                     <thead className="table-active">
                     <tr>
                         <th>id</th>
-                        <th>First name</th>
+                        <th>Tên</th>
                         <th>E-mail</th>
-                        <th>Role</th>
-                        <th>Provider</th>
+                        <th>Quyền</th>
+                        <th>Nhà cung cấp</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -39,7 +39,7 @@ const UsersList: FC = () => {
                         return (
                             <tr key={user.id}>
                                 <th>{user.id}</th>
-                                <th>{user.firstName}</th>
+                                <th>{user.lastName}</th>
                                 <th>{user.email}</th>
                                 <th>{user.roles[0]}</th>
                                 <th>{user.provider}</th>

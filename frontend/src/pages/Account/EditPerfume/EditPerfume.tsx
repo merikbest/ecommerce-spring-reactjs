@@ -107,12 +107,12 @@ const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
         <>
             <ToastShow showToast={showToast} message={"Perfume successfully edited!"}/>
             <div className="container">
-                <h4><FontAwesomeIcon className="mr-2" icon={faEdit}/>Edit perfume</h4>
+                <h4><FontAwesomeIcon className="mr-2" icon={faEdit}/>Sửa nước hoa</h4>
                 <form onSubmit={onFormSubmit}>
                     <div className="row mt-5">
                         <div className="col-md-6">
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label font-weight-bold">Perfume title: </label>
+                                <label className="col-sm-4 col-form-label font-weight-bold">Tiêu đề: </label>
                                 <div className="col-sm-8">
                                     <input
                                         type="text"
@@ -124,7 +124,7 @@ const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label font-weight-bold">Brand: </label>
+                                <label className="col-sm-4 col-form-label font-weight-bold">Thương hiệu: </label>
                                 <div className="col-sm-8">
                                     <input
                                         type="text"
@@ -136,7 +136,7 @@ const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label font-weight-bold">Release year: </label>
+                                <label className="col-sm-4 col-form-label font-weight-bold">Năm sản xuất: </label>
                                 <div className="col-sm-8">
                                     <input
                                         type="text"
@@ -148,7 +148,7 @@ const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label font-weight-bold">Country: </label>
+                                <label className="col-sm-4 col-form-label font-weight-bold">Quốc gia: </label>
                                 <div className="col-sm-8">
                                     <input
                                         type="text"
@@ -161,7 +161,7 @@ const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label font-weight-bold">Perfume type: </label>
+                                <label className="col-sm-4 col-form-label font-weight-bold">Loại nước hoa: </label>
                                 <div className="col-sm-8">
                                     <select name="type"
                                             className={typeError ? "form-control is-invalid" : "form-control"}
@@ -169,18 +169,18 @@ const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                                         {perfumeData.type === "Eau de Parfum" ?
                                             <>
                                                 <option value={perfumeData.type}>{perfumeData.type}</option>
-                                                <option value="Eau de Toilette">Eau de Toilette</option>
+                                                <option value="Dành cho nam">Dành cho nam</option>
                                             </> :
                                             <>
                                                 <option value={perfumeData.type}>{perfumeData.type}</option>
-                                                <option value="Eau de Parfum">Eau de Parfum</option>
+                                                <option value="Dành cho nữ">Dành cho nữ</option>
                                             </>}
                                     </select>
                                     <div className="invalid-feedback">{typeError}</div>
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label font-weight-bold">Volume: </label>
+                                <label className="col-sm-4 col-form-label font-weight-bold">Dung tích: </label>
                                 <div className="col-sm-8">
                                     <input
                                         type="text"
@@ -192,7 +192,7 @@ const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label font-weight-bold">Gender: </label>
+                                <label className="col-sm-4 col-form-label font-weight-bold">Giới tính: </label>
                                 <div className="col-sm-8">
                                     <select name="perfumeGender"
                                             className={perfumeGenderError ? "form-control is-invalid" : "form-control"}
@@ -200,11 +200,11 @@ const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                                         {perfumeData.perfumeGender === "male" ?
                                             <>
                                                 <option value={perfumeData.perfumeGender}>{perfumeData.perfumeGender}</option>
-                                                <option value="female">female</option>
+                                                <option value="nữ">nữ</option>
                                             </> :
                                             <>
                                                 <option value={perfumeData.perfumeGender}>{perfumeData.perfumeGender}</option>
-                                                <option value="male">male</option>
+                                                <option value="nam">nam</option>
                                             </>}
                                     </select>
                                     <div className="invalid-feedback">{perfumeGenderError}</div>
@@ -247,7 +247,7 @@ const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                                 </div>
                             </div>
                             <div className="form-group row">
-                                <label className="col-sm-4 col-form-label font-weight-bold">Price: </label>
+                                <label className="col-sm-4 col-form-label font-weight-bold">Giá: </label>
                                 <div className="col-sm-8">
                                     <input
                                         type="text"
@@ -265,7 +265,7 @@ const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                         </div>
                     </div>
                     <button type="submit" className="btn btn-dark">
-                        <FontAwesomeIcon className="mr-2" icon={faEdit}/>Edit
+                        <FontAwesomeIcon className="mr-2" icon={faEdit}/>Sửa
                     </button>
                 </form>
             </div>

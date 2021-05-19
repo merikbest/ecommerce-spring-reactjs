@@ -31,32 +31,32 @@ const Account: FC = () => {
         <div className="account-container container">
             <div className="row mt-5">
                 <div className="col-md-2">
-                    <h4><FontAwesomeIcon className="mr-2" icon={faUser}/>My Account</h4>
+                    <h4><FontAwesomeIcon className="mr-2" icon={faUser}/>Tài khoản</h4>
                     <NavLink to={"/account/user/info"}
                              className="account-sidebar-link nav-link"
-                             activeClassName="is-active">Personal data</NavLink>
+                             activeClassName="is-active">Thông tin cá nhân</NavLink>
                     {(localStorage.getItem("userRole") === "ADMIN") ?
                         <>
                             <NavLink to={"/account/admin/add"}
                                      className="account-sidebar-link nav-link"
-                                     activeClassName="is-active">Add perfume</NavLink>
+                                     activeClassName="is-active">Thêm nước hoa</NavLink>
                             <NavLink to={"/account/admin/perfumes"}
                                      className="account-sidebar-link nav-link"
-                                     activeClassName="is-active">List of perfumes</NavLink>
+                                     activeClassName="is-active">Danh sách nước hoa</NavLink>
                             <NavLink to={"/account/admin/orders"}
                                      className="account-sidebar-link nav-link"
-                                     activeClassName="is-active">List of all orders</NavLink>
+                                     activeClassName="is-active">Danh sách tất cả đơn hàng</NavLink>
                             <NavLink to={"/account/admin/users"}
                                      className="account-sidebar-link nav-link"
-                                     activeClassName="is-active">List of all users</NavLink>
+                                     activeClassName="is-active">Danh sách người dùng</NavLink>
                         </> :
                         <>
                             <NavLink to={"/account/user/edit"}
                                      className="account-sidebar-link nav-link"
-                                     activeClassName="is-active">Change password</NavLink>
+                                     activeClassName="is-active">Thay đổi mật khẩu</NavLink>
                             <NavLink to={"/account/user/orders"}
                                      className="account-sidebar-link nav-link"
-                                     activeClassName="is-active">List of orders</NavLink>
+                                     activeClassName="is-active">Danh sách đơn hàng</NavLink>
                         </>
                     }
                 </div>

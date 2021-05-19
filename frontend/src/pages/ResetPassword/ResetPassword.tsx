@@ -34,13 +34,13 @@ const ResetPassword: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
 
     return (
         <div className="container mt-5">
-            <h4><FontAwesomeIcon className="mr-2" icon={faSync}/> RESET PASSWORD</h4>
+            <h4><FontAwesomeIcon className="mr-2" icon={faSync}/> Thay đổi mật khẩu</h4>
             <hr/>
             {error ?
                 <div className="alert alert-danger col-6" role="alert">{error}</div> : null}
             <form onSubmit={onClickReset}>
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Password: </label>
+                    <label className="col-sm-2 col-form-label">Mật khẩu mới: </label>
                     <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
                     <div className="col-sm-4">
                         <input
@@ -53,7 +53,7 @@ const ResetPassword: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Confirm password: </label>
+                    <label className="col-sm-2 col-form-label">Xác nhận mật khẩu: </label>
                     <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
                     <div className="col-sm-4">
                         <input
@@ -67,7 +67,7 @@ const ResetPassword: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
                 </div>
                 <div className="form-group row">
                     <button type="submit" className="btn btn-dark mx-3">
-                        <FontAwesomeIcon className="mr-3" icon={faUndo}/>Reset
+                        <FontAwesomeIcon className="mr-3" icon={faUndo}/>Thay đổi
                     </button>
                 </div>
             </form>

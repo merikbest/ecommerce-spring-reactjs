@@ -116,77 +116,77 @@ const AddPerfume: FC = () => {
         <>
             <ToastShow showToast={showToast} message={"Perfume successfully added!"}/>
             <div className="container">
-                <h4><FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Add perfume</h4>
+                <h4><FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Thêm nước hoa</h4>
                 <br/>
                 <form onSubmit={onFormSubmit}>
                     <div className="form row">
                         <div className="col">
-                            <label>Perfume title: </label>
+                            <label>Tiêu đề: </label>
                             <input
                                 type="text"
                                 className={perfumeTitleError ? "form-control is-invalid" : "form-control"}
                                 name="perfumeTitle"
                                 value={perfumeTitle}
-                                placeholder="Enter the perfume title"
+                                placeholder="Nhập tiêu đề"
                                 onChange={handleInputChange}/>
                             <div className="invalid-feedback">{perfumeTitleError}</div>
                         </div>
                         <div className="col">
-                            <label>Brand: </label>
+                            <label>Thương hiệu: </label>
                             <input
                                 type="text"
                                 className={perfumerError ? "form-control is-invalid" : "form-control"}
                                 name="perfumer"
                                 value={perfumer}
-                                placeholder="Enter the brand"
+                                placeholder="Nhập thương hiệu"
                                 onChange={handleInputChange}/>
                             <div className="invalid-feedback">{perfumerError}</div>
                         </div>
                     </div>
                     <div className="form row mt-3">
                         <div className="col">
-                            <label>Release year: </label>
+                            <label>Năm sản xuất: </label>
                             <input
                                 type="text"
                                 className={yearError ? "form-control is-invalid" : "form-control"}
                                 name="year"
                                 value={year}
-                                placeholder="Enter the release year"
+                                placeholder="Nhập năm sản xuất"
                                 onChange={handleInputChange}/>
                             <div className="invalid-feedback">{yearError}</div>
                         </div>
                         <div className="col">
-                            <label>Manufacturer country: </label>
+                            <label>Quốc gia sản xuất: </label>
                             <input
                                 type="text"
                                 className={countryError ? "form-control is-invalid" : "form-control"}
                                 name="country"
                                 value={country}
-                                placeholder="Enter the manufacturer country"
+                                placeholder="Nhập quốc gia sản xuất"
                                 onChange={handleInputChange}/>
                             <div className="invalid-feedback">{countryError}</div>
                         </div>
                     </div>
                     <div className="form row mt-3">
                         <div className="col">
-                            <label>Perfume type: </label>
+                            <label>Loại nước hoa: </label>
                             <select name="type"
                                     className={typeError ? "form-control is-invalid" : "form-control"}
                                     onChange={handleInputChange}>
                                 <option hidden={true} value=""></option>
-                                <option value="Eau de Parfum">Eau de Parfum</option>
-                                <option value="Eau de Toilette">Eau de Toilette</option>
+                                <option value="Nước hoa nam">Nước hoa nam</option>
+                                <option value="Nước hoa nữ">Nước hoa nữ</option>
                             </select>
                             <div className="invalid-feedback">{typeError}</div>
                         </div>
                         <div className="col">
-                            <label>Volume: </label>
+                            <label>Dung tích: </label>
                             <input
                                 type="text"
                                 className={volumeError ? "form-control is-invalid" : "form-control"}
                                 name="volume"
                                 value={volume}
-                                placeholder="Enter the volume"
+                                placeholder="Nhập dung tích"
                                 onChange={handleInputChange}/>
                             <div className="invalid-feedback">{volumeError}</div>
                         </div>
@@ -198,8 +198,8 @@ const AddPerfume: FC = () => {
                                     className={perfumeGenderError ? "form-control is-invalid" : "form-control"}
                                     onChange={handleInputChange}>
                                 <option hidden={true} value=""></option>
-                                <option value="male">male</option>
-                                <option value="female">female</option>
+                                <option value="nam">nam</option>
+                                <option value="nữ">nữ</option>
                             </select>
                             <div className="invalid-feedback">{perfumeGenderError}</div>
                         </div>
@@ -210,7 +210,7 @@ const AddPerfume: FC = () => {
                                 className={fragranceTopNotesError ? "form-control is-invalid" : "form-control"}
                                 name="fragranceTopNotes"
                                 value={fragranceTopNotes}
-                                placeholder="Enter the top notes"
+                                placeholder="Nhập top notes"
                                 onChange={handleInputChange}/>
                             <div className="invalid-feedback">{fragranceTopNotesError}</div>
                         </div>
@@ -223,7 +223,7 @@ const AddPerfume: FC = () => {
                                 className={fragranceMiddleNotesError ? "form-control is-invalid" : "form-control"}
                                 name="fragranceMiddleNotes"
                                 value={fragranceMiddleNotes}
-                                placeholder="Enter the heart notes"
+                                placeholder="Nhập heart notes"
                                 onChange={handleInputChange}/>
                             <div className="invalid-feedback">{fragranceMiddleNotesError}</div>
                         </div>
@@ -234,20 +234,20 @@ const AddPerfume: FC = () => {
                                 className={fragranceBaseNotesError ? "form-control is-invalid" : "form-control"}
                                 name="fragranceBaseNotes"
                                 value={fragranceBaseNotes}
-                                placeholder="Enter the base notes"
+                                placeholder="Nhập base notes"
                                 onChange={handleInputChange}/>
                             <div className="invalid-feedback">{fragranceBaseNotesError}</div>
                         </div>
                     </div>
                     <div className="form row mt-3">
                         <div className="col">
-                            <label>Price: </label>
+                            <label>Giá: </label>
                             <input
                                 type="text"
                                 className={priceError ? "form-control is-invalid" : "form-control"}
                                 name="price"
                                 value={price}
-                                placeholder="Enter the price"
+                                placeholder="Nhập giá"
                                 onChange={handleInputChange}/>
                             <div className="invalid-feedback">{priceError}</div>
                         </div>
@@ -258,7 +258,7 @@ const AddPerfume: FC = () => {
                         </div>
                     </div>
                     <button type="submit" className="btn btn-dark mt-3">
-                        <FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Add
+                        <FontAwesomeIcon className="mr-2" icon={faPlusSquare}/>Thêm
                     </button>
                 </form>
             </div>

@@ -68,14 +68,14 @@ const Order: FC = () => {
         <div className="container mt-5 pb-5">
             {pageLoading}
             <h4 className="mb-4 text-center">
-                <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/> Ordering
+                <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/> Đặt hàng
             </h4>
             <br/>
             <form onSubmit={onFormSubmit}>
                 <div className="row">
                     <div className="col-lg-6">
                         <div className="form-group row">
-                            <label className="col-sm-2 col-form-label">Name:</label>
+                            <label className="col-sm-2 col-form-label">Tên:</label>
                             <div className="col-sm-8">
                                 <input
                                     type="text"
@@ -88,7 +88,7 @@ const Order: FC = () => {
                             </div>
                         </div>
                         <div className="form-group row">
-                            <label className="col-sm-2 col-form-label">Surname:</label>
+                            <label className="col-sm-2 col-form-label">Tên đệm:</label>
                             <div className="col-sm-8">
                                 <input
                                     type="text"
@@ -101,7 +101,7 @@ const Order: FC = () => {
                             </div>
                         </div>
                         <div className="form-group row">
-                            <label className="col-sm-2 col-form-label">City:</label>
+                            <label className="col-sm-2 col-form-label">Thành phố:</label>
                             <div className="col-sm-8">
                                 <input
                                     type="text"
@@ -114,7 +114,7 @@ const Order: FC = () => {
                             </div>
                         </div>
                         <div className="form-group row">
-                            <label className="col-sm-2 col-form-label">Address:</label>
+                            <label className="col-sm-2 col-form-label">Địa chỉ:</label>
                             <div className="col-sm-8">
                                 <input
                                     type="text"
@@ -127,7 +127,7 @@ const Order: FC = () => {
                             </div>
                         </div>
                         <div className="form-group row">
-                            <label className="col-sm-2 col-form-label">Index:</label>
+                            <label className="col-sm-2 col-form-label">Số nhà:</label>
                             <div className="col-sm-8">
                                 <input
                                     type="text"
@@ -140,7 +140,7 @@ const Order: FC = () => {
                             </div>
                         </div>
                         <div className="form-group row">
-                            <label className="col-sm-2 col-form-label">Mobile:</label>
+                            <label className="col-sm-2 col-form-label">Số điện thoại:</label>
                             <div className="col-sm-8">
                                 <input
                                     type="text"
@@ -190,10 +190,10 @@ const Order: FC = () => {
                             </div>
                         </div>
                         <button type="submit" className="btn btn-primary btn-lg btn-success px-5 float-right">
-                            <FontAwesomeIcon icon={faCheckCircle}/> Validate order
+                            <FontAwesomeIcon icon={faCheckCircle}/> Kiểm tra đơn hàng
                         </button>
                         <div className="row">
-                            <h4>To pay : $ <span>{totalPrice}</span>.00</h4>
+                            <h4>Thành tiền : $ <span>{totalPrice}</span>.00</h4>
                         </div>
                     </div>
                 </div>

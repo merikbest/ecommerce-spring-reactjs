@@ -110,44 +110,44 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                                 <span style={{paddingBottom: "50px"}}>{perfume.reviews?.length} reviews</span>
                             </div>
                         </div>
-                        <p style={{color: "#54C0A1"}}>In Stock</p>
+                        <p style={{color: "#54C0A1"}}>Đang bán</p>
                         <div className="row ml-1">
                             <h6 className="mr-5"><span>${perfume.price}</span>.00</h6>
                             <button type="submit"
                                     className="btn btn-success mx-3"
                                     onClick={addToCart}>
-                                <FontAwesomeIcon className="mr-2 fa-lg" icon={faCartPlus}/> ADD TO CART
+                                <FontAwesomeIcon className="mr-2 fa-lg" icon={faCartPlus}/> THÊM VÀO GIỎ HÀNG
                             </button>
                         </div>
                         <br/>
                         <table className="table">
                             <tbody>
                             <tr>
-                                <td>Perfume title:</td>
+                                <td>Tiêu đề:</td>
                                 <td>{perfume.perfumeTitle}</td>
                             </tr>
                             <tr>
-                                <td>Brand:</td>
+                                <td>Thương hiệu:</td>
                                 <td>{perfume.perfumer}</td>
                             </tr>
                             <tr>
-                                <td>Perfume type:</td>
+                                <td>Loại nước hoa:</td>
                                 <td>{perfume.type}</td>
                             </tr>
                             <tr>
-                                <td>Release year:</td>
+                                <td>Sản xuất năm:</td>
                                 <td>{perfume.year}</td>
                             </tr>
                             <tr>
-                                <td>Volume:</td>
+                                <td>Dung tích:</td>
                                 <td><span>{perfume.volume}</span> ml.</td>
                             </tr>
                             <tr>
-                                <td>Manufacturer country:</td>
+                                <td>Quốc gia sản xuất:</td>
                                 <td>{perfume.country}</td>
                             </tr>
                             <tr>
-                                <td>Gender:</td>
+                                <td>Giới tính:</td>
                                 <td>{perfume.perfumeGender}</td>
                             </tr>
                             <tr>
@@ -167,14 +167,14 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                     </div>
                 </div>
                 <div className="mt-5">
-                    <h3 className="text-center mb-5">REVIEWS</h3>
+                    <h3 className="text-center mb-5">ĐÁNH GIÁ</h3>
                     <Route exact component={() => <ProductReview data={reviews} itemsPerPage={5}/>}/>
                     <form onSubmit={addReview}>
                         <div className="form-group border mt-5">
                             <div className="mx-3 my-3">
                                 <div className="row">
                                     <div className="col-md-4">
-                                        <label><span className="text-danger"><b>*</b></span> Your name</label>
+                                        <label><span className="text-danger"><b>*</b></span> Họ tên</label>
                                         <input
                                             type="text"
                                             className={authorError ? "form-control is-invalid" : "form-control"}
@@ -182,10 +182,10 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                                             value={author}
                                             onChange={(event) => setAuthor(event.target.value)}/>
                                         <div className="invalid-feedback">{authorError}</div>
-                                        <label><span className="text-danger"><b>*</b></span> Message text</label>
+                                        <label><span className="text-danger"><b>*</b></span> Nội dung đánh giá</label>
                                     </div>
                                     <div className="col-md-8">
-                                        <label><span className="text-danger"><b>*</b></span> Your mark</label>
+                                        <label><span className="text-danger"><b>*</b></span> Vote</label>
                                         <div>
                                             <StarRatingComponent
                                                 name="star"
@@ -207,7 +207,7 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                                     onChange={(event) => setMessage(event.target.value)}/>
                                 <div className="invalid-feedback">{messageError}</div>
                                 <button type="submit" className="btn btn-dark mt-3">
-                                    <FontAwesomeIcon className="mr-2" icon={faPaperPlane}/>Post a review
+                                    <FontAwesomeIcon className="mr-2" icon={faPaperPlane}/>Đăng bài đánh giá
                                 </button>
                             </div>
                         </div>

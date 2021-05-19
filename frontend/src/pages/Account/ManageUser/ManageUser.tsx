@@ -32,55 +32,55 @@ const ManageUser: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                         <h4><FontAwesomeIcon className="mr-2" icon={faUserEdit}/> User: {firstName} {lastName}</h4>
                         <div className="row mt-5 mb-4 border px-3 py-3">
                             <div className="col-md-4">
-                                <p className="personal_data_item">User id:
+                                <p className="personal_data_item">id:
                                     <span className="personal_data_text">{id}</span>
                                 </p>
                                 <p className="personal_data_item">Email:
                                     <span className="personal_data_text">{email}</span>
                                 </p>
-                                <p className="personal_data_item">Role:
+                                <p className="personal_data_item">Quyền:
                                     <span className="personal_data_text">{roles}</span>
                                 </p>
                             </div>
                             <div className="col-md-4">
-                                <p className="personal_data_item">First name:
+                                <p className="personal_data_item">Họ đệm:
                                     <span className="personal_data_text">{firstName}</span>
                                 </p>
-                                <p className="personal_data_item">Last name:
+                                <p className="personal_data_item">Tên:
                                     <span className="personal_data_text">{lastName}</span>
                                 </p>
-                                <p className="personal_data_item">Provider:
+                                <p className="personal_data_item">Nhà cung cấp:
                                     <span className="personal_data_text">{provider}</span>
                                 </p>
                             </div>
                             <div className="col-md-4">
-                                <p className="personal_data_item">City:
+                                <p className="personal_data_item">Thành phố:
                                     <span className="personal_data_text">{city}</span>
                                 </p>
-                                <p className="personal_data_item">Address:
+                                <p className="personal_data_item">Địa chỉ:
                                     <span className="personal_data_text">{address}</span>
                                 </p>
                                 <p className="personal_data_item">Phone number:
                                     <span className="personal_data_text">{phoneNumber}</span>
                                 </p>
-                                <p className="personal_data_item">Post index:
+                                <p className="personal_data_item">Mã bưu điện:
                                     <span className="personal_data_text">{postIndex}</span>
                                 </p>
                             </div>
                         </div>
                         {userOrders.length === 0 ?
-                            <h5 style={{textAlign: "center"}}>No orders</h5> :
+                            <h5 style={{textAlign: "center"}}>Không có đơn hàng</h5> :
                             <>
-                                <h5 style={{textAlign: "center"}}>Orders</h5>
+                                <h5 style={{textAlign: "center"}}>Đơn hàng</h5>
                                 <table className="table border text-center">
                                     <thead className="table-active">
                                     <tr>
-                                        <th>Order №</th>
-                                        <th>Date</th>
-                                        <th>City</th>
-                                        <th>Address</th>
-                                        <th>Post index</th>
-                                        <th>Order Summary</th>
+                                        <th>STT</th>
+                                        <th>Thời gian</th>
+                                        <th>Thành phố</th>
+                                        <th>Địa chỉ</th>
+                                        <th>Mã bưu điện</th>
+                                        <th>Tổng tiền</th>
                                         <th></th>
                                     </tr>
                                     </thead>
@@ -99,7 +99,7 @@ const ManageUser: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                                                         pathname: `/account/user/orders/${order.id}`,
                                                         state: order
                                                     }}>
-                                                        Show more
+                                                        Xem thêm
                                                     </Link>
                                                 </th>
                                             </tr>

@@ -17,7 +17,7 @@ const Modal: FC<PropTypes> = ({perfume,deletePerfumeHandler, setModalActive}) =>
                     <div className="modal-dialog modal-dialog-centered" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title">Delete perfume</h5>
+                                <h5 className="modal-title">Xóa nước hoa</h5>
                                 <button type="button" className="close" onClick={() => setModalActive(false)}>
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -30,7 +30,7 @@ const Modal: FC<PropTypes> = ({perfume,deletePerfumeHandler, setModalActive}) =>
                                         src={IMG_URL + `${perfume?.filename}`}/>
                                 </div>
                                 <div className="col-md-6 text-center">
-                                    <p> Are you sure too delete?</p>
+                                    <p> Bạn có chắc chắn muốn xóa loại nước hoa này không?</p>
                                     <h6>{perfume?.perfumer}</h6>
                                     <h6>{perfume?.perfumeTitle}</h6>
                                 </div>
@@ -38,12 +38,12 @@ const Modal: FC<PropTypes> = ({perfume,deletePerfumeHandler, setModalActive}) =>
                             <div className="modal-footer">
                                 <button type="button"
                                         className="btn btn-danger"
-                                        onClick={() => deletePerfumeHandler(perfume?.id)}>Delete
+                                        onClick={() => deletePerfumeHandler(perfume?.id)}>Xóa
                                 </button>
                                 <button type="button"
                                         className="btn btn-secondary"
                                         data-dismiss="modal"
-                                        onClick={() => setModalActive(false)}>Close
+                                        onClick={() => setModalActive(false)}>Đóng
                                 </button>
                             </div>
                         </div>

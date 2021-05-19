@@ -18,10 +18,10 @@ const PerfumeList: FC = () => {
 
     const itemsPerPage = 24;
     const searchByData = [
-        {label: 'Brand', value: 'perfumer'},
-        {label: 'Perfume title', value: 'perfumeTitle'},
-        {label: 'Manufacturer country', value: 'country'},
-        {label: 'Gender', value: 'perfumeGender'}
+        {label: 'Thương hiệu', value: 'perfumer'},
+        {label: 'Tiêu đề', value: 'perfumeTitle'},
+        {label: 'Quốc gia sản xuất', value: 'country'},
+        {label: 'Giới tính', value: 'perfumeGender'}
     ];
 
     return (

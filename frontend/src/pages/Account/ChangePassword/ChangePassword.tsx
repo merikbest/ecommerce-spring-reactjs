@@ -33,11 +33,11 @@ const ChangePassword: FC = () => {
 
     return (
         <div className="password_reset">
-            <h4><FontAwesomeIcon className="mr-2" icon={faLock}/> Change Password</h4>
+            <h4><FontAwesomeIcon className="mr-2" icon={faLock}/> Đổi mật khẩu</h4>
             {success ? <div className="alert alert-success col-6" role="alert">{success}</div> : null}
             <form className="mt-5" onSubmit={onFormSubmit}>
                 <div className="form-group row">
-                    <label className="col-sm-3 col-form-label">Enter a new password: </label>
+                    <label className="col-sm-3 col-form-label">Nhập mật khẩu mới: </label>
                     <div className="col-sm-4">
                         <input
                             type="password"
@@ -49,7 +49,7 @@ const ChangePassword: FC = () => {
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-sm-3 col-form-label">Confirm password: </label>
+                    <label className="col-sm-3 col-form-label">Xác nhận mật khẩu: </label>
                     <div className="col-sm-4">
                         <input
                             type="password"
@@ -61,7 +61,7 @@ const ChangePassword: FC = () => {
                     </div>
                 </div>
                 <button type="submit" className="btn btn-dark">
-                    <FontAwesomeIcon className="mr-3" icon={faUndo}/>Change
+                    <FontAwesomeIcon className="mr-3" icon={faUndo}/>Thay đổi
                 </button>
             </form>
         </div>

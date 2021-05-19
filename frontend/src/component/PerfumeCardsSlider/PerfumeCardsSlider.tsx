@@ -41,7 +41,7 @@ const PerfumeCardsSlider: FC = () => {
                                             <h6>$<span>{perfume.price}</span>.00</h6>
                                             <Link to={`/product/${perfume.id}`}>
                                             <span className="btn btn-dark">
-                                                SHOW MORE
+                                                THÔNG TIN
                                             </span>
                                             </Link>
                                         </div>
@@ -60,7 +60,7 @@ const PerfumeCardsSlider: FC = () => {
     return (
         <div>
             <div className="container text-center my-3">
-                <h3>PERSONALLY RECOMMENDED</h3>
+                <h3>DÀNH CHO BẠN</h3>
             </div>
             <div className="container mt-5" id="indicators">
                 <form method="get" action="/">

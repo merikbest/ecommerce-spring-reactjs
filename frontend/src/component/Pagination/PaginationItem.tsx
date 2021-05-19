@@ -12,12 +12,12 @@ const PaginationItem: FC<PropsType> = ({pagination, prevPage, changePage, nextPa
     return (
         <ul className="pagination">
             <li className="page-item disabled">
-                <a className="page-link" href="#">Pages</a>
+                <a className="page-link" href="#">Trang</a>
             </li>
             <li className="page-item">
                 <a className="page-link text-dark" href="#" aria-label="Previous" onClick={prevPage}>
                     <span aria-hidden="true">&laquo;</span>
-                    <span className="sr-only">Previous</span>
+                    <span className="sr-only">Trở lại</span>
                 </a>
             </li>
             {pagination.map((page: Pagination, index: number) => {
@@ -50,7 +50,7 @@ const PaginationItem: FC<PropsType> = ({pagination, prevPage, changePage, nextPa
             <li className="page-item">
                 <a className="page-link text-dark" href="#" aria-label="Next" onClick={nextPage}>
                     <span aria-hidden="true">&raquo;</span>
-                    <span className="sr-only">Next</span>
+                    <span className="sr-only">Tiếp</span>
                 </a>
             </li>
         </ul>

@@ -77,20 +77,20 @@ const Menu: FC = () => {
             <ScrollButton/>
             <nav id="sidebar">
                 <div className="sidebar-header">
-                    <h3>Perfumes</h3>
+                    <h3>Nước hoa</h3>
                 </div>
                 <ul className="list-unstyled components">
-                    <h5>Brand</h5>
+                    <h5>Thương hiệu</h5>
                     <li className="active mb-2" id="homeSubmenu">
                         <Checkbox list={perfumer}
                                   handleFilters={(filters) => handleFilters(filters, "perfumers")}/>
                     </li>
-                    <h5>Gender</h5>
+                    <h5>Giới tính</h5>
                     <li className="active mb-2">
                         <Checkbox list={gender}
                                   handleFilters={(filters) => handleFilters(filters, "genders")}/>
                     </li>
-                    <h5>Price</h5>
+                    <h5>Giá cả</h5>
                     <li className="active mb-2">
                         <CheckboxRadio list={price}
                                        handleFilters={(filters) => handleFilters(filters, "prices")}/>
@@ -103,9 +103,9 @@ const Menu: FC = () => {
                     loading={loading}
                     itemsPerPage={16}
                     searchByData={[
-                        {label: 'Brand', value: 'perfumer'},
-                        {label: 'Perfume title', value: 'perfumeTitle'},
-                        {label: 'Manufacturer country', value: 'country'}]}
+                        {label: 'Thương hiệu', value: 'perfumer'},
+                        {label: 'Tiêu đề', value: 'perfumeTitle'},
+                        {label: 'Quốc gia sản xuất', value: 'country'}]}
                     sortByPrice={sortByPrice}
                     handleSortByPrice={handleSortByPrice}/>}/>
         </div>

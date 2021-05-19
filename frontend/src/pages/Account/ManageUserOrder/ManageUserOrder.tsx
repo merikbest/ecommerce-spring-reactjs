@@ -23,20 +23,20 @@ const ManageUserOrder: FC = () => {
 
     return (
         <>
-            <h4 style={{textAlign: "center"}}><FontAwesomeIcon icon={faShoppingBag}/> Order #{id}</h4>
+            <h4 style={{textAlign: "center"}}><FontAwesomeIcon icon={faShoppingBag}/> Đơn hàng #{id}</h4>
             <div className="row border my-5 px-5 py-3">
                 <div className="col-md-6">
-                    <h5 style={{marginBottom: "30px"}}><FontAwesomeIcon icon={faInfoCircle}/> Customer information</h5>
-                    <p className="personal_data_item">First name:
+                    <h5 style={{marginBottom: "30px"}}><FontAwesomeIcon icon={faInfoCircle}/> Thông tin khách hàng</h5>
+                    <p className="personal_data_item">Họ đệm:
                         <span className="personal_data_text">{firstName}</span>
                     </p>
-                    <p className="personal_data_item">Last name:
+                    <p className="personal_data_item">Tên:
                         <span className="personal_data_text">{lastName}</span>
                     </p>
-                    <p className="personal_data_item">City:
+                    <p className="personal_data_item">Thành phố:
                         <span className="personal_data_text">{city}</span>
                     </p>
-                    <p className="personal_data_item">Address:
+                    <p className="personal_data_item">Địa chỉ:
                         <span className="personal_data_text">{address}</span>
                     </p>
                     <p className="personal_data_item">Email:
@@ -45,19 +45,19 @@ const ManageUserOrder: FC = () => {
                     <p className="personal_data_item">Phone number:
                         <span className="personal_data_text">{phoneNumber}</span>
                     </p>
-                    <p className="personal_data_item">Post index:
+                    <p className="personal_data_item">Mã bưu điện:
                         <span className="personal_data_text">{postIndex}</span>
                     </p>
                 </div>
                 <div className="col-md-6">
-                    <h5 style={{marginBottom: "30px"}}><FontAwesomeIcon icon={faInfoCircle}/> Order information</h5>
-                    <p className="personal_data_item">Order id:
+                    <h5 style={{marginBottom: "30px"}}><FontAwesomeIcon icon={faInfoCircle}/> Thông tin đơn hàng</h5>
+                    <p className="personal_data_item">Mã đơn hàng:
                         <span className="personal_data_text">{id}</span>
                     </p>
-                    <p className="personal_data_item">Date:
+                    <p className="personal_data_item">Thời gian:
                         <span className="personal_data_text">{date}</span>
                     </p>
-                    <h4 style={{marginBottom: "30px", marginTop: "30px"}}>Order summary:
+                    <h4 style={{marginBottom: "30px", marginTop: "30px"}}>Tổng tiền:
                         <span style={{color: "green"}}> {totalPrice}.0 $</span>
                     </h4>
                 </div>
@@ -65,12 +65,12 @@ const ManageUserOrder: FC = () => {
             <table className="table border text-center">
                 <thead className="table-active">
                 <tr>
-                    <th>Perfume Id</th>
-                    <th>Perfume Brand</th>
-                    <th>Perfume Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Amount</th>
+                    <th>Mã nước hoa</th>
+                    <th>Thương hiệu</th>
+                    <th>Tên</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Tổng tiền</th>
                 </tr>
                 </thead>
                 <tbody>

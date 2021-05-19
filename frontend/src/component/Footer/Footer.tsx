@@ -8,10 +8,10 @@ const Footer: FC = () => {
             <div className="container">
                 <div className="d-flex justify-content-between">
                     <div className="footer-left">
-                        <h3>Perfume</h3>
-                        <p>(066) 696-66-23</p>
+                        <h3>Nước hoa</h3>
+                        <p>0356 027 937</p>
                         <br/>
-                        <p>from 08:00 to 20:00 without breaks and weekends</p>
+                        <p>Mở cửa từ 8:00 đến 22:00 vào tất cả các ngày trong tuần</p>
                     </div>
                     <div className="footer-right">
                         <h3>Social networks</h3>
@@ -23,7 +23,7 @@ const Footer: FC = () => {
                     </div>
                 </div>
                 <div className="mx-auto" style={{width: "200px"}}>
-                    <p>© Copy right merikbest</p>
+                    <p>© Copy right team 3</p>
                 </div>
             </div>
         </footer>

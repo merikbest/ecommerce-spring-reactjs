@@ -16,15 +16,15 @@ const OrdersTable: FC<PropsType> = ({loading,orders}) => {
         <div className="container">
             {loading ? <Spinner/> :
             <>
-                <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faShoppingBag}/> List of all orders</h4>
+                <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faShoppingBag}/> Danh sách đơn hàng</h4>
                 <table className="table mt-4 border text-center">
                     <thead className="table-active">
                     <tr>
-                        <th>Order №</th>
-                        <th>Date</th>
-                        <th>Customer</th>
+                        <th>STT</th>
+                        <th>Ngày</th>
+                        <th>Khách hàng</th>
                         <th>Email</th>
-                        <th>Sum, $</th>
+                        <th>Số tiền $</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -39,7 +39,7 @@ const OrdersTable: FC<PropsType> = ({loading,orders}) => {
                                 <th>{order.totalPrice}</th>
                                 <th>
                                     <Link to={{pathname: `/account/user/orders/${order.id}`, state: order}}>
-                                        Show more
+                                        Xem thêm
                                     </Link>
                                 </th>
                             </tr>

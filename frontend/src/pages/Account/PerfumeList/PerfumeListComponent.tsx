@@ -58,7 +58,7 @@ const PerfumeListComponent:FC<PropsType> = ({data, itemsPerPage,startFrom,search
                 <Modal perfume={perfumeInfo}
                        deletePerfumeHandler={deletePerfumeHandler}
                        setModalActive={setModalActive}/> : null}
-            <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faList}/> List of perfumes</h4>
+            <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faList}/> Danh sách nước hoa</h4>
             <br/>
             <SearchForm
                 data={data}
@@ -95,11 +95,11 @@ const PerfumeListComponent:FC<PropsType> = ({data, itemsPerPage,startFrom,search
                                         <div className="btn-group text-center mb-3">
                                             <Link type="button" className="btn btn-dark ml-2"
                                                   to={`/account/admin/perfumes/${perfume.id}`}>
-                                                <FontAwesomeIcon className="fa-xs" icon={faEdit}/> Edit
+                                                <FontAwesomeIcon className="fa-xs" icon={faEdit}/> Sửa
                                             </Link>
                                             <button className="btn btn-warning mr-2"
                                                     onClick={() => showDeleteModalWindow(perfume)}>
-                                                <FontAwesomeIcon className="fa-xs" icon={faTrash}/> Delete
+                                                <FontAwesomeIcon className="fa-xs" icon={faTrash}/> Xóa
                                             </button>
                                         </div>
                                     </div>

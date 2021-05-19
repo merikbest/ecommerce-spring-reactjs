@@ -77,11 +77,11 @@ const Cart: FC = () => {
                 <div>
                     {perfumes.length === 0 ?
                         <div style={{textAlign: "center"}}>
-                            <h2>Cart is empty</h2>
+                            <h2>Giỏ hàng trống</h2>
                         </div> :
                         <div>
                             <p className="h4 mb-4 text-center">
-                                <FontAwesomeIcon className="mr-2" icon={faShoppingCart}/> Cart
+                                <FontAwesomeIcon className="mr-2" icon={faShoppingCart}/> Giỏ hàng
                             </p>
                             {perfumes.map((perfume: Perfume) => {
                                 return (
@@ -122,7 +122,7 @@ const Cart: FC = () => {
                                                     <button className="btn btn-warning mb-2"
                                                             onClick={() => deleteFromCart(perfume.id)}>
                                                         <FontAwesomeIcon className="mr-2"
-                                                                         icon={faMinusSquare}/> Remove
+                                                                         icon={faMinusSquare}/> Xóa
                                                     </button>
                                                 </div>
                                             </div>
@@ -139,7 +139,7 @@ const Cart: FC = () => {
                                     <div className="form-row">
                                         <Link to={"/order"}>
                                             <button className="btn btn-success">
-                                                <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/> Checkout
+                                                <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/> Thanh toán
                                             </button>
                                         </Link>
                                     </div>

@@ -35,7 +35,7 @@ const EditPersonalData: FC = () => {
         <>
             <form className="edit_personal_data" onSubmit={onFormSubmit}>
                 <div className="form-group row">
-                    <label className="col-sm-3 col-form-label">First name: </label>
+                    <label className="col-sm-3 col-form-label">Họ đệm: </label>
                     <div className="col-sm-6">
                         <input
                             type="text"
@@ -47,7 +47,7 @@ const EditPersonalData: FC = () => {
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-sm-3 col-form-label">Last name: </label>
+                    <label className="col-sm-3 col-form-label">Tên: </label>
                     <div className="col-sm-6">
                         <input
                             type="text"
@@ -59,7 +59,7 @@ const EditPersonalData: FC = () => {
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-sm-3 col-form-label">City: </label>
+                    <label className="col-sm-3 col-form-label">Thành phố: </label>
                     <div className="col-sm-6">
                         <input
                             type="text"
@@ -70,7 +70,7 @@ const EditPersonalData: FC = () => {
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-sm-3 col-form-label">Address: </label>
+                    <label className="col-sm-3 col-form-label">Địa chỉ: </label>
                     <div className="col-sm-6">
                         <input
                             type="text"
@@ -81,7 +81,7 @@ const EditPersonalData: FC = () => {
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-sm-3 col-form-label">Phone number: </label>
+                    <label className="col-sm-3 col-form-label">Số điện thoại: </label>
                     <div className="col-sm-6">
                         <input
                             type="text"
@@ -92,7 +92,7 @@ const EditPersonalData: FC = () => {
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-sm-3 col-form-label">Post index: </label>
+                    <label className="col-sm-3 col-form-label">Mã bưu điện: </label>
                     <div className="col-sm-6">
                         <input
                             type="text"
@@ -103,7 +103,7 @@ const EditPersonalData: FC = () => {
                     </div>
                 </div>
                 <button type="submit" className="btn btn-dark">
-                    <FontAwesomeIcon className="mr-2" icon={faCheck}/>Save
+                    <FontAwesomeIcon className="mr-2" icon={faCheck}/>Lưu
                 </button>
             </form>
         </>

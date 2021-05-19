@@ -38,7 +38,7 @@ const Login: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
         <div id="container" className="container mt-5">
             <div className="row">
                 <div className="col-md-6">
-                    <h4><FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>SIGN IN</h4>
+                    <h4><FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>ĐĂNG NHẬP</h4>
                     <hr/>
                     {error ? <div className="alert alert-danger col-6" role="alert">{error}</div> : null}
                     {success ? <div className="alert alert-success col-6" role="alert">{success}</div> : null}
@@ -56,7 +56,7 @@ const Login: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
                             </div>
                         </div>
                         <div className="form-group row">
-                            <label className="col-sm-4 col-form-label">Password: </label>
+                            <label className="col-sm-4 col-form-label">Mật khẩu: </label>
                             <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
                             <div className="col-sm-7">
                                 <input
@@ -69,9 +69,9 @@ const Login: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
                         </div>
                         <div className="form-group row">
                             <button type="submit" className="btn btn-dark mx-3">
-                                <FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>Sign in
+                                <FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>Đăng nhập
                             </button>
-                            <Link to={"/forgot"} style={{position: "relative", top: "8px"}}>Forgot password?</Link>
+                            <Link to={"/forgot"} style={{position: "relative", top: "8px"}}>Quên mật khẩu?</Link>
                         </div>
                     </form>
                 </div>
@@ -79,13 +79,13 @@ const Login: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
                     <div className="mt-5">
                         <a className="btn btn-block social-btn google"
                            href="http://localhost:8080/oauth2/authorize/google">
-                            <img src={googleLogo} alt="google"/>Log in with Google</a>
+                            <img src={googleLogo} alt="google"/>Đăng nhập với Google</a>
                         <a className="btn btn-block social-btn facebook"
                            href="http://localhost:8080/oauth2/authorize/facebook">
-                            <img src={facebookLogo} alt="facebook"/>Log in with Facebook</a>
+                            <img src={facebookLogo} alt="facebook"/>Đăng nhập với Facebook</a>
                         <a className="btn btn-block social-btn github"
                            href="http://localhost:8080/oauth2/authorize/github">
-                            <img src={githubLogo} alt="github"/>Log in with Github</a>
+                            <img src={githubLogo} alt="github"/>Đăng nhập với Github</a>
                     </div>
                 </div>
             </div>

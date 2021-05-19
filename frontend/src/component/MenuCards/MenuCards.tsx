@@ -51,7 +51,7 @@ const MenuCards: FC<PropsType> = ({data, loading, itemsPerPage, startFrom, searc
                     <div className="col-md-6 d-flex justify-content-end">
                         <ul className="pagination">
                             <li className="page-item disabled">
-                                <a className="page-link" href="#">Sort by price</a></li>
+                                <a className="page-link" href="#">Sắp xếp theo giá</a></li>
                             <li className={sortByPrice ? "page-item active" : "page-item"}>
                                 <a className={sortByPrice ?
                                     "page-link bg-light border-dark text-dark" :
@@ -81,7 +81,7 @@ const MenuCards: FC<PropsType> = ({data, loading, itemsPerPage, startFrom, searc
                                     perfume={perfume}
                                     colSize={3}
                                     link={"/product"}
-                                    btnName={"SHOW MORE"}/>
+                                    btnName={"THÔNG TIN"}/>
                             );
                         })}
                     </div>
