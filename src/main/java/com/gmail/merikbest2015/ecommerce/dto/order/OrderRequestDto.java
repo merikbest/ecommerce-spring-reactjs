@@ -14,10 +14,10 @@ public class OrderRequestDto {
     private Double totalPrice;
     private Map<Long, Long> perfumesId;
 
-    @NotBlank(message = "Fill in the input field")
+    @NotBlank(message = "")
     private String firstName;
 
-    @NotBlank(message = "Fill in the input field")
+    @NotBlank(message = "")
     private String lastName;
 
     @NotBlank(message = "Fill in the input field")
