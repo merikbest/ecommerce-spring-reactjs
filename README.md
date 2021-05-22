@@ -6,7 +6,7 @@
 E-commerce project developed using Spring Boot and React.js.<br>
 
 #### An actual version of build is deployed on AWS:
-http://perfumeweb.tk <br>
+http://perfumesweb.tk <br>
 Login: admin@gmail.com <br> 
 Password: admin
 
@@ -47,11 +47,17 @@ Password: admin
 7. Install node.js
 8. Type in console command: npm install (or yarn install)
 
+## Swagger Documentation
+
+http://ec2-3-122-228-86.eu-central-1.compute.amazonaws.com:8080/swagger-ui.html <br/>
+Or show local: <br/>
+http://localhost:8080/swagger-ui.html
+
 ## Screenshots
 
 Menu page  |  Product page
 :------------------------:|:-------------------------:
-![Menu page](https://i.ibb.co/tCXNx2b/0-menu-page.png)  |  ![Product page](https://i.ibb.co/wp7PHrP/1-product-page.png)
+![Menu page](https://i.ibb.co/dcp56tb/menu.jpg)  |  ![Product page](https://i.ibb.co/1dBjdMy/product.jpg)
 
 Email template  |  List of users
 :------------------------:|:-------------------------:
