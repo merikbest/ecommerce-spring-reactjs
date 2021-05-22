@@ -11,13 +11,15 @@ import graphql.schema.idl.SchemaParser;
 import graphql.schema.idl.TypeDefinitionRegistry;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Component
 @RequiredArgsConstructor
@@ -27,15 +29,23 @@ public class GraphQLProvider {
     private final OrderService orderService;
     private final UserService userService;
 
-    @Value("classpath:graphql/schemas.graphql")
-    private Resource resource;
-
     @Getter
     private GraphQL graphQL;
 
     @PostConstruct
     public void loadSchema() throws IOException {
-        File fileSchema = resource.getFile();
+        String graphQLSchemaFile = "graphql/schemas.graphql";
+        ClassPathResource classPathResource = new ClassPathResource(graphQLSchemaFile);
+        InputStream inputStream = classPathResource.getInputStream();
+        File fileSchema = File.createTempFile(graphQLSchemaFile, ".temp");
+
+        try {
+            FileUtils.copyInputStreamToFile(inputStream, fileSchema);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+        }
         TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(fileSchema);
         RuntimeWiring wiring = buildRuntimeWiring();
         GraphQLSchema schema = new SchemaGenerator().makeExecutableSchema(typeRegistry, wiring);

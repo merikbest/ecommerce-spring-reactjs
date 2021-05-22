@@ -7,7 +7,7 @@ import SockJS from "sockjs-client";
 import {CompatClient, Stomp} from '@stomp/stompjs';
 import StarRatingComponent from 'react-star-rating-component';
 
-import {IMG_URL} from "../../utils/constants/url";
+import {IMG_URL, WEBSOCKET_URL} from "../../utils/constants/url";
 import {fetchPerfumeByQuery, fetchPerfumeReviewsWS} from "../../redux/thunks/perfume-thunks";
 import {addReviewToPerfume, resetForm} from "../../redux/thunks/user-thunks";
 import {AppStateType} from "../../redux/reducers/root-reducer";
@@ -39,7 +39,7 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
         // dispatch(fetchPerfume(match.params.id));
         dispatch(resetForm());
         window.scrollTo(0, 0);
-        const socket = new SockJS("http://localhost:8080/websocket");
+        const socket = new SockJS(WEBSOCKET_URL);
         stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient?.subscribe("/topic/reviews/" + match.params.id, (response: any) => {

@@ -77,14 +77,15 @@ const Login: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
                 </div>
                 <div className="col-md-6">
                     <div className="mt-5">
+                    <div className="mt-3 text-danger font-weight-bold">* Disabled in production</div>
                         <a className="btn btn-block social-btn google"
-                           href="http://localhost:8080/oauth2/authorize/google">
+                           href="">
                             <img src={googleLogo} alt="google"/>Log in with Google</a>
                         <a className="btn btn-block social-btn facebook"
-                           href="http://localhost:8080/oauth2/authorize/facebook">
+                           href="">
                             <img src={facebookLogo} alt="facebook"/>Log in with Facebook</a>
                         <a className="btn btn-block social-btn github"
-                           href="http://localhost:8080/oauth2/authorize/github">
+                           href="">
                             <img src={githubLogo} alt="github"/>Log in with Github</a>
                     </div>
                 </div>

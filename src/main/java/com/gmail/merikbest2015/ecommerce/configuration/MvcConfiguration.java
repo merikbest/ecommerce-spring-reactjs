@@ -14,9 +14,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Value("${upload.path}")
     private String uploadPath;
 
-    @Value("${hostname}")
-    private String hostname;
-
     @Bean
     public RestTemplate getRestTemplate() {
         return new RestTemplate();
@@ -33,7 +30,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/v1/**")
-                .allowedOrigins("http://" + hostname)
+                .allowedOrigins("*")
                 .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
                 .allowedHeaders("*");
     }
