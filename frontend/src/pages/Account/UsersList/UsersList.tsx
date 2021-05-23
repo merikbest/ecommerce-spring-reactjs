@@ -44,7 +44,7 @@ const UsersList: FC = () => {
                                 <th>{user.roles[0]}</th>
                                 <th>{user.provider}</th>
                                 <th>
-                                    <Link to={`/account/admin/users/${user.id}`}>Show more</Link>
+                                    <Link to={`/account/admin/users/${user.id}`}>Xem thêm</Link>
                                 </th>
                             </tr>
                         );
