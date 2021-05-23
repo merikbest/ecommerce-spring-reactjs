@@ -206,6 +206,13 @@
             <artifactId>spring-cloud-aws-autoconfigure</artifactId>
             <version>2.2.3.RELEASE</version>
         </dependency>
+
+        <!--Momo payment-->
+        <dependency>
+            <groupId>io.github.lnguyen99</groupId>
+            <artifactId>paygate</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 
     <build>
