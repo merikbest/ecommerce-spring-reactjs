@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.File;
 import java.io.FileInputStream;
 
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
@@ -71,7 +72,7 @@ public class AdminControllerTest {
 
     @Test
     public void addPerfume() throws Exception {
-        FileInputStream inputFile = new FileInputStream(FILE_PATH);
+        FileInputStream inputFile = new FileInputStream(new File(FILE_PATH));
         MockMultipartFile multipartFile = new MockMultipartFile("file", FILE_NAME, MediaType.MULTIPART_FORM_DATA_VALUE, inputFile);
         MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequestDto).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
@@ -106,7 +107,7 @@ public class AdminControllerTest {
 
     @Test
     public void editPerfume() throws Exception {
-        FileInputStream inputFile = new FileInputStream(FILE_PATH);
+        FileInputStream inputFile = new FileInputStream(new File(FILE_PATH));
         MockMultipartFile multipartFile = new MockMultipartFile("file", FILE_NAME, MediaType.MULTIPART_FORM_DATA_VALUE, inputFile);
         MockMultipartFile jsonFileEdit = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequestDto).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
@@ -141,7 +142,7 @@ public class AdminControllerTest {
 
     @Test
     public void deletePerfume() throws Exception {
-        mockMvc.perform(delete(URL_ADMIN_BASIC + "/delete/59"))
+        mockMvc.perform(delete(URL_ADMIN_BASIC + "/delete/46"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
                 .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())

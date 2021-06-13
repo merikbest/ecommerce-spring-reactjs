@@ -3,7 +3,6 @@ import Carousel from "react-bootstrap/Carousel";
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
-import {IMG_URL} from "../../utils/constants/url";
 import {fetchPerfumesByIds, fetchPerfumesByIdsQuery} from "../../redux/thunks/perfume-thunks"
 import "./PerfumeCardsSlider.css";
 import {AppStateType} from "../../redux/reducers/root-reducer";
@@ -32,7 +31,7 @@ const PerfumeCardsSlider: FC = () => {
                                 return (
                                     <div className="card" key={perfume.id}>
                                         <div style={{height: "130px", display: "flex", justifyContent: "center", alignItems: "center"}}>
-                                            <img style={{width: "125px"}} src={IMG_URL + `${perfume.filename}`}/>
+                                            <img style={{width: "125px"}} src={perfume.filename}/>
                                         </div>
                                         <div className="card-body text-center">
                                             <h5>{perfume.perfumeTitle}</h5>

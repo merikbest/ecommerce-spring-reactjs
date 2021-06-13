@@ -61,7 +61,7 @@
                     <tr>
                         <td style="width: 95px;" class="content">
                             <img style="width: 100%; height: auto"
-                                 th:src="@{https://raw.githubusercontent.com/merikbest/ecommerce-spring-reactjs/master/src/main/resources/uploads/{path} (path = ${orderItem.getPerfume().getFilename()})}"/>
+                                 th:src="@{{path} (path = ${orderItem.getPerfume().getFilename()})}"/>
                         </td>
                         <td style="width: 179px;" class="content">
                             <p><b th:text="${orderItem.getPerfume().getPerfumer()}"></b><br/>

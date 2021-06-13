@@ -10,7 +10,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import {IMG_URL} from "../../utils/constants/url";
 import Spinner from "../../component/Spinner/Spinner";
 import {calculateCartPrice, fetchCart, loadCart} from "../../redux/thunks/cart-thunks";
 import {AppStateType} from "../../redux/reducers/root-reducer";
@@ -88,7 +87,7 @@ const Cart: FC = () => {
                                     <div key={perfume.id} className="card mb-3 mx-auto" style={{maxWidth: "940px"}}>
                                         <div className="row no-gutters">
                                             <div className="col-2 mx-3 my-3">
-                                                <img src={IMG_URL + `${perfume.filename}`} className="img-fluid"/>
+                                                <img src={perfume.filename} className="img-fluid"/>
                                             </div>
                                             <div className="col-6">
                                                 <div className="card-body">

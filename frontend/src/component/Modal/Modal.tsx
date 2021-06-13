@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import {Perfume} from "../../types/types";
-import {IMG_URL} from "../../utils/constants/url";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 
 type PropTypes = {
@@ -27,7 +26,7 @@ const Modal: FC<PropTypes> = ({perfume,deletePerfumeHandler, setModalActive}) =>
                                     <LazyLoadImage
                                         effect="blur"
                                         style={{width: "89px"}}
-                                        src={IMG_URL + `${perfume?.filename}`}/>
+                                        src={perfume?.filename}/>
                                 </div>
                                 <div className="col-md-6 text-center">
                                     <p> Are you sure too delete?</p>

@@ -85,9 +85,9 @@ public class PerfumeControllerTest {
 
     @Test
     public void getPerfume() throws Exception {
-        mockMvc.perform(get(URL_PERFUMES_BASIC + "/2"))
+        mockMvc.perform(get(URL_PERFUMES_BASIC + "/1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(2)))
+                .andExpect(jsonPath("$.id", equalTo(1)))
                 .andExpect(jsonPath("$.perfumeTitle", equalTo("Boss Bottled Night")))
                 .andExpect(jsonPath("$.perfumer", equalTo("Hugo Boss")))
                 .andExpect(jsonPath("$.country", equalTo("Germany")));
@@ -96,7 +96,7 @@ public class PerfumeControllerTest {
     @Test
     public void getPerfumesByIds() throws Exception {
         mockMvc.perform(post(URL_PERFUMES_BASIC + "/ids")
-                .content(mapper.writeValueAsString(Arrays.asList(16L, 17L, 18L)))
+                .content(mapper.writeValueAsString(Arrays.asList(3L, 4L, 5L)))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
@@ -257,7 +257,7 @@ public class PerfumeControllerTest {
                 .content(mapper.writeValueAsString(graphQLRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.perfume.id", equalTo(2)))
+                .andExpect(jsonPath("$.data.perfume.id", equalTo(1)))
                 .andExpect(jsonPath("$.data.perfume.perfumeTitle", equalTo("Boss Bottled Night")))
                 .andExpect(jsonPath("$.data.perfume.perfumer", equalTo("Hugo Boss")))
                 .andExpect(jsonPath("$.data.perfume.price", equalTo(35)));

@@ -7,7 +7,7 @@ import SockJS from "sockjs-client";
 import {CompatClient, Stomp} from '@stomp/stompjs';
 import StarRatingComponent from 'react-star-rating-component';
 
-import {IMG_URL, WEBSOCKET_URL} from "../../utils/constants/url";
+import {WEBSOCKET_URL} from "../../utils/constants/url";
 import {fetchPerfumeByQuery, fetchPerfumeReviewsWS} from "../../redux/thunks/perfume-thunks";
 import {addReviewToPerfume, resetForm} from "../../redux/thunks/user-thunks";
 import {AppStateType} from "../../redux/reducers/root-reducer";
@@ -95,7 +95,7 @@ const Product: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                 <div className="row">
                     <div className="col-md-5">
                         <div>
-                            <img src={IMG_URL + `${perfume.filename}`} className="rounded mx-auto w-100"/>
+                            <img src={perfume.filename} className="rounded mx-auto w-100"/>
                         </div>
                     </div>
                     <div className="col-md-7">

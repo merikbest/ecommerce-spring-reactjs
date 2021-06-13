@@ -120,7 +120,7 @@ public class PerfumeServiceImplTest {
 
     @Test
     public void savePerfume() {
-        MultipartFile multipartFile = new MockMultipartFile(FILE_NAME, "Hello World".getBytes());
+        MultipartFile multipartFile = new MockMultipartFile(FILE_NAME, FILE_NAME, "multipart/form-data", FILE_PATH.getBytes());
         Perfume perfume = new Perfume();
         perfume.setId(1L);
         perfume.setPerfumer(PERFUMER_CHANEL);

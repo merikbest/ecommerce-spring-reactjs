@@ -10,7 +10,6 @@ import {Perfume} from "../../../types/types";
 import Modal from "../../../component/Modal/Modal";
 import SearchForm from "../../../component/SearchForm/SearchForm";
 import PaginationItem from "../../../component/Pagination/PaginationItem";
-import {IMG_URL} from "../../../utils/constants/url";
 import StarRating from "../../../component/StarRating/StarRating";
 import {deletePerfume} from "../../../redux/thunks/admin-thunks";
 import {AppStateType} from "../../../redux/reducers/root-reducer";
@@ -84,7 +83,7 @@ const PerfumeListComponent:FC<PropsType> = ({data, itemsPerPage,startFrom,search
                                             <LazyLoadImage
                                                 effect="blur"
                                                 style={{width: "80px", marginTop: "20px"}}
-                                                src={IMG_URL + `${perfume.filename}`}/>
+                                                src={perfume.filename}/>
                                         </div>
                                         <div className="card-body text-center">
                                             <StarRating perfumeRating={perfume.perfumeRating}/>

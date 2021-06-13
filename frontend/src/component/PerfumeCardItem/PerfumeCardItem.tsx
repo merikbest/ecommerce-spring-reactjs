@@ -3,7 +3,6 @@ import {Link} from "react-router-dom";
 import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
-import {IMG_URL} from "../../utils/constants/url";
 import {Perfume} from "../../types/types";
 import StarRating from "../StarRating/StarRating";
 
@@ -23,7 +22,7 @@ const PerfumeCardItem: FC<PropsType> = ({key, perfume, colSize, link, btnName}) 
                     <LazyLoadImage
                         effect="blur"
                         style={{width: "80px", marginTop: "20px"}}
-                        src={IMG_URL + `${perfume.filename}`}/>
+                        src={perfume.filename}/>
                 </div>
                 <div className="card-body text-center">
                     <StarRating perfumeRating={perfume.perfumeRating}/>

@@ -290,7 +290,7 @@ public class UserControllerTest {
     @Test
     public void addReviewToPerfume() throws Exception {
         ReviewRequestDto reviewRequestDto = new ReviewRequestDto();
-        reviewRequestDto.setPerfumeId(2L);
+        reviewRequestDto.setPerfumeId(1L);
         reviewRequestDto.setAuthor(FIRST_NAME);
         reviewRequestDto.setMessage("Hello world");
         reviewRequestDto.setRating(5);
@@ -299,7 +299,7 @@ public class UserControllerTest {
                 .content(mapper.writeValueAsString(reviewRequestDto))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", equalTo(2)))
+                .andExpect(jsonPath("$.id", equalTo(1)))
                 .andExpect(jsonPath("$.perfumeTitle", equalTo("Boss Bottled Night")))
                 .andExpect(jsonPath("$.perfumer", equalTo("Hugo Boss")))
                 .andExpect(jsonPath("$.price", equalTo(35)))

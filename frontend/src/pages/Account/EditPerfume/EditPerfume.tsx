@@ -6,7 +6,6 @@ import {RouteComponentProps} from 'react-router-dom';
 
 import {fetchPerfume, fetchPerfumes} from "../../../redux/thunks/perfume-thunks";
 import {formReset, updatePerfume} from "../../../redux/thunks/admin-thunks";
-import {IMG_URL} from "../../../utils/constants/url";
 import {AppStateType} from "../../../redux/reducers/root-reducer";
 import {Perfume, PerfumeErrors} from "../../../types/types";
 import ToastShow from "../../../component/Toasts/ToastShow";
@@ -260,7 +259,7 @@ const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
                             </div>
                         </div>
                         <div className="col-md-6">
-                            <img src={IMG_URL + `${filename}`} className="rounded mx-auto w-100 mb-2"/>
+                            <img src={filename} className="rounded mx-auto w-100 mb-2"/>
                             <input type="file" name="file" onChange={handleFileChange}/>
                         </div>
                     </div>
