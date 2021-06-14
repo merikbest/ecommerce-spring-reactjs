@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class PerfumeRequestDto {
+public class PerfumeRequest {
 
     private Long id;
     private String filename;

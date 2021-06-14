@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
-public class RegistrationRequestDto {
+public class RegistrationRequest {
 
     @NotBlank(message = "Fill captcha.")
     private String captcha;

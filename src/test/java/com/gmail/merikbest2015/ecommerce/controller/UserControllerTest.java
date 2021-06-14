@@ -1,11 +1,11 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.PasswordResetRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.order.OrderRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
+import com.gmail.merikbest2015.ecommerce.dto.PasswordResetRequest;
+import com.gmail.merikbest2015.ecommerce.dto.order.OrderRequest;
+import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequest;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserRequest;
 import com.gmail.merikbest2015.ecommerce.security.JwtAuthenticationException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -76,11 +76,11 @@ public class UserControllerTest {
     @Test
     @WithUserDetails(USER_EMAIL)
     public void getUserInfoByQuery() throws Exception {
-        GraphQLRequestDto graphQLRequestDto = new GraphQLRequestDto();
-        graphQLRequestDto.setQuery(GRAPHQL_QUERY_USER);
+        GraphQLRequest graphQLRequest = new GraphQLRequest();
+        graphQLRequest.setQuery(GRAPHQL_QUERY_USER);
 
         mockMvc.perform(post(URL_USERS_GRAPHQL + "/info")
-                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .content(mapper.writeValueAsString(graphQLRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.user.id", equalTo(USER_ID)))
@@ -100,12 +100,12 @@ public class UserControllerTest {
     @Test
     @WithUserDetails(USER_EMAIL)
     public void updateUserInfo() throws Exception {
-        UserRequestDto userRequestDto = new UserRequestDto();
-        userRequestDto.setFirstName(USER2_NAME);
-        userRequestDto.setLastName(USER2_NAME);
+        UserRequest userRequest = new UserRequest();
+        userRequest.setFirstName(USER2_NAME);
+        userRequest.setLastName(USER2_NAME);
 
         mockMvc.perform(put(URL_USERS_BASIC + "/edit")
-                .content(mapper.writeValueAsString(userRequestDto))
+                .content(mapper.writeValueAsString(userRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").isNotEmpty())
@@ -117,57 +117,14 @@ public class UserControllerTest {
     @Test
     @WithUserDetails(USER_EMAIL)
     public void updateUserInfo_ShouldInputFieldsAreEmpty() throws Exception {
-        UserRequestDto userRequestDto = new UserRequestDto();
+        UserRequest userRequest = new UserRequest();
 
         mockMvc.perform(put(URL_USERS_BASIC + "/edit")
-                .content(mapper.writeValueAsString(userRequestDto))
+                .content(mapper.writeValueAsString(userRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.firstNameError", is("First name cannot be empty")))
                 .andExpect(jsonPath("$.lastNameError", is("Last name cannot be empty")));
-    }
-
-    @Test
-    @WithUserDetails(USER_EMAIL)
-    public void updateUserPassword() throws Exception {
-        PasswordResetRequestDto requestDto = new PasswordResetRequestDto();
-        requestDto.setPassword(USER_PASSWORD);
-        requestDto.setPassword2(USER_PASSWORD);
-
-        mockMvc.perform(put(URL_USERS_BASIC + "/edit/password")
-                .content(mapper.writeValueAsString(requestDto))
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("Password successfully changed!")));
-    }
-
-    @Test
-    @WithUserDetails(USER_EMAIL)
-    public void updateUserPassword_ShouldPasswordsNotMatch() throws Exception {
-        PasswordResetRequestDto requestDto = new PasswordResetRequestDto();
-        requestDto.setPassword(USER_PASSWORD);
-        requestDto.setPassword2("testpassword");
-
-        mockMvc.perform(put(URL_USERS_BASIC + "/edit/password")
-                .content(mapper.writeValueAsString(requestDto))
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.passwordError", is("Passwords do not match.")));
-    }
-
-    @Test
-    @WithUserDetails(USER_EMAIL)
-    public void updateUserPassword_ShouldInputFieldsAreEmpty() throws Exception {
-        PasswordResetRequestDto requestDto = new PasswordResetRequestDto();
-        requestDto.setPassword("");
-        requestDto.setPassword2("");
-
-        mockMvc.perform(put(URL_USERS_BASIC + "/edit/password")
-                .content(mapper.writeValueAsString(requestDto))
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.passwordError", is("The password must be between 6 and 16 characters long")))
-                .andExpect(jsonPath("$.password2Error", is("The password confirmation must be between 6 and 16 characters long")));
     }
 
     @Test
@@ -219,11 +176,11 @@ public class UserControllerTest {
     @Test
     @WithUserDetails(USER_EMAIL)
     public void getUserOrdersByQuery() throws Exception {
-        GraphQLRequestDto graphQLRequestDto = new GraphQLRequestDto();
-        graphQLRequestDto.setQuery(GRAPHQL_QUERY_ORDERS);
+        GraphQLRequest graphQLRequest = new GraphQLRequest();
+        graphQLRequest.setQuery(GRAPHQL_QUERY_ORDERS);
 
         mockMvc.perform(post(URL_USERS_GRAPHQL + "/orders")
-                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .content(mapper.writeValueAsString(graphQLRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.orders[*].id").isNotEmpty())
@@ -245,19 +202,19 @@ public class UserControllerTest {
         perfumesId.put(2L, 1L);
         perfumesId.put(4L, 1L);
 
-        OrderRequestDto orderRequestDto = new OrderRequestDto();
-        orderRequestDto.setFirstName(FIRST_NAME);
-        orderRequestDto.setLastName(LAST_NAME);
-        orderRequestDto.setCity(CITY);
-        orderRequestDto.setAddress(ADDRESS);
-        orderRequestDto.setEmail(ORDER_EMAIL);
-        orderRequestDto.setPostIndex(POST_INDEX);
-        orderRequestDto.setPhoneNumber(PHONE_NUMBER);
-        orderRequestDto.setTotalPrice(TOTAL_PRICE);
-        orderRequestDto.setPerfumesId(perfumesId);
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setFirstName(FIRST_NAME);
+        orderRequest.setLastName(LAST_NAME);
+        orderRequest.setCity(CITY);
+        orderRequest.setAddress(ADDRESS);
+        orderRequest.setEmail(ORDER_EMAIL);
+        orderRequest.setPostIndex(POST_INDEX);
+        orderRequest.setPhoneNumber(PHONE_NUMBER);
+        orderRequest.setTotalPrice(TOTAL_PRICE);
+        orderRequest.setPerfumesId(perfumesId);
 
         mockMvc.perform(post(URL_USERS_ORDER)
-                .content(mapper.writeValueAsString(orderRequestDto))
+                .content(mapper.writeValueAsString(orderRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value(FIRST_NAME))
@@ -272,10 +229,10 @@ public class UserControllerTest {
 
     @Test
     public void postOrder_ShouldInputFieldsAreEmpty() throws Exception {
-        OrderRequestDto OrderRequestDto = new OrderRequestDto();
+        OrderRequest OrderRequest = new OrderRequest();
 
         mockMvc.perform(post(URL_USERS_ORDER)
-                .content(mapper.writeValueAsString(OrderRequestDto))
+                .content(mapper.writeValueAsString(OrderRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.firstNameError", is("Fill in the input field")))
@@ -289,14 +246,14 @@ public class UserControllerTest {
 
     @Test
     public void addReviewToPerfume() throws Exception {
-        ReviewRequestDto reviewRequestDto = new ReviewRequestDto();
-        reviewRequestDto.setPerfumeId(1L);
-        reviewRequestDto.setAuthor(FIRST_NAME);
-        reviewRequestDto.setMessage("Hello world");
-        reviewRequestDto.setRating(5);
+        ReviewRequest reviewRequest = new ReviewRequest();
+        reviewRequest.setPerfumeId(1L);
+        reviewRequest.setAuthor(FIRST_NAME);
+        reviewRequest.setMessage("Hello world");
+        reviewRequest.setRating(5);
 
         mockMvc.perform(post(URL_USERS_REVIEW)
-                .content(mapper.writeValueAsString(reviewRequestDto))
+                .content(mapper.writeValueAsString(reviewRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(1)))
@@ -309,10 +266,10 @@ public class UserControllerTest {
 
     @Test
     public void addReviewToPerfume_ShouldInputFieldsAreEmpty() throws Exception {
-        ReviewRequestDto reviewRequestDto = new ReviewRequestDto();
+        ReviewRequest reviewRequest = new ReviewRequest();
 
         mockMvc.perform(post(URL_USERS_REVIEW)
-                .content(mapper.writeValueAsString(reviewRequestDto))
+                .content(mapper.writeValueAsString(reviewRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.authorError", is("Fill in the input field")))

@@ -1,13 +1,13 @@
 package com.gmail.merikbest2015.ecommerce.dto.perfume;
 
-import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponseDto;
+import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponse;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Data
-public class PerfumeResponseDto {
+public class PerfumeResponse {
     private Long id;
     private String perfumeTitle;
     private String perfumer;
@@ -23,6 +23,6 @@ public class PerfumeResponseDto {
     private String volume;
     private String type;
     private Double perfumeRating;
-    private List<ReviewResponseDto> reviews;
+    private List<ReviewResponse> reviews;
     private MultipartFile file;
 }

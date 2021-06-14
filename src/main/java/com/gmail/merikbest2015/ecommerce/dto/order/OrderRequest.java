@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 @Data
-public class OrderRequestDto {
+public class OrderRequest {
 
     private Double totalPrice;
     private Map<Long, Long> perfumesId;

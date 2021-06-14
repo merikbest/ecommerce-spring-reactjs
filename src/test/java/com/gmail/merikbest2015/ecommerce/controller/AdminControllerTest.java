@@ -1,9 +1,9 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequest;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,31 +50,31 @@ public class AdminControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
-    private GraphQLRequestDto graphQLRequestDto;
-    private PerfumeRequestDto perfumeRequestDto;
+    private GraphQLRequest graphQLRequest;
+    private PerfumeRequest perfumeRequest;
 
     @Before
     public void init() {
-        graphQLRequestDto = new GraphQLRequestDto();
-        perfumeRequestDto = new PerfumeRequestDto();
-        perfumeRequestDto.setPerfumer(PERFUMER_CHANEL);
-        perfumeRequestDto.setPerfumeTitle(PERFUME_TITLE);
-        perfumeRequestDto.setYear(YEAR);
-        perfumeRequestDto.setCountry(COUNTRY);
-        perfumeRequestDto.setPerfumeGender(PERFUME_GENDER);
-        perfumeRequestDto.setFragranceTopNotes(FRAGRANCE_TOP_NOTES);
-        perfumeRequestDto.setFragranceMiddleNotes(FRAGRANCE_MIDDLE_NOTES);
-        perfumeRequestDto.setFragranceBaseNotes(FRAGRANCE_BASE_NOTES);
-        perfumeRequestDto.setPrice(PRICE);
-        perfumeRequestDto.setVolume(VOLUME);
-        perfumeRequestDto.setType(TYPE);
+        graphQLRequest = new GraphQLRequest();
+        perfumeRequest = new PerfumeRequest();
+        perfumeRequest.setPerfumer(PERFUMER_CHANEL);
+        perfumeRequest.setPerfumeTitle(PERFUME_TITLE);
+        perfumeRequest.setYear(YEAR);
+        perfumeRequest.setCountry(COUNTRY);
+        perfumeRequest.setPerfumeGender(PERFUME_GENDER);
+        perfumeRequest.setFragranceTopNotes(FRAGRANCE_TOP_NOTES);
+        perfumeRequest.setFragranceMiddleNotes(FRAGRANCE_MIDDLE_NOTES);
+        perfumeRequest.setFragranceBaseNotes(FRAGRANCE_BASE_NOTES);
+        perfumeRequest.setPrice(PRICE);
+        perfumeRequest.setVolume(VOLUME);
+        perfumeRequest.setType(TYPE);
     }
 
     @Test
     public void addPerfume() throws Exception {
         FileInputStream inputFile = new FileInputStream(new File(FILE_PATH));
         MockMultipartFile multipartFile = new MockMultipartFile("file", FILE_NAME, MediaType.MULTIPART_FORM_DATA_VALUE, inputFile);
-        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequestDto).getBytes());
+        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequest).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         mockMvc.perform(multipart(URL_ADMIN_ADD)
@@ -85,8 +85,8 @@ public class AdminControllerTest {
 
     @Test
     public void addPerfume_ShouldInputFieldsAreEmpty() throws Exception {
-        PerfumeRequestDto perfumeRequestDto = new PerfumeRequestDto();
-        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequestDto).getBytes());
+        PerfumeRequest perfumeRequest = new PerfumeRequest();
+        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequest).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         mockMvc.perform(multipart(URL_ADMIN_ADD)
@@ -109,9 +109,9 @@ public class AdminControllerTest {
     public void editPerfume() throws Exception {
         FileInputStream inputFile = new FileInputStream(new File(FILE_PATH));
         MockMultipartFile multipartFile = new MockMultipartFile("file", FILE_NAME, MediaType.MULTIPART_FORM_DATA_VALUE, inputFile);
-        MockMultipartFile jsonFileEdit = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequestDto).getBytes());
+        MockMultipartFile jsonFileEdit = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequest).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        perfumeRequestDto.setType("test");
+        perfumeRequest.setType("test");
         mockMvc.perform(multipart(URL_ADMIN_EDIT)
                 .file(multipartFile)
                 .file(jsonFileEdit))
@@ -120,8 +120,8 @@ public class AdminControllerTest {
 
     @Test
     public void editPerfume_ShouldInputFieldsAreEmpty() throws Exception {
-        PerfumeRequestDto perfumeRequestDto = new PerfumeRequestDto();
-        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequestDto).getBytes());
+        PerfumeRequest perfumeRequest = new PerfumeRequest();
+        MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequest).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
         mockMvc.perform(multipart(URL_ADMIN_EDIT)
@@ -181,11 +181,11 @@ public class AdminControllerTest {
 
     @Test
     public void getUserOrdersByEmail() throws Exception {
-        UserRequestDto userRequestDto = new UserRequestDto();
-        userRequestDto.setEmail(USER_EMAIL);
+        UserRequest userRequest = new UserRequest();
+        userRequest.setEmail(USER_EMAIL);
 
         mockMvc.perform(post(URL_ADMIN_BASIC + "/order")
-                .content(mapper.writeValueAsString(userRequestDto))
+                .content(mapper.writeValueAsString(userRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
@@ -227,10 +227,10 @@ public class AdminControllerTest {
 
     @Test
     public void getUserByQuery() throws Exception {
-        graphQLRequestDto.setQuery(GRAPHQL_QUERY_USER);
+        graphQLRequest.setQuery(GRAPHQL_QUERY_USER);
 
         mockMvc.perform(post(URL_ADMIN_GRAPHQL + "/user")
-                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .content(mapper.writeValueAsString(graphQLRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.user.id", equalTo(USER_ID)))
@@ -249,10 +249,10 @@ public class AdminControllerTest {
 
     @Test
     public void getUsersByQuery() throws Exception {
-        graphQLRequestDto.setQuery(GRAPHQL_QUERY_USERS);
+        graphQLRequest.setQuery(GRAPHQL_QUERY_USERS);
 
         mockMvc.perform(post(URL_ADMIN_GRAPHQL + "/user/all")
-                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .content(mapper.writeValueAsString(graphQLRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.users[*].id").isNotEmpty())
@@ -271,10 +271,10 @@ public class AdminControllerTest {
 
     @Test
     public void getOrdersByQuery() throws Exception {
-        graphQLRequestDto.setQuery(GRAPHQL_QUERY_ORDERS);
+        graphQLRequest.setQuery(GRAPHQL_QUERY_ORDERS);
 
         mockMvc.perform(post(URL_ADMIN_GRAPHQL + "/orders")
-                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .content(mapper.writeValueAsString(graphQLRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.orders[*].id").isNotEmpty())
@@ -292,10 +292,10 @@ public class AdminControllerTest {
 
     @Test
     public void getUserOrdersByEmailQuery() throws Exception {
-        graphQLRequestDto.setQuery(GRAPHQL_QUERY_ORDERS_BY_EMAIL);
+        graphQLRequest.setQuery(GRAPHQL_QUERY_ORDERS_BY_EMAIL);
 
         mockMvc.perform(post(URL_ADMIN_GRAPHQL + "/order")
-                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .content(mapper.writeValueAsString(graphQLRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.ordersByEmail[*].id").isNotEmpty())

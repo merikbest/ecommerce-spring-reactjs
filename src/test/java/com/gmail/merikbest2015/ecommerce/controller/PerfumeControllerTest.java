@@ -1,8 +1,8 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeSearchRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeSearchRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,8 +42,8 @@ public class PerfumeControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
-    private PerfumeSearchRequestDto filter;
-    private GraphQLRequestDto graphQLRequestDto;
+    private PerfumeSearchRequest filter;
+    private GraphQLRequest graphQLRequest;
 
     @Before
     public void init() {
@@ -53,12 +53,12 @@ public class PerfumeControllerTest {
         perfumers.add(PERFUMER_CHANEL);
         genders.add(PERFUME_GENDER);
 
-        filter = new PerfumeSearchRequestDto();
+        filter = new PerfumeSearchRequest();
         filter.setPerfumers(perfumers);
         filter.setGenders(genders);
         filter.setPrices(prices);
 
-        graphQLRequestDto = new GraphQLRequestDto();
+        graphQLRequest = new GraphQLRequest();
     }
 
     @Test
@@ -139,7 +139,7 @@ public class PerfumeControllerTest {
 
     @Test
     public void findPerfumesByFilterParamsPerfumers() throws Exception {
-        PerfumeSearchRequestDto filter = new PerfumeSearchRequestDto();
+        PerfumeSearchRequest filter = new PerfumeSearchRequest();
         List<String> perfumers = new ArrayList<>();
         perfumers.add(PERFUMER_CHANEL);
         List<Integer> prices = new ArrayList<>();
@@ -173,7 +173,7 @@ public class PerfumeControllerTest {
 
     @Test
     public void findByPerfumeGender() throws Exception {
-        PerfumeSearchRequestDto filter = new PerfumeSearchRequestDto();
+        PerfumeSearchRequest filter = new PerfumeSearchRequest();
         filter.setPerfumeGender(PERFUME_GENDER);
 
         mockMvc.perform(post(URL_PERFUMES_SEARCH + "/gender")
@@ -198,7 +198,7 @@ public class PerfumeControllerTest {
 
     @Test
     public void findByPerfumer() throws Exception {
-        PerfumeSearchRequestDto filter = new PerfumeSearchRequestDto();
+        PerfumeSearchRequest filter = new PerfumeSearchRequest();
         filter.setPerfumer(PERFUMER_CHANEL);
 
         mockMvc.perform(post(URL_PERFUMES_SEARCH + "/perfumer")
@@ -222,10 +222,10 @@ public class PerfumeControllerTest {
     }
     @Test
     public void getPerfumesByIdsQuery() throws Exception {
-        graphQLRequestDto.setQuery(GRAPHQL_QUERY_PERFUMES_BY_IDS);
+        graphQLRequest.setQuery(GRAPHQL_QUERY_PERFUMES_BY_IDS);
 
         mockMvc.perform(post(URL_PERFUMES_GRAPHQL + "/ids")
-                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .content(mapper.writeValueAsString(graphQLRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.perfumesIds[*].id").isNotEmpty())
@@ -236,10 +236,10 @@ public class PerfumeControllerTest {
 
     @Test
     public void getAllPerfumesByQuery() throws Exception {
-        graphQLRequestDto.setQuery(GRAPHQL_QUERY_PERFUMES);
+        graphQLRequest.setQuery(GRAPHQL_QUERY_PERFUMES);
 
         mockMvc.perform(post(URL_PERFUMES_GRAPHQL + "/perfumes")
-                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .content(mapper.writeValueAsString(graphQLRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.perfumes[*].id").isNotEmpty())
@@ -251,10 +251,10 @@ public class PerfumeControllerTest {
 
     @Test
     public void getPerfumeByQuery() throws Exception {
-        graphQLRequestDto.setQuery(GRAPHQL_QUERY_PERFUME);
+        graphQLRequest.setQuery(GRAPHQL_QUERY_PERFUME);
 
         mockMvc.perform(post(URL_PERFUMES_GRAPHQL + "/perfume")
-                .content(mapper.writeValueAsString(graphQLRequestDto))
+                .content(mapper.writeValueAsString(graphQLRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.perfume.id", equalTo(1)))

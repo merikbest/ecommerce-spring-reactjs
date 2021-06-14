@@ -1,11 +1,11 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
-import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponseDto;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponseDto;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserRequestDto;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserResponseDto;
+import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
+import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponse;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequest;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserRequest;
+import com.gmail.merikbest2015.ecommerce.dto.user.UserResponse;
 import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
 import com.gmail.merikbest2015.ecommerce.mapper.OrderMapper;
 import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
@@ -34,9 +34,9 @@ public class AdminController {
     private final GraphQLProvider graphQLProvider;
 
     @PostMapping("/add")
-    public ResponseEntity<PerfumeResponseDto> addPerfume(@RequestPart(name = "file", required = false) MultipartFile file,
-                                                         @RequestPart("perfume") @Valid PerfumeRequestDto perfume,
-                                                         BindingResult bindingResult) {
+    public ResponseEntity<PerfumeResponse> addPerfume(@RequestPart(name = "file", required = false) MultipartFile file,
+                                                      @RequestPart("perfume") @Valid PerfumeRequest perfume,
+                                                      BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
@@ -45,9 +45,9 @@ public class AdminController {
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<PerfumeResponseDto> updatePerfume(@RequestPart(name = "file", required = false) MultipartFile file,
-                                                            @RequestPart("perfume") @Valid PerfumeRequestDto perfume,
-                                                            BindingResult bindingResult) {
+    public ResponseEntity<PerfumeResponse> updatePerfume(@RequestPart(name = "file", required = false) MultipartFile file,
+                                                         @RequestPart("perfume") @Valid PerfumeRequest perfume,
+                                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         } else {
@@ -56,52 +56,52 @@ public class AdminController {
     }
 
     @DeleteMapping("/delete/{perfumeId}")
-    public ResponseEntity<List<PerfumeResponseDto>> deletePerfume(@PathVariable(value = "perfumeId") Long perfumeId) {
+    public ResponseEntity<List<PerfumeResponse>> deletePerfume(@PathVariable(value = "perfumeId") Long perfumeId) {
         return ResponseEntity.ok(perfumeMapper.deleteOrder(perfumeId));
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<List<OrderResponseDto>> getAllOrders() {
+    public ResponseEntity<List<OrderResponse>> getAllOrders() {
         return ResponseEntity.ok(orderMapper.findAllOrders());
     }
 
     @PostMapping("/order")
-    public ResponseEntity<List<OrderResponseDto>> getUserOrdersByEmail(@RequestBody UserRequestDto user) {
+    public ResponseEntity<List<OrderResponse>> getUserOrdersByEmail(@RequestBody UserRequest user) {
         return ResponseEntity.ok(orderMapper.findOrderByEmail(user.getEmail()));
     }
 
     @DeleteMapping("/order/delete/{orderId}")
-    public ResponseEntity<List<OrderResponseDto>> deleteOrder(@PathVariable(value = "orderId") Long orderId) {
+    public ResponseEntity<List<OrderResponse>> deleteOrder(@PathVariable(value = "orderId") Long orderId) {
         return ResponseEntity.ok(orderMapper.deleteOrder(orderId));
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<UserResponseDto> getUser(@PathVariable("id") Long userId) {
+    public ResponseEntity<UserResponse> getUser(@PathVariable("id") Long userId) {
         return ResponseEntity.ok(userMapper.findUserById(userId));
     }
 
     @GetMapping("/user/all")
-    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
         return ResponseEntity.ok(userMapper.findAllUsers());
     }
 
     @PostMapping("/graphql/user")
-    public ResponseEntity<ExecutionResult> getUserByQuery(@RequestBody GraphQLRequestDto request) {
+    public ResponseEntity<ExecutionResult> getUserByQuery(@RequestBody GraphQLRequest request) {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
     @PostMapping("/graphql/user/all")
-    public ResponseEntity<ExecutionResult> getAllUsersByQuery(@RequestBody GraphQLRequestDto request) {
+    public ResponseEntity<ExecutionResult> getAllUsersByQuery(@RequestBody GraphQLRequest request) {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
     @PostMapping("/graphql/orders")
-    public ResponseEntity<ExecutionResult> getAllOrdersQuery(@RequestBody GraphQLRequestDto request) {
+    public ResponseEntity<ExecutionResult> getAllOrdersQuery(@RequestBody GraphQLRequest request) {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
     @PostMapping("/graphql/order")
-    public ResponseEntity<ExecutionResult> getUserOrdersByEmailQuery(@RequestBody GraphQLRequestDto request) {
+    public ResponseEntity<ExecutionResult> getUserOrdersByEmailQuery(@RequestBody GraphQLRequest request) {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 }

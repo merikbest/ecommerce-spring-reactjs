@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class OrderResponseDto {
+public class OrderResponse {
     private Long id;
     private Double totalPrice;
     private LocalDate date;
@@ -17,5 +17,5 @@ public class OrderResponseDto {
     private String email;
     private String phoneNumber;
     private Integer postIndex;
-    private List<OrderItemResponseDto> orderItems;
+    private List<OrderItemResponse> orderItems;
 }

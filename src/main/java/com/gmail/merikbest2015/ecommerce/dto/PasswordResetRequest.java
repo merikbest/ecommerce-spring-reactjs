@@ -5,7 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.Size;
 
 @Data
-public class PasswordResetRequestDto {
+public class PasswordResetRequest {
 
     private String email;
 

@@ -2,6 +2,7 @@ package com.gmail.merikbest2015.ecommerce.security.oauth2;
 
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.security.UserPrincipal;
+import com.gmail.merikbest2015.ecommerce.service.AuthenticationService;
 import com.gmail.merikbest2015.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
+    private final AuthenticationService authenticationService;
     private final UserService userService;
 
     @Override
@@ -24,9 +26,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User user = userService.findUserByEmail(oAuth2UserInfo.getEmail());
 
         if (user == null) {
-            user = userService.registerOauth2User(provider, oAuth2UserInfo);
+            user = authenticationService.registerOauth2User(provider, oAuth2UserInfo);
         } else {
-            user = userService.updateOauth2User(user, provider, oAuth2UserInfo);
+            user = authenticationService.updateOauth2User(user, provider, oAuth2UserInfo);
         }
         return UserPrincipal.create(user, oAuth2User.getAttributes());
     }

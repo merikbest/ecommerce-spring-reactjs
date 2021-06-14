@@ -36,7 +36,7 @@ export const updateUserInfo = (userEdit: UserEdit) => async (dispatch: Dispatch)
 
 export const updateUserPassword = (data: UserResetPasswordData) => async (dispatch: Dispatch) => {
     try {
-        const response = await RequestService.put("/users/edit/password", data, true);
+        const response = await RequestService.put("/auth/edit/password", data, true);
         dispatch(userUpdatedPasswordSuccess(response.data));
     } catch (error) {
         dispatch(userUpdatedPasswordFailure(error.response.data));

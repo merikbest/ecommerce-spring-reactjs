@@ -1,11 +1,11 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
-import com.gmail.merikbest2015.ecommerce.dto.RegistrationRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.RegistrationRequest;
 import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
 import com.gmail.merikbest2015.ecommerce.exception.EmailException;
 import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
 import com.gmail.merikbest2015.ecommerce.exception.PasswordException;
-import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
+import com.gmail.merikbest2015.ecommerce.mapper.AuthenticationMapper;
 import com.gmail.merikbest2015.ecommerce.utils.ControllerUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,11 +20,11 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/registration")
 public class RegistrationController {
 
-    private final UserMapper userMapper;
+    private final AuthenticationMapper authenticationMapper;
     private final ControllerUtils controllerUtils;
 
     @PostMapping
-    public ResponseEntity<String> registration(@Valid @RequestBody RegistrationRequestDto user, BindingResult bindingResult) {
+    public ResponseEntity<String> registration(@Valid @RequestBody RegistrationRequest user, BindingResult bindingResult) {
         controllerUtils.captchaValidation(user.getCaptcha());
 
         if (controllerUtils.isPasswordDifferent(user.getPassword(), user.getPassword2())) {
@@ -33,7 +33,7 @@ public class RegistrationController {
         if (bindingResult.hasErrors()) {
             throw new InputFieldException(bindingResult);
         }
-        if (!userMapper.registerUser(user)) {
+        if (!authenticationMapper.registerUser(user)) {
             throw new EmailException("Email is already used.");
         }
         return ResponseEntity.ok("User successfully registered.");
@@ -41,7 +41,7 @@ public class RegistrationController {
 
     @GetMapping("/activate/{code}")
     public ResponseEntity<String> activateEmailCode(@PathVariable String code) {
-        if (!userMapper.activateUser(code)) {
+        if (!authenticationMapper.activateUser(code)) {
             throw new ApiRequestException("Activation code not found.", HttpStatus.NOT_FOUND);
         } else {
             return ResponseEntity.ok("User successfully activated.");

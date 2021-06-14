@@ -1,6 +1,6 @@
 package com.gmail.merikbest2015.ecommerce.utils;
 
-import com.gmail.merikbest2015.ecommerce.dto.CaptchaResponseDto;
+import com.gmail.merikbest2015.ecommerce.dto.CaptchaResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -29,8 +29,8 @@ public class ControllerUtils {
         return password != null && !password.equals(password2);
     }
 
-    public CaptchaResponseDto captchaValidation(String captcha) {
+    public CaptchaResponse captchaValidation(String captcha) {
         String url = String.format(captchaUrl, secret, captcha);
-        return restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponseDto.class);
+        return restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponse.class);
     }
 }

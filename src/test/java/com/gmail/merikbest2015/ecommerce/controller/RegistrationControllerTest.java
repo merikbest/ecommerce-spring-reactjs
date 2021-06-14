@@ -1,7 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gmail.merikbest2015.ecommerce.dto.RegistrationRequestDto;
+import com.gmail.merikbest2015.ecommerce.dto.RegistrationRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,25 +35,25 @@ public class RegistrationControllerTest {
     @Autowired
     private ObjectMapper mapper;
 
-    private RegistrationRequestDto registrationRequestDto;
+    private RegistrationRequest registrationRequest;
 
     @Before
     public void init() {
-        registrationRequestDto = new RegistrationRequestDto();
-        registrationRequestDto.setEmail("testtest@test.com");
-        registrationRequestDto.setPassword(USER_PASSWORD);
-        registrationRequestDto.setPassword2(USER_PASSWORD);
-        registrationRequestDto.setFirstName(FIRST_NAME);
-        registrationRequestDto.setCaptcha("12345");
+        registrationRequest = new RegistrationRequest();
+        registrationRequest.setEmail("testtest@test.com");
+        registrationRequest.setPassword(USER_PASSWORD);
+        registrationRequest.setPassword2(USER_PASSWORD);
+        registrationRequest.setFirstName(FIRST_NAME);
+        registrationRequest.setCaptcha("12345");
     }
 
     @Test
     public void registration_ShouldPassword2BeEmpty() throws Exception {
-        registrationRequestDto.setPassword("");
-        registrationRequestDto.setPassword2("");
+        registrationRequest.setPassword("");
+        registrationRequest.setPassword2("");
 
         mockMvc.perform(post(URL_REGISTRATION_BASIC)
-                .content(mapper.writeValueAsString(registrationRequestDto))
+                .content(mapper.writeValueAsString(registrationRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.password2Error", is("The password confirmation must be between 6 and 16 characters long")));
@@ -61,10 +61,10 @@ public class RegistrationControllerTest {
 
     @Test
     public void registration_ShouldPasswordsNotMatch() throws Exception {
-        registrationRequestDto.setPassword2("12345678");
+        registrationRequest.setPassword2("12345678");
 
         mockMvc.perform(post(URL_REGISTRATION_BASIC)
-                .content(mapper.writeValueAsString(registrationRequestDto))
+                .content(mapper.writeValueAsString(registrationRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.passwordError", is("Passwords do not match.")));
@@ -72,16 +72,16 @@ public class RegistrationControllerTest {
 
     @Test
     public void registration_ShouldUserEmailIsExist() throws Exception {
-        RegistrationRequestDto registrationRequestDto = new RegistrationRequestDto();
-        registrationRequestDto.setEmail(USER_EMAIL);
-        registrationRequestDto.setPassword(USER_PASSWORD);
-        registrationRequestDto.setPassword2(USER_PASSWORD);
-        registrationRequestDto.setFirstName(FIRST_NAME);
-        registrationRequestDto.setLastName(LAST_NAME);
-        registrationRequestDto.setCaptcha("12345");
+        RegistrationRequest registrationRequest = new RegistrationRequest();
+        registrationRequest.setEmail(USER_EMAIL);
+        registrationRequest.setPassword(USER_PASSWORD);
+        registrationRequest.setPassword2(USER_PASSWORD);
+        registrationRequest.setFirstName(FIRST_NAME);
+        registrationRequest.setLastName(LAST_NAME);
+        registrationRequest.setCaptcha("12345");
 
         mockMvc.perform(post(URL_REGISTRATION_BASIC)
-                .content(mapper.writeValueAsString(registrationRequestDto))
+                .content(mapper.writeValueAsString(registrationRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.emailError").value("Email is already used."));
@@ -89,10 +89,10 @@ public class RegistrationControllerTest {
 
     @Test
     public void registration_ShouldCaptchaNotFilled() throws Exception {
-        registrationRequestDto.setCaptcha(null);
+        registrationRequest.setCaptcha(null);
 
         mockMvc.perform(post(URL_REGISTRATION_BASIC)
-                .content(mapper.writeValueAsString(registrationRequestDto))
+                .content(mapper.writeValueAsString(registrationRequest))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.captchaError").value("Fill captcha."));
@@ -103,7 +103,7 @@ public class RegistrationControllerTest {
         mockMvc.perform(post(URL_REGISTRATION_BASIC)
                 .param("password2", "")
                 .param("g-recaptcha-response", "")
-                .content(mapper.writeValueAsString(new RegistrationRequestDto()))
+                .content(mapper.writeValueAsString(new RegistrationRequest()))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
     }
