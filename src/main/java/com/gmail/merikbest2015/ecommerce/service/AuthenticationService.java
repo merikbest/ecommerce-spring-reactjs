@@ -7,19 +7,19 @@ import java.util.Map;
 
 public interface AuthenticationService {
 
-    Map<String, String> login(String email);
+    Map<String, String> login(String email, String password);
 
-    boolean registerUser(User user);
+    String registerUser(User user, String captcha, String password2);
 
     User registerOauth2User(String provider, OAuth2UserInfo oAuth2UserInfo);
 
     User updateOauth2User(User user, String provider, OAuth2UserInfo oAuth2UserInfo);
 
-    boolean activateUser(String code);
+    String activateUser(String code);
 
     User findByPasswordResetCode(String code);
 
-    boolean sendPasswordResetCode(String email);
+    String sendPasswordResetCode(String email);
 
-    String passwordReset(String email, String password);
+    String passwordReset(String email, String password, String password2);
 }

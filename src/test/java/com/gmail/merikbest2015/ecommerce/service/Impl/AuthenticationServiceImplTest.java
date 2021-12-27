@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -36,6 +37,9 @@ public class AuthenticationServiceImplTest {
     private AuthenticationServiceImpl authenticationService;
 
     @MockBean
+    private AuthenticationManager authenticationManager;
+
+    @MockBean
     private UserRepository userRepository;
 
     @MockBean
@@ -54,9 +58,9 @@ public class AuthenticationServiceImplTest {
     public void findByPasswordResetCode() {
         User user = new User();
         user.setPasswordResetCode(USER_PASSWORD_RESET_CODE);
+        when(userRepository.findByPasswordResetCode(USER_PASSWORD_RESET_CODE)).thenReturn(user);
         authenticationService.findByPasswordResetCode(USER_PASSWORD_RESET_CODE);
 
-        when(userRepository.findByPasswordResetCode(USER_PASSWORD_RESET_CODE)).thenReturn(user);
         assertEquals(USER_PASSWORD_RESET_CODE, user.getPasswordResetCode());
         verify(userRepository, times(1)).findByPasswordResetCode(USER_PASSWORD_RESET_CODE);
     }
@@ -66,6 +70,7 @@ public class AuthenticationServiceImplTest {
         User user = new User();
         user.setId(123L);
         user.setEmail(USER_EMAIL);
+        user.setPassword(USER_PASSWORD);
         user.setActive(true);
         user.setFirstName(FIRST_NAME);
         user.setRoles(Collections.singleton(Role.USER));
@@ -74,7 +79,7 @@ public class AuthenticationServiceImplTest {
         assertEquals(123L, user.getId());
         assertEquals(USER_EMAIL, user.getEmail());
         assertEquals(FIRST_NAME, user.getFirstName());
-        authenticationService.login(USER_EMAIL);
+        authenticationService.login(USER_EMAIL, USER_PASSWORD);
         verify(userRepository, times(1)).findByEmail(user.getEmail());
         verify(jwtProvider, times(1)).createToken(user.getEmail(), user.getRoles().iterator().next().name());
     }
@@ -84,12 +89,12 @@ public class AuthenticationServiceImplTest {
         User user = new User();
         user.setFirstName(FIRST_NAME);
         user.setEmail(USER_EMAIL);
-        boolean isUserCreated = authenticationService.registerUser(user);
+        String userCreated = authenticationService.registerUser(user, "", USER_PASSWORD);
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("firstName", FIRST_NAME);
         attributes.put("registrationUrl", "http://" + hostname + "/activate/" + user.getActivationCode());
 
-        assertTrue(isUserCreated);
+        assertNotNull(userCreated);
         assertNotNull(user.getActivationCode());
         assertTrue(CoreMatchers.is(user.getRoles()).matches(Collections.singleton(Role.USER)));
         verify(userRepository, times(1)).save(user);
@@ -242,7 +247,7 @@ public class AuthenticationServiceImplTest {
         when(userRepository.findByEmail(USER_EMAIL)).thenReturn(user);
         when(passwordEncoder.encode(USER_PASSWORD)).thenReturn(user.getPassword());
         when(userRepository.save(user)).thenReturn(user);
-        authenticationService.passwordReset(user.getEmail(), user.getPassword());
+        authenticationService.passwordReset(user.getEmail(), user.getPassword(), user.getPassword());
         assertEquals(USER_EMAIL, user.getEmail());
         assertNotNull(user.getPassword());
         verify(userRepository, times(1)).findByEmail(user.getEmail());
@@ -257,8 +262,8 @@ public class AuthenticationServiceImplTest {
 
         when(userRepository.findByActivationCode(USER_ACTIVATION_CODE)).thenReturn(user);
         when(userRepository.save(user)).thenReturn(user);
-        boolean isActivated = authenticationService.activateUser(user.getActivationCode());
-        assertTrue(isActivated);
+        String activated = authenticationService.activateUser(user.getActivationCode());
+        assertNotNull(activated);
         assertNull(user.getActivationCode());
         verify(userRepository, times(1)).save(user);
     }

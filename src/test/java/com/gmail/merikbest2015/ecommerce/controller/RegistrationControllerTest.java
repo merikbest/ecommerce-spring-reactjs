@@ -44,6 +44,7 @@ public class RegistrationControllerTest {
         registrationRequest.setPassword(USER_PASSWORD);
         registrationRequest.setPassword2(USER_PASSWORD);
         registrationRequest.setFirstName(FIRST_NAME);
+        registrationRequest.setLastName(LAST_NAME);
         registrationRequest.setCaptcha("12345");
     }
 
