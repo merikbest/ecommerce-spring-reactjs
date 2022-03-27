@@ -37,22 +37,14 @@ public class AdminController {
     public ResponseEntity<PerfumeResponse> addPerfume(@RequestPart(name = "file", required = false) MultipartFile file,
                                                       @RequestPart("perfume") @Valid PerfumeRequest perfume,
                                                       BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new InputFieldException(bindingResult);
-        } else {
-            return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, file));
-        }
+        return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, file, bindingResult));
     }
 
     @PostMapping("/edit")
     public ResponseEntity<PerfumeResponse> updatePerfume(@RequestPart(name = "file", required = false) MultipartFile file,
                                                          @RequestPart("perfume") @Valid PerfumeRequest perfume,
                                                          BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new InputFieldException(bindingResult);
-        } else {
-            return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, file));
-        }
+        return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, file, bindingResult));
     }
 
     @DeleteMapping("/delete/{perfumeId}")

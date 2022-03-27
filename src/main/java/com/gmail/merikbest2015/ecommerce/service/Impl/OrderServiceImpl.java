@@ -3,13 +3,17 @@ package com.gmail.merikbest2015.ecommerce.service.Impl;
 import com.gmail.merikbest2015.ecommerce.domain.Order;
 import com.gmail.merikbest2015.ecommerce.domain.OrderItem;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
 import com.gmail.merikbest2015.ecommerce.repository.OrderItemRepository;
 import com.gmail.merikbest2015.ecommerce.repository.OrderRepository;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.service.OrderService;
 import com.gmail.merikbest2015.ecommerce.service.email.MailSender;
+
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -87,7 +91,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public List<Order> deleteOrder(Long orderId) {
-        Order order = orderRepository.findById(orderId).get();
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new ApiRequestException("Order not found.", HttpStatus.NOT_FOUND)); // TODO add test
         order.getOrderItems().forEach(orderItem -> orderItemRepository.deleteById(orderItem.getId()));
         orderRepository.delete(order);
         return orderRepository.findAllByOrderByIdAsc();

@@ -34,18 +34,31 @@ Password: admin
 
 ## Installation
 
-1. Install Java 8
-2. Install maven 3
-3. Install Postgresql
-4. Install Lombok and GraphQL plugins in Intellij IDEA
-5. Create a new DB (perfume) in Postgresql
-6. In file application.properties: <br/>
-   6.1 Change your upload path to directory .../ecommerce-spring-reactjs/src/main/resources/uploads (variable upload.path (10 line)) <br/>
-   6.2 Type your username and password from your gmail account on 14 and 16 lines. <br/>
-   6.3 Go to https://myaccount.google.com/u/2/lesssecureapps and change to: “Allow less secure apps: ON”.
-   If you do not change this setting in your Google account, then when sending a message to an email, a 500 server error will occur. <br/>
-7. Install node.js
-8. Type in console command: npm install (or yarn install)
+1. Install maven: [link](https://www.baeldung.com/install-maven-on-windows-linux-mac)
+2. Install Java 8: [link](https://www.oracle.com/ru/java/technologies/javase/javase8-archive-downloads.html)
+3. Install Intellij IDEA Ultimate: [link](https://www.jetbrains.com/idea/)
+4. Install Postgresql: [link](https://www.postgresql.org/download/)
+5. Open pgAdmin and create a new DB (name: perfume and perfumetest) in Postgresql: [link](https://www.guru99.com/postgresql-create-database.html#:~:text=PostgreSQL%20Create%20Database%20using%20pgAdmin)
+6. Add Postgresql properties to the application.properties file: [link](https://i.ibb.co/dL77cZS/prop-postgresql.png)
+7. Add Lombok and GraphQL plugins to the Intellij IDEA (File/Settings/Plugins)
+8. Register new AWS account: [link](https://portal.aws.amazon.com/billing/signup#/start)
+9. Create new S3 bucket: [link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)
+10. Change access from private to public in S3 bucket
+11. Add public access policy to S3 bucket (!!!important!!! see:
+    [doc](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-policy-language-overview.html),
+    [github examle](https://stackoverflow.com/questions/58580042/how-to-set-public-read-only-access-on-amazon-s3-bucket#:~:text=To%20make%20objects%20publicly%20accessible%2C%20use%20a%20policy%20like%20this%3A) or
+    [my example](https://i.ibb.co/mSpHmyL/12-bucket.jpg ))
+12. Get AWS keys: [link](https://supsystic.com/documentation/id-secret-access-key-amazon-s3/) and add to the application.properties file: [link](https://i.ibb.co/FKFKR4n/props-aws.png)
+13. Register in gmail
+14. Configure reCAPTCHA: [link](https://www.google.com/recaptcha/admin#list), [guide](https://developers.google.com/recaptcha/docs/verify), [video guide (RUS)](https://youtu.be/7cDpbAbhyjc?t=212)
+15. Add  reCAPTCHA key to the application.properties file: [link](https://i.ibb.co/nDTP8H5/prop-recaptcha.png) and to [link](https://github.com/merikbest/ecommerce-spring-reactjs/blob/4f74f86500ab9363c04a18412dd432bd913e0477/frontend/src/pages/Registration/Registration.tsx#L134)
+16. Add gmail account and password to the application.properties file: [link](https://i.ibb.co/0tRr1Gy/props-gmail.png)
+17. Go to [link](https://myaccount.google.com/u/2/lesssecureapps) (important) and change to: “Allow less secure apps: ON”
+18. Configure OAuth2: [link](https://console.cloud.google.com/apis/credentials), [guide](https://spring.io/guides/tutorials/spring-boot-oauth2/), [video guide (RUS)](https://www.youtube.com/watch?v=-ohlXEJeRX8&ab_channel=letsCode)
+19. Add OAuth2 properties to the application.properties file: [link](https://i.ibb.co/YpH4V3m/oauth2-props.png)
+20. Install node.js and npm: [link](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
+21. Now you can run EcommerceApplication (port 8080) and open terminal in client directory and type: npm start
+22. Navigate to http://localhost:3000
 
 ## Swagger Documentation
 

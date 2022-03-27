@@ -14,10 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.FIRST_NAME;
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.USER_EMAIL;
@@ -57,7 +54,7 @@ public class UserServiceImlTest {
         user.setEmail(USER_EMAIL);
         userService.findUserByEmail(USER_EMAIL);
 
-        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(user);
+        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.of(user));
         assertEquals(USER_EMAIL, user.getEmail());
         verify(userRepository, times(1)).findByEmail(USER_EMAIL);
     }
@@ -99,7 +96,7 @@ public class UserServiceImlTest {
         user.setFirstName(FIRST_NAME);
         user.setRoles(Collections.singleton(Role.USER));
 
-        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(user);
+        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.of(user));
         assertEquals(USER_EMAIL, user.getEmail());
         assertEquals(FIRST_NAME, user.getFirstName());
         assertTrue(user.isActive());
@@ -111,7 +108,7 @@ public class UserServiceImlTest {
         user.setEmail(USER_EMAIL);
         user.setFirstName(FIRST_NAME);
 
-        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(user);
+        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.of(user));
         when(userRepository.save(user)).thenReturn(user);
         userService.updateProfile(USER_EMAIL, user);
         assertEquals(USER_EMAIL, user.getEmail());

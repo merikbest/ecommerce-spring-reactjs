@@ -3,10 +3,12 @@ package com.gmail.merikbest2015.ecommerce.mapper;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequest;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
+import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -16,52 +18,43 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PerfumeMapper {
 
-    private final ModelMapper modelMapper;
+    private final CommonMapper commonMapper;
     private final PerfumeService perfumeService;
 
-    private Perfume convertToEntity(PerfumeRequest perfumeRequest) {
-        return modelMapper.map(perfumeRequest, Perfume.class);
-    }
-
-    PerfumeResponse convertToResponseDto(Perfume perfume) {
-        return modelMapper.map(perfume, PerfumeResponse.class);
-    }
-
-    List<PerfumeResponse> convertListToResponseDto(List<Perfume> perfumes) {
-        return perfumes.stream()
-                .map(this::convertToResponseDto)
-                .collect(Collectors.toList());
-    }
-
     public PerfumeResponse findPerfumeById(Long perfumeId) {
-        return convertToResponseDto(perfumeService.findPerfumeById(perfumeId));
+        return commonMapper.convertToResponse(perfumeService.findPerfumeById(perfumeId), PerfumeResponse.class);
     }
 
     public List<PerfumeResponse> findPerfumesByIds(List<Long> perfumesId) {
-        return convertListToResponseDto(perfumeService.findPerfumesByIds(perfumesId));
+        return commonMapper.convertToResponseList(perfumeService.findPerfumesByIds(perfumesId), PerfumeResponse.class);
     }
 
     public List<PerfumeResponse> findAllPerfumes() {
-        return convertListToResponseDto(perfumeService.findAllPerfumes());
+        return commonMapper.convertToResponseList(perfumeService.findAllPerfumes(), PerfumeResponse.class);
     }
 
     public List<PerfumeResponse> filter(List<String> perfumers, List<String> genders, List<Integer> prices, boolean sortByPrice) {
-        return convertListToResponseDto(perfumeService.filter(perfumers, genders, prices, sortByPrice));
+        List<Perfume> perfumeList = perfumeService.filter(perfumers, genders, prices, sortByPrice);
+        return commonMapper.convertToResponseList(perfumeList, PerfumeResponse.class);
     }
 
     public List<PerfumeResponse> findByPerfumerOrderByPriceDesc(String perfumer) {
-        return convertListToResponseDto(perfumeService.findByPerfumerOrderByPriceDesc(perfumer));
+        return commonMapper.convertToResponseList(perfumeService.findByPerfumerOrderByPriceDesc(perfumer), PerfumeResponse.class);
     }
 
     public List<PerfumeResponse> findByPerfumeGenderOrderByPriceDesc(String perfumeGender) {
-        return convertListToResponseDto(perfumeService.findByPerfumeGenderOrderByPriceDesc(perfumeGender));
+        return commonMapper.convertToResponseList(perfumeService.findByPerfumeGenderOrderByPriceDesc(perfumeGender), PerfumeResponse.class);
     }
 
-    public PerfumeResponse savePerfume(PerfumeRequest perfumeRequest, MultipartFile file) {
-        return convertToResponseDto(perfumeService.savePerfume(convertToEntity(perfumeRequest), file));
+    public PerfumeResponse savePerfume(PerfumeRequest perfumeRequest, MultipartFile file, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        }
+        Perfume perfume = commonMapper.convertToEntity(perfumeRequest, Perfume.class);
+        return commonMapper.convertToResponse(perfumeService.savePerfume(perfume, file), PerfumeResponse.class);
     }
 
     public List<PerfumeResponse> deleteOrder(Long perfumeId) {
-        return convertListToResponseDto(perfumeService.deletePerfume(perfumeId));
+        return commonMapper.convertToResponseList(perfumeService.deletePerfume(perfumeId), PerfumeResponse.class);
     }
 }

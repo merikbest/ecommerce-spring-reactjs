@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.USER_EMAIL;
@@ -58,7 +59,7 @@ public class AuthenticationServiceImplTest {
     public void findByPasswordResetCode() {
         User user = new User();
         user.setPasswordResetCode(USER_PASSWORD_RESET_CODE);
-        when(userRepository.findByPasswordResetCode(USER_PASSWORD_RESET_CODE)).thenReturn(user);
+        when(userRepository.findByPasswordResetCode(USER_PASSWORD_RESET_CODE)).thenReturn(Optional.of(user));
         authenticationService.findByPasswordResetCode(USER_PASSWORD_RESET_CODE);
 
         assertEquals(USER_PASSWORD_RESET_CODE, user.getPasswordResetCode());
@@ -75,7 +76,7 @@ public class AuthenticationServiceImplTest {
         user.setFirstName(FIRST_NAME);
         user.setRoles(Collections.singleton(Role.USER));
 
-        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(user);
+        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.of(user));
         assertEquals(123L, user.getId());
         assertEquals(USER_EMAIL, user.getEmail());
         assertEquals(FIRST_NAME, user.getFirstName());
@@ -220,7 +221,7 @@ public class AuthenticationServiceImplTest {
         user.setPasswordResetCode(USER_PASSWORD_RESET_CODE);
 
         when(userRepository.save(user)).thenReturn(user);
-        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(user);
+        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.of(user));
         authenticationService.sendPasswordResetCode(USER_EMAIL);
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("firstName", null);
@@ -244,7 +245,7 @@ public class AuthenticationServiceImplTest {
         user.setEmail(USER_EMAIL);
         user.setPassword(USER_PASSWORD);
 
-        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(user);
+        when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.of(user));
         when(passwordEncoder.encode(USER_PASSWORD)).thenReturn(user.getPassword());
         when(userRepository.save(user)).thenReturn(user);
         authenticationService.passwordReset(user.getEmail(), user.getPassword(), user.getPassword());
@@ -260,7 +261,7 @@ public class AuthenticationServiceImplTest {
         User user = new User();
         user.setActivationCode(USER_ACTIVATION_CODE);
 
-        when(userRepository.findByActivationCode(USER_ACTIVATION_CODE)).thenReturn(user);
+        when(userRepository.findByActivationCode(USER_ACTIVATION_CODE)).thenReturn(Optional.of(user));
         when(userRepository.save(user)).thenReturn(user);
         String activated = authenticationService.activateUser(user.getActivationCode());
         assertNotNull(activated);

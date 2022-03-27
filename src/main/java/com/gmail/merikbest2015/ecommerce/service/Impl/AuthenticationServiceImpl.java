@@ -53,7 +53,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public Map<String, String> login(String email, String password) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-            User user = userRepository.findByEmail(email);
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new ApiRequestException("Email not found.", HttpStatus.NOT_FOUND));
             String userRole = user.getRoles().iterator().next().name();
             String token = jwtProvider.createToken(email, userRole);
             Map<String, String> response = new HashMap<>();
@@ -74,7 +75,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (user.getPassword() != null && !user.getPassword().equals(password2)) {
             throw new PasswordException("Passwords do not match.");
         }
-        User userFromDb = userRepository.findByEmail(user.getEmail());
+        User userFromDb = userRepository.findByEmail(user.getEmail())
+                .orElseThrow(() -> new EmailException("Email is already used."));
 
         if (userFromDb != null) {
             throw new EmailException("Email is already used.");
@@ -117,21 +119,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public User findByPasswordResetCode(String code) {
-        User user = userRepository.findByPasswordResetCode(code);
-
-        if (user == null) {
-            throw new ApiRequestException("Password reset code is invalid!", HttpStatus.BAD_REQUEST);
-        }
-        return user;
+        return userRepository.findByPasswordResetCode(code)
+                .orElseThrow(() -> new ApiRequestException("Password reset code is invalid!", HttpStatus.BAD_REQUEST));
     }
 
     @Override
     public String sendPasswordResetCode(String email) {
-        User user = userRepository.findByEmail(email);
-
-        if (user == null) {
-            throw new ApiRequestException("Email not found", HttpStatus.BAD_REQUEST);
-        }
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ApiRequestException("Email not found.", HttpStatus.NOT_FOUND));
         user.setPasswordResetCode(UUID.randomUUID().toString());
         userRepository.save(user);
 
@@ -152,7 +147,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (password != null && !password.equals(password2)) {
             throw new PasswordException("Passwords do not match.");
         }
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ApiRequestException("Email not found.", HttpStatus.NOT_FOUND));
         user.setPassword(passwordEncoder.encode(password));
         user.setPasswordResetCode(null);
         userRepository.save(user);
@@ -161,11 +157,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public String activateUser(String code) {
-        User user = userRepository.findByActivationCode(code);
-
-        if (user == null) {
-            throw new ApiRequestException("Activation code not found.", HttpStatus.NOT_FOUND);
-        }
+        User user = userRepository.findByActivationCode(code)
+                .orElseThrow(() -> new ApiRequestException("Activation code not found.", HttpStatus.NOT_FOUND));
         user.setActivationCode(null);
         user.setActive(true);
         userRepository.save(user);

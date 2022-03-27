@@ -3,12 +3,14 @@ package com.gmail.merikbest2015.ecommerce.service.Impl;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,7 +56,8 @@ public class PerfumeServiceImpl implements PerfumeService {
 
     @Override
     public Perfume findPerfumeById(Long perfumeId) {
-        return perfumeRepository.findById(perfumeId).get();
+        return perfumeRepository.findById(perfumeId)
+                .orElseThrow(() -> new ApiRequestException("Perfume not found.", HttpStatus.NOT_FOUND)); // TODO add test
     }
 
     @Override
@@ -144,7 +147,8 @@ public class PerfumeServiceImpl implements PerfumeService {
     @Override
     @Transactional
     public List<Perfume> deletePerfume(Long perfumeId) {
-        Perfume perfume = perfumeRepository.findById(perfumeId).get();
+        Perfume perfume = perfumeRepository.findById(perfumeId)
+                .orElseThrow(() -> new ApiRequestException("Perfume not found.", HttpStatus.NOT_FOUND)); // TODO add test
         perfume.getReviews().forEach(review -> reviewRepository.deleteById(review.getId()));
         perfumeRepository.delete(perfume);
         return perfumeRepository.findAllByOrderByIdAsc();
