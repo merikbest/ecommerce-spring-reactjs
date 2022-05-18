@@ -1,8 +1,7 @@
 import React, {FC, useEffect} from 'react';
 import {useDispatch} from "react-redux";
-import {NavLink, Redirect, Route, RouteComponentProps} from "react-router-dom";
-import {faUser} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {NavLink, Redirect, Route} from "react-router-dom";
+import {faUserEdit} from "@fortawesome/free-solid-svg-icons";
 
 import {formReset} from "../../redux/thunks/admin-thunks";
 import {fetchUserInfo} from "../../redux/thunks/user-thunks";
@@ -18,6 +17,7 @@ import ManageUser from "./ManageUser/ManageUser";
 import EditPerfume from "./EditPerfume/EditPerfume";
 import ManageUserOrder from "./ManageUserOrder/ManageUserOrder";
 import "./Account.css";
+import InfoTitle from "../../component/InfoTitle/InfoTitle";
 
 const Account: FC = () => {
     const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const Account: FC = () => {
         <div className="account-container container">
             <div className="row mt-5">
                 <div className="col-md-2">
-                    <h4><FontAwesomeIcon className="mr-2" icon={faUser}/>My Account</h4>
+                    <InfoTitle className={"mr-2"} icon={faUserEdit} title={"My Account"}/>
                     <NavLink to={"/account/user/info"}
                              className="account-sidebar-link nav-link"
                              activeClassName="is-active">Personal data</NavLink>
@@ -70,10 +70,10 @@ const Account: FC = () => {
                         <>
                             <Route path="/account/admin/add" component={() => <AddPerfume/>}/>
                             <Route exact path="/account/admin/perfumes" component={() => <PerfumeList/>}/>
-                            <Route exact path="/account/admin/perfumes/:id" component={(props: RouteComponentProps<{ id: string }>) => <EditPerfume {...props}/>}/>
+                            <Route exact path="/account/admin/perfumes/:id" component={() => <EditPerfume/>}/>
                             <Route exact path="/account/admin/orders" component={() => <OrdersList/>}/>
                             <Route exact path="/account/admin/users" component={() => <UsersList/>}/>
-                            <Route exact path="/account/admin/users/:id" component={(props: RouteComponentProps<{ id: string }>) => <ManageUser {...props}/>}/>
+                            <Route exact path="/account/admin/users/:id" component={() => <ManageUser/>}/>
                         </> : <Redirect to={"/account"}/>}
                 </div>
             </div>

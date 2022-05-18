@@ -1,17 +1,19 @@
 import React, {ChangeEvent, FC, FormEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit} from "@fortawesome/free-solid-svg-icons";
-import {RouteComponentProps} from 'react-router-dom';
+import {faEdit, faLock} from "@fortawesome/free-solid-svg-icons";
+import {RouteComponentProps, useParams} from 'react-router-dom';
 
 import {fetchPerfume, fetchPerfumes} from "../../../redux/thunks/perfume-thunks";
 import {formReset, updatePerfume} from "../../../redux/thunks/admin-thunks";
 import {AppStateType} from "../../../redux/reducers/root-reducer";
 import {Perfume, PerfumeErrors} from "../../../types/types";
 import ToastShow from "../../../component/Toasts/ToastShow";
+import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 
-const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
+const EditPerfume: FC = () => {
     const dispatch = useDispatch();
+    const params = useParams<{ id: string }>();
     const perfumeData: Partial<Perfume> = useSelector((state: AppStateType) => state.perfume.perfume);
     const errors: Partial<PerfumeErrors> = useSelector((state: AppStateType) => state.admin.errors);
     const isPerfumeEdited: boolean = useSelector((state: AppStateType) => state.admin.isPerfumeEdited);
@@ -50,7 +52,7 @@ const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
     } = perfume;
 
     useEffect(() => {
-        dispatch(fetchPerfume(match.params.id));
+        dispatch(fetchPerfume(params.id));
     }, []);
 
     useEffect(() => {
@@ -106,7 +108,7 @@ const EditPerfume: FC<RouteComponentProps<{ id: string }>> = ({match}) => {
         <>
             <ToastShow showToast={showToast} message={"Perfume successfully edited!"}/>
             <div className="container">
-                <h4><FontAwesomeIcon className="mr-2" icon={faEdit}/>Edit perfume</h4>
+                <InfoTitle className={"mr-2"} icon={faEdit} title={"Edit perfume"}/>
                 <form onSubmit={onFormSubmit}>
                     <div className="row mt-5">
                         <div className="col-md-6">

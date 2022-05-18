@@ -1,11 +1,12 @@
-import React, {FC} from 'react';
+import React, {FC, ReactElement} from 'react';
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-const Contacts: FC = () => {
+import InfoTitle from "../../component/InfoTitle/InfoTitle";
+
+const Contacts: FC = (): ReactElement => {
     return (
         <div className="container mt-5">
-            <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faInfoCircle}/>Contacts</h4>
+            <InfoTitle className={"ml-2 mr-2"} icon={faInfoCircle} title={"Contacts"}/>
             <br/>
             <p><b>Mobile:</b> (066) 696-66-23<br/>
                 <b>E-mail:</b> merikbest2015@gmail.com</p>

@@ -10,6 +10,7 @@ import {UserData} from "../../types/types";
 import googleLogo from "../../img/google.png";
 import facebookLogo from "../../img/facebook.png";
 import githubLogo from "../../img/github.png";
+import InfoTitle from "../../component/InfoTitle/InfoTitle";
 import "./Login.css";
 
 const Login: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
@@ -38,7 +39,7 @@ const Login: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
         <div id="container" className="container mt-5">
             <div className="row">
                 <div className="col-md-6">
-                    <h4><FontAwesomeIcon className="mr-3" icon={faSignInAlt}/>SIGN IN</h4>
+                    <InfoTitle className={"mr-3"} icon={faSignInAlt} title={"SIGN IN"}/>
                     <hr/>
                     {error ? <div className="alert alert-danger col-6" role="alert">{error}</div> : null}
                     {success ? <div className="alert alert-success col-6" role="alert">{success}</div> : null}

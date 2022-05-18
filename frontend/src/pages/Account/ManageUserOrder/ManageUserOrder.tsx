@@ -1,9 +1,10 @@
 import React, {FC} from 'react';
 import {Link, useLocation} from "react-router-dom";
-
-import {Order} from "../../../types/types";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle, faShoppingBag} from "@fortawesome/free-solid-svg-icons";
+
+import {Order} from "../../../types/types";
+import AccountDataItem from "../../../component/AccountDataItem/AccountDataItem";
 
 const ManageUserOrder: FC = () => {
     const location = useLocation<Order>();
@@ -27,36 +28,18 @@ const ManageUserOrder: FC = () => {
             <div className="row border my-5 px-5 py-3">
                 <div className="col-md-6">
                     <h5 style={{marginBottom: "30px"}}><FontAwesomeIcon icon={faInfoCircle}/> Customer information</h5>
-                    <p className="personal_data_item">First name:
-                        <span className="personal_data_text">{firstName}</span>
-                    </p>
-                    <p className="personal_data_item">Last name:
-                        <span className="personal_data_text">{lastName}</span>
-                    </p>
-                    <p className="personal_data_item">City:
-                        <span className="personal_data_text">{city}</span>
-                    </p>
-                    <p className="personal_data_item">Address:
-                        <span className="personal_data_text">{address}</span>
-                    </p>
-                    <p className="personal_data_item">Email:
-                        <span className="personal_data_text">{email}</span>
-                    </p>
-                    <p className="personal_data_item">Phone number:
-                        <span className="personal_data_text">{phoneNumber}</span>
-                    </p>
-                    <p className="personal_data_item">Post index:
-                        <span className="personal_data_text">{postIndex}</span>
-                    </p>
+                    <AccountDataItem title={"First name"} text={firstName}/>
+                    <AccountDataItem title={"Last name"} text={lastName}/>
+                    <AccountDataItem title={"City"} text={city}/>
+                    <AccountDataItem title={"Address"} text={address}/>
+                    <AccountDataItem title={"Email"} text={email}/>
+                    <AccountDataItem title={"Phone number"} text={phoneNumber}/>
+                    <AccountDataItem title={"Post index"} text={postIndex}/>
                 </div>
                 <div className="col-md-6">
                     <h5 style={{marginBottom: "30px"}}><FontAwesomeIcon icon={faInfoCircle}/> Order information</h5>
-                    <p className="personal_data_item">Order id:
-                        <span className="personal_data_text">{id}</span>
-                    </p>
-                    <p className="personal_data_item">Date:
-                        <span className="personal_data_text">{date}</span>
-                    </p>
+                    <AccountDataItem title={"Order id"} text={id}/>
+                    <AccountDataItem title={"Date"} text={date}/>
                     <h4 style={{marginBottom: "30px", marginTop: "30px"}}>Order summary:
                         <span style={{color: "green"}}> {totalPrice}.0 $</span>
                     </h4>

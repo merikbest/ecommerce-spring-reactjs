@@ -1,13 +1,13 @@
 import React, {FC, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {faUsers} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Link} from "react-router-dom";
 
 import {fetchAllUsers} from "../../../redux/thunks/admin-thunks";
 import {AppStateType} from "../../../redux/reducers/root-reducer";
 import {User} from "../../../types/types";
 import Spinner from '../../../component/Spinner/Spinner';
+import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 
 const UsersList: FC = () => {
     const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const UsersList: FC = () => {
         <div className="container">
             {loading ? <Spinner/> :
             <>
-                <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faUsers}/> List of all users</h4>
+                <InfoTitle className={"ml-2 mr-2"} icon={faUsers} title={"List of all users"}/>
                 <table className="table mt-4 border text-center">
                     <thead className="table-active">
                     <tr>

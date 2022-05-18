@@ -14,6 +14,7 @@ import StarRating from "../../../component/StarRating/StarRating";
 import {deletePerfume} from "../../../redux/thunks/admin-thunks";
 import {AppStateType} from "../../../redux/reducers/root-reducer";
 import Spinner from '../../../component/Spinner/Spinner';
+import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 
 type PropsType = {
     data: Array<Perfume>
@@ -57,7 +58,7 @@ const PerfumeListComponent:FC<PropsType> = ({data, itemsPerPage,startFrom,search
                 <Modal perfume={perfumeInfo}
                        deletePerfumeHandler={deletePerfumeHandler}
                        setModalActive={setModalActive}/> : null}
-            <h4><FontAwesomeIcon className="ml-2 mr-2" icon={faList}/> List of perfumes</h4>
+            <InfoTitle className={"ml-2 mr-2"} icon={faList} title={"List of perfumes"}/>
             <br/>
             <SearchForm
                 data={data}

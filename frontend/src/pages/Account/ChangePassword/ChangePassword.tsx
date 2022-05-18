@@ -1,11 +1,12 @@
 import React, {FC, FormEvent, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {faLock, faUndo} from "@fortawesome/free-solid-svg-icons";
+import {faLock, faUndo, faUserEdit} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {AuthErrors, UserResetPasswordData} from "../../../types/types";
 import {AppStateType} from "../../../redux/reducers/root-reducer";
 import {resetForm, updateUserPassword} from "../../../redux/thunks/user-thunks";
+import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 import "./ChangePassword.css";
 
 const ChangePassword: FC = () => {
@@ -33,7 +34,7 @@ const ChangePassword: FC = () => {
 
     return (
         <div className="password_reset">
-            <h4><FontAwesomeIcon className="mr-2" icon={faLock}/> Change Password</h4>
+            <InfoTitle className={"mr-2"} icon={faLock} title={"Change Password"}/>
             {success ? <div className="alert alert-success col-6" role="alert">{success}</div> : null}
             <form className="mt-5" onSubmit={onFormSubmit}>
                 <div className="form-group row">

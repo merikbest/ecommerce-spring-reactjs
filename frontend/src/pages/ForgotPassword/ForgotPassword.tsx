@@ -7,6 +7,7 @@ import {forgotPassword, formReset} from "../../redux/thunks/auth-thunks";
 import {validateEmail} from "../../utils/input-validators";
 import PageLoader from "../../component/PageLoader/PageLoader";
 import {AppStateType} from "../../redux/reducers/root-reducer";
+import InfoTitle from "../../component/InfoTitle/InfoTitle";
 
 const ForgotPassword: FC = () => {
     const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const ForgotPassword: FC = () => {
     return (
         <div id="container" className="container mt-5">
             {pageLoading}
-            <h4><FontAwesomeIcon className="mr-3" icon={faKey}/>FORGOT PASSWORD?</h4>
+            <InfoTitle className={"mr-3"} icon={faKey} title={"FORGOT PASSWORD?"}/>
             <hr/>
             <p>Enter your email address that you used to create your account.</p>
             {error ? <div className="alert alert-danger col-6" role="alert">{error}</div> : null}

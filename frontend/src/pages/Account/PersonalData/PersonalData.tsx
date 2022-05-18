@@ -8,6 +8,7 @@ import {User} from "../../../types/types";
 import {AppStateType} from "../../../redux/reducers/root-reducer";
 import EditPersonalData from "../EditPersonalData/EditPersonalData";
 import "./PersonalData.css";
+import AccountDataItem from "../../../component/AccountDataItem/AccountDataItem";
 
 const PersonalData: FC = () => {
     const usersData: Partial<User> = useSelector((state: AppStateType) => state.user.user);
@@ -20,27 +21,13 @@ const PersonalData: FC = () => {
                 <h4 className="personal_data_title">
                     <FontAwesomeIcon className="ml-2 mr-2" icon={faAddressCard}/>Personal data
                 </h4>
-                <p className="personal_data_item">Email:
-                    <span className="personal_data_text">{email}</span>
-                </p>
-                <p className="personal_data_item">First name:
-                    <span className="personal_data_text">{firstName}</span>
-                </p>
-                <p className="personal_data_item">Last name:
-                    <span className="personal_data_text">{lastName}</span>
-                </p>
-                <p className="personal_data_item">City:
-                    <span className="personal_data_text">{city}</span>
-                </p>
-                <p className="personal_data_item">Address:
-                    <span className="personal_data_text">{address}</span>
-                </p>
-                <p className="personal_data_item">Phone number:
-                    <span className="personal_data_text">{phoneNumber}</span>
-                </p>
-                <p className="personal_data_item">Post index:
-                    <span className="personal_data_text">{postIndex}</span>
-                </p>
+                <AccountDataItem title={"Email"} text={email}/>
+                <AccountDataItem title={"First name"} text={firstName}/>
+                <AccountDataItem title={"Last name"} text={lastName}/>
+                <AccountDataItem title={"City"} text={city}/>
+                <AccountDataItem title={"Address"} text={address}/>
+                <AccountDataItem title={"Phone number"} text={phoneNumber}/>
+                <AccountDataItem title={"Post index"} text={postIndex}/>
                 {location.pathname === "/account/user/info" ?
                     <Link to={"/account/user/info/edit"} className="btn btn-dark personal_data_btn">
                         <FontAwesomeIcon className="mr-2" icon={faEdit}/> Edit

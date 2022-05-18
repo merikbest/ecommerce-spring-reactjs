@@ -7,6 +7,7 @@ import {fetchResetPasswordCode, formReset, resetPassword} from "../../redux/thun
 import {RouteComponentProps, useHistory} from "react-router-dom";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 import {AuthErrors, User, UserResetPasswordData} from "../../types/types";
+import InfoTitle from "../../component/InfoTitle/InfoTitle";
 
 const ResetPassword: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
     const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const ResetPassword: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
 
     return (
         <div className="container mt-5">
-            <h4><FontAwesomeIcon className="mr-2" icon={faSync}/> RESET PASSWORD</h4>
+            <InfoTitle className={"mr-2"} icon={faSync} title={"RESET PASSWORD"}/>
             <hr/>
             {error ?
                 <div className="alert alert-danger col-6" role="alert">{error}</div> : null}

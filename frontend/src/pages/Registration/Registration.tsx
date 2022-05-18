@@ -8,6 +8,7 @@ import {formReset, registration} from "../../redux/thunks/auth-thunks";
 import PageLoader from "../../component/PageLoader/PageLoader";
 import {AppStateType} from "../../redux/reducers/root-reducer";
 import {AuthErrors, UserRegistration} from "../../types/types";
+import InfoTitle from "../../component/InfoTitle/InfoTitle";
 
 const Registration: FC = () => {
     const dispatch = useDispatch();
@@ -55,7 +56,7 @@ const Registration: FC = () => {
     return (
         <div className="container mt-5">
             {pageLoading}
-            <h4><FontAwesomeIcon className="mr-2" icon={faUserPlus}/> SIGN UP</h4>
+            <InfoTitle className={"mr-2"} icon={faUserPlus} title={"SIGN UP"}/>
             <hr/>
             {isRegistered ? <div className="alert alert-success col-6" role="alert">
                 Activation code has been sent to your email!
