@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, ReactElement} from 'react';
 import Carousel from "react-bootstrap/Carousel";
 import {Link} from "react-router-dom";
 
@@ -15,7 +15,7 @@ const sliderItems = [
     },
 ];
 
-const CarouselImageSlider: FC = () => {
+const CarouselImageSlider: FC = (): ReactElement => {
     const settings = {
         indicators: false,
         fade: true,
@@ -26,15 +26,13 @@ const CarouselImageSlider: FC = () => {
     return (
         <div>
             <Carousel {...settings}>
-                {sliderItems.map((item, index) => {
-                    return (
-                        <Carousel.Item key={item.id}>
-                            <Link to={`/product/${item.id}`}>
-                                <img className="d-block w-100" src={item.url} alt={item.name}/>
-                            </Link>
-                        </Carousel.Item>
-                    )
-                })}
+                {sliderItems.map((item, index) => (
+                    <Carousel.Item key={item.id}>
+                        <Link to={`/product/${item.id}`}>
+                            <img className="d-block w-100" src={item.url} alt={item.name}/>
+                        </Link>
+                    </Carousel.Item>
+                ))}
             </Carousel>
         </div>
     );

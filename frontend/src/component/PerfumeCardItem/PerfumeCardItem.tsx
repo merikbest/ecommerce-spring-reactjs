@@ -1,28 +1,30 @@
-import React, {FC} from 'react';
+import React, {FC, ReactElement} from 'react';
 import {Link} from "react-router-dom";
 import {LazyLoadImage} from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
 import {Perfume} from "../../types/types";
 import StarRating from "../StarRating/StarRating";
+import "./PerfumeCardItem.css";
 
 type PropsType = {
-    key: number
-    perfume: Perfume
-    colSize: number
-    link: string
-    btnName: string
+    key: number;
+    perfume: Perfume;
+    colSize: number;
+    link: string;
+    btnName: string;
 };
 
-const PerfumeCardItem: FC<PropsType> = ({key, perfume, colSize, link, btnName}) => {
+const PerfumeCardItem: FC<PropsType> = ({key, perfume, colSize, link, btnName}): ReactElement => {
     return (
         <div key={key} className={`col-lg-${colSize}`}>
-            <div className="card mb-5" style={{height: "320px"}}>
-                <div style={{height: "92px", display: "flex", justifyContent: "center", alignItems: "center"}}>
+            <div className="card mb-5 perfume_card_item_wrapper">
+                <div className="perfume_card_item_image_wrapper">
                     <LazyLoadImage
+                        className="perfume_card_item_image"
                         effect="blur"
-                        style={{width: "80px", marginTop: "20px"}}
-                        src={perfume.filename}/>
+                        src={perfume.filename}
+                    />
                 </div>
                 <div className="card-body text-center">
                     <StarRating perfumeRating={perfume.perfumeRating}/>

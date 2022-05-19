@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, ReactElement} from 'react';
 import {Route, Switch} from "react-router-dom";
 
 import Menu from "../Menu/Menu";
@@ -17,7 +17,7 @@ import Cart from "../Cart/Cart";
 import Product from "../Product/Product";
 import OAuth2RedirectHandler from "../../utils/oauth2/OAuth2RedirectHandler";
 
-const App: FC = () => {
+const App: FC = (): ReactElement => {
     return (
         <>
             <NavBar/>

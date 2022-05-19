@@ -1,7 +1,7 @@
-import React, {FC} from 'react';
+import React, {FC, ReactElement} from 'react';
 import {Link} from "react-router-dom";
 
-const HomePageTheme: FC = () => {
+const HomePageTheme: FC = (): ReactElement => {
     return (
         <div className="container mt-5">
             <div className="row">

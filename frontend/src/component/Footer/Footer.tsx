@@ -1,8 +1,8 @@
-import React, {FC} from 'react';
+import React, {FC, ReactElement} from 'react';
 
 import "./Footer.css";
 
-const Footer: FC = () => {
+const Footer: FC = (): ReactElement => {
     return (
         <footer className="page-footer p-5 bg-black text-white">
             <div className="container">
@@ -16,13 +16,13 @@ const Footer: FC = () => {
                     <div className="footer-right">
                         <h3>Social networks</h3>
                         <a href="https://www.linkedin.com/in/merikbest/">
-                            <i className="fab fa-linkedin fa-2x mr-3" style={{color: "white"}}></i>
+                            <i className="fab fa-linkedin fa-2x mr-3 white"></i>
                         </a>
-                        <a href="#"><i className="fab fa-facebook-f fa-2x mr-3" style={{color: "white"}}></i></a>
-                        <a href="#"><i className="fab fa-twitter fa-2x mr-3" style={{color: "white"}}></i></a>
+                        <a href="#"><i className="fab fa-facebook-f fa-2x mr-3 white"></i></a>
+                        <a href="#"><i className="fab fa-twitter fa-2x mr-3 white"></i></a>
                     </div>
                 </div>
-                <div className="mx-auto" style={{width: "200px"}}>
+                <div className="mx-auto copy_right">
                     <p>© Copy right merikbest</p>
                 </div>
             </div>

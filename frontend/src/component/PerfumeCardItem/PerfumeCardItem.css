@@ -1,0 +1,15 @@
+.perfume_card_item_wrapper {
+    height: 320px;
+}
+
+.perfume_card_item_image_wrapper {
+    height: 92px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.perfume_card_item_image {
+    width: 80px;
+    margin-top: 20px;
+}

@@ -1,19 +1,21 @@
-import React, {FC, FormEvent, useEffect, useState} from 'react';
+import React, {FC, FormEvent, ReactElement, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faKey, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 
-import {forgotPassword, formReset} from "../../redux/thunks/auth-thunks";
+import {forgotPassword, formReset} from "../../redux/auth/auth-thunks";
 import {validateEmail} from "../../utils/input-validators";
 import PageLoader from "../../component/PageLoader/PageLoader";
-import {AppStateType} from "../../redux/reducers/root-reducer";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
+import Alert from "../../component/Alert/Alert";
+import PasswordInput from "../../component/PasswordInput/PasswordInput";
+import IconButton from "../../component/IconButton/IconButton";
+import {selectErrorMessage, selectIsAuthLoading, selectSuccessMessage} from "../../redux/auth/auth-selector";
 
-const ForgotPassword: FC = () => {
+const ForgotPassword: FC = (): ReactElement => {
     const dispatch = useDispatch();
-    const error: string = useSelector((state: AppStateType) => state.auth.error);
-    const success: string = useSelector((state: AppStateType) => state.auth.success);
-    const loading: boolean = useSelector((state: AppStateType) => state.auth.loading);
+    const error = useSelector(selectErrorMessage);
+    const success = useSelector(selectSuccessMessage);
+    const loading = useSelector(selectIsAuthLoading);
     const [email, setEmail] = useState<string>("");
     const [validateEmailError, setValidateEmailError] = useState<string>("");
 
@@ -45,30 +47,29 @@ const ForgotPassword: FC = () => {
     return (
         <div id="container" className="container mt-5">
             {pageLoading}
-            <InfoTitle className={"mr-3"} icon={faKey} title={"FORGOT PASSWORD?"}/>
+            <InfoTitle iconClass={"mr-3"} icon={faKey} title={"FORGOT PASSWORD?"}/>
             <hr/>
-            <p>Enter your email address that you used to create your account.</p>
-            {error ? <div className="alert alert-danger col-6" role="alert">{error}</div> : null}
-            {success ? <div className="alert alert-success col-6" role="alert">{success}</div> : null}
+            <p>
+                Enter your email address that you used to create your account.
+            </p>
+            {error && <Alert alertType={"danger"} message={error}/>}
+            {success && <Alert alertType={"success"} message={success}/>}
             <form onSubmit={onClickSend}>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">E-mail: </label>
-                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faEnvelope}/>
-                    <div className="col-sm-4">
-                        <input
-                            type="email"
-                            name="email"
-                            value={email}
-                            className={validateEmailError ? "form-control is-invalid" : "form-control"}
-                            onChange={(event) => setEmail(event.target.value)}/>
-                        <div className="invalid-feedback">{validateEmailError}</div>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <button type="submit" className="btn btn-dark mx-3">
-                        <FontAwesomeIcon className="mr-3" icon={faPaperPlane}/>Send
-                    </button>
-                </div>
+                <PasswordInput
+                    title={"E-mail"}
+                    titleClass={"col-sm-2"}
+                    icon={faEnvelope}
+                    type={"email"}
+                    error={validateEmailError}
+                    name={"email"}
+                    value={email}
+                    onChange={setEmail}
+                />
+                <IconButton
+                    buttonText={"Send"}
+                    icon={faPaperPlane}
+                    iconClassName={"mr-3"}
+                />
             </form>
         </div>
     );

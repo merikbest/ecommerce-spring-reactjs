@@ -1,6 +1,6 @@
 import {createStore} from "redux";
-import rootReducer from "../../../redux/reducers/root-reducer";
-import adminReducer, {InitialStateType} from "../../../redux/reducers/admin-reducer";
+import rootReducer from "../../../redux/root-reducer";
+import adminReducer, {InitialStateType} from "../../../redux/admin/admin-reducer";
 import {
     addPerfumeFailure,
     addPerfumeSuccess,
@@ -16,7 +16,7 @@ import {
     reset,
     updatePerfumeFailure,
     updatePerfumeSuccess
-} from "../../../redux/actions/admin-actions";
+} from "../../../redux/admin/admin-actions";
 import {Order, PerfumeErrors, User} from "../../../types/types";
 import {perfumeErrorData} from "../../test-data/perfume-test-data";
 import {userData, usersData} from "../../test-data/user-test-data";

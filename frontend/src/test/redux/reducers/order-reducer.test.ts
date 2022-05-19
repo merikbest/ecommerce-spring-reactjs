@@ -1,8 +1,8 @@
 import {createStore} from "redux";
-import rootReducer from "../../../redux/reducers/root-reducer";
-import orderReducer, {InitialStateType} from "../../../redux/reducers/order-reducer";
-import {showLoader} from "../../../redux/actions/auth-actions";
-import {fetchOrderSuccess, fetchUserOrdersByQuerySuccess, fetchUserOrdersSuccess, orderAddedFailure, orderAddedSuccess} from "../../../redux/actions/order-actions";
+import rootReducer from "../../../redux/root-reducer";
+import orderReducer, {InitialStateType} from "../../../redux/order/order-reducer";
+import {showLoader} from "../../../redux/auth/auth-actions";
+import {fetchOrderSuccess, fetchUserOrdersByQuerySuccess, fetchUserOrdersSuccess, orderAddedFailure, orderAddedSuccess} from "../../../redux/order/order-actions";
 import {Order, OrderError} from "../../../types/types";
 import {orderData, orderErrorData, ordersData} from "../../test-data/order-test-data";
 

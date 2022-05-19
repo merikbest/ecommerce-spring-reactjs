@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, useState} from 'react';
+import React, {ChangeEvent, FC, ReactElement, useState} from 'react';
 import {PerfumePrice} from "../../types/types";
 
 type PropsType = {
@@ -6,7 +6,7 @@ type PropsType = {
     list: Array<PerfumePrice>
 };
 
-const CheckboxRadio: FC<PropsType> = ({handleFilters, list}) => {
+const CheckboxRadio: FC<PropsType> = ({handleFilters, list}): ReactElement => {
     const [priceValue, setPriceValue] = useState<number>(0);
 
     const renderRadioBox = () => (
@@ -16,7 +16,8 @@ const CheckboxRadio: FC<PropsType> = ({handleFilters, list}) => {
                     <input
                         type="radio"
                         name="price"
-                        value={value.id}/>
+                        value={value.id}
+                    />
                     <span className="cr"><i className="cr-icon fas fa-check"></i></span>
                     {value.name}
                 </label>

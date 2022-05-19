@@ -1,14 +1,14 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, ReactElement, useEffect} from 'react';
+import {useDispatch} from "react-redux";
 
 import HomePageTheme from "../../component/HomePageTheme/HomePageTheme";
 import CarouselImageSlider from "../../component/CarouselImageSlider/CarouselImageSlider";
 import SliderBrands from "../../component/SliderBrands/SliderBrands";
 import SliderCards from "../../component/PerfumeCardsSlider/PerfumeCardsSlider";
-import {useDispatch} from "react-redux";
-import {fetchCart} from "../../redux/thunks/cart-thunks";
+import {fetchCart} from "../../redux/cart/cart-thunks";
 import ScrollButton from "../../component/ScrollButton/ScrollButton";
 
-const HomePage: FC = () => {
+const HomePage: FC = (): ReactElement => {
     const dispatch = useDispatch();
 
     useEffect(() => {

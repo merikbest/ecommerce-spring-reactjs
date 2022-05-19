@@ -4,7 +4,7 @@ import configureMockStore from "redux-mock-store";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
-import {InitialStateType} from "../../../redux/reducers/user-reducer";
+import {InitialStateType} from "../../../redux/user/user-reducer";
 import {API_BASE_URL} from "../../../utils/constants/url";
 import {
     authErrorsData,
@@ -19,7 +19,7 @@ import {
     fetchUserInfo,
     fetchUserInfoByQuery,
     updateUserInfo,
-    updateUserPassword} from "../../../redux/thunks/user-thunks";
+    updateUserPassword} from "../../../redux/user/user-thunks";
 import {
     fetchUserSuccess,
     loadingUserInfo,
@@ -29,8 +29,8 @@ import {
     userUpdatedPasswordFailure,
     userUpdatedPasswordSuccess,
     userUpdatedSuccess
-} from "../../../redux/actions/user-actions";
-import {fetchPerfumeSuccess} from "../../../redux/actions/perfume-actions";
+} from "../../../redux/user/user-actions";
+import {fetchPerfumeSuccess} from "../../../redux/perfumes/perfumes-actions";
 import {perfumeData} from "../../test-data/perfume-test-data";
 
 const middlewares = [thunk];

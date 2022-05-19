@@ -6,7 +6,7 @@ import InfoTitle from "../../component/InfoTitle/InfoTitle";
 const Contacts: FC = (): ReactElement => {
     return (
         <div className="container mt-5">
-            <InfoTitle className={"ml-2 mr-2"} icon={faInfoCircle} title={"Contacts"}/>
+            <InfoTitle iconClass={"ml-2 mr-2"} icon={faInfoCircle} title={"Contacts"}/>
             <br/>
             <p><b>Mobile:</b> (066) 696-66-23<br/>
                 <b>E-mail:</b> merikbest2015@gmail.com</p>

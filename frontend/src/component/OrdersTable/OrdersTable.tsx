@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, ReactElement} from 'react';
 import {Link} from "react-router-dom";
 import {faShoppingBag} from "@fortawesome/free-solid-svg-icons";
 
@@ -11,14 +11,14 @@ type PropsType = {
     loading: boolean
 };
 
-const OrdersTable: FC<PropsType> = ({loading, orders}) => {
+const OrdersTable: FC<PropsType> = ({loading, orders}): ReactElement => {
     return (
         <div className="container">
             {loading ? (
                 <Spinner/>
             ) : (
                 <>
-                    <InfoTitle className={"ml-2 mr-2"} icon={faShoppingBag} title={"List of all orders"}/>
+                    <InfoTitle iconClass={"ml-2 mr-2"} icon={faShoppingBag} title={"List of all orders"}/>
                     <table className="table mt-4 border text-center">
                         <thead className="table-active">
                         <tr>
@@ -31,22 +31,20 @@ const OrdersTable: FC<PropsType> = ({loading, orders}) => {
                         </tr>
                         </thead>
                         <tbody>
-                        {orders.map((order: Order) => {
-                            return (
-                                <tr key={order.id}>
-                                    <th>{order.id}</th>
-                                    <th>{order.date}</th>
-                                    <th>{order.firstName + " " + order.lastName}</th>
-                                    <th>{order.email}</th>
-                                    <th>{order.totalPrice}</th>
-                                    <th>
-                                        <Link to={{pathname: `/account/user/orders/${order.id}`, state: order}}>
-                                            Show more
-                                        </Link>
-                                    </th>
-                                </tr>
-                            );
-                        })}
+                        {orders.map((order: Order) => (
+                            <tr key={order.id}>
+                                <th>{order.id}</th>
+                                <th>{order.date}</th>
+                                <th>{order.firstName + " " + order.lastName}</th>
+                                <th>{order.email}</th>
+                                <th>{order.totalPrice}</th>
+                                <th>
+                                    <Link to={{pathname: `/account/user/orders/${order.id}`, state: order}}>
+                                        Show more
+                                    </Link>
+                                </th>
+                            </tr>
+                        ))}
                         </tbody>
                     </table>
                 </>

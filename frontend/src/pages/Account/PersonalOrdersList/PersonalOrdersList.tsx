@@ -1,18 +1,18 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, ReactElement, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {faShoppingBag} from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-import {Order} from "../../../types/types";
-import {AppStateType} from "../../../redux/reducers/root-reducer";
-import {fetchUserOrders} from "../../../redux/thunks/order-thunks";
 import OrdersTable from "../../../component/OrdersTable/OrdersTable";
 import Spinner from '../../../component/Spinner/Spinner';
+import InfoTitle from "../../../component/InfoTitle/InfoTitle";
+import {fetchUserOrders} from '../../../redux/orders/orders-thunks';
+import {selectIsOrdersLoading, selectOrders} from "../../../redux/orders/orders-selector";
+import "./PersonalOrdersList.css";
 
-const PersonalOrdersList: FC = () => {
+const PersonalOrdersList: FC = (): ReactElement => {
     const dispatch = useDispatch();
-    const orders: Array<Order> = useSelector((state: AppStateType) => state.order.orders);
-    const loading: boolean = useSelector((state: AppStateType) => state.order.loading);
+    const orders = useSelector(selectOrders);
+    const isOrdersLoading = useSelector(selectIsOrdersLoading);
 
     useEffect(() => {
         dispatch(fetchUserOrders());
@@ -20,15 +20,22 @@ const PersonalOrdersList: FC = () => {
 
     return (
         <>
-            {loading ? <Spinner/> :
+            {isOrdersLoading ? (
+                <Spinner/>
+            ) : (
                 <>
-                    {orders.length === 0 ?
-                        <h4 style={{display: "flex", justifyContent: "center"}}>
-                            <FontAwesomeIcon className="ml-2 mr-2" icon={faShoppingBag}/>You have no orders
-                        </h4> :
-                        <OrdersTable loading={loading} orders={orders}/>}
+                    {(orders.length === 0) ? (
+                        <InfoTitle
+                            iconClass={"ml-2 mr-2"}
+                            icon={faShoppingBag}
+                            titleClass={"personal_order_title"}
+                            title={"You have no orders"}
+                        />
+                    ) : (
+                        <OrdersTable loading={isOrdersLoading} orders={orders}/>
+                    )}
                 </>
-            }
+            )}
         </>
     );
 };

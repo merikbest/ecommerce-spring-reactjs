@@ -1,13 +1,13 @@
 import {createStore} from "redux";
-import rootReducer from "../../../redux/reducers/root-reducer";
-import cartReducer, {InitialStateType} from "../../../redux/reducers/cart-reducer";
+import rootReducer from "../../../redux/root-reducer";
+import cartReducer, {InitialStateType} from "../../../redux/cart/cart-reducer";
 import {
     calculateCartPriceSuccess,
     clearCartSuccess,
     fetchCartSuccess,
     loadingCart,
     stopLoadingCart
-} from "../../../redux/actions/cart-actions";
+} from "../../../redux/cart/cart-actions";
 import {Perfume} from "../../../types/types";
 import {perfumesData} from "../../test-data/perfume-test-data";
 

@@ -1,21 +1,23 @@
-import React, {FC, FormEvent, useEffect, useState} from 'react';
+import React, {FC, FormEvent, ReactElement, useEffect, useState} from 'react';
 import ReCAPTCHA from "react-google-recaptcha";
 import {useDispatch, useSelector} from "react-redux";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEnvelope, faLock, faUser, faUserPlus} from "@fortawesome/free-solid-svg-icons";
 
-import {formReset, registration} from "../../redux/thunks/auth-thunks";
+import {formReset, registration} from "../../redux/auth/auth-thunks";
 import PageLoader from "../../component/PageLoader/PageLoader";
-import {AppStateType} from "../../redux/reducers/root-reducer";
-import {AuthErrors, UserRegistration} from "../../types/types";
+import {UserRegistration} from "../../types/types";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
+import Alert from "../../component/Alert/Alert";
+import PasswordInput from "../../component/PasswordInput/PasswordInput";
+import IconButton from "../../component/IconButton/IconButton";
+import {selectErrors, selectIsAuthLoading, selectIsRegistered} from "../../redux/auth/auth-selector";
 
-const Registration: FC = () => {
+const Registration: FC = (): ReactElement => {
     const dispatch = useDispatch();
-    const isRegistered: boolean = useSelector((state: AppStateType) => state.auth.isRegistered);
-    const loading: boolean = useSelector((state: AppStateType) => state.auth.loading);
-    const errors: Partial<AuthErrors> = useSelector((state: AppStateType) => state.auth.errors);
-    const {emailError, firstNameError, lastNameError, passwordError, password2Error} = errors;
+    const isRegistered = useSelector(selectIsRegistered);
+    const loading = useSelector(selectIsAuthLoading);
+    const errors = useSelector(selectErrors);
+
     const [email, setEmail] = useState<string>("");
     const [firstName, setFirstName] = useState<string>("");
     const [lastName, setLastName] = useState<string>("");
@@ -38,7 +40,14 @@ const Registration: FC = () => {
 
     const onClickSignUp = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        const userRegistrationData: UserRegistration = {email, firstName, lastName, password, password2, captcha: captchaValue}
+        const userRegistrationData: UserRegistration = {
+            email,
+            firstName,
+            lastName,
+            password,
+            password2,
+            captcha: captchaValue
+        }
         dispatch(registration(userRegistrationData));
         // @ts-ignore
         window.grecaptcha.reset();
@@ -56,81 +65,67 @@ const Registration: FC = () => {
     return (
         <div className="container mt-5">
             {pageLoading}
-            <InfoTitle className={"mr-2"} icon={faUserPlus} title={"SIGN UP"}/>
+            <InfoTitle iconClass={"mr-2"} icon={faUserPlus} title={"SIGN UP"}/>
             <hr/>
-            {isRegistered ? <div className="alert alert-success col-6" role="alert">
-                Activation code has been sent to your email!
-            </div> : null}
+            {isRegistered && <Alert alertType={"success"} message={"Activation code has been sent to your email!"}/>}
             <form onSubmit={onClickSignUp}>
+                <PasswordInput
+                    title={"E-mail"}
+                    icon={faEnvelope}
+                    titleClass={"col-sm-2"}
+                    type={"email"}
+                    error={errors.emailError}
+                    name={"email"}
+                    value={email}
+                    onChange={setEmail}
+                />
+                <PasswordInput
+                    title={"First name"}
+                    icon={faUser}
+                    titleClass={"col-sm-2"}
+                    type={"text"}
+                    error={errors.firstNameError}
+                    name={"firstName"}
+                    value={firstName}
+                    onChange={setFirstName}
+                />
+                <PasswordInput
+                    title={"Last name"}
+                    icon={faUser}
+                    titleClass={"col-sm-2"}
+                    type={"text"}
+                    error={errors.lastNameError}
+                    name={"lastName"}
+                    value={lastName}
+                    onChange={setLastName}
+                />
+                <PasswordInput
+                    title={"Password"}
+                    icon={faLock}
+                    titleClass={"col-sm-2"}
+                    type={"password"}
+                    error={errors.passwordError}
+                    name={"password"}
+                    value={password}
+                    onChange={setPassword}
+                />
+                <PasswordInput
+                    title={"Confirm password"}
+                    icon={faLock}
+                    titleClass={"col-sm-2"}
+                    type={"password"}
+                    error={errors.password2Error}
+                    name={"password2"}
+                    value={password2}
+                    onChange={setPassword2}
+                />
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">E-mail: </label>
-                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faEnvelope}/>
-                    <div className="col-sm-4">
-                        <input
-                            type="email"
-                            name="email"
-                            value={email}
-                            className={emailError ? "form-control is-invalid" : "form-control"}
-                            onChange={(event) => setEmail(event.target.value)}/>
-                        <div className="invalid-feedback">{emailError}</div>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">First name: </label>
-                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faUser}/>
-                    <div className="col-sm-4">
-                        <input
-                            type="text"
-                            name="firstName"
-                            value={firstName}
-                            className={firstNameError ? "form-control is-invalid" : "form-control"}
-                            onChange={(event) => setFirstName(event.target.value)}/>
-                        <div className="invalid-feedback">{firstNameError}</div>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Last name: </label>
-                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faUser}/>
-                    <div className="col-sm-4">
-                        <input
-                            type="text"
-                            name="lastName"
-                            value={lastName}
-                            className={lastNameError ? "form-control is-invalid" : "form-control"}
-                            onChange={(event) => setLastName(event.target.value)}/>
-                        <div className="invalid-feedback">{lastNameError}</div>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Password: </label>
-                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
-                    <div className="col-sm-4">
-                        <input
-                            type="password"
-                            name="password"
-                            value={password}
-                            className={passwordError ? "form-control is-invalid" : "form-control"}
-                            onChange={(event) => setPassword(event.target.value)}/>
-                        <div className="invalid-feedback">{passwordError}</div>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Confirm password: </label>
-                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
-                    <div className="col-sm-4">
-                        <input
-                            type="password"
-                            name="password2"
-                            value={password2}
-                            className={password2Error ? "form-control is-invalid" : "form-control"}
-                            onChange={(event) => setPassword2(event.target.value)}/>
-                        <div className="invalid-feedback">{password2Error}</div>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <button type="submit" className="btn btn-dark mx-3">
-                        <FontAwesomeIcon className="mr-2" icon={faUserPlus}/>Sign up
-                    </button>
+                    <IconButton
+                        buttonText={"Sign up"}
+                        buttonClassName={"mx-3"}
+                        icon={faUserPlus}
+                        iconClassName={"mr-3"}
+                    />
                 </div>
                 <ReCAPTCHA onChange={onChangeRecaptcha} sitekey="6Lc5cLkZAAAAAN8mFk85HQieB9toPcWFoW0RXCNR"/>
             </form>

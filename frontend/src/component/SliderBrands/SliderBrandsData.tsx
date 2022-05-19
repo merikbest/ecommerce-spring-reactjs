@@ -1,4 +1,7 @@
-import {BrandType} from "../../types/types";
+export type BrandType = {
+    name: string
+    url: string
+};
 
 export const brandsItem1: Array<BrandType> = [
     {name: "Tom Ford", url: "https://i.ibb.co/s9MpxnG/o-139.jpg"},

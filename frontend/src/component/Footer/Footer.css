@@ -13,3 +13,11 @@ footer {
     width: 100%;
     z-index: -1;
 }
+
+.white {
+    color: white;
+}
+
+.copy_right {
+    width: 200px;
+}

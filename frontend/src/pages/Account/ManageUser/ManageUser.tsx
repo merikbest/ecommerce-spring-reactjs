@@ -3,19 +3,22 @@ import {Link, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {faUserEdit} from "@fortawesome/free-solid-svg-icons";
 
-import {fetchUserInfo, fetchUserOrders} from "../../../redux/thunks/admin-thunks";
-import {AppStateType} from "../../../redux/reducers/root-reducer";
-import {Order, User} from "../../../types/types";
+import {fetchUserInfo, fetchUserOrders} from "../../../redux/admin/admin-thunks";
 import Spinner from '../../../component/Spinner/Spinner';
 import AccountDataItem from "../../../component/AccountDataItem/AccountDataItem";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
+import {
+    selectAdminStateUerOrders,
+    selectAdminStateUser,
+    selectIsAdminStateLoaded
+} from "../../../redux/admin/admin-selector";
 
 const ManageUser: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const params = useParams<{ id: string }>();
-    const userData: Partial<User> = useSelector((state: AppStateType) => state.admin.user);
-    const userOrders: Array<Order> = useSelector((state: AppStateType) => state.admin.userOrders);
-    const loading: boolean = useSelector((state: AppStateType) => state.admin.isLoaded);
+    const userData = useSelector(selectAdminStateUser);
+    const userOrders = useSelector(selectAdminStateUerOrders);
+    const loading = useSelector(selectIsAdminStateLoaded);
     const {id, email, firstName, lastName, city, address, phoneNumber, postIndex, provider, roles} = userData;
 
     useEffect(() => {
@@ -32,7 +35,7 @@ const ManageUser: FC = (): ReactElement => {
                 <Spinner/>
             ) : (
                 <>
-                    <InfoTitle className={"mr-2"} icon={faUserEdit} title={`User: ${firstName} ${lastName}`}/>
+                    <InfoTitle iconClass={"mr-2"} icon={faUserEdit} title={`User: ${firstName} ${lastName}`}/>
                     <div className="row mt-5 mb-4 border px-3 py-3">
                         <div className="col-md-4">
                             <AccountDataItem title={"User id"} text={id}/>

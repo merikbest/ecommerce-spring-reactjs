@@ -4,7 +4,7 @@ import {AnyAction} from "redux";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
-import {InitialStateType} from "../../../redux/reducers/auth-reducer";
+import {InitialStateType} from "../../../redux/auth/auth-reducer";
 import {API_BASE_URL} from "../../../utils/constants/url";
 import {
     activateAccount,
@@ -14,7 +14,7 @@ import {
     logout,
     registration,
     resetPassword
-} from "../../../redux/thunks/auth-thunks";
+} from "../../../redux/auth/auth-thunks";
 import {useHistory} from "react-router-dom";
 import {
     activateAccountFailure,
@@ -31,7 +31,7 @@ import {
     resetPasswordFailure,
     resetPasswordSuccess,
     showLoader
-} from "../../../redux/actions/auth-actions";
+} from "../../../redux/auth/auth-actions";
 import {authErrorsData, userData, userRegistrationData, userResetPasswordData} from "../../test-data/user-test-data";
 
 const middlewares = [thunk];

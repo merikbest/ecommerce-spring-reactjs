@@ -1,6 +1,6 @@
 import {createStore} from "redux";
-import rootReducer from "../../../redux/reducers/root-reducer";
-import authReducer, {InitialStateType} from "../../../redux/reducers/auth-reducer";
+import rootReducer from "../../../redux/root-reducer";
+import authReducer, {InitialStateType} from "../../../redux/auth/auth-reducer";
 import {
     activateAccountFailure,
     activateAccountSuccess,
@@ -13,10 +13,10 @@ import {
     resetPasswordCodeSuccess, resetPasswordFailure,
     resetPasswordSuccess,
     showLoader
-} from "../../../redux/actions/auth-actions";
+} from "../../../redux/auth/auth-actions";
 import {AuthErrors, User} from "../../../types/types";
 import {authErrorsData, userData} from "../../test-data/user-test-data";
-import {reset} from "../../../redux/actions/admin-actions";
+import {reset} from "../../../redux/admin/admin-actions";
 
 let store = createStore(rootReducer);
 let userRole: string;

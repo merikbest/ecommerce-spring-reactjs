@@ -4,18 +4,18 @@ import {AnyAction} from "redux";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
-import {InitialStateType} from "../../../redux/reducers/order-reducer";
+import {InitialStateType} from "../../../redux/order/order-reducer";
 import {API_BASE_URL} from "../../../utils/constants/url";
 import {orderData, orderErrorData, orderRequestData, ordersData} from "../../test-data/order-test-data";
-import {addOrder, fetchUserOrders, fetchUserOrdersByQuery} from "../../../redux/thunks/order-thunks";
+import {addOrder, fetchUserOrders, fetchUserOrdersByQuery} from "../../../redux/order/order-thunks";
 import {useHistory} from "react-router-dom";
-import {showLoader} from "../../../redux/actions/auth-actions";
+import {showLoader} from "../../../redux/auth/auth-actions";
 import {
     fetchUserOrdersByQuerySuccess,
     fetchUserOrdersSuccess,
     orderAddedFailure,
     orderAddedSuccess
-} from "../../../redux/actions/order-actions";
+} from "../../../redux/order/order-actions";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore<InitialStateType, ThunkDispatch<InitialStateType, void, AnyAction>>(middlewares);

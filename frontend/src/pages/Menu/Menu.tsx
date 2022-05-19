@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from "react";
+import React, {FC, ReactElement, useEffect, useState} from "react";
 import {Route, useLocation} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -11,16 +11,16 @@ import {
     fetchPerfumesByFilterParams,
     fetchPerfumesByGender,
     fetchPerfumesByPerfumer
-} from "../../redux/thunks/perfume-thunks";
+} from "../../redux/perfumes/perfumes-thunks";
 import "./MenuStyle.css";
-import {AppStateType} from "../../redux/reducers/root-reducer";
-import {FilterParamsType, Perfume} from "../../types/types";
+import {FilterParamsType} from "../../types/types";
 import ScrollButton from "../../component/ScrollButton/ScrollButton";
+import {selectIsPerfumesLoading, selectPerfumes} from "../../redux/perfumes/perfumes-selector";
 
-const Menu: FC = () => {
+const Menu: FC = (): ReactElement => {
     const dispatch = useDispatch();
-    const perfumes: Array<Perfume> = useSelector((state: AppStateType) => state.perfume.perfumes);
-    const loading: boolean = useSelector((state: AppStateType) => state.perfume.isPerfumeLoading);
+    const perfumes = useSelector(selectPerfumes);
+    const loading = useSelector(selectIsPerfumesLoading);
     const [filterParams, setFilterParams] = useState<FilterParamsType>({
         perfumers: [],
         genders: [],
@@ -34,14 +34,12 @@ const Menu: FC = () => {
 
         if (perfumeData === "female" || perfumeData === "male") {
             dispatch(fetchPerfumesByGender({perfumeGender: perfumeData}));
-            window.scrollTo(0, 0);
         } else if (perfumeData === "all") {
             dispatch(fetchPerfumes());
-            window.scrollTo(0, 0);
         } else {
             dispatch(fetchPerfumesByPerfumer({perfumer: perfumeData}));
-            window.scrollTo(0, 0);
         }
+        window.scrollTo(0, 0);
     }, []);
 
     const getProducts = (variables: FilterParamsType): void => {
@@ -82,22 +80,28 @@ const Menu: FC = () => {
                 <ul className="list-unstyled components">
                     <h5>Brand</h5>
                     <li className="active mb-2" id="homeSubmenu">
-                        <Checkbox list={perfumer}
-                                  handleFilters={(filters) => handleFilters(filters, "perfumers")}/>
+                        <Checkbox
+                            list={perfumer}
+                            handleFilters={(filters) => handleFilters(filters, "perfumers")}
+                        />
                     </li>
                     <h5>Gender</h5>
                     <li className="active mb-2">
-                        <Checkbox list={gender}
-                                  handleFilters={(filters) => handleFilters(filters, "genders")}/>
+                        <Checkbox
+                            list={gender}
+                            handleFilters={(filters) => handleFilters(filters, "genders")}
+                        />
                     </li>
                     <h5>Price</h5>
                     <li className="active mb-2">
-                        <CheckboxRadio list={price}
-                                       handleFilters={(filters) => handleFilters(filters, "prices")}/>
+                        <CheckboxRadio
+                            list={price}
+                            handleFilters={(filters) => handleFilters(filters, "prices")}
+                        />
                     </li>
                 </ul>
             </nav>
-            <Route exact component={() =>
+            <Route exact component={() => (
                 <MenuCards
                     data={perfumes}
                     loading={loading}
@@ -107,7 +111,9 @@ const Menu: FC = () => {
                         {label: 'Perfume title', value: 'perfumeTitle'},
                         {label: 'Manufacturer country', value: 'country'}]}
                     sortByPrice={sortByPrice}
-                    handleSortByPrice={handleSortByPrice}/>}/>
+                    handleSortByPrice={handleSortByPrice}
+                />
+            )}/>
         </div>
     );
 };

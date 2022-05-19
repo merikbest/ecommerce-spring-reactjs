@@ -6,7 +6,7 @@ type PropsType = {
     name: string;
     value: string;
     placeholder: string;
-    onChange: (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => void;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
 const AddPerfumeInput: FC<PropsType> = ({title, error, name, value, placeholder, onChange}): ReactElement => {

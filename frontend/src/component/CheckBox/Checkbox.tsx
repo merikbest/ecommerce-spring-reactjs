@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react'
+import React, {FC, ReactElement, useState} from 'react'
 import "../../pages/Menu/MenuStyle.css";
 
 type PropsType = {
@@ -6,7 +6,7 @@ type PropsType = {
     list: Array<{ name: string }>
 };
 
-const CheckBox: FC<PropsType> = ({handleFilters, list}) => {
+const CheckBox: FC<PropsType> = ({handleFilters, list}): ReactElement => {
     const [checked, setChecked] = useState<Array<string>>([]);
 
     const handleToggle = (value: string): void => {

@@ -1,29 +1,31 @@
-import React, {FC, FormEvent, useEffect, useState} from 'react';
+import React, {FC, FormEvent, ReactElement, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {useHistory, useParams} from "react-router-dom";
 import {faLock, faSync, faUndo} from "@fortawesome/free-solid-svg-icons";
 
-import {fetchResetPasswordCode, formReset, resetPassword} from "../../redux/thunks/auth-thunks";
-import {RouteComponentProps, useHistory} from "react-router-dom";
-import {AppStateType} from "../../redux/reducers/root-reducer";
-import {AuthErrors, User, UserResetPasswordData} from "../../types/types";
+import {fetchResetPasswordCode, formReset, resetPassword} from "../../redux/auth/auth-thunks";
+import {UserResetPasswordData} from "../../types/types";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
+import Alert from "../../component/Alert/Alert";
+import PasswordInput from "../../component/PasswordInput/PasswordInput";
+import IconButton from "../../component/IconButton/IconButton";
+import {selectErrorMessage, selectErrors, selectUserAuth} from "../../redux/auth/auth-selector";
 
-const ResetPassword: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
+const ResetPassword: FC = (): ReactElement => {
     const dispatch = useDispatch();
+    const params = useParams<{ code: string }>();
     const history = useHistory();
-    const user: Partial<User> = useSelector((state: AppStateType) => state.auth.user);
-    const error: string = useSelector((state: AppStateType) => state.auth.error);
-    const errors: Partial<AuthErrors> = useSelector((state: AppStateType) => state.auth.errors);
-    const {passwordError, password2Error} = errors;
+    const user = useSelector(selectUserAuth);
+    const error = useSelector(selectErrorMessage);
+    const errors = useSelector(selectErrors);
     const [password, setPassword] = useState<string>("");
     const [password2, setPassword2] = useState<string>("");
 
     useEffect(() => {
         dispatch(formReset());
 
-        if (match.params.code) {
-            dispatch(fetchResetPasswordCode(match.params.code));
+        if (params.code) {
+            dispatch(fetchResetPasswordCode(params.code));
         }
     }, []);
 
@@ -35,42 +37,35 @@ const ResetPassword: FC<RouteComponentProps<{ code: string }>> = ({match}) => {
 
     return (
         <div className="container mt-5">
-            <InfoTitle className={"mr-2"} icon={faSync} title={"RESET PASSWORD"}/>
+            <InfoTitle iconClass={"mr-2"} icon={faSync} title={"RESET PASSWORD"}/>
             <hr/>
-            {error ?
-                <div className="alert alert-danger col-6" role="alert">{error}</div> : null}
+            {error && <Alert alertType={"danger"} message={error}/>}
             <form onSubmit={onClickReset}>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Password: </label>
-                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
-                    <div className="col-sm-4">
-                        <input
-                            type="password"
-                            name="password"
-                            value={password}
-                            className={passwordError ? "form-control is-invalid" : "form-control"}
-                            onChange={(event) => setPassword(event.target.value)}/>
-                        <div className="invalid-feedback">{passwordError}</div>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <label className="col-sm-2 col-form-label">Confirm password: </label>
-                    <FontAwesomeIcon style={{position: "relative", top: "8px"}} icon={faLock}/>
-                    <div className="col-sm-4">
-                        <input
-                            type="password"
-                            name="password2"
-                            value={password2}
-                            className={password2Error ? "form-control is-invalid" : "form-control"}
-                            onChange={(event) => setPassword2(event.target.value)}/>
-                        <div className="invalid-feedback">{password2Error}</div>
-                    </div>
-                </div>
-                <div className="form-group row">
-                    <button type="submit" className="btn btn-dark mx-3">
-                        <FontAwesomeIcon className="mr-3" icon={faUndo}/>Reset
-                    </button>
-                </div>
+                <PasswordInput
+                    title={"Password"}
+                    icon={faLock}
+                    titleClass={"col-sm-2"}
+                    type={"password"}
+                    error={errors.passwordError}
+                    name={"password"}
+                    value={password}
+                    onChange={setPassword}
+                />
+                <PasswordInput
+                    title={"Confirm password"}
+                    icon={faLock}
+                    titleClass={"col-sm-2"}
+                    type={"password"}
+                    error={errors.password2Error}
+                    name={"password2"}
+                    value={password2}
+                    onChange={setPassword2}
+                />
+                <IconButton
+                    buttonText={"Reset"}
+                    icon={faUndo}
+                    iconClassName={"mr-3"}
+                />
             </form>
         </div>
     );

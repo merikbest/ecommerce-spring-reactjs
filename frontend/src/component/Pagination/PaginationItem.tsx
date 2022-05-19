@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, ReactElement} from 'react';
 import {Pagination} from "./usePagination";
 
 type PropsType = {
@@ -8,11 +8,13 @@ type PropsType = {
     nextPage: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
 };
 
-const PaginationItem: FC<PropsType> = ({pagination, prevPage, changePage, nextPage}) => {
+const PaginationItem: FC<PropsType> = ({pagination, prevPage, changePage, nextPage}): ReactElement => {
     return (
         <ul className="pagination">
             <li className="page-item disabled">
-                <a className="page-link" href="#">Pages</a>
+                <a className="page-link" href="#">
+                    Pages
+                </a>
             </li>
             <li className="page-item">
                 <a className="page-link text-dark" href="#" aria-label="Previous" onClick={prevPage}>
@@ -27,7 +29,10 @@ const PaginationItem: FC<PropsType> = ({pagination, prevPage, changePage, nextPa
                             <li key={index} className="page-item active">
                                 <a href="#"
                                    className="page-link bg-dark border-dark"
-                                   onClick={(event) => changePage(page.id, event)}>{page.id}</a>
+                                   onClick={(event) => changePage(page.id, event)}
+                                >
+                                    {page.id}
+                                </a>
                             </li>
                         )
                     } else {
@@ -35,7 +40,10 @@ const PaginationItem: FC<PropsType> = ({pagination, prevPage, changePage, nextPa
                             <li key={index} className="page-item">
                                 <a href="#"
                                    className="page-link text-dark"
-                                   onClick={(event) => changePage(page.id, event)}>{page.id}</a>
+                                   onClick={(event) => changePage(page.id, event)}
+                                >
+                                    {page.id}
+                                </a>
                             </li>
                         )
                     }

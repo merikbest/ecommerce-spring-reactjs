@@ -156,8 +156,3 @@ export type PerfumePrice = {
     name: string
     array: Array<number>
 };
-
-export type BrandType = {
-    name: string
-    url: string
-};

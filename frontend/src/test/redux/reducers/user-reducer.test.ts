@@ -1,6 +1,6 @@
 import {createStore} from "redux";
-import rootReducer from "../../../redux/reducers/root-reducer";
-import userReducer, {InitialStateType} from "../../../redux/reducers/user-reducer";
+import rootReducer from "../../../redux/root-reducer";
+import userReducer, {InitialStateType} from "../../../redux/user/user-reducer";
 import {
     fetchUserByQuerySuccess,
     fetchUserSuccess,
@@ -12,10 +12,10 @@ import {
     userUpdatedPasswordFailure,
     userUpdatedPasswordSuccess,
     userUpdatedSuccess
-} from "../../../redux/actions/user-actions";
+} from "../../../redux/user/user-actions";
 import {AuthErrors, ReviewError, User, UserEditErrors} from "../../../types/types";
 import {authErrorsData, reviewErrorsData, userData, userEditErrorsData} from "../../test-data/user-test-data";
-import {logoutSuccess} from "../../../redux/actions/auth-actions";
+import {logoutSuccess} from "../../../redux/auth/auth-actions";
 
 let store = createStore(rootReducer);
 let user: User;

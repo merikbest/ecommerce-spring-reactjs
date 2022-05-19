@@ -4,11 +4,11 @@ import {AnyAction} from "redux";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
-import {InitialStateType} from "../../../redux/reducers/cart-reducer";
+import {InitialStateType} from "../../../redux/cart/cart-reducer";
 import {API_BASE_URL} from "../../../utils/constants/url";
-import {calculateCartPrice, fetchCart} from "../../../redux/thunks/cart-thunks";
+import {calculateCartPrice, fetchCart} from "../../../redux/cart/cart-thunks";
 import {perfumesData} from "../../test-data/perfume-test-data";
-import {calculateCartPriceSuccess, fetchCartSuccess, loadingCart} from "../../../redux/actions/cart-actions";
+import {calculateCartPriceSuccess, fetchCartSuccess, loadingCart} from "../../../redux/cart/cart-actions";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore<InitialStateType, ThunkDispatch<InitialStateType, void, AnyAction>>(middlewares);

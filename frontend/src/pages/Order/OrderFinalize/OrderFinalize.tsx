@@ -1,13 +1,12 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, ReactElement, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import {clearCart} from "../../../redux/thunks/cart-thunks";
-import {AppStateType} from "../../../redux/reducers/root-reducer";
-import {Order} from "../../../types/types";
+import {clearCart} from "../../../redux/cart/cart-thunks";
+import {selectOrder} from "../../../redux/order/order-selector";
 
-const OrderFinalize: FC = () => {
+const OrderFinalize: FC = (): ReactElement => {
     const dispatch = useDispatch();
-    const order: Partial<Order> = useSelector((state: AppStateType) => state.order.order);
+    const order = useSelector(selectOrder);
 
     useEffect(() => {
         dispatch(clearCart());

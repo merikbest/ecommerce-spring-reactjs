@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, ReactElement} from 'react';
 import {Toast} from "react-bootstrap";
 
 import "./ToastShow.css";
@@ -8,13 +8,13 @@ type PropsType = {
     message: string
 };
 
-const ToastShow: FC<PropsType> = ({showToast, message}) => {
+const ToastShow: FC<PropsType> = ({showToast, message}): ReactElement => {
     return (
-        <Toast className={"border border-success bg-success text white"} show={showToast}>
-            <Toast.Header className={"bg-success text-white"} closeButton={false}>
+        <Toast className="border border-success bg-success text white" show={showToast}>
+            <Toast.Header className="bg-success text-white" closeButton={false}>
                 <strong className="mr-auto">Success</strong>
             </Toast.Header>
-            <Toast.Body className={"text-white"}>
+            <Toast.Body className="text-white">
                 {message}
             </Toast.Body>
         </Toast>

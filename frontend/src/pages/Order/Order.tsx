@@ -1,46 +1,51 @@
-import React, {FC, FormEvent, useEffect, useState} from 'react';
+import React, {FC, FormEvent, ReactElement, useEffect, useState} from 'react';
+import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheckCircle, faShoppingBag} from "@fortawesome/free-solid-svg-icons";
 
-import {addOrder, fetchOrder} from "../../redux/thunks/order-thunks";
+import {addOrder} from "../../redux/order/order-thunks";
 import {validateEmail} from "../../utils/input-validators";
 import PageLoader from "../../component/PageLoader/PageLoader";
-import {AppStateType} from "../../redux/reducers/root-reducer";
-import {useHistory} from "react-router-dom";
-import {OrderError, Perfume, User} from "../../types/types";
+import InfoTitle from "../../component/InfoTitle/InfoTitle";
+import PasswordInput from "../../component/PasswordInput/PasswordInput";
+import OrderItem from "./OrderItem/OrderItem";
+import {resetOrderState} from "../../redux/order/order-actions";
+import {selectIsOrderLoading, selectOrderErrors} from "../../redux/order/order-selector";
+import {selectCartItems, selectTotalPrice} from "../../redux/cart/cart-selector";
+import {selectUserFromUserState} from "../../redux/user/user-selector";
 
-const Order: FC = () => {
+const Order: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const history = useHistory();
-    const usersData: Partial<User> = useSelector((state: AppStateType) => state.user.user);
-    const perfumes: Array<Perfume> = useSelector((state: AppStateType) => state.cart.perfumes);
-    const totalPrice: number = useSelector((state: AppStateType) => state.cart.totalPrice);
-    const errors: Partial<OrderError> = useSelector((state: AppStateType) => state.order.errors);
-    const loading: boolean = useSelector((state: AppStateType) => state.order.loading);
+    const usersData = useSelector(selectUserFromUserState);
+    const perfumes = useSelector(selectCartItems);
+    const totalPrice = useSelector(selectTotalPrice);
+    const errors = useSelector(selectOrderErrors);
+    const isOrderLoading = useSelector(selectIsOrderLoading);
     const perfumesFromLocalStorage: Map<number, number> = new Map(JSON.parse(localStorage.getItem("perfumes") as string));
 
-    const [firstName, setFirstName] = useState<string | undefined>(usersData.firstName);
-    const [lastName, setLastName] = useState<string | undefined>(usersData.lastName);
-    const [city, setCity] = useState<string | undefined>(usersData.city);
-    const [address, setAddress] = useState<string | undefined>(usersData.address);
-    const [postIndex, setPostIndex] = useState<string | undefined>(usersData.postIndex);
-    const [phoneNumber, setPhoneNumber] = useState<string | undefined>(usersData.phoneNumber);
-    const [email, setEmail] = useState<string | undefined>(usersData.email);
+    const [firstName, setFirstName] = useState<string | undefined>("");
+    const [lastName, setLastName] = useState<string | undefined>("");
+    const [city, setCity] = useState<string | undefined>("");
+    const [address, setAddress] = useState<string | undefined>("");
+    const [postIndex, setPostIndex] = useState<string | undefined>("");
+    const [phoneNumber, setPhoneNumber] = useState<string | undefined>("");
+    const [email, setEmail] = useState<string | undefined>("");
     const [validateEmailError, setValidateEmailError] = useState<string>("");
 
-    const {
-        firstNameError,
-        lastNameError,
-        cityError,
-        addressError,
-        postIndexError,
-        phoneNumberError,
-        emailError
-    } = errors;
-
     useEffect(() => {
-        dispatch(fetchOrder());
+        setFirstName(usersData.firstName);
+        setLastName(usersData.lastName);
+        setCity(usersData.city);
+        setAddress(usersData.address);
+        setPostIndex(usersData.postIndex);
+        setPhoneNumber(usersData.phoneNumber);
+        setEmail(usersData.email);
+        
+        return () => {
+            dispatch(resetOrderState());
+        };
     }, []);
 
     const onFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
@@ -59,133 +64,106 @@ const Order: FC = () => {
     };
 
     let pageLoading;
-    if (loading) {
+    if (isOrderLoading) {
         pageLoading = (<PageLoader/>);
     }
 
     return (
         <div className="container mt-5 pb-5">
             {pageLoading}
-            <h4 className="mb-4 text-center">
-                <FontAwesomeIcon className="mr-2" icon={faShoppingBag}/> Ordering
-            </h4>
+            <InfoTitle iconClass={"mr-2"} icon={faShoppingBag} titleClass={"mb-4 text-center"} title={"Ordering"}/>
             <br/>
             <form onSubmit={onFormSubmit}>
                 <div className="row">
                     <div className="col-lg-6">
-                        <div className="form-group row">
-                            <label className="col-sm-2 col-form-label">Name:</label>
-                            <div className="col-sm-8">
-                                <input
-                                    type="text"
-                                    className={firstNameError ? "form-control is-invalid" : "form-control"}
-                                    name="firstName"
-                                    value={firstName}
-                                    placeholder="Enter the first name"
-                                    onChange={(event) => setFirstName(event.target.value)}/>
-                                <div className="invalid-feedback">{firstNameError}</div>
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label className="col-sm-2 col-form-label">Surname:</label>
-                            <div className="col-sm-8">
-                                <input
-                                    type="text"
-                                    className={lastNameError ? "form-control is-invalid" : "form-control"}
-                                    name="lastName"
-                                    value={lastName}
-                                    placeholder="Enter the last name"
-                                    onChange={(event) => setLastName(event.target.value)}/>
-                                <div className="invalid-feedback">{lastNameError}</div>
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label className="col-sm-2 col-form-label">City:</label>
-                            <div className="col-sm-8">
-                                <input
-                                    type="text"
-                                    className={cityError ? "form-control is-invalid" : "form-control"}
-                                    name="city"
-                                    value={city}
-                                    placeholder="Enter the city"
-                                    onChange={(event) => setCity(event.target.value)}/>
-                                <div className="invalid-feedback">{cityError}</div>
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label className="col-sm-2 col-form-label">Address:</label>
-                            <div className="col-sm-8">
-                                <input
-                                    type="text"
-                                    className={addressError ? "form-control is-invalid" : "form-control"}
-                                    name="address"
-                                    value={address}
-                                    placeholder="Enter the address"
-                                    onChange={(event) => setAddress(event.target.value)}/>
-                                <div className="invalid-feedback">{addressError}</div>
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label className="col-sm-2 col-form-label">Index:</label>
-                            <div className="col-sm-8">
-                                <input
-                                    type="text"
-                                    className={postIndexError ? "form-control is-invalid" : "form-control"}
-                                    name="postIndex"
-                                    value={postIndex}
-                                    placeholder="Enter the index"
-                                    onChange={(event) => setPostIndex(event.target.value)}/>
-                                <div className="invalid-feedback">{postIndexError}</div>
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label className="col-sm-2 col-form-label">Mobile:</label>
-                            <div className="col-sm-8">
-                                <input
-                                    type="text"
-                                    className={phoneNumberError ? "form-control is-invalid" : "form-control"}
-                                    name="phoneNumber"
-                                    value={phoneNumber}
-                                    placeholder="(___)-___-____"
-                                    onChange={(event) => setPhoneNumber(event.target.value)}/>
-                                <div className="invalid-feedback">{phoneNumberError}</div>
-                            </div>
-                        </div>
-                        <div className="form-group row">
-                            <label className="col-sm-2 col-form-label">Email:</label>
-                            <div className="col-sm-8">
-                                <input
-                                    type="text"
-                                    className={emailError || validateEmailError ? "form-control is-invalid" : "form-control"}
-                                    name="email"
-                                    value={email}
-                                    placeholder="example@gmail.com"
-                                    onChange={(event) => setEmail(event.target.value)}/>
-                                <div className="invalid-feedback">{emailError || validateEmailError}</div>
-                            </div>
-                        </div>
+                        <PasswordInput
+                            title={"Name"}
+                            titleClass={"col-sm-2"}
+                            wrapperClass={"col-sm-8"}
+                            type={"text"}
+                            error={errors.firstNameError}
+                            name={"firstName"}
+                            value={firstName}
+                            placeholder={"Enter the first name"}
+                            onChange={setFirstName}
+                        />
+                        <PasswordInput
+                            title={"Surname"}
+                            titleClass={"col-sm-2"}
+                            wrapperClass={"col-sm-8"}
+                            type={"text"}
+                            error={errors.lastNameError}
+                            name={"lastName"}
+                            value={lastName}
+                            placeholder={"Enter the last name"}
+                            onChange={setLastName}
+                        />
+                        <PasswordInput
+                            title={"City"}
+                            titleClass={"col-sm-2"}
+                            wrapperClass={"col-sm-8"}
+                            type={"text"}
+                            error={errors.cityError}
+                            name={"city"}
+                            value={city}
+                            placeholder={"Enter the city"}
+                            onChange={setCity}
+                        />
+                        <PasswordInput
+                            title={"Address"}
+                            titleClass={"col-sm-2"}
+                            wrapperClass={"col-sm-8"}
+                            type={"text"}
+                            error={errors.addressError}
+                            name={"address"}
+                            value={address}
+                            placeholder={"Enter the address"}
+                            onChange={setAddress}
+                        />
+                        <PasswordInput
+                            title={"Index"}
+                            titleClass={"col-sm-2"}
+                            wrapperClass={"col-sm-8"}
+                            type={"text"}
+                            error={errors.postIndexError}
+                            name={"postIndex"}
+                            value={postIndex}
+                            placeholder={"Enter the index"}
+                            onChange={setPostIndex}
+                        />
+                        <PasswordInput
+                            title={"Mobile"}
+                            titleClass={"col-sm-2"}
+                            wrapperClass={"col-sm-8"}
+                            type={"text"}
+                            error={errors.phoneNumberError}
+                            name={"phoneNumber"}
+                            value={phoneNumber}
+                            placeholder={"(___)-___-____"}
+                            onChange={setPhoneNumber}
+                        />
+                        <PasswordInput
+                            title={"Email"}
+                            titleClass={"col-sm-2"}
+                            wrapperClass={"col-sm-8"}
+                            type={"text"}
+                            error={errors.emailError || validateEmailError}
+                            name={"email"}
+                            value={email}
+                            placeholder={"example@gmail.com"}
+                            onChange={setEmail}
+                        />
                     </div>
                     <div className="col-lg-6">
                         <div className="container-fluid">
                             <div className="row">
-                                {perfumes.map((perfume) => {
-                                    return (
-                                        <div key={perfume.id} className="col-lg-6 d-flex align-items-stretch">
-                                            <div className="card mb-5">
-                                                <img src={perfume.filename}
-                                                     className="rounded mx-auto w-50"/>
-                                                <div className="card-body text-center">
-                                                    <h5>{perfume.perfumeTitle}</h5>
-                                                    <h6>{perfume.perfumer}</h6>
-                                                    <h6><span>Price: $ {perfume.price}</span>.00</h6>
-                                                    <h6>
-                                                        <span>Quantity: {perfumesFromLocalStorage.get(perfume.id)}</span>
-                                                    </h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                })}
+                                {perfumes.map((perfume) => (
+                                    <OrderItem 
+                                        key={perfume.id} 
+                                        perfume={perfume} 
+                                        quantity={perfumesFromLocalStorage.get(perfume.id)}
+                                    />
+                                ))}
                             </div>
                         </div>
                         <button type="submit" className="btn btn-primary btn-lg btn-success px-5 float-right">

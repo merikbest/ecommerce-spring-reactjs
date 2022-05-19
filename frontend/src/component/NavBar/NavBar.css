@@ -27,3 +27,9 @@
     top: 0;
     z-index: 20;
 }
+
+.cart_badge {
+    position: relative;
+    right: 15px;
+    bottom: 8px
+}

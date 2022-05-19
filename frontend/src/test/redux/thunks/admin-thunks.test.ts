@@ -4,7 +4,7 @@ import {AnyAction} from "redux";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
-import {InitialStateType} from "../../../redux/reducers/admin-reducer";
+import {InitialStateType} from "../../../redux/admin/admin-reducer";
 import {API_BASE_URL} from "../../../utils/constants/url";
 import {perfumeData, perfumeErrorData, perfumesData} from "../../test-data/perfume-test-data";
 import {
@@ -19,7 +19,7 @@ import {
     fetchUserOrders,
     fetchUserOrdersByEmailQuery,
     updatePerfume
-} from "../../../redux/thunks/admin-thunks";
+} from "../../../redux/admin/admin-thunks";
 import {
     addPerfumeFailure,
     addPerfumeSuccess,
@@ -29,8 +29,8 @@ import {
     getUserOrders, getUserOrdersByQuery, loadingData,
     updatePerfumeFailure,
     updatePerfumeSuccess
-} from "../../../redux/actions/admin-actions";
-import {fetchPerfumeSuccess, getPerfumes} from "../../../redux/actions/perfume-actions";
+} from "../../../redux/admin/admin-actions";
+import {fetchPerfumeSuccess, getPerfumes} from "../../../redux/perfumes/perfumes-actions";
 import {ordersData} from "../../test-data/order-test-data";
 import {userData, usersData} from "../../test-data/user-test-data";
 

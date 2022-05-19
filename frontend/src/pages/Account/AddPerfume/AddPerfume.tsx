@@ -1,16 +1,15 @@
-import React, {ChangeEvent, FC, FormEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {faPlusSquare} from "@fortawesome/free-solid-svg-icons";
 
 import ToastShow from "../../../component/Toasts/ToastShow";
-import {addPerfume, formReset} from "../../../redux/thunks/admin-thunks";
-import {AppStateType} from "../../../redux/reducers/root-reducer";
-import {PerfumeErrors} from "../../../types/types";
-import {fetchPerfumes} from "../../../redux/thunks/perfume-thunks";
+import {addPerfume, formReset} from "../../../redux/admin/admin-thunks";
+import {fetchPerfumes} from "../../../redux/perfumes/perfumes-thunks";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 import AddPerfumeInput from "./AddPerfumeInput/AddPerfumeInput";
 import AddPerfumeSelect from "./AddPerfumeSelect/AddPerfumeSelect";
 import IconButton from "../../../component/IconButton/IconButton";
+import {selectAdminStateErrors, selectIsPerfumeAdded} from "../../../redux/admin/admin-selector";
 
 type InitialStateType = {
     perfumeTitle: string
@@ -28,10 +27,10 @@ type InitialStateType = {
     perfumeRating: number
 };
 
-const AddPerfume: FC = () => {
+const AddPerfume: FC = (): ReactElement => {
     const dispatch = useDispatch();
-    const isPerfumeAdded: boolean = useSelector((state: AppStateType) => state.admin.isPerfumeAdded);
-    const errors: Partial<PerfumeErrors> = useSelector((state: AppStateType) => state.admin.errors);
+    const isPerfumeAdded = useSelector(selectIsPerfumeAdded);
+    const errors = useSelector(selectAdminStateErrors);
 
     const initialState: InitialStateType = {
         perfumeTitle: "",
@@ -65,20 +64,6 @@ const AddPerfume: FC = () => {
         perfumeRating
     }, setState] = useState(initialState);
     const [showToast, setShowToast] = useState(false);
-
-    const {
-        perfumeTitleError,
-        perfumerError,
-        yearError,
-        countryError,
-        typeError,
-        volumeError,
-        perfumeGenderError,
-        fragranceTopNotesError,
-        fragranceMiddleNotesError,
-        fragranceBaseNotesError,
-        priceError
-    } = errors;
 
     useEffect(() => {
         if (isPerfumeAdded) {
@@ -119,13 +104,13 @@ const AddPerfume: FC = () => {
         <>
             <ToastShow showToast={showToast} message={"Perfume successfully added!"}/>
             <div className="container">
-                <InfoTitle className={"mr-2"} icon={faPlusSquare} title={"Add perfume"}/>
+                <InfoTitle iconClass={"mr-2"} icon={faPlusSquare} title={"Add perfume"}/>
                 <br/>
                 <form onSubmit={onFormSubmit}>
                     <div className="form row">
                         <AddPerfumeInput
                             title={"Perfume title"}
-                            error={perfumeTitleError}
+                            error={errors.perfumeTitleError}
                             name={"perfumeTitle"}
                             value={perfumeTitle}
                             placeholder={"Enter the perfume title"}
@@ -133,7 +118,7 @@ const AddPerfume: FC = () => {
                         />
                         <AddPerfumeInput
                             title={"Brand"}
-                            error={perfumerError}
+                            error={errors.perfumerError}
                             name={"perfumer"}
                             value={perfumer}
                             placeholder={"Enter the brand"}
@@ -143,7 +128,7 @@ const AddPerfume: FC = () => {
                     <div className="form row mt-3">
                         <AddPerfumeInput
                             title={"Release year"}
-                            error={yearError}
+                            error={errors.yearError}
                             name={"year"}
                             value={year}
                             placeholder={"Enter the release year"}
@@ -151,7 +136,7 @@ const AddPerfume: FC = () => {
                         />
                         <AddPerfumeInput
                             title={"Manufacturer country"}
-                            error={countryError}
+                            error={errors.countryError}
                             name={"country"}
                             value={country}
                             placeholder={"Enter the manufacturer country"}
@@ -161,14 +146,14 @@ const AddPerfume: FC = () => {
                     <div className="form row mt-3">
                         <AddPerfumeSelect
                             title={"Perfume type"}
-                            error={typeError}
+                            error={errors.typeError}
                             name={"type"}
                             values={["Eau de Parfum", "Eau de Toilette"]}
                             onChange={handleInputChange}
                         />
                         <AddPerfumeInput
                             title={"Volume"}
-                            error={volumeError}
+                            error={errors.volumeError}
                             name={"volume"}
                             value={volume}
                             placeholder={"Enter the volume"}
@@ -178,14 +163,14 @@ const AddPerfume: FC = () => {
                     <div className="form row mt-3">
                         <AddPerfumeSelect
                             title={"Gender"}
-                            error={perfumeGenderError}
+                            error={errors.perfumeGenderError}
                             name={"perfumeGender"}
                             values={["male", "female"]}
                             onChange={handleInputChange}
                         />
                         <AddPerfumeInput
                             title={"Top notes"}
-                            error={fragranceTopNotesError}
+                            error={errors.fragranceTopNotesError}
                             name={"fragranceTopNotes"}
                             value={fragranceTopNotes}
                             placeholder={"Enter the top notes"}
@@ -195,7 +180,7 @@ const AddPerfume: FC = () => {
                     <div className="form row mt-3">
                         <AddPerfumeInput
                             title={"Heart notes"}
-                            error={fragranceMiddleNotesError}
+                            error={errors.fragranceMiddleNotesError}
                             name={"fragranceMiddleNotes"}
                             value={fragranceMiddleNotes}
                             placeholder={"Enter the heart notes"}
@@ -203,7 +188,7 @@ const AddPerfume: FC = () => {
                         />
                         <AddPerfumeInput
                             title={"Base notes"}
-                            error={fragranceBaseNotesError}
+                            error={errors.fragranceBaseNotesError}
                             name={"fragranceBaseNotes"}
                             value={fragranceBaseNotes}
                             placeholder={"Enter the base notes"}
@@ -213,7 +198,7 @@ const AddPerfume: FC = () => {
                     <div className="form row mt-3">
                         <AddPerfumeInput
                             title={"Price"}
-                            error={priceError}
+                            error={errors.priceError}
                             name={"price"}
                             value={price}
                             placeholder={"Enter the price"}
@@ -225,7 +210,7 @@ const AddPerfume: FC = () => {
                     </div>
                     <IconButton
                         buttonText={"Add"}
-                        buttonClassName={"btn btn-dark mt-3"}
+                        buttonClassName={"mt-3"}
                         icon={faPlusSquare}
                         iconClassName={"mr-2"}
                     />

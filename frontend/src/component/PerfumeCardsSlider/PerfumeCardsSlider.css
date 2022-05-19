@@ -1,3 +1,14 @@
 #indicators .carousel-indicators {
     margin: -50px;
 }
+
+.perfume_card_item_image_wrapper {
+    height: 130px;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+.perfume_card_item_image {
+    width: 125px;
+}

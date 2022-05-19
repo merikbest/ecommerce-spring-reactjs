@@ -1,14 +1,14 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, ReactElement, useEffect} from 'react';
 import {useDispatch} from "react-redux";
-import {NavLink, Redirect, Route} from "react-router-dom";
+import {Redirect, Route} from "react-router-dom";
 import {faUserEdit} from "@fortawesome/free-solid-svg-icons";
 
-import {formReset} from "../../redux/thunks/admin-thunks";
-import {fetchUserInfo} from "../../redux/thunks/user-thunks";
+import {formReset} from "../../redux/admin/admin-thunks";
+import {fetchUserInfo} from "../../redux/user/user-thunks";
 import PersonalOrdersList from "./PersonalOrdersList/PersonalOrdersList";
 import ChangePassword from "./ChangePassword/ChangePassword";
 import PersonalData from "./PersonalData/PersonalData";
-import AccountItem from "./AccountItem";
+import AccountItem from "./AccountItem/AccountItem";
 import AddPerfume from "./AddPerfume/AddPerfume";
 import OrdersList from "./OrdersList/OrdersList";
 import UsersList from "./UsersList/UsersList";
@@ -16,10 +16,11 @@ import PerfumeList from "./PerfumeList/PerfumeList";
 import ManageUser from "./ManageUser/ManageUser";
 import EditPerfume from "./EditPerfume/EditPerfume";
 import ManageUserOrder from "./ManageUserOrder/ManageUserOrder";
-import "./Account.css";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
+import AccountLink from "./AccountLink";
+import "./Account.css";
 
-const Account: FC = () => {
+const Account: FC = (): ReactElement => {
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -31,34 +32,21 @@ const Account: FC = () => {
         <div className="account-container container">
             <div className="row mt-5">
                 <div className="col-md-2">
-                    <InfoTitle className={"mr-2"} icon={faUserEdit} title={"My Account"}/>
-                    <NavLink to={"/account/user/info"}
-                             className="account-sidebar-link nav-link"
-                             activeClassName="is-active">Personal data</NavLink>
-                    {(localStorage.getItem("userRole") === "ADMIN") ?
+                    <InfoTitle iconClass={"mr-1"} icon={faUserEdit} title={"My Account"}/>
+                    <AccountLink link={"/account/user/info"} title={"Personal data"}/>
+                    {(localStorage.getItem("userRole") === "ADMIN") ? (
                         <>
-                            <NavLink to={"/account/admin/add"}
-                                     className="account-sidebar-link nav-link"
-                                     activeClassName="is-active">Add perfume</NavLink>
-                            <NavLink to={"/account/admin/perfumes"}
-                                     className="account-sidebar-link nav-link"
-                                     activeClassName="is-active">List of perfumes</NavLink>
-                            <NavLink to={"/account/admin/orders"}
-                                     className="account-sidebar-link nav-link"
-                                     activeClassName="is-active">List of all orders</NavLink>
-                            <NavLink to={"/account/admin/users"}
-                                     className="account-sidebar-link nav-link"
-                                     activeClassName="is-active">List of all users</NavLink>
-                        </> :
-                        <>
-                            <NavLink to={"/account/user/edit"}
-                                     className="account-sidebar-link nav-link"
-                                     activeClassName="is-active">Change password</NavLink>
-                            <NavLink to={"/account/user/orders"}
-                                     className="account-sidebar-link nav-link"
-                                     activeClassName="is-active">List of orders</NavLink>
+                            <AccountLink link={"/account/admin/add"} title={"Add perfume"}/>
+                            <AccountLink link={"/account/admin/perfumes"} title={"List of perfumes"}/>
+                            <AccountLink link={"/account/admin/orders"} title={"List of all orders"}/>
+                            <AccountLink link={"/account/admin/users"} title={"List of all users"}/>
                         </>
-                    }
+                    ) : (
+                        <>
+                            <AccountLink link={"/account/user/edit"} title={"Change password"}/>
+                            <AccountLink link={"/account/user/orders"} title={"List of orders"}/>
+                        </>
+                    )}
                 </div>
                 <div className="col-md-10">
                     <Route exact path="/account" component={() => <AccountItem/>}/>

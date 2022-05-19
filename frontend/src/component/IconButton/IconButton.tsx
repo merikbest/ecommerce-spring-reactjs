@@ -4,14 +4,15 @@ import {IconDefinition} from "@fortawesome/fontawesome-common-types";
 
 type PropsType = {
     buttonText: string;
-    buttonClassName: string;
+    buttonClassName?: string;
     icon: IconDefinition;
     iconClassName: string;
+    onClick?: any;
 };
 
-const IconButton: FC<PropsType> = ({buttonText, buttonClassName, icon, iconClassName}): ReactElement => {
+const IconButton: FC<PropsType> = ({buttonText, buttonClassName, icon, iconClassName, onClick}): ReactElement => {
     return (
-        <button type="submit" className={buttonClassName}>
+        <button type="submit" className={`btn btn-dark ${buttonClassName}`} onClick={onClick}>
             <FontAwesomeIcon className={iconClassName} icon={icon}/>
             {buttonText}
         </button>

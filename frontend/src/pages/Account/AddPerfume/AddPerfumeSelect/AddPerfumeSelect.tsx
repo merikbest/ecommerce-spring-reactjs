@@ -20,7 +20,7 @@ const AddPerfumeSelect: FC<PropsType> = ({title, error, name, values, onChange})
                 onChange={onChange}
             >
                 <option hidden={true} value=""></option>
-                {values.map((option) => <option value={option}>{option}</option>)}
+                {values.map((option, index) => <option key={index} value={option}>{option}</option>)}
             </select>
             <div className="invalid-feedback">
                 {error}
