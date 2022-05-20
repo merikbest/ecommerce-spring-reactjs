@@ -20,7 +20,6 @@ import {
 
 export type AuthState = {
     user: Partial<User>
-    userEmail: string | null
     userRole: string | null
     isRegistered: boolean
     loading: boolean
@@ -31,7 +30,6 @@ export type AuthState = {
 
 const initialState: AuthState = {
     user: {},
-    userEmail: "",
     userRole: "",
     isRegistered: false,
     loading: false,

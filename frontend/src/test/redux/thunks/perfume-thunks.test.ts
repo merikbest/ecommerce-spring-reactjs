@@ -9,7 +9,7 @@ import {API_BASE_URL} from "../../../utils/constants/url";
 import {perfumeData} from "../../test-data/perfume-test-data";
 import {loadingPerfume} from "../../../redux/perfumes/perfumes-actions";
 import {fetchPerfume, fetchPerfumeByQuery} from "../../../redux/perfume/perfume-thunks";
-import {fetchPerfumeByQuerySuccess, fetchPerfumeSuccess} from "../../../redux/perfume/perfume-actions";
+import {setPerfumeByQuery, setPerfume} from "../../../redux/perfume/perfume-actions";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore<PerfumesState, ThunkDispatch<PerfumesState, void, AnyAction>>(middlewares);
@@ -25,14 +25,14 @@ describe("perfume actions", () => {
     test("fetchPerfume should dispatches LOADING_PERFUME and FETCH_PERFUME_SUCCESS on success", async () => {
         mock.onGet(API_BASE_URL + "/perfumes/34").reply(200, perfumeData);
         await store.dispatch(fetchPerfume("34"));
-        let expectedActions = [loadingPerfume(), fetchPerfumeSuccess(perfumeData)];
+        let expectedActions = [loadingPerfume(), setPerfume(perfumeData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("fetchPerfumeByQuery should dispatches FETCH_PERFUME_BY_QUERY_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + "/perfumes/graphql/perfume").reply(200, {data: {perfume: perfumeData}});
         await store.dispatch(fetchPerfumeByQuery("1"));
-        let expectedActions = [loadingPerfume(), fetchPerfumeByQuerySuccess(perfumeData)];
+        let expectedActions = [loadingPerfume(), setPerfumeByQuery(perfumeData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 });

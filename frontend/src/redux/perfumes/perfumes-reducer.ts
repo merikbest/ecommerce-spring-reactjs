@@ -1,12 +1,10 @@
 import {Perfume} from "../../types/types";
 import {
-    FETCH_PERFUMES,
-    FETCH_PERFUMES_BY_FILTER_PARAMS_SUCCESS,
-    FETCH_PERFUMES_BY_GENDER_SUCCESS,
-    FETCH_PERFUMES_BY_PERFUMER_SUCCESS,
-    FETCH_PERFUMES_BY_QUERY_SUCCESS,
     LOADING_PERFUME,
-    PerfumesActionTypes
+    PerfumesActionTypes,
+    REMOVE_PERFUME_BY_ID,
+    RESET_PERFUMES_STATE,
+    SET_PERFUMES
 } from "./perfumes-action-types";
 
 export type PerfumesState = {
@@ -16,7 +14,7 @@ export type PerfumesState = {
 
 const initialState: PerfumesState = {
     perfumes: [],
-    isPerfumeLoading: false
+    isPerfumeLoading: true
 };
 
 const reducer = (state: PerfumesState = initialState, action: PerfumesActionTypes): PerfumesState => {
@@ -25,20 +23,15 @@ const reducer = (state: PerfumesState = initialState, action: PerfumesActionType
         case LOADING_PERFUME:
             return {...state, isPerfumeLoading: true};
 
-        case FETCH_PERFUMES:
+        case SET_PERFUMES:
             return {...state, perfumes: action.payload, isPerfumeLoading: false};
 
-        case FETCH_PERFUMES_BY_QUERY_SUCCESS:
-            return {...state, perfumes: action.payload, isPerfumeLoading: false};
+        case REMOVE_PERFUME_BY_ID:
+            const perfumes = state.perfumes.filter((perfume) => perfume.id !== action.payload);
+            return {...state, perfumes: perfumes, isPerfumeLoading: false};
 
-        case FETCH_PERFUMES_BY_GENDER_SUCCESS:
-            return {...state, perfumes: action.payload, isPerfumeLoading: false};
-
-        case FETCH_PERFUMES_BY_PERFUMER_SUCCESS:
-            return {...state, perfumes: action.payload, isPerfumeLoading: false};
-
-        case FETCH_PERFUMES_BY_FILTER_PARAMS_SUCCESS:
-            return {...state, perfumes: action.payload, isPerfumeLoading: false};
+        case RESET_PERFUMES_STATE:
+            return {perfumes: [], isPerfumeLoading: true};
 
         default:
             return state;

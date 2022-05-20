@@ -2,13 +2,13 @@ import React, {ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState} fr
 import {useDispatch, useSelector} from "react-redux";
 import {faCheck} from "@fortawesome/free-solid-svg-icons";
 
-import {User, UserEdit, UserEditErrors} from "../../../types/types";
-import {AppStateType} from "../../../redux/root-reducer";
-import {resetForm, updateUserInfo} from '../../../redux/user/user-thunks';
+import {User, UserEdit} from "../../../types/types";
+import {updateUserInfo} from '../../../redux/user/user-thunks';
 import EditInput from "../../../component/EditInput/EditInput";
 import IconButton from "../../../component/IconButton/IconButton";
-import "./EditPersonalData.css";
 import {selectUserEditErrors, selectUserFromUserState} from "../../../redux/user/user-selector";
+import {resetInputForm} from "../../../redux/user/user-actions";
+import "./EditPersonalData.css";
 
 const EditPersonalData: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const EditPersonalData: FC = (): ReactElement => {
     const {firstNameError, lastNameError} = errors;
 
     useEffect(() => {
-        dispatch(resetForm());
+        dispatch(resetInputForm());
         setUser(usersData);
     }, []);
 

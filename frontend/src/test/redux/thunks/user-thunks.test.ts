@@ -21,14 +21,14 @@ import {
     updateUserInfo,
     updateUserPassword} from "../../../redux/user/user-thunks";
 import {
-    fetchUserSuccess,
+    setUser,
     loadingUserInfo,
     userAddedReviewFailure,
     userAddedReviewSuccess,
     userUpdatedFailure,
     userUpdatedPasswordFailure,
     userUpdatedPasswordSuccess,
-    userUpdatedSuccess
+    setUpdatedUser
 } from "../../../redux/user/user-actions";
 import {fetchPerfumeSuccess} from "../../../redux/perfumes/perfumes-actions";
 import {perfumeData} from "../../test-data/perfume-test-data";
@@ -47,7 +47,7 @@ describe("user actions", () => {
     test("fetchUserInfo should dispatches LOADING_USER_INFO and FETCH_USER_SUCCESS on success", async () => {
         mock.onGet(API_BASE_URL + "/users/info").reply(200, userData);
         await store.dispatch(fetchUserInfo());
-        let expectedActions = [loadingUserInfo(), fetchUserSuccess(userData)];
+        let expectedActions = [loadingUserInfo(), setUser(userData)];
         expect(store.getActions()).toEqual(expectedActions);
         expect(localStorage.getItem("email")).toEqual("test123@test.com");
         expect(localStorage.getItem("userRole")).toEqual("USER");
@@ -57,7 +57,7 @@ describe("user actions", () => {
     test("updateUserInfo should dispatches USER_UPDATED_SUCCESS on success", async () => {
         mock.onPut(API_BASE_URL + "/users/edit").reply(200, userData);
         await store.dispatch(updateUserInfo(userData));
-        let expectedActions = [userUpdatedSuccess(userData)];
+        let expectedActions = [setUpdatedUser(userData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
@@ -99,7 +99,7 @@ describe("user actions", () => {
     test("fetchUserInfoByQuery should dispatches LOADING_USER_INFO and FETCH_USER_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + "/users/graphql/info").reply(200, {data: {user: userData}});
         await store.dispatch(fetchUserInfoByQuery("1"));
-        let expectedActions = [loadingUserInfo(), fetchUserSuccess(userData)];
+        let expectedActions = [loadingUserInfo(), setUser(userData)];
         expect(store.getActions()).toEqual(expectedActions);
         expect(localStorage.getItem("email")).toEqual("test123@test.com");
         expect(localStorage.getItem("userRole")).toEqual("USER");

@@ -3,12 +3,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {faLock, faUndo} from "@fortawesome/free-solid-svg-icons";
 
 import {AuthErrors, UserResetPasswordData} from "../../../types/types";
-import {resetForm, updateUserPassword} from "../../../redux/user/user-thunks";
+import {updateUserPassword} from "../../../redux/user/user-thunks";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 import Alert from "../../../component/Alert/Alert";
 import IconButton from "../../../component/IconButton/IconButton";
 import PasswordInput from "../../../component/PasswordInput/PasswordInput";
 import {selectSuccessMessage, selectUserResetPasswordErrors} from "../../../redux/user/user-selector";
+import {resetInputForm} from "../../../redux/user/user-actions";
 import "./ChangePassword.css";
 
 const ChangePassword: FC = (): ReactElement => {
@@ -20,7 +21,7 @@ const ChangePassword: FC = (): ReactElement => {
     const {passwordError, password2Error} = errors;
 
     useEffect(() => {
-        dispatch(resetForm());
+        dispatch(resetInputForm());
     }, []);
 
     useEffect(() => {

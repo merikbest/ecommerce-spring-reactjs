@@ -1,15 +1,15 @@
 import React, {FC, ReactElement, useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 
-import {clearCart} from "../../../redux/cart/cart-thunks";
 import {selectOrder} from "../../../redux/order/order-selector";
+import {resetCartState} from "../../../redux/cart/cart-actions";
 
 const OrderFinalize: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const order = useSelector(selectOrder);
 
     useEffect(() => {
-        dispatch(clearCart());
+        dispatch(resetCartState());
     }, []);
 
     return (

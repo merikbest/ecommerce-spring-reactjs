@@ -7,6 +7,7 @@ import {fetchPerfumesByIdsQuery} from "../../redux/perfumes/perfumes-thunks"
 import {Perfume} from "../../types/types";
 import StarRating from "../StarRating/StarRating";
 import {selectPerfumes} from "../../redux/perfumes/perfumes-selector";
+import {resetPerfumesState} from "../../redux/perfumes/perfumes-actions";
 import "./PerfumeCardsSlider.css";
 
 const PerfumeCardsSlider: FC = (): ReactElement => {
@@ -18,6 +19,10 @@ const PerfumeCardsSlider: FC = (): ReactElement => {
         // GraphQL example
         dispatch(fetchPerfumesByIdsQuery(perfumesId));
         // dispatch(fetchPerfumesByIds(perfumesId));
+        
+        return () => {
+            dispatch(resetPerfumesState());
+        };
     }, []);
 
     const addCarouselItems = (array: Array<Perfume>, counter: number) => {

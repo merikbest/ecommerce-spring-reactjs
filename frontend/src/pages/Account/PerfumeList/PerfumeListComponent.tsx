@@ -11,7 +11,7 @@ import {deletePerfume} from "../../../redux/admin/admin-thunks";
 import Spinner from '../../../component/Spinner/Spinner';
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 import PerfumeListItem from "./PerfumeListItem/PerfumeListItem";
-import {selectIsPerfumeLoading} from "../../../redux/perfume/perfume-selector";
+import {selectIsPerfumesLoading} from "../../../redux/perfumes/perfumes-selector";
 
 type PropsType = {
     data: Array<Perfume>
@@ -22,7 +22,7 @@ type PropsType = {
 
 const PerfumeListComponent: FC<PropsType> = ({data, itemsPerPage, startFrom, searchByData}): ReactElement => {
     const dispatch = useDispatch();
-    const loading = useSelector(selectIsPerfumeLoading);
+    const loading = useSelector(selectIsPerfumesLoading);
     const [modalActive, setModalActive] = useState<boolean>(false);
     const [perfumeInfo, setPerfumeInfo] = useState<Perfume>();
 

@@ -1,123 +1,116 @@
 import {createStore} from "redux";
+
 import rootReducer from "../../../redux/root-reducer";
-import authReducer, {InitialStateType} from "../../../redux/auth/auth-reducer";
+import authReducer, {AuthState} from "../../../redux/auth/auth-reducer";
 import {
     activateAccountFailure,
     activateAccountSuccess,
     forgotPasswordFailure,
     forgotPasswordSuccess,
     loginFailure,
-    loginSuccess, logoutSuccess,
+    loginSuccess,
+    logoutSuccess,
     registerFailure,
-    registerSuccess, resetPasswordCodeFailure,
-    resetPasswordCodeSuccess, resetPasswordFailure,
+    registerSuccess,
+    resetPasswordCodeFailure,
+    resetPasswordCodeSuccess,
+    resetPasswordFailure,
     resetPasswordSuccess,
     showLoader
 } from "../../../redux/auth/auth-actions";
-import {AuthErrors, User} from "../../../types/types";
 import {authErrorsData, userData} from "../../test-data/user-test-data";
 import {reset} from "../../../redux/admin/admin-actions";
 
-let store = createStore(rootReducer);
-let userRole: string;
-let error: string;
-let errors: AuthErrors;
-let success: string;
-let message: string;
-let user: User;
+describe("auth reducer", () => {
+    const authStore = createStore(rootReducer).getState().auth;
+    const error = "Incorrect password or email";
+    const errors = authErrorsData;
+    const success = "User successfully activated.";
+    
+    test("should Show Loader", () => {
+        const state: AuthState = authReducer(authStore, showLoader());
+        expect(state.loading).toBeTruthy();
+        expect(state.errors).toEqual({});
+    });
 
-beforeEach(() => {
-    userRole = "USER";
-    error = "Incorrect password or email";
-    errors = authErrorsData;
-    success = "User successfully activated.";
-    message = "Reset password code is send to your E-mail";
-    user = userData;
-});
+    test("should Login Success", () => {
+        const state: AuthState = authReducer(authStore, loginSuccess("USER"));
+        expect(state.userRole).toEqual("USER");
+    });
 
-test("Show Loader", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, showLoader());
-    expect(state.loading).toBeTruthy();
-    expect(state.errors).toEqual({});
-});
+    test("should Login Failure", () => {
+        const state: AuthState = authReducer(authStore, loginFailure(error));
+        expect(state.error).toEqual(error);
+    });
 
-test("Login Success", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, loginSuccess(userRole));
-    expect(state.userRole).toEqual(userRole);
-});
+    test("should Register Success", () => {
+        const state: AuthState = authReducer(authStore, registerSuccess());
+        expect(state.isRegistered).toBeTruthy();
+        expect(state.loading).toBeFalsy();
+        expect(state.errors).toEqual({});
+    });
 
-test("Login Failure", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, loginFailure(error));
-    expect(state.error).toEqual(error);
-});
+    test("should Register Failure", () => {
+        const state: AuthState = authReducer(authStore, registerFailure(errors));
+        expect(state.errors).toEqual(errors);
+        expect(state.loading).toBeFalsy();
+    });
 
-test("Register Success", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, registerSuccess());
-    expect(state.isRegistered).toBeTruthy();
-    expect(state.loading).toBeFalsy();
-    expect(state.errors).toEqual({});
-});
+    test("should Activate Account Success", () => {
+        const state: AuthState = authReducer(authStore, activateAccountSuccess(success));
+        expect(state.success).toEqual(success);
+    });
 
-test("Register Failure", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, registerFailure(errors));
-    expect(state.errors).toEqual(errors);
-    expect(state.loading).toBeFalsy();
-});
+    test("should Activate Account Failure", () => {
+        const state: AuthState = authReducer(authStore, activateAccountFailure(error));
+        expect(state.error).toEqual(error);
+    });
 
-test("Activate Account Success", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, activateAccountSuccess(success));
-    expect(state.success).toEqual(success);
-});
+    test("should Forgot Password Success", () => {
+        const state: AuthState = authReducer(authStore, forgotPasswordSuccess("Reset password code is send to your E-mail"));
+        expect(state.success).toEqual("Reset password code is send to your E-mail");
+        expect(state.loading).toBeFalsy();
+        expect(state.errors).toEqual({});
+        expect(state.error).toEqual("");
+    });
 
-test("Activate Account Failure", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, activateAccountFailure(error));
-    expect(state.error).toEqual(error);
-});
+    test("should Forgot Password Failure", () => {
+        const state: AuthState = authReducer(authStore, forgotPasswordFailure(error));
+        expect(state.error).toEqual(error);
+        expect(state.loading).toBeFalsy();
+    });
 
-test("Forgot Password Success", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, forgotPasswordSuccess(message));
-    expect(state.success).toEqual(message);
-    expect(state.loading).toBeFalsy();
-    expect(state.errors).toEqual({});
-    expect(state.error).toEqual("");
-});
+    test("should Reset Password Code Success", () => {
+        const state: AuthState = authReducer(authStore, resetPasswordCodeSuccess(userData));
+        expect(state.user).toEqual(userData);
+    });
 
-test("Forgot Password Failure", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, forgotPasswordFailure(error));
-    expect(state.error).toEqual(error);
-    expect(state.loading).toBeFalsy();
-});
+    test("should Reset Password Code Failure", () => {
+        const state: AuthState = authReducer(authStore, resetPasswordCodeFailure(error));
+        expect(state.error).toEqual(error);
+    });
 
-test("Reset Password Code Success", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, resetPasswordCodeSuccess(user));
-    expect(state.user).toEqual(user);
-});
+    test("should Reset Password Success", () => {
+        const state: AuthState = authReducer(authStore, resetPasswordSuccess(success));
+        expect(state.success).toEqual(success);
+    });
 
-test("Reset Password Code Failure", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, resetPasswordCodeFailure(error));
-    expect(state.error).toEqual(error);
-});
+    test("should Reset Password Failure", () => {
+        const state: AuthState = authReducer(authStore, resetPasswordFailure(errors));
+        expect(state.errors).toEqual(errors);
+    });
 
-test("Reset Password Success", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, resetPasswordSuccess(success));
-    expect(state.success).toEqual(success);
-});
+    test("should Logout", () => {
+        const state: AuthState = authReducer(authStore, logoutSuccess());
+        expect(state.userRole).toEqual("");
+    });
 
-test("Reset Password Failure", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, resetPasswordFailure(errors));
-    expect(state.errors).toEqual(errors);
-});
-
-test("Logout", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, logoutSuccess());
-    expect(state.userRole).toEqual("");
-});
-
-test("Form Reset", () => {
-    const state: InitialStateType = authReducer(store.getState().auth, reset());
-    expect(state.error).toEqual("");
-    expect(state.errors).toEqual({});
-    expect(state.success).toEqual("");
-    expect(state.isRegistered).toBeFalsy();
-    expect(state.loading).toBeFalsy();
+    test("should Form Reset", () => {
+        const state: AuthState = authReducer(authStore, reset());
+        expect(state.error).toEqual("");
+        expect(state.errors).toEqual({});
+        expect(state.success).toEqual("");
+        expect(state.isRegistered).toBeFalsy();
+        expect(state.loading).toBeFalsy();
+    });
 });

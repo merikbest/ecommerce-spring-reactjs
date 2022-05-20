@@ -3,9 +3,9 @@ import {
     LOADING_ORDER,
     LoadingOrderActionType,
     ORDER_ADDED_FAILURE,
-    ORDER_ADDED_SUCCESS,
+    SET_ORDER,
     OrderAddedFailureActionType,
-    OrderAddedSuccessActionType,
+    SetOrderActionType,
     RESET_ORDER_STATE,
     ResetOrderStateActionType,
 } from "./order-action-types";
@@ -18,8 +18,8 @@ export const resetOrderState = (): ResetOrderStateActionType => ({
     type: RESET_ORDER_STATE
 });
 
-export const orderAddedSuccess = (order: Order): OrderAddedSuccessActionType => ({
-    type: ORDER_ADDED_SUCCESS,
+export const setOrder = (order: Order): SetOrderActionType => ({
+    type: SET_ORDER,
     payload: order
 });
 

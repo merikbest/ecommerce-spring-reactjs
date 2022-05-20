@@ -1,24 +1,30 @@
 import {Perfume} from "../../types/types";
 
 export const LOADING_PERFUME = "perfume/LOADING_PERFUME";
-export const FETCH_PERFUME_SUCCESS = "perfume/FETCH_PERFUME_SUCCESS";
-export const FETCH_PERFUME_BY_QUERY_SUCCESS = "perfume/FETCH_PERFUME_BY_QUERY_SUCCESS";
+export const SET_PERFUME = "perfume/SET_PERFUME";
+export const SET_PERFUME_BY_QUERY = "perfume/SET_PERFUME_BY_QUERY";
+export const RESET_PERFUME_STATE = "perfume/RESET_PERFUME_STATE";
 
 export type LoadingPerfumeActionType = {
     type: typeof LOADING_PERFUME
 };
 
-export type FetchPerfumeSuccessActionType = {
-    type: typeof FETCH_PERFUME_SUCCESS,
+export type SetPerfumeActionType = {
+    type: typeof SET_PERFUME,
     payload: Perfume
 };
 
-export type FetchPerfumeByQuerySuccessActionType = {
-    type: typeof FETCH_PERFUME_BY_QUERY_SUCCESS,
+export type SetPerfumeByQueryActionType = {
+    type: typeof SET_PERFUME_BY_QUERY,
     payload: Perfume
+};
+
+export type ResetPerfumeStateActionType = {
+    type: typeof RESET_PERFUME_STATE,
 };
 
 export type PerfumeActionTypes = 
-    | LoadingPerfumeActionType 
-    | FetchPerfumeByQuerySuccessActionType 
-    | FetchPerfumeSuccessActionType 
+    | LoadingPerfumeActionType
+    | SetPerfumeActionType
+    | SetPerfumeByQueryActionType
+    | ResetPerfumeStateActionType

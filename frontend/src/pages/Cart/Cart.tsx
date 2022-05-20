@@ -11,14 +11,17 @@ import {
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import Spinner from "../../component/Spinner/Spinner";
-import {calculateCartPrice, fetchCart, loadCart} from "../../redux/cart/cart-thunks";
+import {fetchCart} from "../../redux/cart/cart-thunks";
 import {Perfume} from "../../types/types";
-import {selectCartItems, selectIsCartLoading, selectTotalPrice} from "../../redux/cart/cart-selector";
+import {selectIsCartLoading, selectTotalPrice} from "../../redux/cart/cart-selector";
+import {calculateCartPrice, resetCartState, setCartItemsCount} from "../../redux/cart/cart-actions";
+import {selectPerfumes} from "../../redux/perfumes/perfumes-selector";
+import {removePerfumeById} from "../../redux/perfumes/perfumes-actions";
 import "./Cart.css";
 
 const Cart: FC = (): ReactElement => {
     const dispatch = useDispatch();
-    const perfumes = useSelector(selectCartItems);
+    const perfumes = useSelector(selectPerfumes);
     const totalPrice = useSelector(selectTotalPrice);
     const loading = useSelector(selectIsCartLoading);
     const [perfumeInCart, setPerfumeInCart] = useState(() => new Map());
@@ -26,14 +29,14 @@ const Cart: FC = (): ReactElement => {
     useEffect(() => {
         const perfumesFromLocalStorage: Map<number, number> = new Map(JSON.parse(localStorage.getItem("perfumes") as string));
 
-        if (perfumesFromLocalStorage !== null) {
-            dispatch(fetchCart(Array.from(perfumesFromLocalStorage.keys())))
-            perfumesFromLocalStorage.forEach((value: number, key: number) => {
-                setPerfumeInCart(perfumeInCart.set(key, value))
-            });
-        } else {
-            dispatch(loadCart());
-        }
+        dispatch(fetchCart(Array.from(perfumesFromLocalStorage.keys())));
+        perfumesFromLocalStorage.forEach((value: number, key: number) => {
+            setPerfumeInCart(perfumeInCart.set(key, value))
+        });
+        
+        return () => {
+            dispatch(resetCartState());
+        };
     }, []);
 
     const deleteFromCart = (perfumeId: number): void => {
@@ -45,7 +48,9 @@ const Cart: FC = (): ReactElement => {
         } else {
             localStorage.setItem("perfumes", JSON.stringify(Array.from(perfumeInCart.entries())));
         }
-        dispatch(fetchCart(Array.from(perfumeInCart.keys())));
+        dispatch(removePerfumeById(perfumeId));
+        dispatch(calculateCartPrice(perfumes));
+        dispatch(setCartItemsCount(perfumeInCart.size));
     };
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>, perfumeId: number): void => {

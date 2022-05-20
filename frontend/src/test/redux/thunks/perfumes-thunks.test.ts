@@ -10,7 +10,7 @@ import {
     fetchPerfumesByGenderSuccess,
     fetchPerfumesByPerfumerSuccess,
     fetchPerfumesByQuerySuccess,
-    getPerfumes,
+    setPerfumes,
     loadingPerfume
 } from "../../../redux/perfumes/perfumes-actions";
 import {
@@ -39,14 +39,14 @@ describe("perfumes actions", () => {
     test("fetchPerfumes should dispatches LOADING_PERFUME and FETCH_PERFUMES on success", async () => {
         mock.onGet(API_BASE_URL + "/perfumes").reply(200, perfumesData);
         await store.dispatch(fetchPerfumes());
-        let expectedActions = [loadingPerfume(), getPerfumes(perfumesData)];
+        let expectedActions = [loadingPerfume(), setPerfumes(perfumesData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
     
     test("fetchPerfumesByIds should dispatches LOADING_PERFUME and FETCH_PERFUMES on success", async () => {
         mock.onPost(API_BASE_URL + "/perfumes/ids").reply(200, perfumesData);
         await store.dispatch(fetchPerfumesByIds([34, 35, 38]));
-        let expectedActions = [loadingPerfume(), getPerfumes(perfumesData)];
+        let expectedActions = [loadingPerfume(), setPerfumes(perfumesData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 

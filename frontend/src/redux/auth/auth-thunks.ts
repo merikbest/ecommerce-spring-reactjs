@@ -18,8 +18,9 @@ import {reset} from "../admin/admin-actions";
 import {UserData, UserRegistration, UserResetPasswordData} from "../../types/types";
 import {Dispatch} from "redux";
 import RequestService from '../../utils/request-service';
+import {History, LocationState} from "history";
 
-export const login = (userData: UserData, history: any) => async (dispatch: Dispatch) => {
+export const login = (userData: UserData, history: History<LocationState>) => async (dispatch: Dispatch) => {
     try {
         const response = await RequestService.post("/auth/login", userData);
         localStorage.setItem("email", response.data.email);
@@ -41,14 +42,6 @@ export const registration = (userRegistrationData: UserRegistration) => async (d
     } catch (error) {
         dispatch(registerFailure(error.response.data));
     }
-};
-
-export const logout = () => async (dispatch: Dispatch) => {
-    localStorage.removeItem("email");
-    localStorage.removeItem("token");
-    localStorage.removeItem("userRole");
-    localStorage.removeItem("isLoggedIn");
-    dispatch(logoutSuccess());
 };
 
 export const activateAccount = (code: string) => async (dispatch: Dispatch) => {
@@ -79,7 +72,7 @@ export const fetchResetPasswordCode = (code: string) => async (dispatch: Dispatc
     }
 };
 
-export const resetPassword = (data: UserResetPasswordData, history: any) => async (dispatch: Dispatch) => {
+export const resetPassword = (data: UserResetPasswordData, history: History<LocationState>) => async (dispatch: Dispatch) => {
     try {
         const response = await RequestService.post("/auth/reset", data);
         dispatch(resetPasswordSuccess(response.data));

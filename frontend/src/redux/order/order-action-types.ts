@@ -2,7 +2,7 @@ import {Order, OrderError} from "../../types/types";
 
 export const LOADING_ORDER = "order/LOADING_ORDER";
 export const RESET_ORDER_STATE = "order/RESET_ORDER_STATE";
-export const ORDER_ADDED_SUCCESS = "order/ORDER_ADDED_SUCCESS";
+export const SET_ORDER = "order/SET_ORDER";
 export const ORDER_ADDED_FAILURE = "order/ORDER_ADDED_FAILURE";
 
 export type LoadingOrderActionType = {
@@ -13,8 +13,8 @@ export type ResetOrderStateActionType = {
     type: typeof RESET_ORDER_STATE
 };
 
-export type OrderAddedSuccessActionType = {
-    type: typeof ORDER_ADDED_SUCCESS,
+export type SetOrderActionType = {
+    type: typeof SET_ORDER,
     payload: Order
 };
 
@@ -26,5 +26,5 @@ export type OrderAddedFailureActionType = {
 export type OrderActionTypes =
     | LoadingOrderActionType
     | ResetOrderStateActionType
-    | OrderAddedSuccessActionType
+    | SetOrderActionType
     | OrderAddedFailureActionType;

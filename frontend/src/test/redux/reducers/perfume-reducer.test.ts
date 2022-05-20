@@ -1,29 +1,38 @@
 import {createStore} from "redux";
 
-import perfumeReducer from "../../../redux/perfume/perfume-reducer";
+import perfumeReducer, {PerfumeState} from "../../../redux/perfume/perfume-reducer";
 import rootReducer from "../../../redux/root-reducer";
-import {fetchPerfumeByQuerySuccess, fetchPerfumeSuccess} from "../../../redux/perfume/perfume-actions";
-import {PerfumeState} from "../../../redux/perfume/perfume-reducer";
-import {Perfume} from "../../../types/types";
+import {loadingPerfume, resetPerfumeState, setPerfume, setPerfumeByQuery} from "../../../redux/perfume/perfume-actions";
 import {perfumeData} from "../../test-data/perfume-test-data";
 
-let store = createStore(rootReducer);
-let perfume: Perfume;
+describe("perfume reducer", () => {
+    const perfumeStore = createStore(rootReducer).getState().perfume;
 
-beforeEach(() => {
-    perfume = perfumeData;
-});
+    test("should Loading Perfume", () => {
+        const state: PerfumeState = perfumeReducer(perfumeStore, loadingPerfume());
+        expect(state.perfume).toEqual({});
+        expect(state.isPerfumeLoading).toBeTruthy();
+        expect(state.reviews.length).toEqual(0);
+    });
+    
+    test("should Set Perfume", () => {
+        const state: PerfumeState = perfumeReducer(perfumeStore, setPerfume(perfumeData));
+        expect(state.perfume).toEqual(perfumeData);
+        expect(state.isPerfumeLoading).toBeFalsy();
+        expect(state.reviews.length).toEqual(3);
+    });
 
-test("Fetch Perfume", () => {
-    const state: PerfumeState = perfumeReducer(store.getState().perfume, fetchPerfumeSuccess(perfume));
-    expect(state.perfume).toEqual(perfume);
-    expect(state.isPerfumeLoading).toBeFalsy();
-    expect(state.reviews.length).toEqual(3);
-});
+    test("should Set Perfume By Query", () => {
+        const state: PerfumeState = perfumeReducer(perfumeStore, setPerfumeByQuery(perfumeData));
+        expect(state.perfume).toEqual(perfumeData);
+        expect(state.isPerfumeLoading).toBeFalsy();
+        expect(state.reviews.length).toEqual(3);
+    });
 
-test("Fetch Perfume By Query", () => {
-    const state: PerfumeState = perfumeReducer(store.getState().perfume, fetchPerfumeByQuerySuccess(perfume));
-    expect(state.perfume).toEqual(perfume);
-    expect(state.isPerfumeLoading).toBeFalsy();
-    expect(state.reviews.length).toEqual(3);
+    test("should Reset Perfume State", () => {
+        const state: PerfumeState = perfumeReducer(perfumeStore, resetPerfumeState());
+        expect(state.perfume).toEqual({});
+        expect(state.isPerfumeLoading).toBeTruthy();
+        expect(state.reviews.length).toEqual(0);
+    });
 });

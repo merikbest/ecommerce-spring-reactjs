@@ -8,8 +8,8 @@ import {CompatClient, Stomp} from '@stomp/stompjs';
 import StarRatingComponent from 'react-star-rating-component';
 
 import {WEBSOCKET_URL} from "../../utils/constants/url";
-import {fetchPerfumeByQuery, fetchPerfumeReviewsWS} from "../../redux/perfume/perfume-thunks";
-import {addReviewToPerfume, resetForm} from "../../redux/user/user-thunks";
+import {fetchPerfumeByQuery} from "../../redux/perfume/perfume-thunks";
+import {addReviewToPerfume} from "../../redux/user/user-thunks";
 import {ReviewData} from "../../types/types";
 import halfStar from "../../img/star-half.svg";
 import Spinner from "../../component/Spinner/Spinner";
@@ -18,7 +18,9 @@ import ScrollButton from "../../component/ScrollButton/ScrollButton";
 import IconButton from "../../component/IconButton/IconButton";
 import {selectIsPerfumeLoading, selectPerfume, selectReviews} from "../../redux/perfume/perfume-selector";
 import {selectIsReviewAdded, selectReviewErrors} from "../../redux/user/user-selector";
+import {resetPerfumeState, setPerfume} from "../../redux/perfume/perfume-actions";
 import "./Product.css";
+import {resetInputForm} from "../../redux/user/user-actions";
 
 let stompClient: CompatClient | null = null;
 
@@ -41,16 +43,20 @@ const Product: FC = (): ReactElement => {
         // GraphQL example
         dispatch(fetchPerfumeByQuery(params.id));
         // dispatch(fetchPerfume(match.params.id));
-        dispatch(resetForm());
+        dispatch(resetInputForm());
         window.scrollTo(0, 0);
         const socket = new SockJS(WEBSOCKET_URL);
         stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient?.subscribe("/topic/reviews/" + params.id, (response: any) => {
-                dispatch(fetchPerfumeReviewsWS(JSON.parse(response.body)));
+                dispatch(setPerfume(JSON.parse(response.body)));
             });
         });
-        return () => stompClient?.disconnect();
+        
+        return () => {
+            stompClient?.disconnect();
+            dispatch(resetPerfumeState());
+        };
     }, []);
 
     useEffect(() => {

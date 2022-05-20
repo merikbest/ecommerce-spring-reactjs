@@ -2,7 +2,7 @@ import {Order, OrderError} from "../../types/types";
 import {
     LOADING_ORDER,
     ORDER_ADDED_FAILURE,
-    ORDER_ADDED_SUCCESS,
+    SET_ORDER,
     RESET_ORDER_STATE,
     OrderActionTypes,
 } from "./order-action-types";
@@ -25,14 +25,14 @@ const reducer = (state: OrderState = initialState, action: OrderActionTypes): Or
         case LOADING_ORDER:
             return {...state, loading: true};
 
-        case RESET_ORDER_STATE:
-            return {...state, errors: {}, loading: false};
-
-        case ORDER_ADDED_SUCCESS:
+        case SET_ORDER:
             return {...state, order: action.payload, loading: false};
 
         case ORDER_ADDED_FAILURE:
             return {...state, errors: action.payload, loading: false};
+
+        case RESET_ORDER_STATE:
+            return {...state, errors: {}, loading: false};
 
         default:
             return state;

@@ -1,9 +1,10 @@
 import {Perfume, Review} from "../../types/types";
 import {
-    FETCH_PERFUME_BY_QUERY_SUCCESS,
-    FETCH_PERFUME_SUCCESS,
     LOADING_PERFUME,
-    PerfumeActionTypes
+    PerfumeActionTypes,
+    RESET_PERFUME_STATE,
+    SET_PERFUME,
+    SET_PERFUME_BY_QUERY
 } from "./perfume-action-types";
 
 export type PerfumeState = {
@@ -15,7 +16,7 @@ export type PerfumeState = {
 const initialState: PerfumeState = {
     perfume: {},
     reviews: [],
-    isPerfumeLoading: false
+    isPerfumeLoading: true
 };
 
 const reducer = (state: PerfumeState = initialState, action: PerfumeActionTypes): PerfumeState => {
@@ -24,11 +25,14 @@ const reducer = (state: PerfumeState = initialState, action: PerfumeActionTypes)
         case LOADING_PERFUME:
             return {...state, isPerfumeLoading: true};
 
-        case FETCH_PERFUME_SUCCESS:
+        case SET_PERFUME:
             return {...state, perfume: action.payload, reviews: action.payload.reviews, isPerfumeLoading: false};
 
-        case FETCH_PERFUME_BY_QUERY_SUCCESS:
+        case SET_PERFUME_BY_QUERY:
             return {...state, perfume: action.payload, reviews: action.payload.reviews, isPerfumeLoading: false};
+
+        case RESET_PERFUME_STATE:
+            return {perfume: {}, reviews: [], isPerfumeLoading: true};
 
         default:
             return state;

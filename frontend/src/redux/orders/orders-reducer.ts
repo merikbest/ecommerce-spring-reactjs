@@ -1,10 +1,5 @@
 import {Order} from "../../types/types";
-import {
-    FETCH_USER_ORDERS_BY_QUERY_SUCCESS,
-    FETCH_USER_ORDERS_SUCCESS,
-    LOADING_ORDERS,
-    OrdersActionTypes
-} from "./orders-action-types";
+import {LOADING_ORDERS, OrdersActionTypes, RESET_ORDERS_STATE, SET_USER_ORDERS,} from "./orders-action-types";
 
 export type OrdersState = {
     orders: Array<Order>
@@ -13,7 +8,7 @@ export type OrdersState = {
 
 const initialState: OrdersState = {
     orders: [],
-    loading: false
+    loading: true
 };
 
 const reducer = (state: OrdersState = initialState, action: OrdersActionTypes): OrdersState => {
@@ -22,12 +17,12 @@ const reducer = (state: OrdersState = initialState, action: OrdersActionTypes): 
         case LOADING_ORDERS:
             return {...state, loading: true};
             
-        case FETCH_USER_ORDERS_SUCCESS:
+        case SET_USER_ORDERS:
             return {...state, orders: action.payload, loading: false};
 
-        case FETCH_USER_ORDERS_BY_QUERY_SUCCESS:
-            return {...state, orders: action.payload, loading: false};
-
+        case RESET_ORDERS_STATE:
+            return {orders: [], loading: true};
+            
         default:
             return state;
     }

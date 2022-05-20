@@ -1,38 +1,36 @@
 import {AuthErrors, ReviewError, User, UserEditErrors} from "../../types/types";
 import {
     LOADING_USER_INFO,
-    FETCH_USER_SUCCESS,
+    SET_USER,
     RESET_INPUT_FORM,
     USER_ADDED_REVIEW_FAILURE,
     USER_ADDED_REVIEW_SUCCESS,
     USER_UPDATED_FAILURE,
     USER_UPDATED_PASSWORD_FAILURE,
     USER_UPDATED_PASSWORD_SUCCESS,
-    USER_UPDATED_SUCCESS,
-    FETCH_USER_BY_QUERY_SUCCESS,
+    SET_UPDATED_USER,
     UserAddedReviewFailureActionType,
     UserAddedReviewSuccessActionType,
     UserUpdatedFailureActionType,
     UserUpdatedPasswordFailureActionType,
     UserUpdatedPasswordSuccessActionType,
-    UserUpdatedSuccessActionType,
+    SetUpdatedUserActionType,
     ResetInputFormActionType,
-    FetchUserSuccessActionType,
-    FetchUserByQuerySuccessActionType,
+    SetUserActionType,
     LoadingUserInfoActionType
-} from "./user-actions-types";
+} from "./user-action-types";
 
 export const loadingUserInfo = (): LoadingUserInfoActionType => ({
     type: LOADING_USER_INFO
 });
 
-export const fetchUserSuccess = (user: User): FetchUserSuccessActionType => ({
-    type: FETCH_USER_SUCCESS,
+export const setUser = (user: User): SetUserActionType => ({
+    type: SET_USER,
     payload: user
 });
 
-export const userUpdatedSuccess = (user: User): UserUpdatedSuccessActionType => ({
-    type: USER_UPDATED_SUCCESS,
+export const setUpdatedUser = (user: User): SetUpdatedUserActionType => ({
+    type: SET_UPDATED_USER,
     payload: user
 });
 
@@ -62,9 +60,4 @@ export const userAddedReviewFailure = (errors: ReviewError): UserAddedReviewFail
 
 export const resetInputForm = (): ResetInputFormActionType => ({
     type: RESET_INPUT_FORM,
-});
-
-export const fetchUserByQuerySuccess = (user: User): FetchUserByQuerySuccessActionType => ({
-    type: FETCH_USER_BY_QUERY_SUCCESS,
-    payload: user
 });

@@ -1,18 +1,17 @@
 import {AuthErrors, ReviewError, User, UserEditErrors} from "../../types/types";
-import { LOGOUT_SUCCESS } from "../auth/auth-action-types";
+import {LOGOUT_SUCCESS} from "../auth/auth-action-types";
 import {
-    FETCH_USER_SUCCESS,
+    LOADING_USER_INFO,
+    RESET_INPUT_FORM,
+    SET_UPDATED_USER,
+    SET_USER,
     USER_ADDED_REVIEW_FAILURE,
     USER_ADDED_REVIEW_SUCCESS,
     USER_UPDATED_FAILURE,
     USER_UPDATED_PASSWORD_FAILURE,
     USER_UPDATED_PASSWORD_SUCCESS,
-    USER_UPDATED_SUCCESS,
-    RESET_INPUT_FORM,
-    FETCH_USER_BY_QUERY_SUCCESS,
-    LOADING_USER_INFO,
-    UserActionsTypes
-} from "./user-actions-types";
+    UserActionTypes
+} from "./user-action-types";
 
 export type UserState = {
     user: Partial<User>
@@ -36,16 +35,16 @@ const initialState: UserState = {
     isReviewAdded: false
 };
 
-const reducer = (state: UserState = initialState, action: UserActionsTypes): UserState => {
+const reducer = (state: UserState = initialState, action: UserActionTypes): UserState => {
 
     switch (action.type) {
         case LOADING_USER_INFO:
             return {...state, isLoaded: true}
 
-        case FETCH_USER_SUCCESS:
+        case SET_USER:
             return {...state, user: action.payload, isLoggedIn: true, isLoaded: false}
 
-        case USER_UPDATED_SUCCESS:
+        case SET_UPDATED_USER:
             return {...state, user: action.payload, userEditErrors: {}};
 
         case USER_UPDATED_FAILURE:
@@ -68,9 +67,6 @@ const reducer = (state: UserState = initialState, action: UserActionsTypes): Use
 
         case LOGOUT_SUCCESS:
             return {...state, user: {}, isLoggedIn: false}
-
-        case FETCH_USER_BY_QUERY_SUCCESS:
-            return {...state, user: action.payload, isLoggedIn: true, isLoaded: false}
 
         default:
             return state;

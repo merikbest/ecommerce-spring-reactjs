@@ -84,6 +84,18 @@ export type OrderError = {
     phoneNumberError: string
 };
 
+export type OrderRequest = {
+    totalPrice?: number
+    perfumesId?: any
+    firstName?: string
+    lastName?: string
+    city?: string
+    address?: string
+    email?: string
+    phoneNumber?: string
+    postIndex?: string
+};
+
 export type User = {
     id: number
     email: string

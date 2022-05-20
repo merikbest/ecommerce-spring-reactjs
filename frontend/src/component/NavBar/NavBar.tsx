@@ -3,20 +3,23 @@ import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSignInAlt, faSignOutAlt, faUser, faUserPlus} from "@fortawesome/free-solid-svg-icons";
-
-import {logout} from "../../redux/auth/auth-thunks";
 import NavBarLink from "./NavBarLink/NavBarLink";
-import {selectCartItems} from "../../redux/cart/cart-selector";
 import {selectIsLoggedIn} from "../../redux/user/user-selector";
+import {selectCartItemsCount} from "../../redux/cart/cart-selector";
+import {logoutSuccess} from "../../redux/auth/auth-actions";
 import "./NavBar.css";
 
 const NavBar: FC = (): ReactElement => {
     const dispatch = useDispatch();
-    const perfumes = useSelector(selectCartItems);
+    const cartItemsCount = useSelector(selectCartItemsCount);
     const isLoggedIn = useSelector(selectIsLoggedIn);
 
     const handleLogout = (): void => {
-        dispatch(logout())
+        localStorage.removeItem("email");
+        localStorage.removeItem("token");
+        localStorage.removeItem("userRole");
+        localStorage.removeItem("isLoggedIn");
+        dispatch(logoutSuccess())
     };
 
     let links;
@@ -64,7 +67,7 @@ const NavBar: FC = (): ReactElement => {
                                     <i className="fas fa-shopping-cart fa-lg pl-5" style={{color: "white"}}></i>
                                     <h5 className="d-inline cart_badge">
                                         <span className="badge badge-success">
-                                            {perfumes.length}
+                                            {cartItemsCount}
                                         </span>
                                     </h5>
                                 </Link>

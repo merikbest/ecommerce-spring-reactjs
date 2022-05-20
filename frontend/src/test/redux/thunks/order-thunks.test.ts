@@ -4,21 +4,15 @@ import {AnyAction} from "redux";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
-import {InitialStateType} from "../../../redux/order/order-reducer";
 import {API_BASE_URL} from "../../../utils/constants/url";
-import {orderData, orderErrorData, orderRequestData, ordersData} from "../../test-data/order-test-data";
-import {addOrder, fetchUserOrders, fetchUserOrdersByQuery} from "../../../redux/order/order-thunks";
+import {orderData, orderErrorData, orderRequestData} from "../../test-data/order-test-data";
+import {addOrder} from "../../../redux/order/order-thunks";
 import {useHistory} from "react-router-dom";
-import {showLoader} from "../../../redux/auth/auth-actions";
-import {
-    fetchUserOrdersByQuerySuccess,
-    fetchUserOrdersSuccess,
-    orderAddedFailure,
-    orderAddedSuccess
-} from "../../../redux/order/order-actions";
+import {loadingOrder, orderAddedFailure, setOrder} from "../../../redux/order/order-actions";
+import {OrderState} from "../../../redux/order/order-reducer";
 
 const middlewares = [thunk];
-const mockStore = configureMockStore<InitialStateType, ThunkDispatch<InitialStateType, void, AnyAction>>(middlewares);
+const mockStore = configureMockStore<OrderState, ThunkDispatch<OrderState, void, AnyAction>>(middlewares);
 const mock = new MockAdapter(axios);
 const store = mockStore();
 
@@ -37,30 +31,15 @@ describe("order actions", () => {
 
     test("addOrder should dispatches SHOW_LOADER and ORDER_ADDED_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + "/users/order").reply(200, orderData);
-        let expectedActions = [showLoader(), orderAddedSuccess(orderData)];
+        let expectedActions = [loadingOrder(), setOrder(orderData)];
         await store.dispatch(addOrder(orderRequestData, useHistory()));
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("addOrder should dispatches SHOW_LOADER and ORDER_ADDED_FAILURE on failure", async () => {
         mock.onPost(API_BASE_URL + "/users/order").reply(400, orderErrorData);
-        let expectedActions = [showLoader(), orderAddedFailure(orderErrorData)];
+        let expectedActions = [loadingOrder(), orderAddedFailure(orderErrorData)];
         await store.dispatch(addOrder(orderRequestData, useHistory()));
-        expect(store.getActions()).toEqual(expectedActions);
-
-    });
-
-    test("fetchUserOrders should dispatches SHOW_LOADER and FETCH_USER_ORDERS_SUCCESS on success", async () => {
-        mock.onGet(API_BASE_URL + "/users/orders").reply(200, ordersData);
-        let expectedActions = [showLoader(), fetchUserOrdersSuccess(ordersData)];
-        await store.dispatch(fetchUserOrders());
-        expect(store.getActions()).toEqual(expectedActions);
-    });
-
-    test("fetchUserOrdersByQuery should SHOW_LOADER and dispatches FETCH_USER_ORDERS_SUCCESS on success", async () => {
-        mock.onPost(API_BASE_URL + "/users/graphql/orders").reply(200, {data: {ordersByEmail: ordersData}});
-        let expectedActions = [showLoader(), fetchUserOrdersByQuerySuccess(ordersData)];
-        await store.dispatch(fetchUserOrdersByQuery("test123@test.com"));
         expect(store.getActions()).toEqual(expectedActions);
     });
 });

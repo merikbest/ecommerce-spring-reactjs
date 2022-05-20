@@ -1,35 +1,29 @@
-import {Perfume} from "../../types/types";
 import {
-    CALCULATE_CART_PRICE_SUCCESS,
-    CLEAR_CART_SUCCESS,
-    FETCH_CART_SUCCESS,
+    CALCULATE_CART_PRICE,
+    CalculateCartPriceActionType,
     LOADING_CART,
-    STOP_LOADING_CART,
-    CalculateCartPriceSuccessActionType,
-    ClearCartActionType,
-    FetchCartSuccessActionType,
     LoadingCartActionType,
-    StopLoadingCartActionType
+    RESET_CART_STATE,
+    ResetCartStateActionType,
+    SET_CART_ITEMS_COUNT,
+    SetCartItemsCountActionType
 } from "./cart-action-types";
+import {Perfume} from "../../types/types";
 
 export const loadingCart = (): LoadingCartActionType => ({
     type: LOADING_CART
 });
 
-export const fetchCartSuccess = (perfumes: Array<Perfume>): FetchCartSuccessActionType => ({
-    type: FETCH_CART_SUCCESS,
+export const calculateCartPrice = (perfumes: Array<Perfume>): CalculateCartPriceActionType => ({
+    type: CALCULATE_CART_PRICE,
     payload: perfumes
 });
 
-export const calculateCartPriceSuccess = (total: number): CalculateCartPriceSuccessActionType => ({
-    type: CALCULATE_CART_PRICE_SUCCESS,
-    payload: total
+export const setCartItemsCount = (cartItemsCount: number): SetCartItemsCountActionType => ({
+    type: SET_CART_ITEMS_COUNT,
+    payload: cartItemsCount
 });
 
-export const clearCartSuccess = (): ClearCartActionType => ({
-    type: CLEAR_CART_SUCCESS
-});
-
-export const stopLoadingCart = (): StopLoadingCartActionType => ({
-    type: STOP_LOADING_CART
+export const resetCartState = (): ResetCartStateActionType => ({
+    type: RESET_CART_STATE
 });

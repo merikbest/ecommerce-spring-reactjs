@@ -3,21 +3,20 @@ import {Link, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {faUserEdit} from "@fortawesome/free-solid-svg-icons";
 
-import {fetchUserInfo, fetchUserOrders} from "../../../redux/admin/admin-thunks";
+import {fetchUserInfo} from "../../../redux/admin/admin-thunks";
 import Spinner from '../../../component/Spinner/Spinner';
 import AccountDataItem from "../../../component/AccountDataItem/AccountDataItem";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
-import {
-    selectAdminStateUerOrders,
-    selectAdminStateUser,
-    selectIsAdminStateLoaded
-} from "../../../redux/admin/admin-selector";
+import {selectAdminStateUser, selectIsAdminStateLoaded} from "../../../redux/admin/admin-selector";
+import {fetchUserOrdersByEmail} from "../../../redux/orders/orders-thunks";
+import {selectOrders} from "../../../redux/orders/orders-selector";
+import {resetOrders} from "../../../redux/orders/orders-actions";
 
 const ManageUser: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const params = useParams<{ id: string }>();
     const userData = useSelector(selectAdminStateUser);
-    const userOrders = useSelector(selectAdminStateUerOrders);
+    const userOrders = useSelector(selectOrders);
     const loading = useSelector(selectIsAdminStateLoaded);
     const {id, email, firstName, lastName, city, address, phoneNumber, postIndex, provider, roles} = userData;
 
@@ -26,7 +25,11 @@ const ManageUser: FC = (): ReactElement => {
     }, []);
 
     useEffect(() => {
-        dispatch(fetchUserOrders(email));
+        dispatch(fetchUserOrdersByEmail(email));
+        
+        return () => {
+            dispatch(resetOrders());
+        };
     }, [userData]);
 
     return (

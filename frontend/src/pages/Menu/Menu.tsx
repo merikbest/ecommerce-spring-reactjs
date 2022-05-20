@@ -16,6 +16,7 @@ import "./MenuStyle.css";
 import {FilterParamsType} from "../../types/types";
 import ScrollButton from "../../component/ScrollButton/ScrollButton";
 import {selectIsPerfumesLoading, selectPerfumes} from "../../redux/perfumes/perfumes-selector";
+import {resetPerfumesState} from "../../redux/perfumes/perfumes-actions";
 
 const Menu: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -40,6 +41,10 @@ const Menu: FC = (): ReactElement => {
             dispatch(fetchPerfumesByPerfumer({perfumer: perfumeData}));
         }
         window.scrollTo(0, 0);
+
+        return () => {
+            dispatch(resetPerfumesState());
+        };
     }, []);
 
     const getProducts = (variables: FilterParamsType): void => {

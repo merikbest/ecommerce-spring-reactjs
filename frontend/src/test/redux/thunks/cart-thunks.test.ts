@@ -8,7 +8,7 @@ import {InitialStateType} from "../../../redux/cart/cart-reducer";
 import {API_BASE_URL} from "../../../utils/constants/url";
 import {calculateCartPrice, fetchCart} from "../../../redux/cart/cart-thunks";
 import {perfumesData} from "../../test-data/perfume-test-data";
-import {calculateCartPriceSuccess, fetchCartSuccess, loadingCart} from "../../../redux/cart/cart-actions";
+import {calculateCartPrice, fetchCartSuccess, loadingCart} from "../../../redux/cart/cart-actions";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore<InitialStateType, ThunkDispatch<InitialStateType, void, AnyAction>>(middlewares);
@@ -29,13 +29,13 @@ describe("cart actions", () => {
     test("fetchCart should dispatches LOADING_CART, FETCH_CART_SUCCESS, CALCULATE_CART_PRICE_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + "/users/cart").reply(200, perfumesData);
         await store.dispatch(fetchCart([33, 34]));
-        let expectedActions = [loadingCart(), fetchCartSuccess(perfumesData), calculateCartPriceSuccess(262)];
+        let expectedActions = [loadingCart(), fetchCartSuccess(perfumesData), calculateCartPrice(262)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("calculateCartPrice should dispatches CALCULATE_CART_PRICE_SUCCESS on success", () => {
         store.dispatch(calculateCartPrice(perfumesData));
-        let expectedActions = [calculateCartPriceSuccess(262)];
+        let expectedActions = [calculateCartPrice(262)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 });

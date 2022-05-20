@@ -1,23 +1,22 @@
 import {Order} from "../../types/types";
 import {
     LOADING_ORDERS,
-    FETCH_USER_ORDERS_BY_QUERY_SUCCESS,
-    FETCH_USER_ORDERS_SUCCESS,
-    FetchUserOrdersActionType,
-    FetchUserOrdersByQueryActionType,
-    LoadingOrdersActionType
+    LoadingOrdersActionType,
+    RESET_ORDERS_STATE,
+    ResetOrdersStateActionType,
+    SET_USER_ORDERS,
+    SetUserOrdersActionType,
 } from "./orders-action-types";
 
 export const loadingOrders = (): LoadingOrdersActionType => ({
     type: LOADING_ORDERS
 });
 
-export const fetchUserOrdersSuccess = (orders: Array<Order>): FetchUserOrdersActionType => ({
-    type: FETCH_USER_ORDERS_SUCCESS,
+export const setUserOrders = (orders: Array<Order>): SetUserOrdersActionType => ({
+    type: SET_USER_ORDERS,
     payload: orders
 });
 
-export const fetchUserOrdersByQuerySuccess = (orders: Array<Order>): FetchUserOrdersByQueryActionType => ({
-    type: FETCH_USER_ORDERS_BY_QUERY_SUCCESS,
-    payload: orders
+export const resetOrders = (): ResetOrdersStateActionType => ({
+    type: RESET_ORDERS_STATE
 });

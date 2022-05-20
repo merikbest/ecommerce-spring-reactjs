@@ -12,14 +12,16 @@ import PasswordInput from "../../component/PasswordInput/PasswordInput";
 import OrderItem from "./OrderItem/OrderItem";
 import {resetOrderState} from "../../redux/order/order-actions";
 import {selectIsOrderLoading, selectOrderErrors} from "../../redux/order/order-selector";
-import {selectCartItems, selectTotalPrice} from "../../redux/cart/cart-selector";
+import {selectTotalPrice} from "../../redux/cart/cart-selector";
 import {selectUserFromUserState} from "../../redux/user/user-selector";
+import {selectPerfumes} from "../../redux/perfumes/perfumes-selector";
+import {resetPerfumesState} from "../../redux/perfumes/perfumes-actions";
 
 const Order: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const history = useHistory();
     const usersData = useSelector(selectUserFromUserState);
-    const perfumes = useSelector(selectCartItems);
+    const perfumes = useSelector(selectPerfumes);
     const totalPrice = useSelector(selectTotalPrice);
     const errors = useSelector(selectOrderErrors);
     const isOrderLoading = useSelector(selectIsOrderLoading);
@@ -45,6 +47,7 @@ const Order: FC = (): ReactElement => {
         
         return () => {
             dispatch(resetOrderState());
+            dispatch(resetPerfumesState());
         };
     }, []);
 

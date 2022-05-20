@@ -1,23 +1,22 @@
-import {Perfume} from "../../types/types";
 import {
-    CALCULATE_CART_PRICE_SUCCESS,
-    CLEAR_CART_SUCCESS,
-    FETCH_CART_SUCCESS,
+    CALCULATE_CART_PRICE,
+    CartActionTypes,
     LOADING_CART,
-    STOP_LOADING_CART,
-    CartActionTypes
+    RESET_CART_STATE,
+    SET_CART_ITEMS_COUNT
 } from "./cart-action-types";
+import {Perfume} from "../../types/types";
 
 export type CartState = {
-    perfumes: Array<Perfume>
-    loading: boolean
-    totalPrice: number
+    loading: boolean;
+    totalPrice: number;
+    cartItemsCount: number;
 };
 
 const initialState: CartState = {
-    perfumes: [],
-    loading: false,
-    totalPrice: 0
+    loading: true,
+    totalPrice: 0,
+    cartItemsCount: 0,
 };
 
 const reducer = (state: CartState = initialState, action: CartActionTypes): CartState => {
@@ -26,17 +25,14 @@ const reducer = (state: CartState = initialState, action: CartActionTypes): Cart
         case LOADING_CART:
             return {...state, loading: true};
 
-        case FETCH_CART_SUCCESS:
-            return {...state, perfumes: action.payload, loading: false};
+        case CALCULATE_CART_PRICE:
+            return {...state, totalPrice: calculateCartPrice(action.payload), loading: false};
 
-        case CALCULATE_CART_PRICE_SUCCESS:
-            return {...state, totalPrice: action.payload, loading: false};
+        case SET_CART_ITEMS_COUNT:
+            return {...state, cartItemsCount: action.payload};
 
-        case STOP_LOADING_CART:
-            return {...state, loading: false, perfumes: []};
-
-        case CLEAR_CART_SUCCESS:
-            return {...state, perfumes: []};
+        case RESET_CART_STATE:
+            return {...state, loading: true};
 
         default:
             return state;
@@ -44,3 +40,18 @@ const reducer = (state: CartState = initialState, action: CartActionTypes): Cart
 };
 
 export default reducer;
+
+
+const calculateCartPrice = (perfumes: Array<Perfume>): number => {
+    const perfumesFromLocalStorage: Map<number, number> = new Map(JSON.parse(<string>localStorage.getItem("perfumes")));
+    let total = 0;
+
+    perfumesFromLocalStorage.forEach((value, key) => {
+        const perfume = perfumes.find((perfume) => perfume.id === key);
+
+        if (perfume) {
+            total += perfume.price * value;
+        }
+    });
+    return total;
+};
