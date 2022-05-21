@@ -1,4 +1,4 @@
-import {PerfumeErrors, User} from "../../types/types";
+import { PerfumeErrors, User } from "../../types/types";
 
 export const LOADING_DATA = "admin/LOADING_DATA";
 export const FETCH_ALL_USERS_SUCCESS = "admin/FETCH_ALL_USERS_SUCCESS";
@@ -42,7 +42,7 @@ export type GetUserInfoActionType = {
     payload: User
 };
 
-export type ResetActionType = {
+export type FormResetActionType = {
     type: typeof FORM_RESET
 };
 
@@ -64,6 +64,6 @@ export type AdminActionTypes =
     | UpdatePerfumeFailureActionType
     | GetAllUsersActionType
     | GetUserInfoActionType
-    | ResetActionType
+    | FormResetActionType
     | GetUserInfoByQueryActionType
     | GetAllUsersByQueryActionType;

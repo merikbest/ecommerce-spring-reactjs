@@ -1,8 +1,8 @@
-import React, {FC, ReactElement} from 'react';
-import {useSelector} from "react-redux";
+import React, { FC, ReactElement } from "react";
+import { useSelector } from "react-redux";
 
 import Spinner from "../../../component/Spinner/Spinner";
-import {selectIsLoaded, selectUserFromUserState} from "../../../redux/user/user-selector";
+import { selectIsLoaded, selectUserFromUserState } from "../../../redux/user/user-selector";
 import "./AccountItem.css";
 
 const AccountItem: FC = (): ReactElement => {
@@ -12,10 +12,10 @@ const AccountItem: FC = (): ReactElement => {
     return (
         <>
             {loading ? (
-                <Spinner/>
+                <Spinner />
             ) : (
                 <h4 className={"account_item_title"}>
-                    Hello {usersData.firstName} {usersData.lastName}!
+                    Hello {usersData?.firstName} {usersData?.lastName}!
                 </h4>
             )}
         </>

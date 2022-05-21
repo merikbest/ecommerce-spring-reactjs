@@ -1,44 +1,39 @@
-import React, {FC, ReactElement} from 'react';
-import {faArrowDown, faArrowUp} from "@fortawesome/free-solid-svg-icons";
+import React, { FC, ReactElement } from "react";
+import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 import usePagination from "../Pagination/usePagination";
 import PerfumeCardItem from "../PerfumeCardItem/PerfumeCardItem";
 import PaginationItem from "../Pagination/PaginationItem";
 import SearchForm from "../SearchForm/SearchForm";
-import {Perfume} from "../../types/types";
+import { Perfume } from "../../types/types";
 import Spinner from "../Spinner/Spinner";
 import SortButton from "./SortButton/SortButton";
+import { PRODUCT } from "../../constants/routeConstants";
 
 type PropsType = {
-    data: Array<Perfume>
-    loading: boolean
-    itemsPerPage: number
-    startFrom?: number
-    searchByData: Array<{ label: string, value: string }>
-    sortByPrice: boolean | undefined
-    handleSortByPrice: (sortedBy: boolean, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
+    data: Array<Perfume>;
+    loading: boolean;
+    itemsPerPage: number;
+    startFrom?: number;
+    searchByData: Array<{ label: string; value: string }>;
+    sortByPrice: boolean | undefined;
+    handleSortByPrice: (sortedBy: boolean, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 };
 
-const MenuCards: FC<PropsType> = (
-    {
-        data,
-        loading,
+const MenuCards: FC<PropsType> = ({
+    data,
+    loading,
+    itemsPerPage,
+    startFrom,
+    searchByData,
+    sortByPrice,
+    handleSortByPrice
+}): ReactElement => {
+    const { slicedData, pagination, prevPage, nextPage, changePage, setFilteredData, setSearching } = usePagination({
         itemsPerPage,
-        startFrom,
-        searchByData,
-        sortByPrice,
-        handleSortByPrice
-    }
-): ReactElement => {
-    const {
-        slicedData,
-        pagination,
-        prevPage,
-        nextPage,
-        changePage,
-        setFilteredData,
-        setSearching
-    } = usePagination({itemsPerPage, data, startFrom});
+        data,
+        startFrom
+    });
 
     return (
         <div className="container">
@@ -83,7 +78,7 @@ const MenuCards: FC<PropsType> = (
                     </div>
                 </div>
                 {loading ? (
-                    <Spinner/>
+                    <Spinner />
                 ) : (
                     <>
                         <div className="row">
@@ -92,7 +87,7 @@ const MenuCards: FC<PropsType> = (
                                     key={perfume.id}
                                     perfume={perfume}
                                     colSize={3}
-                                    link={"/product"}
+                                    link={PRODUCT}
                                     btnName={"SHOW MORE"}
                                 />
                             ))}
@@ -108,6 +103,6 @@ const MenuCards: FC<PropsType> = (
             </div>
         </div>
     );
-}
+};
 
 export default MenuCards;

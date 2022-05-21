@@ -1,8 +1,9 @@
-import {AuthErrors, User} from "../../types/types";
-import {FORM_RESET} from "../admin/admin-action-types";
+import { AuthErrors, User } from "../../types/types";
+import { FORM_RESET } from "../admin/admin-action-types";
 import {
     ACTIVATE_ACCOUNT_FAILURE,
     ACTIVATE_ACCOUNT_SUCCESS,
+    AuthActionTypes,
     FORGOT_PASSWORD_FAILURE,
     FORGOT_PASSWORD_SUCCESS,
     LOGIN_FAILURE,
@@ -14,18 +15,17 @@ import {
     RESET_PASSWORD_CODE_SUCCESS,
     RESET_PASSWORD_FAILURE,
     RESET_PASSWORD_SUCCESS,
-    SHOW_LOADER,
-    AuthActionTypes
+    SHOW_LOADER
 } from "./auth-action-types";
 
 export type AuthState = {
-    user: Partial<User>
-    userRole: string | null
-    isRegistered: boolean
-    loading: boolean
-    success: string
-    error: string
-    errors: Partial<AuthErrors>
+    user: Partial<User>;
+    userRole: string | null;
+    isRegistered: boolean;
+    loading: boolean;
+    success: string;
+    error: string;
+    errors: Partial<AuthErrors>;
 };
 
 const initialState: AuthState = {
@@ -38,58 +38,56 @@ const initialState: AuthState = {
     errors: {}
 };
 
-const reducer = (state: AuthState = initialState, action: AuthActionTypes): AuthState => {
-
+const authReducer = (state: AuthState = initialState, action: AuthActionTypes): AuthState => {
     switch (action.type) {
         case SHOW_LOADER:
-            return {...state, loading: true, errors: {}};
+            return { ...state, loading: true, errors: {} };
 
         case LOGIN_SUCCESS:
-            return {...state, userRole: action.payload};
+            return { ...state, userRole: action.payload };
 
         case LOGIN_FAILURE:
-            return {...state, error: action.payload};
+            return { ...state, error: action.payload };
 
         case REGISTER_SUCCESS:
-            return {...state, isRegistered: true, loading: false, errors: {}};
+            return { ...state, isRegistered: true, loading: false, errors: {} };
 
         case REGISTER_FAILURE:
-            return {...state, errors: action.payload, loading: false};
+            return { ...state, errors: action.payload, loading: false };
 
         case ACTIVATE_ACCOUNT_SUCCESS:
-            return {...state, success: action.payload};
+            return { ...state, success: action.payload };
 
         case ACTIVATE_ACCOUNT_FAILURE:
-            return {...state, error: action.payload};
+            return { ...state, error: action.payload };
 
         case FORGOT_PASSWORD_SUCCESS:
-            return {...state, success: action.payload, loading: false, errors: {}, error: ""};
+            return { ...state, success: action.payload, loading: false, errors: {}, error: "" };
 
         case FORGOT_PASSWORD_FAILURE:
-            return {...state, error: action.payload, loading: false};
+            return { ...state, error: action.payload, loading: false };
 
         case RESET_PASSWORD_CODE_SUCCESS:
-            return {...state, user: action.payload};
+            return { ...state, user: action.payload };
 
         case RESET_PASSWORD_CODE_FAILURE:
-            return {...state, error: action.payload};
+            return { ...state, error: action.payload };
 
         case RESET_PASSWORD_SUCCESS:
-            return {...state, success: action.payload};
+            return { ...state, success: action.payload };
 
         case RESET_PASSWORD_FAILURE:
-            return {...state, errors: action.payload};
+            return { ...state, errors: action.payload };
 
         case LOGOUT_SUCCESS:
-            return {...state, userRole: ""};
+            return { ...state, userRole: "" };
 
         case FORM_RESET:
-            return {...state, error: "", errors: {}, success: "", isRegistered: false, loading: false};
+            return { ...state, error: "", errors: {}, success: "", isRegistered: false, loading: false };
 
         default:
             return state;
     }
 };
 
-export default reducer;
-
+export default authReducer;

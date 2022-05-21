@@ -1,11 +1,11 @@
-import {Order, OrderError} from "../../types/types";
+import {Order, OrderError, OrderRequest} from "../../types/types";
 
-export const orderRequestData = {
+export const orderRequestData: OrderRequest = {
     "firstName": "John",
     "lastName": "Doe",
     "city": "New York",
     "address": "Wall Street1",
-    "postIndex": 1234567890,
+    "postIndex": "1234567890",
     "phoneNumber": "1234567890",
     "email": "test123@test.com",
     "perfumesId": [33, 34],

@@ -1,97 +1,112 @@
-import React, {ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {faCheck} from "@fortawesome/free-solid-svg-icons";
+import React, { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
-import {User, UserEdit} from "../../../types/types";
-import {updateUserInfo} from '../../../redux/user/user-thunks';
-import EditInput from "../../../component/EditInput/EditInput";
+import { UserEdit } from "../../../types/types";
+import { updateUserInfo } from "../../../redux/user/user-thunks";
+import Input from "../../../component/EditInput/Input";
 import IconButton from "../../../component/IconButton/IconButton";
-import {selectUserEditErrors, selectUserFromUserState} from "../../../redux/user/user-selector";
-import {resetInputForm} from "../../../redux/user/user-actions";
+import { selectUserEditErrors, selectUserFromUserState } from "../../../redux/user/user-selector";
+import { resetInputForm } from "../../../redux/user/user-actions";
 import "./EditPersonalData.css";
+
+const initialState = {
+    id: 0,
+    firstName: "",
+    lastName: "",
+    city: "",
+    address: "",
+    phoneNumber: "",
+    postIndex: ""
+};
 
 const EditPersonalData: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const usersData = useSelector(selectUserFromUserState);
     const errors = useSelector(selectUserEditErrors);
-    const [user, setUser] = useState<Partial<User>>(usersData);
-    const {id, firstName, lastName, city, address, phoneNumber, postIndex} = user;
-    const {firstNameError, lastNameError} = errors;
+    const [user, setUser] = useState(initialState);
+    const { id, firstName, lastName, city, address, phoneNumber, postIndex } = user;
+    const { firstNameError, lastNameError } = errors;
 
     useEffect(() => {
         dispatch(resetInputForm());
-        setUser(usersData);
+
+        if (usersData) {
+            setUser(usersData);
+        }
     }, []);
 
     const onFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        const userEdit: UserEdit = {id, firstName, lastName, city, address, phoneNumber, postIndex};
+        const userEdit: UserEdit = { id, firstName, lastName, city, address, phoneNumber, postIndex };
         dispatch(updateUserInfo(userEdit));
     };
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const {name, value} = event.target;
-        setUser({...user, [name]: value});
+        const { name, value } = event.target;
+        setUser({ ...user, [name]: value });
     };
 
     return (
         <>
             <form className="edit_personal_data" onSubmit={onFormSubmit}>
-                <EditInput
+                <Input
                     title={"First name"}
                     titleClass={"col-sm-3"}
                     wrapperClass={"col-sm-6"}
+                    type={"text"}
                     error={firstNameError}
                     name={"firstName"}
-                    value={firstName}
+                    value={user?.firstName}
                     onChange={handleInputChange}
                 />
-                <EditInput
+                <Input
                     title={"Last name"}
                     titleClass={"col-sm-3"}
                     wrapperClass={"col-sm-6"}
+                    type={"text"}
                     error={lastNameError}
                     name={"lastName"}
-                    value={lastName}
+                    value={user?.lastName}
                     onChange={handleInputChange}
                 />
-                <EditInput
+                <Input
                     title={"City"}
                     titleClass={"col-sm-3"}
                     wrapperClass={"col-sm-6"}
+                    type={"text"}
                     name={"city"}
-                    value={city}
+                    value={user?.city}
                     onChange={handleInputChange}
                 />
-                <EditInput
+                <Input
                     title={"Address"}
                     titleClass={"col-sm-3"}
                     wrapperClass={"col-sm-6"}
+                    type={"text"}
                     name={"address"}
-                    value={address}
+                    value={user?.address}
                     onChange={handleInputChange}
                 />
-                <EditInput
+                <Input
                     title={"Phone number"}
                     titleClass={"col-sm-3"}
                     wrapperClass={"col-sm-6"}
+                    type={"text"}
                     name={"phoneNumber"}
-                    value={phoneNumber}
+                    value={user?.phoneNumber}
                     onChange={handleInputChange}
                 />
-                <EditInput
+                <Input
                     title={"Post index"}
                     titleClass={"col-sm-3"}
                     wrapperClass={"col-sm-6"}
+                    type={"text"}
                     name={"postIndex"}
-                    value={postIndex}
+                    value={user?.postIndex}
                     onChange={handleInputChange}
                 />
-                <IconButton
-                    buttonText={"Save"}
-                    icon={faCheck}
-                    iconClassName={"mr-2"}
-                />
+                <IconButton buttonText={"Save"} icon={faCheck} iconClassName={"mr-2"} />
             </form>
         </>
     );

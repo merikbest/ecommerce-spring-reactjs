@@ -1,11 +1,11 @@
-import React, {FC, ReactElement, useEffect, useState} from "react";
-import {Route, useLocation} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import React, { FC, ReactElement, useEffect, useState } from "react";
+import { Route, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import Checkbox from "../../component/CheckBox/Checkbox";
 import CheckboxRadio from "../../component/CheckboxRadio/CheckboxRadio";
 import MenuCards from "../../component/MenuCards/MenuCards";
-import {gender, perfumer, price} from "./MenuData";
+import { gender, perfumer, price } from "./MenuData";
 import {
     fetchPerfumes,
     fetchPerfumesByFilterParams,
@@ -13,10 +13,10 @@ import {
     fetchPerfumesByPerfumer
 } from "../../redux/perfumes/perfumes-thunks";
 import "./MenuStyle.css";
-import {FilterParamsType} from "../../types/types";
+import { FilterParamsType } from "../../types/types";
 import ScrollButton from "../../component/ScrollButton/ScrollButton";
-import {selectIsPerfumesLoading, selectPerfumes} from "../../redux/perfumes/perfumes-selector";
-import {resetPerfumesState} from "../../redux/perfumes/perfumes-actions";
+import { selectIsPerfumesLoading, selectPerfumes } from "../../redux/perfumes/perfumes-selector";
+import { resetPerfumesState } from "../../redux/perfumes/perfumes-actions";
 
 const Menu: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -28,17 +28,17 @@ const Menu: FC = (): ReactElement => {
         prices: []
     });
     const [sortByPrice, setSortByPrice] = useState<boolean>();
-    const {state} = useLocation<{ id: string }>();
+    const { state } = useLocation<{ id: string }>();
 
     useEffect(() => {
         const perfumeData: string = state.id;
 
         if (perfumeData === "female" || perfumeData === "male") {
-            dispatch(fetchPerfumesByGender({perfumeGender: perfumeData}));
+            dispatch(fetchPerfumesByGender({ perfumeGender: perfumeData }));
         } else if (perfumeData === "all") {
             dispatch(fetchPerfumes());
         } else {
-            dispatch(fetchPerfumesByPerfumer({perfumer: perfumeData}));
+            dispatch(fetchPerfumesByPerfumer({ perfumer: perfumeData }));
         }
         window.scrollTo(0, 0);
 
@@ -64,7 +64,7 @@ const Menu: FC = (): ReactElement => {
             let priceValues = handlePrice(filters as number);
             newFilters[category] = priceValues;
         }
-        getProducts({...newFilters, sortByPrice})
+        getProducts({ ...newFilters, sortByPrice });
         setFilterParams(newFilters);
     };
 
@@ -72,12 +72,12 @@ const Menu: FC = (): ReactElement => {
         event.preventDefault();
 
         setSortByPrice(sortedBy);
-        getProducts({...filterParams, sortByPrice: sortedBy});
+        getProducts({ ...filterParams, sortByPrice: sortedBy });
     };
 
     return (
         <div className="container d-flex">
-            <ScrollButton/>
+            <ScrollButton />
             <nav id="sidebar">
                 <div className="sidebar-header">
                     <h3>Perfumes</h3>
@@ -85,40 +85,35 @@ const Menu: FC = (): ReactElement => {
                 <ul className="list-unstyled components">
                     <h5>Brand</h5>
                     <li className="active mb-2" id="homeSubmenu">
-                        <Checkbox
-                            list={perfumer}
-                            handleFilters={(filters) => handleFilters(filters, "perfumers")}
-                        />
+                        <Checkbox list={perfumer} handleFilters={(filters) => handleFilters(filters, "perfumers")} />
                     </li>
                     <h5>Gender</h5>
                     <li className="active mb-2">
-                        <Checkbox
-                            list={gender}
-                            handleFilters={(filters) => handleFilters(filters, "genders")}
-                        />
+                        <Checkbox list={gender} handleFilters={(filters) => handleFilters(filters, "genders")} />
                     </li>
                     <h5>Price</h5>
                     <li className="active mb-2">
-                        <CheckboxRadio
-                            list={price}
-                            handleFilters={(filters) => handleFilters(filters, "prices")}
-                        />
+                        <CheckboxRadio list={price} handleFilters={(filters) => handleFilters(filters, "prices")} />
                     </li>
                 </ul>
             </nav>
-            <Route exact component={() => (
-                <MenuCards
-                    data={perfumes}
-                    loading={loading}
-                    itemsPerPage={16}
-                    searchByData={[
-                        {label: 'Brand', value: 'perfumer'},
-                        {label: 'Perfume title', value: 'perfumeTitle'},
-                        {label: 'Manufacturer country', value: 'country'}]}
-                    sortByPrice={sortByPrice}
-                    handleSortByPrice={handleSortByPrice}
-                />
-            )}/>
+            <Route
+                exact
+                component={() => (
+                    <MenuCards
+                        data={perfumes}
+                        loading={loading}
+                        itemsPerPage={16}
+                        searchByData={[
+                            { label: "Brand", value: "perfumer" },
+                            { label: "Perfume title", value: "perfumeTitle" },
+                            { label: "Manufacturer country", value: "country" }
+                        ]}
+                        sortByPrice={sortByPrice}
+                        handleSortByPrice={handleSortByPrice}
+                    />
+                )}
+            />
         </div>
     );
 };

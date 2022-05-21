@@ -1,4 +1,4 @@
-import {Perfume} from "../../types/types";
+import { Perfume } from "../../types/types";
 import {
     LOADING_PERFUME,
     PerfumesActionTypes,
@@ -8,8 +8,8 @@ import {
 } from "./perfumes-action-types";
 
 export type PerfumesState = {
-    perfumes: Array<Perfume>,
-    isPerfumeLoading: boolean
+    perfumes: Array<Perfume>;
+    isPerfumeLoading: boolean;
 };
 
 const initialState: PerfumesState = {
@@ -17,25 +17,24 @@ const initialState: PerfumesState = {
     isPerfumeLoading: true
 };
 
-const reducer = (state: PerfumesState = initialState, action: PerfumesActionTypes): PerfumesState => {
-
+const perfumesReducer = (state: PerfumesState = initialState, action: PerfumesActionTypes): PerfumesState => {
     switch (action.type) {
         case LOADING_PERFUME:
-            return {...state, isPerfumeLoading: true};
+            return { ...state, isPerfumeLoading: true };
 
         case SET_PERFUMES:
-            return {...state, perfumes: action.payload, isPerfumeLoading: false};
+            return { ...state, perfumes: action.payload, isPerfumeLoading: false };
 
         case REMOVE_PERFUME_BY_ID:
             const perfumes = state.perfumes.filter((perfume) => perfume.id !== action.payload);
-            return {...state, perfumes: perfumes, isPerfumeLoading: false};
+            return { ...state, perfumes: perfumes, isPerfumeLoading: false };
 
         case RESET_PERFUMES_STATE:
-            return {perfumes: [], isPerfumeLoading: true};
+            return { perfumes: [], isPerfumeLoading: true };
 
         default:
             return state;
     }
 };
 
-export default reducer;
+export default perfumesReducer;

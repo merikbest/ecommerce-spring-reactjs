@@ -72,6 +72,7 @@
     "@types/react-google-recaptcha": "^2.1.0",
     "@types/react-lazy-load-image-component": "^1.5.1",
     "@types/react-redux": "^7.1.16",
-    "@types/react-router-dom": "^5.1.7"
+    "@types/react-router-dom": "^5.1.7",
+    "prettier": "2.6.2"
   }
 }

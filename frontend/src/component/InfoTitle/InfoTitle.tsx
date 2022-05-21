@@ -1,6 +1,6 @@
-import React, {FC, ReactElement} from 'react';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {IconDefinition} from "@fortawesome/fontawesome-common-types";
+import React, { FC, ReactElement } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
 type PropsType = {
     iconClass?: string;
@@ -9,10 +9,10 @@ type PropsType = {
     title: string;
 };
 
-const InfoTitle: FC<PropsType> = ({iconClass, icon, titleClass, title}): ReactElement => {
+const InfoTitle: FC<PropsType> = ({ iconClass, icon, titleClass, title }): ReactElement => {
     return (
         <h4 className={titleClass}>
-            <FontAwesomeIcon className={iconClass} icon={icon}/>
+            <FontAwesomeIcon className={iconClass} icon={icon} />
             {title}
         </h4>
     );

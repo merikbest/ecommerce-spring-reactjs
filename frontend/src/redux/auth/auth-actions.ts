@@ -1,32 +1,32 @@
-import {AuthErrors, User} from "../../types/types";
+import { AuthErrors, User } from "../../types/types";
 import {
     ACTIVATE_ACCOUNT_FAILURE,
     ACTIVATE_ACCOUNT_SUCCESS,
+    ActivateAccountFailureActionType,
+    ActivateAccountSuccessActionType,
     FORGOT_PASSWORD_FAILURE,
     FORGOT_PASSWORD_SUCCESS,
+    ForgotPasswordFailureActionType,
+    ForgotPasswordSuccessActionType,
     LOGIN_FAILURE,
     LOGIN_SUCCESS,
+    LoginFailureActionType,
+    LoginSuccessActionType,
     LOGOUT_SUCCESS,
+    LogoutSuccessActionType,
     REGISTER_FAILURE,
     REGISTER_SUCCESS,
+    RegisterFailureActionType,
+    RegisterSuccessActionType,
     RESET_PASSWORD_CODE_FAILURE,
     RESET_PASSWORD_CODE_SUCCESS,
     RESET_PASSWORD_FAILURE,
     RESET_PASSWORD_SUCCESS,
-    SHOW_LOADER,
-    ActivateAccountFailureActionType,
-    ActivateAccountSuccessActionType,
-    ForgotPasswordFailureActionType,
-    ForgotPasswordSuccessActionType,
-    LoginFailureActionType,
-    LoginSuccessActionType,
-    LogoutSuccessActionType,
-    RegisterFailureActionType,
-    RegisterSuccessActionType,
     ResetPasswordCodeFailureActionType,
     ResetPasswordCodeSuccessActionType,
     ResetPasswordFailureActionType,
     ResetPasswordSuccessActionType,
+    SHOW_LOADER,
     ShowLoaderActionType
 } from "./auth-action-types";
 
@@ -96,4 +96,3 @@ export const resetPasswordFailure = (errors: AuthErrors): ResetPasswordFailureAc
     type: RESET_PASSWORD_FAILURE,
     payload: errors
 });
-

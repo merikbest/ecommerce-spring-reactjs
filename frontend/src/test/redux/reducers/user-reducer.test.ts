@@ -1,7 +1,7 @@
-import {createStore} from "redux";
+import { createStore } from "redux";
 
 import rootReducer from "../../../redux/root-reducer";
-import userReducer, {UserState} from "../../../redux/user/user-reducer";
+import userReducer, { UserState } from "../../../redux/user/user-reducer";
 import {
     loadingUserInfo,
     resetInputForm,
@@ -13,12 +13,12 @@ import {
     userUpdatedPasswordFailure,
     userUpdatedPasswordSuccess
 } from "../../../redux/user/user-actions";
-import {authErrorsData, reviewErrorsData, userData, userEditErrorsData} from "../../test-data/user-test-data";
-import {logoutSuccess} from "../../../redux/auth/auth-actions";
+import { authErrorsData, reviewErrorsData, userData, userEditErrorsData } from "../../test-data/user-test-data";
+import { logoutSuccess } from "../../../redux/auth/auth-actions";
 
 describe("user reducer", () => {
     const userStore = createStore(rootReducer).getState().user;
-    
+
     test("should Loading User Info", () => {
         const state: UserState = userReducer(userStore, loadingUserInfo());
         expect(state.isLoaded).toBeTruthy();
@@ -27,7 +27,6 @@ describe("user reducer", () => {
     test("should Fetch User Success", () => {
         const state: UserState = userReducer(userStore, setUser(userData));
         expect(state.user).toEqual(userData);
-        expect(state.isLoggedIn).toBeTruthy();
         expect(state.isLoaded).toBeFalsy();
     });
 
@@ -75,6 +74,5 @@ describe("user reducer", () => {
     test("should Logout Success", () => {
         const state: UserState = userReducer(userStore, logoutSuccess());
         expect(state.user).toEqual({});
-        expect(state.isLoggedIn).toBeFalsy();
     });
 });

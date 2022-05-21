@@ -1,4 +1,4 @@
-import {Perfume} from "../../types/types";
+import { Perfume } from "../../types/types";
 import {
     LOADING_PERFUME,
     LoadingPerfumeActionType,
@@ -25,6 +25,5 @@ export const setPerfumeByQuery = (perfume: Perfume): SetPerfumeByQueryActionType
 });
 
 export const resetPerfumeState = (): ResetPerfumeStateActionType => ({
-    type: RESET_PERFUME_STATE,
+    type: RESET_PERFUME_STATE
 });
-

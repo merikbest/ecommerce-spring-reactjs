@@ -1,25 +1,25 @@
-import {createStore} from "redux";
+import { createStore } from "redux";
 
 import rootReducer from "../../../redux/root-reducer";
-import adminReducer, {AdminState} from "../../../redux/admin/admin-reducer";
+import adminReducer, { AdminState } from "../../../redux/admin/admin-reducer";
 import {
     addPerfumeFailure,
     addPerfumeSuccess,
+    formReset,
     getAllUsers,
     getAllUsersByQuery,
     getUserInfo,
     getUserInfoByQuery,
     loadingData,
-    reset,
     updatePerfumeFailure,
     updatePerfumeSuccess
 } from "../../../redux/admin/admin-actions";
-import {perfumeErrorData} from "../../test-data/perfume-test-data";
-import {userData, usersData} from "../../test-data/user-test-data";
+import { perfumeErrorData } from "../../test-data/perfume-test-data";
+import { userData, usersData } from "../../test-data/user-test-data";
 
 describe("admin reducer", () => {
     const adminStore = createStore(rootReducer).getState().admin;
-    
+
     test("should Loading Data", () => {
         const state: AdminState = adminReducer(adminStore, loadingData());
         expect(state.isLoaded).toBeTruthy();
@@ -74,7 +74,7 @@ describe("admin reducer", () => {
     });
 
     test("should Form Reset", () => {
-        const state: AdminState = adminReducer(adminStore, reset());
+        const state: AdminState = adminReducer(adminStore, formReset());
         expect(state.isPerfumeAdded).toBeFalsy();
         expect(state.isPerfumeEdited).toBeFalsy();
         expect(state.errors).toEqual({});

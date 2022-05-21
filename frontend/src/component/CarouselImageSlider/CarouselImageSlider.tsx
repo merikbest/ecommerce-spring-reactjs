@@ -1,6 +1,7 @@
-import React, {FC, ReactElement} from 'react';
+import React, { FC, ReactElement } from "react";
 import Carousel from "react-bootstrap/Carousel";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { PRODUCT } from "../../constants/routeConstants";
 
 const sliderItems = [
     {
@@ -12,29 +13,20 @@ const sliderItems = [
         id: "46",
         name: "Photo 2",
         url: "https://i.ibb.co/C0vbNcy/dior-ENG.jpg"
-    },
+    }
 ];
 
 const CarouselImageSlider: FC = (): ReactElement => {
-    const settings = {
-        indicators: false,
-        fade: true,
-        infinite: true,
-        interval: 3000
-    }
-
     return (
-        <div>
-            <Carousel {...settings}>
-                {sliderItems.map((item, index) => (
-                    <Carousel.Item key={item.id}>
-                        <Link to={`/product/${item.id}`}>
-                            <img className="d-block w-100" src={item.url} alt={item.name}/>
-                        </Link>
-                    </Carousel.Item>
-                ))}
-            </Carousel>
-        </div>
+        <Carousel indicators={false} fade={true} interval={3000}>
+            {sliderItems.map((item, index) => (
+                <Carousel.Item key={item.id}>
+                    <Link to={`${PRODUCT}/${item.id}`}>
+                        <img className="d-block w-100" src={item.url} alt={item.name}/>
+                    </Link>
+                </Carousel.Item>
+            ))}
+        </Carousel>
     );
 }
 

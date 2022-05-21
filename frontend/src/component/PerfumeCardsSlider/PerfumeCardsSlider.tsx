@@ -1,13 +1,12 @@
-import React, {FC, ReactElement, useEffect} from 'react';
+import React, { FC, ReactElement, useEffect } from "react";
 import Carousel from "react-bootstrap/Carousel";
-import {Link} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import {fetchPerfumesByIdsQuery} from "../../redux/perfumes/perfumes-thunks"
-import {Perfume} from "../../types/types";
-import StarRating from "../StarRating/StarRating";
-import {selectPerfumes} from "../../redux/perfumes/perfumes-selector";
-import {resetPerfumesState} from "../../redux/perfumes/perfumes-actions";
+import { fetchPerfumesByIdsQuery } from "../../redux/perfumes/perfumes-thunks";
+import { Perfume } from "../../types/types";
+import { selectPerfumes } from "../../redux/perfumes/perfumes-selector";
+import { resetPerfumesState } from "../../redux/perfumes/perfumes-actions";
+import PerfumeCardSliderItem from "./PerfumeCardSliderItem/PerfumeCardSliderItem";
 import "./PerfumeCardsSlider.css";
 
 const PerfumeCardsSlider: FC = (): ReactElement => {
@@ -19,7 +18,7 @@ const PerfumeCardsSlider: FC = (): ReactElement => {
         // GraphQL example
         dispatch(fetchPerfumesByIdsQuery(perfumesId));
         // dispatch(fetchPerfumesByIds(perfumesId));
-        
+
         return () => {
             dispatch(resetPerfumesState());
         };
@@ -32,24 +31,7 @@ const PerfumeCardsSlider: FC = (): ReactElement => {
                     {array.map((perfume: Perfume) => {
                         for (let i = counter; i < counter + 4; i++) {
                             if (perfume.id === perfumesId[i]) {
-                                return (
-                                    <div className="card" key={perfume.id}>
-                                        <div className={"perfume_card_item_image_wrapper"}>
-                                            <img className={"perfume_card_item_image"} src={perfume.filename}/>
-                                        </div>
-                                        <div className="card-body text-center">
-                                            <h5>{perfume.perfumeTitle}</h5>
-                                            <h6>{perfume.perfumer}</h6>
-                                            <StarRating perfumeRating={perfume.perfumeRating}/>
-                                            <h6>$<span>{perfume.price}</span>.00</h6>
-                                            <Link to={`/product/${perfume.id}`}>
-                                            <span className="btn btn-dark">
-                                                SHOW MORE
-                                            </span>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                )
+                                return <PerfumeCardSliderItem key={perfume.id} perfume={perfume} />;
                             }
                         }
                     })}

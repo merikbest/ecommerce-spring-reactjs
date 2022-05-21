@@ -1,4 +1,4 @@
-import React, {FC, ReactElement} from 'react';
+import React, { FC, ReactElement } from "react";
 
 import "./Footer.css";
 
@@ -10,7 +10,7 @@ const Footer: FC = (): ReactElement => {
                     <div className="footer-left">
                         <h3>Perfume</h3>
                         <p>(066) 696-66-23</p>
-                        <br/>
+                        <br />
                         <p>from 08:00 to 20:00 without breaks and weekends</p>
                     </div>
                     <div className="footer-right">
@@ -18,8 +18,12 @@ const Footer: FC = (): ReactElement => {
                         <a href="https://www.linkedin.com/in/merikbest/">
                             <i className="fab fa-linkedin fa-2x mr-3 white"></i>
                         </a>
-                        <a href="#"><i className="fab fa-facebook-f fa-2x mr-3 white"></i></a>
-                        <a href="#"><i className="fab fa-twitter fa-2x mr-3 white"></i></a>
+                        <a href="#">
+                            <i className="fab fa-facebook-f fa-2x mr-3 white"></i>
+                        </a>
+                        <a href="#">
+                            <i className="fab fa-twitter fa-2x mr-3 white"></i>
+                        </a>
                     </div>
                 </div>
                 <div className="mx-auto copy_right">
@@ -28,6 +32,6 @@ const Footer: FC = (): ReactElement => {
             </div>
         </footer>
     );
-}
+};
 
-export default Footer
+export default Footer;

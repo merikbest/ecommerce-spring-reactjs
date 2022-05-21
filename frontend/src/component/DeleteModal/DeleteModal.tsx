@@ -1,16 +1,16 @@
-import React, {FC, ReactElement} from 'react';
-import {LazyLoadImage} from "react-lazy-load-image-component";
+import React, { FC, ReactElement } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
-import {Perfume} from "../../types/types";
+import { Perfume } from "../../types/types";
 import "./DeleteModal.css";
 
 type PropTypes = {
-    perfume?: Perfume
-    deletePerfumeHandler: (id?: number) => void
-    setModalActive: React.Dispatch<React.SetStateAction<boolean>>
+    perfume?: Perfume;
+    deletePerfumeHandler: (id?: number) => void;
+    setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const DeleteModal: FC<PropTypes> = ({perfume,deletePerfumeHandler, setModalActive}): ReactElement => {
+const DeleteModal: FC<PropTypes> = ({ perfume, deletePerfumeHandler, setModalActive }): ReactElement => {
     return (
         <>
             <div className="modal-open">
@@ -18,9 +18,7 @@ const DeleteModal: FC<PropTypes> = ({perfume,deletePerfumeHandler, setModalActiv
                     <div className="modal-dialog modal-dialog-centered" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title">
-                                    Delete perfume
-                                </h5>
+                                <h5 className="modal-title">Delete perfume</h5>
                                 <button className="close" onClick={() => setModalActive(false)}>
                                     <span aria-hidden="true">&times;</span>
                                 </button>

@@ -1,16 +1,16 @@
-import {Order, OrderError} from "../../types/types";
+import { Order, OrderError } from "../../types/types";
 import {
     LOADING_ORDER,
     ORDER_ADDED_FAILURE,
-    SET_ORDER,
-    RESET_ORDER_STATE,
     OrderActionTypes,
+    RESET_ORDER_STATE,
+    SET_ORDER
 } from "./order-action-types";
 
 export type OrderState = {
-    order:  Partial<Order>
-    errors: Partial<OrderError>
-    loading: boolean
+    order: Partial<Order>;
+    errors: Partial<OrderError>;
+    loading: boolean;
 };
 
 const initialState: OrderState = {
@@ -19,24 +19,23 @@ const initialState: OrderState = {
     loading: false
 };
 
-const reducer = (state: OrderState = initialState, action: OrderActionTypes): OrderState => {
-
+const orderReducer = (state: OrderState = initialState, action: OrderActionTypes): OrderState => {
     switch (action.type) {
         case LOADING_ORDER:
-            return {...state, loading: true};
+            return { ...state, loading: true };
 
         case SET_ORDER:
-            return {...state, order: action.payload, loading: false};
+            return { ...state, order: action.payload, loading: false };
 
         case ORDER_ADDED_FAILURE:
-            return {...state, errors: action.payload, loading: false};
+            return { ...state, errors: action.payload, loading: false };
 
         case RESET_ORDER_STATE:
-            return {...state, errors: {}, loading: false};
+            return { ...state, errors: {}, loading: false };
 
         default:
             return state;
     }
 };
 
-export default reducer;
+export default orderReducer;

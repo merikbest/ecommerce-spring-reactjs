@@ -4,9 +4,9 @@ import {BrowserRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 import {ApolloProvider, ApolloClient, InMemoryCache, NormalizedCacheObject} from "@apollo/client"
 
-import App from './pages/App/App';
+import App from './App';
 import store from "./store";
-import {API_BASE_URL} from "./utils/constants/url";
+import {API_BASE_URL} from "./constants/urlConstants";
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
     uri: API_BASE_URL,

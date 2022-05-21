@@ -1,13 +1,13 @@
-import {createStore} from "redux";
+import { createStore } from "redux";
 
-import {ordersData} from "../../test-data/order-test-data";
-import ordersReducer, {OrdersState} from "../../../redux/orders/orders-reducer";
-import {loadingOrders, resetOrders, setUserOrders} from "../../../redux/orders/orders-actions";
+import { ordersData } from "../../test-data/order-test-data";
+import ordersReducer, { OrdersState } from "../../../redux/orders/orders-reducer";
+import { loadingOrders, resetOrders, setUserOrders } from "../../../redux/orders/orders-actions";
 import rootReducer from "../../../redux/root-reducer";
 
 describe("orders reducer", () => {
     const ordersStore = createStore(rootReducer).getState().orders;
-    
+
     test("should set user orders", () => {
         const state: OrdersState = ordersReducer(ordersStore, setUserOrders(ordersData));
         expect(state.orders).toEqual(ordersData);

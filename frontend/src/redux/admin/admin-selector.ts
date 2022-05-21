@@ -1,6 +1,6 @@
-import {AppStateType} from "../root-reducer";
-import {AdminState} from "./admin-reducer";
-import {PerfumeErrors, User} from "../../types/types";
+import { AppStateType } from "../root-reducer";
+import { AdminState } from "./admin-reducer";
+import { PerfumeErrors, User } from "../../types/types";
 
 export const selectAdminState = (state: AppStateType): AdminState => state.admin;
 export const selectAdminStateUsers = (state: AppStateType): Array<User> => selectAdminState(state).users;

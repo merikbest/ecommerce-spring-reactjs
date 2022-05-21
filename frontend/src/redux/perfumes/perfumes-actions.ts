@@ -1,4 +1,4 @@
-import {Perfume} from "../../types/types";
+import { Perfume } from "../../types/types";
 import {
     LOADING_PERFUME,
     LoadingPerfumeActionType,

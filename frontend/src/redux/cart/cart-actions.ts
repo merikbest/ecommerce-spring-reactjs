@@ -8,7 +8,7 @@ import {
     SET_CART_ITEMS_COUNT,
     SetCartItemsCountActionType
 } from "./cart-action-types";
-import {Perfume} from "../../types/types";
+import { Perfume } from "../../types/types";
 
 export const loadingCart = (): LoadingCartActionType => ({
     type: LOADING_CART

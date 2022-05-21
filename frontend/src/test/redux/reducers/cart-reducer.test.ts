@@ -1,13 +1,13 @@
-import {createStore} from "redux";
+import { createStore } from "redux";
 
 import rootReducer from "../../../redux/root-reducer";
-import cartReducer, {CartState} from "../../../redux/cart/cart-reducer";
-import {calculateCartPrice, loadingCart, resetCartState, setCartItemsCount} from "../../../redux/cart/cart-actions";
-import {perfumesData} from "../../test-data/perfume-test-data";
+import cartReducer, { CartState } from "../../../redux/cart/cart-reducer";
+import { calculateCartPrice, loadingCart, resetCartState, setCartItemsCount } from "../../../redux/cart/cart-actions";
+import { perfumesData } from "../../test-data/perfume-test-data";
 
 describe("cart reducer", () => {
     const cartStore = createStore(rootReducer).getState().cart;
-    
+
     test("should Loading Cart", () => {
         const state: CartState = cartReducer(cartStore, loadingCart());
         expect(state.loading).toBeTruthy();

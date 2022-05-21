@@ -1,10 +1,9 @@
-import {AppStateType} from "../root-reducer";
-import {UserState} from "./user-reducer";
-import {AuthErrors, ReviewError, User, UserEditErrors} from "../../types/types";
+import { AppStateType } from "../root-reducer";
+import { UserState } from "./user-reducer";
+import { AuthErrors, ReviewError, User, UserEditErrors } from "../../types/types";
 
 export const selectUserState = (state: AppStateType): UserState => state.user;
-export const selectUserFromUserState = (state: AppStateType): Partial<User> => selectUserState(state).user;
-export const selectIsLoggedIn = (state: AppStateType): boolean => selectUserState(state).isLoggedIn;
+export const selectUserFromUserState = (state: AppStateType): User | undefined => selectUserState(state).user;
 export const selectIsLoaded = (state: AppStateType): boolean => selectUserState(state).isLoaded;
 export const selectSuccessMessage = (state: AppStateType): string => selectUserState(state).successMessage;
 export const selectUserEditErrors = (state: AppStateType): Partial<UserEditErrors> => selectUserState(state).userEditErrors;

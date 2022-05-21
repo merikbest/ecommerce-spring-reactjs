@@ -1,21 +1,28 @@
-import thunk, {ThunkDispatch} from "redux-thunk";
+import thunk, { ThunkDispatch } from "redux-thunk";
 import configureMockStore from "redux-mock-store";
-import {AnyAction} from "redux";
+import { AnyAction } from "redux";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
-import {AdminState} from "../../../redux/admin/admin-reducer";
-import {API_BASE_URL} from "../../../utils/constants/url";
-import {perfumeData, perfumeErrorData, perfumesData} from "../../test-data/perfume-test-data";
+import { AdminState } from "../../../redux/admin/admin-reducer";
+import {
+    ADMIN_ADD,
+    ADMIN_DELETE,
+    ADMIN_EDIT,
+    ADMIN_GRAPHQL_USER,
+    ADMIN_GRAPHQL_USER_ALL,
+    ADMIN_USER,
+    ADMIN_USER_ALL,
+    API_BASE_URL
+} from "../../../constants/urlConstants";
+import { perfumeData, perfumeErrorData, perfumesData } from "../../test-data/perfume-test-data";
 import {
     addPerfume,
     deletePerfume,
     fetchAllUsers,
     fetchAllUsersByQuery,
-    fetchAllUsersOrdersByQuery,
     fetchUserInfo,
     fetchUserInfoByQuery,
-    fetchUserOrdersByEmailQuery,
     updatePerfume
 } from "../../../redux/admin/admin-thunks";
 import {
@@ -23,19 +30,15 @@ import {
     addPerfumeSuccess,
     getAllUsers,
     getAllUsersByQuery,
-    getAllUsersOrders,
-    getAllUsersOrdersByQuery,
     getUserInfo,
     getUserInfoByQuery,
-    getUserOrders,
-    getUserOrdersByQuery,
     loadingData,
     updatePerfumeFailure,
     updatePerfumeSuccess
 } from "../../../redux/admin/admin-actions";
-import {setPerfumes} from "../../../redux/perfumes/perfumes-actions";
-import {ordersData} from "../../test-data/order-test-data";
-import {userData, usersData} from "../../test-data/user-test-data";
+import { setPerfumes } from "../../../redux/perfumes/perfumes-actions";
+import { userData, usersData } from "../../test-data/user-test-data";
+import { setPerfume } from "../../../redux/perfume/perfume-actions";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore<AdminState, ThunkDispatch<AdminState, void, AnyAction>>(middlewares);
@@ -48,90 +51,69 @@ describe("admin actions", () => {
     beforeEach(() => {
         store.clearActions();
         bodyFormData.append("file", "file");
-        bodyFormData.append("perfume", new Blob([JSON.stringify(perfumeData)], {type: "application/json"}));
+        bodyFormData.append("perfume", new Blob([JSON.stringify(perfumeData)], { type: "application/json" }));
     });
 
     test("addPerfume should dispatches USER_UPDATED_SUCCESS on success", async () => {
-        mock.onPost(API_BASE_URL + "/admin/add").reply(200);
+        mock.onPost(API_BASE_URL + ADMIN_ADD).reply(200);
         await store.dispatch(addPerfume(bodyFormData));
         let expectedActions = [addPerfumeSuccess()];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("addPerfume should dispatches PERFUME_ADDED_FAILURE on failure", async () => {
-        mock.onPost(API_BASE_URL + "/admin/add").reply(400, perfumeErrorData);
+        mock.onPost(API_BASE_URL + ADMIN_ADD).reply(400, perfumeErrorData);
         await store.dispatch(addPerfume(bodyFormData));
         let expectedActions = [addPerfumeFailure(perfumeErrorData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("updatePerfume should dispatches PERFUME_UPDATED_SUCCESS and FETCH_PERFUME_SUCCESS on success", async () => {
-        mock.onPut(API_BASE_URL + "/admin/edit").reply(200, perfumeData);
+        mock.onPost(API_BASE_URL + ADMIN_EDIT).reply(200, perfumeData);
         await store.dispatch(updatePerfume(bodyFormData));
-        let expectedActions = [updatePerfumeSuccess(), fetchPerfumeSuccess(perfumeData)];
+        let expectedActions = [updatePerfumeSuccess(), setPerfume(perfumeData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("updatePerfume should dispatches PERFUME_UPDATED_FAILURE on failure", async () => {
-        mock.onPut(API_BASE_URL + "/admin/edit").reply(400, perfumeErrorData);
+        mock.onPost(API_BASE_URL + ADMIN_EDIT).reply(400, perfumeErrorData);
         await store.dispatch(updatePerfume(bodyFormData));
         let expectedActions = [updatePerfumeFailure(perfumeErrorData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("deletePerfume should dispatches FETCH_PERFUMES on success", async () => {
-        mock.onDelete(API_BASE_URL + "/admin/delete/1").reply(200, perfumesData);
+        mock.onDelete(API_BASE_URL + `${ADMIN_DELETE}/${1}`).reply(200, perfumesData);
         await store.dispatch(deletePerfume(1));
         let expectedActions = [setPerfumes(perfumesData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
-    // test("fetchAllUsersOrders should dispatches LOADING_DATA and FETCH_ALL_USERS_ORDERS_SUCCESS on success", async () => {
-    //     mock.onGet(API_BASE_URL + "/admin/orders").reply(200, ordersData);
-    //     await store.dispatch(fetchAllUsersOrders());
-    //     let expectedActions = [loadingData(), getAllUsersOrders(ordersData)];
-    //     expect(store.getActions()).toEqual(expectedActions);
-    // });
-
     test("fetchAllUsers should dispatches LOADING_DATA and FETCH_ALL_USERS_SUCCESS on success", async () => {
-        mock.onGet(API_BASE_URL + "/admin/user/all").reply(200, usersData);
+        mock.onGet(API_BASE_URL + ADMIN_USER_ALL).reply(200, usersData);
         await store.dispatch(fetchAllUsers());
         let expectedActions = [loadingData(), getAllUsers(usersData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("fetchUserInfo should dispatches LOADING_DATA and FETCH_USER_INFO_SUCCESS on success", async () => {
-        mock.onGet(API_BASE_URL + "/admin/user/1").reply(200, userData);
+        mock.onGet(API_BASE_URL + `${ADMIN_USER}/${1}`).reply(200, userData);
         await store.dispatch(fetchUserInfo("1"));
         let expectedActions = [loadingData(), getUserInfo(userData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("fetchUserInfoByQuery should dispatches LOADING_DATA and FETCH_USER_INFO_BY_QUERY_SUCCESS on success", async () => {
-        mock.onPost(API_BASE_URL + "/admin/graphql/user").reply(200, {data: {user: userData}});
+        mock.onPost(API_BASE_URL + ADMIN_GRAPHQL_USER).reply(200, { data: { user: userData } });
         await store.dispatch(fetchUserInfoByQuery("1"));
         let expectedActions = [loadingData(), getUserInfoByQuery(userData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("fetchAllUsersByQuery should dispatches LOADING_DATA and FETCH_ALL_USERS_BY_QUERY_SUCCESS on success", async () => {
-        mock.onPost(API_BASE_URL + "/admin/graphql/user/all").reply(200, {data: {users: usersData}});
+        mock.onPost(API_BASE_URL + ADMIN_GRAPHQL_USER_ALL).reply(200, { data: { users: usersData } });
         await store.dispatch(fetchAllUsersByQuery());
         let expectedActions = [loadingData(), getAllUsersByQuery(usersData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
-
-    // test("fetchAllUsersOrdersByQuery should dispatches LOADING_DATA and FETCH_ALL_USERS_ORDERS_BY_QUERY_SUCCESS on success", async () => {
-    //     mock.onPost(API_BASE_URL + "/admin/graphql/orders").reply(200, {data: {orders: ordersData}});
-    //     await store.dispatch(fetchAllUsersOrdersByQuery());
-    //     let expectedActions = [loadingData(), getAllUsersOrdersByQuery(ordersData)];
-    //     expect(store.getActions()).toEqual(expectedActions);
-    // });
-
-    // test("fetchUserOrdersByEmailQuery should dispatches LOADING_DATA and FETCH_USER_ORDERS_BY_QUERY_SUCCESS on success", async () => {
-    //     mock.onPost(API_BASE_URL + "/admin/graphql/order").reply(200, {data: {ordersByEmail: ordersData}});
-    //     await store.dispatch(fetchUserOrdersByEmailQuery("test123@test.com"));
-    //     let expectedActions = [loadingData(), getUserOrdersByQuery(ordersData)];
-    //     expect(store.getActions()).toEqual(expectedActions);
-    // });
 });

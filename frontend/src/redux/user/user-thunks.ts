@@ -1,32 +1,36 @@
-import {Dispatch} from "redux";
+import { Dispatch } from "redux";
 
 import {
     loadingUserInfo,
+    setUpdatedUser,
     setUser,
     userAddedReviewFailure,
     userAddedReviewSuccess,
     userUpdatedFailure,
     userUpdatedPasswordFailure,
-    userUpdatedPasswordSuccess,
-    setUpdatedUser
+    userUpdatedPasswordSuccess
 } from "./user-actions";
-import {ReviewData, UserEdit, UserResetPasswordData} from "../../types/types";
-import RequestService from '../../utils/request-service';
-import {userByQuery} from "../../utils/graphql-query/users-query";
-import {setPerfume} from "../perfume/perfume-actions";
+import { ReviewData, UserEdit, UserResetPasswordData } from "../../types/types";
+import RequestService from "../../utils/request-service";
+import { userByQuery } from "../../utils/graphql-query/users-query";
+import { setPerfume } from "../perfume/perfume-actions";
+import {
+    AUTH_EDIT_PASSWORD,
+    USERS_EDIT,
+    USERS_GRAPHQL_INFO,
+    USERS_INFO,
+    USERS_REVIEW
+} from "../../constants/urlConstants";
 
 export const fetchUserInfo = () => async (dispatch: Dispatch) => {
     dispatch(loadingUserInfo());
-    const response = await RequestService.get("/users/info", true);
-    localStorage.setItem("email", response.data.email);
-    localStorage.setItem("userRole", response.data.roles);
-    localStorage.setItem("isLoggedIn", "true");
+    const response = await RequestService.get(USERS_INFO, true);
     dispatch(setUser(response.data));
 };
 
 export const updateUserInfo = (userEdit: UserEdit) => async (dispatch: Dispatch) => {
     try {
-        const response = await RequestService.put("/users/edit", userEdit, true);
+        const response = await RequestService.put(USERS_EDIT, userEdit, true);
         dispatch(setUpdatedUser(response.data));
     } catch (error) {
         dispatch(userUpdatedFailure(error.response.data));
@@ -35,7 +39,7 @@ export const updateUserInfo = (userEdit: UserEdit) => async (dispatch: Dispatch)
 
 export const updateUserPassword = (data: UserResetPasswordData) => async (dispatch: Dispatch) => {
     try {
-        const response = await RequestService.put("/auth/edit/password", data, true);
+        const response = await RequestService.put(AUTH_EDIT_PASSWORD, data, true);
         dispatch(userUpdatedPasswordSuccess(response.data));
     } catch (error) {
         dispatch(userUpdatedPasswordFailure(error.response.data));
@@ -44,7 +48,7 @@ export const updateUserPassword = (data: UserResetPasswordData) => async (dispat
 
 export const addReviewToPerfume = (review: ReviewData) => async (dispatch: Dispatch) => {
     try {
-        const response = await RequestService.post("/users/review", review);
+        const response = await RequestService.post(USERS_REVIEW, review);
         dispatch(setPerfume(response.data));
         dispatch(userAddedReviewSuccess());
     } catch (error) {
@@ -55,9 +59,6 @@ export const addReviewToPerfume = (review: ReviewData) => async (dispatch: Dispa
 // GraphQL query
 export const fetchUserInfoByQuery = (id: string) => async (dispatch: Dispatch) => {
     dispatch(loadingUserInfo());
-    const response = await RequestService.post("/users/graphql/info", {query: userByQuery(id)}, true);
-    localStorage.setItem("email", response.data.data.user.email);
-    localStorage.setItem("userRole", response.data.data.user.roles);
-    localStorage.setItem("isLoggedIn", "true");
+    const response = await RequestService.post(USERS_GRAPHQL_INFO, { query: userByQuery(id) }, true);
     dispatch(setUser(response.data.data.user));
 };

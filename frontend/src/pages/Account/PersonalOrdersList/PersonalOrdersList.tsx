@@ -1,12 +1,12 @@
-import React, {FC, ReactElement, useEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-import {faShoppingBag} from "@fortawesome/free-solid-svg-icons";
+import React, { FC, ReactElement, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 
 import OrdersTable from "../../../component/OrdersTable/OrdersTable";
-import Spinner from '../../../component/Spinner/Spinner';
+import Spinner from "../../../component/Spinner/Spinner";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
-import {fetchUserOrders} from '../../../redux/orders/orders-thunks';
-import {selectIsOrdersLoading, selectOrders} from "../../../redux/orders/orders-selector";
+import { fetchUserOrders } from "../../../redux/orders/orders-thunks";
+import { selectIsOrdersLoading, selectOrders } from "../../../redux/orders/orders-selector";
 import "./PersonalOrdersList.css";
 
 const PersonalOrdersList: FC = (): ReactElement => {
@@ -21,10 +21,10 @@ const PersonalOrdersList: FC = (): ReactElement => {
     return (
         <>
             {isOrdersLoading ? (
-                <Spinner/>
+                <Spinner />
             ) : (
                 <>
-                    {(orders.length === 0) ? (
+                    {orders.length === 0 ? (
                         <InfoTitle
                             iconClass={"ml-2 mr-2"}
                             icon={faShoppingBag}
@@ -32,7 +32,7 @@ const PersonalOrdersList: FC = (): ReactElement => {
                             title={"You have no orders"}
                         />
                     ) : (
-                        <OrdersTable loading={isOrdersLoading} orders={orders}/>
+                        <OrdersTable loading={isOrdersLoading} orders={orders} />
                     )}
                 </>
             )}

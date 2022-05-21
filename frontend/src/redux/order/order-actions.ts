@@ -1,13 +1,13 @@
-import {Order, OrderError} from "../../types/types";
+import { Order, OrderError } from "../../types/types";
 import {
     LOADING_ORDER,
     LoadingOrderActionType,
     ORDER_ADDED_FAILURE,
-    SET_ORDER,
     OrderAddedFailureActionType,
-    SetOrderActionType,
     RESET_ORDER_STATE,
     ResetOrderStateActionType,
+    SET_ORDER,
+    SetOrderActionType
 } from "./order-action-types";
 
 export const loadingOrder = (): LoadingOrderActionType => ({
@@ -27,4 +27,3 @@ export const orderAddedFailure = (errors: OrderError): OrderAddedFailureActionTy
     type: ORDER_ADDED_FAILURE,
     payload: errors
 });
-

@@ -1,9 +1,14 @@
-import {createStore} from "redux";
+import { createStore } from "redux";
 
-import perfumeReducer, {PerfumeState} from "../../../redux/perfume/perfume-reducer";
+import perfumeReducer, { PerfumeState } from "../../../redux/perfume/perfume-reducer";
 import rootReducer from "../../../redux/root-reducer";
-import {loadingPerfume, resetPerfumeState, setPerfume, setPerfumeByQuery} from "../../../redux/perfume/perfume-actions";
-import {perfumeData} from "../../test-data/perfume-test-data";
+import {
+    loadingPerfume,
+    resetPerfumeState,
+    setPerfume,
+    setPerfumeByQuery
+} from "../../../redux/perfume/perfume-actions";
+import { perfumeData } from "../../test-data/perfume-test-data";
 
 describe("perfume reducer", () => {
     const perfumeStore = createStore(rootReducer).getState().perfume;
@@ -14,7 +19,7 @@ describe("perfume reducer", () => {
         expect(state.isPerfumeLoading).toBeTruthy();
         expect(state.reviews.length).toEqual(0);
     });
-    
+
     test("should Set Perfume", () => {
         const state: PerfumeState = perfumeReducer(perfumeStore, setPerfume(perfumeData));
         expect(state.perfume).toEqual(perfumeData);

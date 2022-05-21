@@ -1,23 +1,23 @@
-import {AuthErrors, ReviewError, User, UserEditErrors} from "../../types/types";
+import { AuthErrors, ReviewError, User, UserEditErrors } from "../../types/types";
 import {
     LOADING_USER_INFO,
-    SET_USER,
+    LoadingUserInfoActionType,
     RESET_INPUT_FORM,
+    ResetInputFormActionType,
+    SET_UPDATED_USER,
+    SET_USER,
+    SetUpdatedUserActionType,
+    SetUserActionType,
     USER_ADDED_REVIEW_FAILURE,
     USER_ADDED_REVIEW_SUCCESS,
     USER_UPDATED_FAILURE,
     USER_UPDATED_PASSWORD_FAILURE,
     USER_UPDATED_PASSWORD_SUCCESS,
-    SET_UPDATED_USER,
     UserAddedReviewFailureActionType,
     UserAddedReviewSuccessActionType,
     UserUpdatedFailureActionType,
     UserUpdatedPasswordFailureActionType,
-    UserUpdatedPasswordSuccessActionType,
-    SetUpdatedUserActionType,
-    ResetInputFormActionType,
-    SetUserActionType,
-    LoadingUserInfoActionType
+    UserUpdatedPasswordSuccessActionType
 } from "./user-action-types";
 
 export const loadingUserInfo = (): LoadingUserInfoActionType => ({
@@ -59,5 +59,5 @@ export const userAddedReviewFailure = (errors: ReviewError): UserAddedReviewFail
 });
 
 export const resetInputForm = (): ResetInputFormActionType => ({
-    type: RESET_INPUT_FORM,
+    type: RESET_INPUT_FORM
 });

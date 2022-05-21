@@ -1,7 +1,7 @@
-import {createStore} from "redux";
+import { createStore } from "redux";
 
 import rootReducer from "../../../redux/root-reducer";
-import authReducer, {AuthState} from "../../../redux/auth/auth-reducer";
+import authReducer, { AuthState } from "../../../redux/auth/auth-reducer";
 import {
     activateAccountFailure,
     activateAccountSuccess,
@@ -18,15 +18,15 @@ import {
     resetPasswordSuccess,
     showLoader
 } from "../../../redux/auth/auth-actions";
-import {authErrorsData, userData} from "../../test-data/user-test-data";
-import {reset} from "../../../redux/admin/admin-actions";
+import { authErrorsData, userData } from "../../test-data/user-test-data";
+import { formReset } from "../../../redux/admin/admin-actions";
 
 describe("auth reducer", () => {
     const authStore = createStore(rootReducer).getState().auth;
     const error = "Incorrect password or email";
     const errors = authErrorsData;
     const success = "User successfully activated.";
-    
+
     test("should Show Loader", () => {
         const state: AuthState = authReducer(authStore, showLoader());
         expect(state.loading).toBeTruthy();
@@ -67,7 +67,10 @@ describe("auth reducer", () => {
     });
 
     test("should Forgot Password Success", () => {
-        const state: AuthState = authReducer(authStore, forgotPasswordSuccess("Reset password code is send to your E-mail"));
+        const state: AuthState = authReducer(
+            authStore,
+            forgotPasswordSuccess("Reset password code is send to your E-mail")
+        );
         expect(state.success).toEqual("Reset password code is send to your E-mail");
         expect(state.loading).toBeFalsy();
         expect(state.errors).toEqual({});
@@ -106,7 +109,7 @@ describe("auth reducer", () => {
     });
 
     test("should Form Reset", () => {
-        const state: AuthState = authReducer(authStore, reset());
+        const state: AuthState = authReducer(authStore, formReset());
         expect(state.error).toEqual("");
         expect(state.errors).toEqual({});
         expect(state.success).toEqual("");

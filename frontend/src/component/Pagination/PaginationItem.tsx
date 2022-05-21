@@ -1,14 +1,14 @@
-import React, {FC, ReactElement} from 'react';
-import {Pagination} from "./usePagination";
+import React, { FC, ReactElement } from "react";
+import { Pagination } from "./usePagination";
 
 type PropsType = {
-    pagination: Array<Pagination>
-    prevPage: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
-    changePage: (page: number, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
-    nextPage: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
+    pagination: Array<Pagination>;
+    prevPage: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+    changePage: (page: number, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+    nextPage: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 };
 
-const PaginationItem: FC<PropsType> = ({pagination, prevPage, changePage, nextPage}): ReactElement => {
+const PaginationItem: FC<PropsType> = ({ pagination, prevPage, changePage, nextPage }): ReactElement => {
     return (
         <ul className="pagination">
             <li className="page-item disabled">
@@ -27,32 +27,36 @@ const PaginationItem: FC<PropsType> = ({pagination, prevPage, changePage, nextPa
                     if (page.current) {
                         return (
                             <li key={index} className="page-item active">
-                                <a href="#"
-                                   className="page-link bg-dark border-dark"
-                                   onClick={(event) => changePage(page.id, event)}
+                                <a
+                                    href="#"
+                                    className="page-link bg-dark border-dark"
+                                    onClick={(event) => changePage(page.id, event)}
                                 >
                                     {page.id}
                                 </a>
                             </li>
-                        )
+                        );
                     } else {
                         return (
                             <li key={index} className="page-item">
-                                <a href="#"
-                                   className="page-link text-dark"
-                                   onClick={(event) => changePage(page.id, event)}
+                                <a
+                                    href="#"
+                                    className="page-link text-dark"
+                                    onClick={(event) => changePage(page.id, event)}
                                 >
                                     {page.id}
                                 </a>
                             </li>
-                        )
+                        );
                     }
                 } else {
                     return (
                         <li key={index} className="page-item disabled">
-                            <a className="page-link text-dark" href="#">...</a>
+                            <a className="page-link text-dark" href="#">
+                                ...
+                            </a>
                         </li>
-                    )
+                    );
                 }
             })}
             <li className="page-item">
@@ -62,7 +66,7 @@ const PaginationItem: FC<PropsType> = ({pagination, prevPage, changePage, nextPa
                 </a>
             </li>
         </ul>
-    )
-}
+    );
+};
 
 export default PaginationItem;

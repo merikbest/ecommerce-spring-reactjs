@@ -1,10 +1,9 @@
-import React from 'react';
-import axios, {Method} from 'axios';
+import React from "react";
+import axios, { Method } from "axios";
 
-import {API_BASE_URL} from "./constants/url";
+import { API_BASE_URL } from "../constants/urlConstants";
 
 class RequestService {
-
     get = (url: string, isAuthRequired: boolean = false, contentType: string = "application/json") => {
         return createRequest("GET", url, null, isAuthRequired, contentType);
     };
@@ -35,9 +34,9 @@ const setHeader = (isAuthRequired: boolean, contentType: string) => {
     if (isAuthRequired) {
         axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
     } else {
-        delete axios.defaults.headers.common['Authorization']
+        delete axios.defaults.headers.common["Authorization"];
     }
-    axios.defaults.headers.common["Content-Type"] = contentType
+    axios.defaults.headers.common["Content-Type"] = contentType;
 };
 
 export default new RequestService();

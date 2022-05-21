@@ -1,16 +1,25 @@
-import React, {FC, FormEvent, ReactElement, useEffect, useState} from 'react';
+import React, { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import {useDispatch, useSelector} from "react-redux";
-import {faEnvelope, faLock, faUser, faUserPlus} from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { faEnvelope, faLock, faUser, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
-import {formReset, registration} from "../../redux/auth/auth-thunks";
+import { registration } from "../../redux/auth/auth-thunks";
 import PageLoader from "../../component/PageLoader/PageLoader";
-import {UserRegistration} from "../../types/types";
+import { UserRegistration } from "../../types/types";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
 import Alert from "../../component/Alert/Alert";
-import PasswordInput from "../../component/PasswordInput/PasswordInput";
 import IconButton from "../../component/IconButton/IconButton";
-import {selectErrors, selectIsAuthLoading, selectIsRegistered} from "../../redux/auth/auth-selector";
+import { selectErrors, selectIsAuthLoading, selectIsRegistered } from "../../redux/auth/auth-selector";
+import { formReset } from "../../redux/admin/admin-actions";
+import Input from "../../component/EditInput/Input";
+
+const initialState = {
+    email: "",
+    firstName: "",
+    lastName: "",
+    password: "",
+    password2: ""
+};
 
 const Registration: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -18,23 +27,16 @@ const Registration: FC = (): ReactElement => {
     const loading = useSelector(selectIsAuthLoading);
     const errors = useSelector(selectErrors);
 
-    const [email, setEmail] = useState<string>("");
-    const [firstName, setFirstName] = useState<string>("");
-    const [lastName, setLastName] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [password2, setPassword2] = useState<string>("");
+    const [registrationInfo, setRegistrationInfo] = useState(initialState);
     const [captchaValue, setCaptchaValue] = useState<string | null>("");
+    const { email, firstName, lastName, password, password2 } = registrationInfo;
 
     useEffect(() => {
         dispatch(formReset());
     }, []);
 
     useEffect(() => {
-        setEmail("");
-        setFirstName("");
-        setLastName("");
-        setPassword("");
-        setPassword2("");
+        setRegistrationInfo(initialState);
         setCaptchaValue("");
     }, [isRegistered]);
 
@@ -47,7 +49,7 @@ const Registration: FC = (): ReactElement => {
             password,
             password2,
             captcha: captchaValue
-        }
+        };
         dispatch(registration(userRegistrationData));
         // @ts-ignore
         window.grecaptcha.reset();
@@ -57,67 +59,77 @@ const Registration: FC = (): ReactElement => {
         setCaptchaValue(token);
     };
 
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
+        const { name, value } = event.target;
+        setRegistrationInfo({ ...registrationInfo, [name]: value });
+    };
+
     let pageLoading;
     if (loading) {
-        pageLoading = (<PageLoader/>);
+        pageLoading = <PageLoader />;
     }
 
     return (
         <div className="container mt-5">
             {pageLoading}
-            <InfoTitle iconClass={"mr-2"} icon={faUserPlus} title={"SIGN UP"}/>
-            <hr/>
-            {isRegistered && <Alert alertType={"success"} message={"Activation code has been sent to your email!"}/>}
+            <InfoTitle iconClass={"mr-2"} icon={faUserPlus} title={"SIGN UP"} />
+            <hr />
+            {isRegistered && <Alert alertType={"success"} message={"Activation code has been sent to your email!"} />}
             <form onSubmit={onClickSignUp}>
-                <PasswordInput
+                <Input
                     title={"E-mail"}
                     icon={faEnvelope}
                     titleClass={"col-sm-2"}
+                    wrapperClass={"col-sm-4"}
                     type={"email"}
                     error={errors.emailError}
                     name={"email"}
                     value={email}
-                    onChange={setEmail}
+                    onChange={handleInputChange}
                 />
-                <PasswordInput
+                <Input
                     title={"First name"}
                     icon={faUser}
                     titleClass={"col-sm-2"}
+                    wrapperClass={"col-sm-4"}
                     type={"text"}
                     error={errors.firstNameError}
                     name={"firstName"}
                     value={firstName}
-                    onChange={setFirstName}
+                    onChange={handleInputChange}
                 />
-                <PasswordInput
+                <Input
                     title={"Last name"}
                     icon={faUser}
                     titleClass={"col-sm-2"}
+                    wrapperClass={"col-sm-4"}
                     type={"text"}
                     error={errors.lastNameError}
                     name={"lastName"}
                     value={lastName}
-                    onChange={setLastName}
+                    onChange={handleInputChange}
                 />
-                <PasswordInput
+                <Input
                     title={"Password"}
                     icon={faLock}
                     titleClass={"col-sm-2"}
+                    wrapperClass={"col-sm-4"}
                     type={"password"}
                     error={errors.passwordError}
                     name={"password"}
                     value={password}
-                    onChange={setPassword}
+                    onChange={handleInputChange}
                 />
-                <PasswordInput
+                <Input
                     title={"Confirm password"}
                     icon={faLock}
                     titleClass={"col-sm-2"}
+                    wrapperClass={"col-sm-4"}
                     type={"password"}
                     error={errors.password2Error}
                     name={"password2"}
                     value={password2}
-                    onChange={setPassword2}
+                    onChange={handleInputChange}
                 />
                 <div className="form-group row">
                     <IconButton
@@ -127,7 +139,7 @@ const Registration: FC = (): ReactElement => {
                         iconClassName={"mr-3"}
                     />
                 </div>
-                <ReCAPTCHA onChange={onChangeRecaptcha} sitekey="6Lc5cLkZAAAAAN8mFk85HQieB9toPcWFoW0RXCNR"/>
+                <ReCAPTCHA onChange={onChangeRecaptcha} sitekey="6Lc5cLkZAAAAAN8mFk85HQieB9toPcWFoW0RXCNR" />
             </form>
         </div>
     );

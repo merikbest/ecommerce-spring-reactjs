@@ -1,13 +1,13 @@
-import {createStore} from "redux";
+import { createStore } from "redux";
 
 import rootReducer from "../../../redux/root-reducer";
-import orderReducer, {OrderState} from "../../../redux/order/order-reducer";
-import {loadingOrder, orderAddedFailure, resetOrderState, setOrder} from "../../../redux/order/order-actions";
-import {orderData, orderErrorData} from "../../test-data/order-test-data";
+import orderReducer, { OrderState } from "../../../redux/order/order-reducer";
+import { loadingOrder, orderAddedFailure, resetOrderState, setOrder } from "../../../redux/order/order-actions";
+import { orderData, orderErrorData } from "../../test-data/order-test-data";
 
 describe("order reducer", () => {
     const orderStore = createStore(rootReducer).getState().order;
-    
+
     test("should Show Loader", () => {
         const state: OrderState = orderReducer(orderStore, loadingOrder());
         expect(state.loading).toBeTruthy();

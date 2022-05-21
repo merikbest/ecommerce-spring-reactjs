@@ -1,33 +1,30 @@
-import React, {ChangeEvent, FC, ReactElement, useState} from 'react';
-import {PerfumePrice} from "../../types/types";
+import React, { ChangeEvent, FC, ReactElement, useState } from "react";
+import { PerfumePrice } from "../../types/types";
 
 type PropsType = {
-    handleFilters: (filters: number) => void
-    list: Array<PerfumePrice>
+    handleFilters: (filters: number) => void;
+    list: Array<PerfumePrice>;
 };
 
-const CheckboxRadio: FC<PropsType> = ({handleFilters, list}): ReactElement => {
+const CheckboxRadio: FC<PropsType> = ({ handleFilters, list }): ReactElement => {
     const [priceValue, setPriceValue] = useState<number>(0);
 
-    const renderRadioBox = () => (
+    const renderRadioBox = () =>
         list && list.map((value: PerfumePrice) => (
             <div key={value.id} className="checkbox ml-3">
                 <label>
-                    <input
-                        type="radio"
-                        name="price"
-                        value={value.id}
-                    />
-                    <span className="cr"><i className="cr-icon fas fa-check"></i></span>
+                    <input type="radio" name="price" value={value.id} />
+                    <span className="cr">
+                        <i className="cr-icon fas fa-check"></i>
+                    </span>
                     {value.name}
                 </label>
             </div>
-        ))
-    );
+        ));
 
     const handleChange = (event: ChangeEvent<HTMLLIElement>): void => {
-        setPriceValue(event.target.value)
-        handleFilters(event.target.value)
+        setPriceValue(event.target.value);
+        handleFilters(event.target.value);
     };
 
     return (

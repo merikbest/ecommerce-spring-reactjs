@@ -1,11 +1,11 @@
-import {Order} from "../../types/types";
+import { Order } from "../../types/types";
 import {
     LOADING_ORDERS,
     LoadingOrdersActionType,
     RESET_ORDERS_STATE,
     ResetOrdersStateActionType,
     SET_USER_ORDERS,
-    SetUserOrdersActionType,
+    SetUserOrdersActionType
 } from "./orders-action-types";
 
 export const loadingOrders = (): LoadingOrdersActionType => ({

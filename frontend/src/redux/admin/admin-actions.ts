@@ -1,4 +1,4 @@
-import {PerfumeErrors, User} from "../../types/types";
+import { PerfumeErrors, User } from "../../types/types";
 import {
     AddPerfumeFailureActionType,
     AddPerfumeSuccessActionType,
@@ -7,6 +7,7 @@ import {
     FETCH_USER_INFO_BY_QUERY_SUCCESS,
     FETCH_USER_INFO_SUCCESS,
     FORM_RESET,
+    FormResetActionType,
     GetAllUsersActionType,
     GetAllUsersByQueryActionType,
     GetUserInfoActionType,
@@ -17,7 +18,6 @@ import {
     PERFUME_ADDED_SUCCESS,
     PERFUME_UPDATED_FAILURE,
     PERFUME_UPDATED_SUCCESS,
-    ResetActionType,
     UpdatePerfumeFailureActionType,
     UpdatePerfumeSuccessActionType
 } from "./admin-action-types";
@@ -54,7 +54,7 @@ export const getUserInfo = (user: User): GetUserInfoActionType => ({
     payload: user
 });
 
-export const reset = (): ResetActionType => ({
+export const formReset = (): FormResetActionType => ({
     type: FORM_RESET
 });
 

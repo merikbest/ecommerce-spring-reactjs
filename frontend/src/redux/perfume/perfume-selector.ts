@@ -1,6 +1,6 @@
-import {AppStateType} from "../root-reducer";
-import {PerfumeState} from "./perfume-reducer";
-import {Perfume, Review} from "../../types/types";
+import { AppStateType } from "../root-reducer";
+import { PerfumeState } from "./perfume-reducer";
+import { Perfume, Review } from "../../types/types";
 
 export const selectPerfumeState = (state: AppStateType): PerfumeState => state.perfume;
 export const selectPerfume = (state: AppStateType): Partial<Perfume> => state.perfume.perfume;

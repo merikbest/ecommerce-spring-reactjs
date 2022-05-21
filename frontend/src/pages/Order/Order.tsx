@@ -1,21 +1,31 @@
-import React, {FC, FormEvent, ReactElement, useEffect, useState} from 'react';
-import {useHistory} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCheckCircle, faShoppingBag} from "@fortawesome/free-solid-svg-icons";
+import React, { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle, faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 
-import {addOrder} from "../../redux/order/order-thunks";
-import {validateEmail} from "../../utils/input-validators";
+import { addOrder } from "../../redux/order/order-thunks";
+import { validateEmail } from "../../utils/input-validators";
 import PageLoader from "../../component/PageLoader/PageLoader";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
-import PasswordInput from "../../component/PasswordInput/PasswordInput";
 import OrderItem from "./OrderItem/OrderItem";
-import {resetOrderState} from "../../redux/order/order-actions";
-import {selectIsOrderLoading, selectOrderErrors} from "../../redux/order/order-selector";
-import {selectTotalPrice} from "../../redux/cart/cart-selector";
-import {selectUserFromUserState} from "../../redux/user/user-selector";
-import {selectPerfumes} from "../../redux/perfumes/perfumes-selector";
-import {resetPerfumesState} from "../../redux/perfumes/perfumes-actions";
+import { resetOrderState } from "../../redux/order/order-actions";
+import { selectIsOrderLoading, selectOrderErrors } from "../../redux/order/order-selector";
+import { selectTotalPrice } from "../../redux/cart/cart-selector";
+import { selectUserFromUserState } from "../../redux/user/user-selector";
+import { selectPerfumes } from "../../redux/perfumes/perfumes-selector";
+import { resetPerfumesState } from "../../redux/perfumes/perfumes-actions";
+import Input from "../../component/EditInput/Input";
+
+const initialState = {
+    firstName: "",
+    lastName: "",
+    city: "",
+    address: "",
+    phoneNumber: "",
+    postIndex: "",
+    email: ""
+};
 
 const Order: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -25,26 +35,19 @@ const Order: FC = (): ReactElement => {
     const totalPrice = useSelector(selectTotalPrice);
     const errors = useSelector(selectOrderErrors);
     const isOrderLoading = useSelector(selectIsOrderLoading);
-    const perfumesFromLocalStorage: Map<number, number> = new Map(JSON.parse(localStorage.getItem("perfumes") as string));
-
-    const [firstName, setFirstName] = useState<string | undefined>("");
-    const [lastName, setLastName] = useState<string | undefined>("");
-    const [city, setCity] = useState<string | undefined>("");
-    const [address, setAddress] = useState<string | undefined>("");
-    const [postIndex, setPostIndex] = useState<string | undefined>("");
-    const [phoneNumber, setPhoneNumber] = useState<string | undefined>("");
-    const [email, setEmail] = useState<string | undefined>("");
+    const [user, setUser] = useState(initialState);
     const [validateEmailError, setValidateEmailError] = useState<string>("");
 
+    const perfumesFromLocalStorage: Map<number, number> = new Map(
+        JSON.parse(localStorage.getItem("perfumes") as string)
+    );
+    const { firstName, lastName, city, address, phoneNumber, postIndex, email } = user;
+
     useEffect(() => {
-        setFirstName(usersData.firstName);
-        setLastName(usersData.lastName);
-        setCity(usersData.city);
-        setAddress(usersData.address);
-        setPostIndex(usersData.postIndex);
-        setPhoneNumber(usersData.phoneNumber);
-        setEmail(usersData.email);
-        
+        if (usersData) {
+            setUser(usersData);
+        }
+
         return () => {
             dispatch(resetOrderState());
             dispatch(resetPerfumesState());
@@ -61,25 +64,30 @@ const Order: FC = (): ReactElement => {
             setValidateEmailError(validateEmailError);
         } else {
             setValidateEmailError("");
-            const order = {firstName, lastName, city, address, postIndex, phoneNumber, email, perfumesId, totalPrice};
+            const order = { firstName, lastName, city, address, postIndex, phoneNumber, email, perfumesId, totalPrice };
             dispatch(addOrder(order, history));
         }
     };
 
+    const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
+        const { name, value } = event.target;
+        setUser({ ...user, [name]: value });
+    };
+
     let pageLoading;
     if (isOrderLoading) {
-        pageLoading = (<PageLoader/>);
+        pageLoading = <PageLoader />;
     }
 
     return (
         <div className="container mt-5 pb-5">
             {pageLoading}
-            <InfoTitle iconClass={"mr-2"} icon={faShoppingBag} titleClass={"mb-4 text-center"} title={"Ordering"}/>
-            <br/>
+            <InfoTitle iconClass={"mr-2"} icon={faShoppingBag} titleClass={"mb-4 text-center"} title={"Ordering"} />
+            <br />
             <form onSubmit={onFormSubmit}>
                 <div className="row">
                     <div className="col-lg-6">
-                        <PasswordInput
+                        <Input
                             title={"Name"}
                             titleClass={"col-sm-2"}
                             wrapperClass={"col-sm-8"}
@@ -88,9 +96,9 @@ const Order: FC = (): ReactElement => {
                             name={"firstName"}
                             value={firstName}
                             placeholder={"Enter the first name"}
-                            onChange={setFirstName}
+                            onChange={handleInputChange}
                         />
-                        <PasswordInput
+                        <Input
                             title={"Surname"}
                             titleClass={"col-sm-2"}
                             wrapperClass={"col-sm-8"}
@@ -99,9 +107,9 @@ const Order: FC = (): ReactElement => {
                             name={"lastName"}
                             value={lastName}
                             placeholder={"Enter the last name"}
-                            onChange={setLastName}
+                            onChange={handleInputChange}
                         />
-                        <PasswordInput
+                        <Input
                             title={"City"}
                             titleClass={"col-sm-2"}
                             wrapperClass={"col-sm-8"}
@@ -110,9 +118,9 @@ const Order: FC = (): ReactElement => {
                             name={"city"}
                             value={city}
                             placeholder={"Enter the city"}
-                            onChange={setCity}
+                            onChange={handleInputChange}
                         />
-                        <PasswordInput
+                        <Input
                             title={"Address"}
                             titleClass={"col-sm-2"}
                             wrapperClass={"col-sm-8"}
@@ -121,9 +129,9 @@ const Order: FC = (): ReactElement => {
                             name={"address"}
                             value={address}
                             placeholder={"Enter the address"}
-                            onChange={setAddress}
+                            onChange={handleInputChange}
                         />
-                        <PasswordInput
+                        <Input
                             title={"Index"}
                             titleClass={"col-sm-2"}
                             wrapperClass={"col-sm-8"}
@@ -132,9 +140,9 @@ const Order: FC = (): ReactElement => {
                             name={"postIndex"}
                             value={postIndex}
                             placeholder={"Enter the index"}
-                            onChange={setPostIndex}
+                            onChange={handleInputChange}
                         />
-                        <PasswordInput
+                        <Input
                             title={"Mobile"}
                             titleClass={"col-sm-2"}
                             wrapperClass={"col-sm-8"}
@@ -143,9 +151,9 @@ const Order: FC = (): ReactElement => {
                             name={"phoneNumber"}
                             value={phoneNumber}
                             placeholder={"(___)-___-____"}
-                            onChange={setPhoneNumber}
+                            onChange={handleInputChange}
                         />
-                        <PasswordInput
+                        <Input
                             title={"Email"}
                             titleClass={"col-sm-2"}
                             wrapperClass={"col-sm-8"}
@@ -154,26 +162,28 @@ const Order: FC = (): ReactElement => {
                             name={"email"}
                             value={email}
                             placeholder={"example@gmail.com"}
-                            onChange={setEmail}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <div className="col-lg-6">
                         <div className="container-fluid">
                             <div className="row">
                                 {perfumes.map((perfume) => (
-                                    <OrderItem 
-                                        key={perfume.id} 
-                                        perfume={perfume} 
+                                    <OrderItem
+                                        key={perfume.id}
+                                        perfume={perfume}
                                         quantity={perfumesFromLocalStorage.get(perfume.id)}
                                     />
                                 ))}
                             </div>
                         </div>
                         <button type="submit" className="btn btn-primary btn-lg btn-success px-5 float-right">
-                            <FontAwesomeIcon icon={faCheckCircle}/> Validate order
+                            <FontAwesomeIcon icon={faCheckCircle} /> Validate order
                         </button>
                         <div className="row">
-                            <h4>To pay : $ <span>{totalPrice}</span>.00</h4>
+                            <h4>
+                                To pay : $ <span>{totalPrice}</span>.00
+                            </h4>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
-import React, {FC, ReactElement} from 'react';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {IconDefinition} from "@fortawesome/fontawesome-common-types";
+import React, { FC, ReactElement } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition } from "@fortawesome/fontawesome-common-types";
 
 type PropsType = {
     buttonText: string;
@@ -10,10 +10,10 @@ type PropsType = {
     onClick?: any;
 };
 
-const IconButton: FC<PropsType> = ({buttonText, buttonClassName, icon, iconClassName, onClick}): ReactElement => {
+const IconButton: FC<PropsType> = ({ buttonText, buttonClassName, icon, iconClassName, onClick }): ReactElement => {
     return (
         <button type="submit" className={`btn btn-dark ${buttonClassName}`} onClick={onClick}>
-            <FontAwesomeIcon className={iconClassName} icon={icon}/>
+            <FontAwesomeIcon className={iconClassName} icon={icon} />
             {buttonText}
         </button>
     );

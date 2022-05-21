@@ -1,29 +1,31 @@
-import React, {FC, FormEvent, ReactElement, useState} from 'react';
-import {faSearch} from "@fortawesome/free-solid-svg-icons";
+import React, { FC, FormEvent, ReactElement, useState } from "react";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
-import {Perfume} from "../../types/types";
+import { Perfume } from "../../types/types";
 import IconButton from "../IconButton/IconButton";
 
 type PropsType = {
-    data: Array<Perfume>
-    searchByData: Array<{ label: string, value: string }>
-    setFilteredData: (value: (((prevState: Array<Perfume>) => Array<Perfume>) | Array<Perfume>)) => void
-    setSearching: (value: (((prevState: boolean) => boolean) | boolean)) => void
+    data: Array<Perfume>;
+    searchByData: Array<{ label: string; value: string }>;
+    setFilteredData: (value: ((prevState: Array<Perfume>) => Array<Perfume>) | Array<Perfume>) => void;
+    setSearching: (value: ((prevState: boolean) => boolean) | boolean) => void;
 };
 
-const SearchForm: FC<PropsType> = ({data, searchByData, setFilteredData, setSearching}): ReactElement => {
+const SearchForm: FC<PropsType> = ({ data, searchByData, setFilteredData, setSearching }): ReactElement => {
     const [search, setSearch] = useState<string>("");
     const [searchFor, setSearchFor] = useState<string>("");
-    const [searchBy, setSearchBy] = useState<string>(searchByData && searchByData.length > 0 ? searchByData[0].value : "");
+    const [searchBy, setSearchBy] = useState<string>(
+        searchByData && searchByData.length > 0 ? searchByData[0].value : ""
+    );
 
     const submitHandler = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
 
-        if (search.trim() !== '') {
+        if (search.trim() !== "") {
             setSearching(true);
             const copiedData: Array<Perfume> = [...data];
             const filtered: Array<Perfume> = copiedData.filter((perfumer: any) => {
-                let searchKey: string = 'perfumer';
+                let searchKey = "perfumer";
                 if (searchByData && searchByData.length > 0) {
                     searchKey = searchBy;
                 }
@@ -37,9 +39,9 @@ const SearchForm: FC<PropsType> = ({data, searchByData, setFilteredData, setSear
     };
 
     return (
-        <form onSubmit={submitHandler} style={{justifyContent: 'center'}}>
+        <form onSubmit={submitHandler} style={{ justifyContent: "center" }}>
             <div className="row">
-                {(searchByData && searchByData.length > 0) && (
+                {searchByData && searchByData.length > 0 && (
                     <div className="col-md-4">
                         <select
                             className="form-control"
@@ -64,11 +66,7 @@ const SearchForm: FC<PropsType> = ({data, searchByData, setFilteredData, setSear
                     />
                 </div>
                 <div className="col-md-5">
-                    <IconButton
-                        buttonText={"Search"}
-                        icon={faSearch}
-                        iconClassName={"mr-2"}
-                    />
+                    <IconButton buttonText={"Search"} icon={faSearch} iconClassName={"mr-2"} />
                 </div>
             </div>
         </form>
