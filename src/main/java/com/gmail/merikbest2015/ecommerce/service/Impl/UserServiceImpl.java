@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,19 +43,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public DataFetcher<User> getUserByQuery() {
-        return dataFetchingEnvironment -> {
-            Long userId = Long.parseLong(dataFetchingEnvironment.getArgument("id"));
-            return userRepository.findById(userId).get();
-        };
-    }
-
-    @Override
-    public DataFetcher<List<User>> getAllUsersByQuery() {
-        return dataFetchingEnvironment -> userRepository.findAllByOrderByIdAsc();
-    }
-
-    @Override
     public List<Perfume> getCart(List<Long> perfumeIds) {
         return perfumeRepository.findByIdIn(perfumeIds);
     }
@@ -74,14 +62,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Perfume addReviewToPerfume(Review review, Long perfumeId) {
-        Perfume perfume = perfumeRepository.getOne(perfumeId);
+    @Transactional
+    public Review addReviewToPerfume(Review review, Long perfumeId) {
+        Perfume perfume = perfumeRepository.findById(perfumeId)
+                .orElseThrow(() -> new ApiRequestException("Perfume not found.", HttpStatus.NOT_FOUND)); // TODO add test
         List<Review> reviews = perfume.getReviews();
         reviews.add(review);
         double totalReviews = reviews.size();
         double sumRating = reviews.stream().mapToInt(Review::getRating).sum();
         perfume.setPerfumeRating(sumRating / totalReviews);
-        reviewRepository.save(review);
-        return perfume;
+        return reviewRepository.save(review);
+    }
+    
+    @Override
+    public DataFetcher<User> getUserByQuery() {
+        return dataFetchingEnvironment -> {
+            Long userId = Long.parseLong(dataFetchingEnvironment.getArgument("id"));
+            return userRepository.findById(userId).get();
+        };
+    }
+
+    @Override
+    public DataFetcher<List<User>> getAllUsersByQuery() {
+        return dataFetchingEnvironment -> userRepository.findAllByOrderByIdAsc();
     }
 }

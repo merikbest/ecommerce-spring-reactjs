@@ -1,19 +1,18 @@
 import { Dispatch } from "redux";
 
 import {
-    loadingUserInfo,
     setUpdatedUser,
     setUser,
+    setUserLoadingState,
     userAddedReviewFailure,
     userAddedReviewSuccess,
     userUpdatedFailure,
     userUpdatedPasswordFailure,
     userUpdatedPasswordSuccess
 } from "./user-actions";
-import { ReviewData, UserEdit, UserResetPasswordData } from "../../types/types";
+import { LoadingStatus, ReviewData, UserEdit, UserResetPasswordData } from "../../types/types";
 import RequestService from "../../utils/request-service";
 import { userByQuery } from "../../utils/graphql-query/users-query";
-import { setPerfume } from "../perfume/perfume-actions";
 import {
     AUTH_EDIT_PASSWORD,
     USERS_EDIT,
@@ -23,7 +22,7 @@ import {
 } from "../../constants/urlConstants";
 
 export const fetchUserInfo = () => async (dispatch: Dispatch) => {
-    dispatch(loadingUserInfo());
+    dispatch(setUserLoadingState(LoadingStatus.LOADING));
     const response = await RequestService.get(USERS_INFO, true);
     dispatch(setUser(response.data));
 };
@@ -48,8 +47,7 @@ export const updateUserPassword = (data: UserResetPasswordData) => async (dispat
 
 export const addReviewToPerfume = (review: ReviewData) => async (dispatch: Dispatch) => {
     try {
-        const response = await RequestService.post(USERS_REVIEW, review);
-        dispatch(setPerfume(response.data));
+        await RequestService.post(USERS_REVIEW, review);
         dispatch(userAddedReviewSuccess());
     } catch (error) {
         dispatch(userAddedReviewFailure(error.response.data));
@@ -58,7 +56,7 @@ export const addReviewToPerfume = (review: ReviewData) => async (dispatch: Dispa
 
 // GraphQL query
 export const fetchUserInfoByQuery = (id: string) => async (dispatch: Dispatch) => {
-    dispatch(loadingUserInfo());
+    dispatch(setUserLoadingState(LoadingStatus.LOADING));
     const response = await RequestService.post(USERS_GRAPHQL_INFO, { query: userByQuery(id) }, true);
     dispatch(setUser(response.data.data.user));
 };

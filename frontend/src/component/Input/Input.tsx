@@ -13,6 +13,7 @@ type PropsType = {
     name: string;
     value?: string | number;
     placeholder?: string;
+    disabled?: boolean;
     onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -27,13 +28,13 @@ const Input: FC<PropsType> = ({
     name,
     value,
     placeholder,
+    disabled,
     onChange
 }): ReactElement => {
     return (
         <div className={column ? "col" : "form-group row"}>
             <label className={`${titleClass} `}>{`${title}: `}</label>
             {icon && <FontAwesomeIcon style={{ position: "relative", top: "8px" }} icon={icon} />}
-            {/*<div className={wrapperClass ? wrapperClass : "col-sm-4"}>*/}
             <div className={wrapperClass}>
                 <input
                     type={type}
@@ -41,6 +42,7 @@ const Input: FC<PropsType> = ({
                     className={error ? "form-control is-invalid" : "form-control"}
                     value={value}
                     placeholder={placeholder}
+                    disabled={disabled}
                     onChange={onChange}
                 />
                 <div className="invalid-feedback">{error}</div>

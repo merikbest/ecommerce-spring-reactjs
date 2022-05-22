@@ -1,23 +1,14 @@
 package com.gmail.merikbest2015.ecommerce.dto.user;
 
-import com.gmail.merikbest2015.ecommerce.domain.Role;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Set;
-
-@Data
-public class UserResponse {
-    private Long id;
-    private String email;
-    private String firstName;
+@Getter
+@Setter
+public class UserResponse extends BaseUserResponse {
     private String lastName;
     private String city;
     private String address;
     private String phoneNumber;
     private String postIndex;
-    private String provider;
-    private boolean active;
-    private String activationCode;
-    private String passwordResetCode;
-    private Set<Role> roles;
 }

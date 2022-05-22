@@ -1,37 +1,37 @@
 import {
     CALCULATE_CART_PRICE,
     CartActionTypes,
-    LOADING_CART,
     RESET_CART_STATE,
-    SET_CART_ITEMS_COUNT
+    SET_CART_ITEMS_COUNT,
+    SET_CART_LOADING_STATE
 } from "./cart-action-types";
-import { Perfume } from "../../types/types";
+import { LoadingStatus, Perfume } from "../../types/types";
 
 export type CartState = {
-    loading: boolean;
+    loadingState: LoadingStatus;
     totalPrice: number;
     cartItemsCount: number;
 };
 
 const initialState: CartState = {
-    loading: true,
+    loadingState: LoadingStatus.LOADING,
     totalPrice: 0,
     cartItemsCount: 0
 };
 
 const cartReducer = (state: CartState = initialState, action: CartActionTypes): CartState => {
     switch (action.type) {
-        case LOADING_CART:
-            return { ...state, loading: true };
+        case SET_CART_LOADING_STATE:
+            return { ...state, loadingState: action.payload };
 
         case CALCULATE_CART_PRICE:
-            return { ...state, totalPrice: calculateCartPrice(action.payload), loading: false };
+            return { ...state, totalPrice: calculateCartPrice(action.payload), loadingState: LoadingStatus.LOADED };
 
         case SET_CART_ITEMS_COUNT:
             return { ...state, cartItemsCount: action.payload };
 
         case RESET_CART_STATE:
-            return { ...state, loading: true };
+            return { ...state, loadingState: LoadingStatus.LOADING };
 
         default:
             return state;

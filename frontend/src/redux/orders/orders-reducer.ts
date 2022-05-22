@@ -1,26 +1,31 @@
-import { Order } from "../../types/types";
-import { LOADING_ORDERS, OrdersActionTypes, RESET_ORDERS_STATE, SET_USER_ORDERS } from "./orders-action-types";
+import { LoadingStatus, Order } from "../../types/types";
+import {
+    OrdersActionTypes,
+    RESET_ORDERS_STATE,
+    SET_ORDERS_LOADING_STATE,
+    SET_USER_ORDERS
+} from "./orders-action-types";
 
 export type OrdersState = {
     orders: Array<Order>;
-    loading: boolean;
+    loadingState: LoadingStatus;
 };
 
 const initialState: OrdersState = {
     orders: [],
-    loading: true
+    loadingState: LoadingStatus.LOADING
 };
 
 const ordersReducer = (state: OrdersState = initialState, action: OrdersActionTypes): OrdersState => {
     switch (action.type) {
-        case LOADING_ORDERS:
-            return { ...state, loading: true };
+        case SET_ORDERS_LOADING_STATE:
+            return { ...state, loadingState: action.payload };
 
         case SET_USER_ORDERS:
-            return { ...state, orders: action.payload, loading: false };
+            return { ...state, orders: action.payload, loadingState: LoadingStatus.LOADED };
 
         case RESET_ORDERS_STATE:
-            return { orders: [], loading: true };
+            return { ...initialState };
 
         default:
             return state;

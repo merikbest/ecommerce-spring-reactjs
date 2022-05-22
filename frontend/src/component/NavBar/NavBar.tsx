@@ -7,9 +7,9 @@ import { faSignInAlt, faSignOutAlt, faUser, faUserPlus } from "@fortawesome/free
 import NavBarLink from "./NavBarLink/NavBarLink";
 import { selectUserFromUserState } from "../../redux/user/user-selector";
 import { selectCartItemsCount } from "../../redux/cart/cart-selector";
-import { logoutSuccess } from "../../redux/auth/auth-actions";
 import { ACCOUNT, BASE, CONTACTS, LOGIN, MENU, REGISTRATION } from "../../constants/routeConstants";
 import { CART } from "../../constants/urlConstants";
+import { logoutSuccess } from "../../redux/user/user-actions";
 import "./NavBar.css";
 
 const NavBar: FC = (): ReactElement => {

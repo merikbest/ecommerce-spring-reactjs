@@ -28,17 +28,16 @@ import {
 import {
     addPerfumeFailure,
     addPerfumeSuccess,
-    getAllUsers,
-    getAllUsersByQuery,
-    getUserInfo,
-    getUserInfoByQuery,
-    loadingData,
+    setAdminLoadingState,
+    setAllUsers,
+    setUserInfo,
     updatePerfumeFailure,
     updatePerfumeSuccess
 } from "../../../redux/admin/admin-actions";
 import { setPerfumes } from "../../../redux/perfumes/perfumes-actions";
 import { userData, usersData } from "../../test-data/user-test-data";
 import { setPerfume } from "../../../redux/perfume/perfume-actions";
+import { LoadingStatus } from "../../../types/types";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore<AdminState, ThunkDispatch<AdminState, void, AnyAction>>(middlewares);
@@ -57,63 +56,67 @@ describe("admin actions", () => {
     test("addPerfume should dispatches USER_UPDATED_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + ADMIN_ADD).reply(200);
         await store.dispatch(addPerfume(bodyFormData));
-        let expectedActions = [addPerfumeSuccess()];
+        const expectedActions = [setAdminLoadingState(LoadingStatus.LOADING), addPerfumeSuccess()];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("addPerfume should dispatches PERFUME_ADDED_FAILURE on failure", async () => {
         mock.onPost(API_BASE_URL + ADMIN_ADD).reply(400, perfumeErrorData);
         await store.dispatch(addPerfume(bodyFormData));
-        let expectedActions = [addPerfumeFailure(perfumeErrorData)];
+        const expectedActions = [setAdminLoadingState(LoadingStatus.LOADING), addPerfumeFailure(perfumeErrorData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("updatePerfume should dispatches PERFUME_UPDATED_SUCCESS and FETCH_PERFUME_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + ADMIN_EDIT).reply(200, perfumeData);
         await store.dispatch(updatePerfume(bodyFormData));
-        let expectedActions = [updatePerfumeSuccess(), setPerfume(perfumeData)];
+        const expectedActions = [
+            setAdminLoadingState(LoadingStatus.LOADING),
+            updatePerfumeSuccess(),
+            setPerfume(perfumeData)
+        ];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("updatePerfume should dispatches PERFUME_UPDATED_FAILURE on failure", async () => {
         mock.onPost(API_BASE_URL + ADMIN_EDIT).reply(400, perfumeErrorData);
         await store.dispatch(updatePerfume(bodyFormData));
-        let expectedActions = [updatePerfumeFailure(perfumeErrorData)];
+        const expectedActions = [setAdminLoadingState(LoadingStatus.LOADING), updatePerfumeFailure(perfumeErrorData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("deletePerfume should dispatches FETCH_PERFUMES on success", async () => {
         mock.onDelete(API_BASE_URL + `${ADMIN_DELETE}/${1}`).reply(200, perfumesData);
         await store.dispatch(deletePerfume(1));
-        let expectedActions = [setPerfumes(perfumesData)];
+        const expectedActions = [setPerfumes(perfumesData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("fetchAllUsers should dispatches LOADING_DATA and FETCH_ALL_USERS_SUCCESS on success", async () => {
         mock.onGet(API_BASE_URL + ADMIN_USER_ALL).reply(200, usersData);
         await store.dispatch(fetchAllUsers());
-        let expectedActions = [loadingData(), getAllUsers(usersData)];
+        let expectedActions = [setAdminLoadingState(LoadingStatus.LOADING), setAllUsers(usersData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("fetchUserInfo should dispatches LOADING_DATA and FETCH_USER_INFO_SUCCESS on success", async () => {
         mock.onGet(API_BASE_URL + `${ADMIN_USER}/${1}`).reply(200, userData);
         await store.dispatch(fetchUserInfo("1"));
-        let expectedActions = [loadingData(), getUserInfo(userData)];
+        let expectedActions = [setAdminLoadingState(LoadingStatus.LOADING), setUserInfo(userData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("fetchUserInfoByQuery should dispatches LOADING_DATA and FETCH_USER_INFO_BY_QUERY_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + ADMIN_GRAPHQL_USER).reply(200, { data: { user: userData } });
         await store.dispatch(fetchUserInfoByQuery("1"));
-        let expectedActions = [loadingData(), getUserInfoByQuery(userData)];
+        let expectedActions = [setAdminLoadingState(LoadingStatus.LOADING), setUserInfo(userData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("fetchAllUsersByQuery should dispatches LOADING_DATA and FETCH_ALL_USERS_BY_QUERY_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + ADMIN_GRAPHQL_USER_ALL).reply(200, { data: { users: usersData } });
         await store.dispatch(fetchAllUsersByQuery());
-        let expectedActions = [loadingData(), getAllUsersByQuery(usersData)];
+        let expectedActions = [setAdminLoadingState(LoadingStatus.LOADING), setAllUsers(usersData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 });

@@ -1,17 +1,15 @@
 import {
     AdminActionTypes,
-    FETCH_ALL_USERS_BY_QUERY_SUCCESS,
-    FETCH_ALL_USERS_SUCCESS,
-    FETCH_USER_INFO_BY_QUERY_SUCCESS,
-    FETCH_USER_INFO_SUCCESS,
-    FORM_RESET,
-    LOADING_DATA,
+    RESET_ADMIN_STATE,
     PERFUME_ADDED_FAILURE,
     PERFUME_ADDED_SUCCESS,
     PERFUME_UPDATED_FAILURE,
-    PERFUME_UPDATED_SUCCESS
+    PERFUME_UPDATED_SUCCESS,
+    SET_ADMIN_LOADING_STATE,
+    SET_ALL_USERS,
+    SET_USER_INFO
 } from "./admin-action-types";
-import { PerfumeErrors, User } from "../../types/types";
+import { LoadingStatus, PerfumeErrors, User } from "../../types/types";
 
 export type AdminState = {
     users: Array<User>;
@@ -19,7 +17,7 @@ export type AdminState = {
     errors: Partial<PerfumeErrors>;
     isPerfumeAdded: boolean;
     isPerfumeEdited: boolean;
-    isLoaded: boolean;
+    loadingState: LoadingStatus;
 };
 
 const initialState: AdminState = {
@@ -28,40 +26,41 @@ const initialState: AdminState = {
     errors: {},
     isPerfumeAdded: false,
     isPerfumeEdited: false,
-    isLoaded: false
+    loadingState: LoadingStatus.LOADING
 };
 
 const adminReducer = (state: AdminState = initialState, action: AdminActionTypes): AdminState => {
     switch (action.type) {
-        case LOADING_DATA:
-            return { ...state, isLoaded: true };
+        case SET_ADMIN_LOADING_STATE:
+            return { ...state, loadingState: action.payload };
 
         case PERFUME_ADDED_SUCCESS:
-            return { ...state, isPerfumeAdded: true, errors: {} };
+            return { ...state, isPerfumeAdded: true, errors: {}, loadingState: LoadingStatus.LOADED };
 
         case PERFUME_ADDED_FAILURE:
-            return { ...state, isPerfumeAdded: false, errors: action.payload };
+            return { ...state, isPerfumeAdded: false, errors: action.payload, loadingState: LoadingStatus.LOADED };
 
         case PERFUME_UPDATED_SUCCESS:
-            return { ...state, isPerfumeEdited: true, errors: {} };
+            return { ...state, isPerfumeEdited: true, errors: {}, loadingState: LoadingStatus.LOADED };
 
         case PERFUME_UPDATED_FAILURE:
-            return { ...state, isPerfumeEdited: false, errors: action.payload };
+            return { ...state, isPerfumeEdited: false, errors: action.payload, loadingState: LoadingStatus.LOADED };
 
-        case FETCH_USER_INFO_SUCCESS:
-            return { ...state, user: action.payload, isLoaded: false };
+        case SET_USER_INFO:
+            return { ...state, user: action.payload, loadingState: LoadingStatus.LOADED };
 
-        case FETCH_ALL_USERS_SUCCESS:
-            return { ...state, users: action.payload, isLoaded: false };
+        case SET_ALL_USERS:
+            return { ...state, users: action.payload, loadingState: LoadingStatus.LOADED };
 
-        case FETCH_USER_INFO_BY_QUERY_SUCCESS:
-            return { ...state, user: action.payload, isLoaded: false };
-
-        case FETCH_ALL_USERS_BY_QUERY_SUCCESS:
-            return { ...state, users: action.payload, isLoaded: false };
-
-        case FORM_RESET:
-            return { ...state, isPerfumeAdded: false, isPerfumeEdited: false, errors: {} };
+        case RESET_ADMIN_STATE:
+            return {
+                users: [],
+                user: {},
+                errors: {},
+                isPerfumeAdded: false,
+                isPerfumeEdited: false,
+                loadingState: LoadingStatus.LOADING
+            };
 
         default:
             return state;

@@ -10,13 +10,13 @@ import facebookLogo from "../../img/facebook.png";
 import githubLogo from "../../img/github.png";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
 import Alert from "../../component/Alert/Alert";
-import Input from "../../component/EditInput/Input";
+import Input from "../../component/Input/Input";
 import IconButton from "../../component/IconButton/IconButton";
 import SocialButton from "./SocialButton/SocialButton";
 import { selectErrorMessage, selectSuccessMessage } from "../../redux/auth/auth-selector";
-import { formReset } from "../../redux/admin/admin-actions";
 import { FORGOT } from "../../constants/routeConstants";
 import "./Login.css";
+import { resetAuthState } from "../../redux/auth/auth-actions";
 
 const initialState = {
     email: "",
@@ -33,7 +33,7 @@ const Login: FC = (): ReactElement => {
     const { email, password } = loginInfo;
 
     useEffect(() => {
-        dispatch(formReset());
+        dispatch(resetAuthState());
 
         if (params.code) {
             dispatch(activateAccount(params.code));

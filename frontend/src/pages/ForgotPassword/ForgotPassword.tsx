@@ -7,21 +7,21 @@ import { validateEmail } from "../../utils/input-validators";
 import PageLoader from "../../component/PageLoader/PageLoader";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
 import Alert from "../../component/Alert/Alert";
-import Input from "../../component/EditInput/Input";
+import Input from "../../component/Input/Input";
 import IconButton from "../../component/IconButton/IconButton";
 import { selectErrorMessage, selectIsAuthLoading, selectSuccessMessage } from "../../redux/auth/auth-selector";
-import { formReset } from "../../redux/admin/admin-actions";
+import { resetAuthState } from "../../redux/auth/auth-actions";
 
 const ForgotPassword: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const error = useSelector(selectErrorMessage);
     const success = useSelector(selectSuccessMessage);
-    const loading = useSelector(selectIsAuthLoading);
+    const isLoading = useSelector(selectIsAuthLoading);
     const [email, setEmail] = useState<string>("");
     const [validateEmailError, setValidateEmailError] = useState<string>("");
 
     useEffect(() => {
-        dispatch(formReset());
+        dispatch(resetAuthState());
     }, []);
 
     useEffect(() => {
@@ -45,7 +45,7 @@ const ForgotPassword: FC = (): ReactElement => {
 
     let pageLoading;
 
-    if (loading) {
+    if (isLoading) {
         pageLoading = <PageLoader />;
     }
 

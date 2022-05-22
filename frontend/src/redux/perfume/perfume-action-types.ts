@@ -1,17 +1,36 @@
-import { Perfume } from "../../types/types";
+import { LoadingStatus, Perfume, Review } from "../../types/types";
 
-export const LOADING_PERFUME = "perfume/LOADING_PERFUME";
+export const SET_PERFUME_LOADING_STATE = "perfume/SET_PERFUME_LOADING_STATE";
 export const SET_PERFUME = "perfume/SET_PERFUME";
+export const SET_REVIEWS = "perfume/SET_REVIEWS";
+export const SET_REVIEW = "perfume/SET_REVIEW";
+export const SET_PERFUME_ERROR = "perfume/SET_PERFUME_ERROR";
 export const SET_PERFUME_BY_QUERY = "perfume/SET_PERFUME_BY_QUERY";
 export const RESET_PERFUME_STATE = "perfume/RESET_PERFUME_STATE";
 
-export type LoadingPerfumeActionType = {
-    type: typeof LOADING_PERFUME;
+export type SetPerfumeLoadingStateActionType = {
+    type: typeof SET_PERFUME_LOADING_STATE;
+    payload: LoadingStatus;
 };
 
 export type SetPerfumeActionType = {
     type: typeof SET_PERFUME;
     payload: Perfume;
+};
+
+export type SetReviewsActionType = {
+    type: typeof SET_REVIEWS;
+    payload: Array<Review>;
+};
+
+export type SetReviewActionType = {
+    type: typeof SET_REVIEW;
+    payload: Review;
+};
+
+export type SetPerfumeErrorActionType = {
+    type: typeof SET_PERFUME_ERROR;
+    payload: string;
 };
 
 export type SetPerfumeByQueryActionType = {
@@ -24,7 +43,10 @@ export type ResetPerfumeStateActionType = {
 };
 
 export type PerfumeActionTypes =
-    | LoadingPerfumeActionType
+    | SetPerfumeLoadingStateActionType
     | SetPerfumeActionType
+    | SetReviewsActionType
+    | SetReviewActionType
+    | SetPerfumeErrorActionType
     | SetPerfumeByQueryActionType
     | ResetPerfumeStateActionType;

@@ -29,7 +29,7 @@ import {
     updateUserPassword
 } from "../../../redux/user/user-thunks";
 import {
-    loadingUserInfo,
+    setUserLoadingState,
     setUpdatedUser,
     setUser,
     userAddedReviewFailure,
@@ -40,6 +40,7 @@ import {
 } from "../../../redux/user/user-actions";
 import { perfumeData } from "../../test-data/perfume-test-data";
 import { setPerfume } from "../../../redux/perfume/perfume-actions";
+import {LoadingStatus} from "../../../types/types";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore<UserState, ThunkDispatch<UserState, void, AnyAction>>(middlewares);
@@ -54,7 +55,7 @@ describe("user actions", () => {
     test("fetchUserInfo should dispatches LOADING_USER_INFO and FETCH_USER_SUCCESS on success", async () => {
         mock.onGet(API_BASE_URL + USERS_INFO).reply(200, userData);
         await store.dispatch(fetchUserInfo());
-        let expectedActions = [loadingUserInfo(), setUser(userData)];
+        let expectedActions = [setUserLoadingState(LoadingStatus.LOADING), setUser(userData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
@@ -89,7 +90,7 @@ describe("user actions", () => {
     test("addReviewToPerfume should dispatches FETCH_PERFUME_SUCCESS and USER_ADDED_REVIEW_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + USERS_REVIEW).reply(200, perfumeData);
         await store.dispatch(addReviewToPerfume(reviewData));
-        let expectedActions = [setPerfume(perfumeData), userAddedReviewSuccess()];
+        let expectedActions = [userAddedReviewSuccess()];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
@@ -103,7 +104,7 @@ describe("user actions", () => {
     test("fetchUserInfoByQuery should dispatches LOADING_USER_INFO and FETCH_USER_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + USERS_GRAPHQL_INFO).reply(200, { data: { user: userData } });
         await store.dispatch(fetchUserInfoByQuery("1"));
-        let expectedActions = [loadingUserInfo(), setUser(userData)];
+        let expectedActions = [setUserLoadingState(LoadingStatus.LOADING), setUser(userData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 });

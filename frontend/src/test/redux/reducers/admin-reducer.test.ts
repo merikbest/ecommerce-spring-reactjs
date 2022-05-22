@@ -5,24 +5,23 @@ import adminReducer, { AdminState } from "../../../redux/admin/admin-reducer";
 import {
     addPerfumeFailure,
     addPerfumeSuccess,
-    formReset,
-    getAllUsers,
-    getAllUsersByQuery,
-    getUserInfo,
-    getUserInfoByQuery,
-    loadingData,
+    resetAdminState,
+    setAdminLoadingState,
+    setAllUsers,
+    setUserInfo,
     updatePerfumeFailure,
     updatePerfumeSuccess
 } from "../../../redux/admin/admin-actions";
 import { perfumeErrorData } from "../../test-data/perfume-test-data";
 import { userData, usersData } from "../../test-data/user-test-data";
+import { LoadingStatus } from "../../../types/types";
 
 describe("admin reducer", () => {
     const adminStore = createStore(rootReducer).getState().admin;
 
     test("should Loading Data", () => {
-        const state: AdminState = adminReducer(adminStore, loadingData());
-        expect(state.isLoaded).toBeTruthy();
+        const state: AdminState = adminReducer(adminStore, setAdminLoadingState(LoadingStatus.LOADING));
+        expect(state.loadingState).toEqual(LoadingStatus.LOADING);
     });
 
     test("should Perfume Added Success", () => {
@@ -50,31 +49,19 @@ describe("admin reducer", () => {
     });
 
     test("should Fetch User Info Success", () => {
-        const state: AdminState = adminReducer(adminStore, getUserInfo(userData));
+        const state: AdminState = adminReducer(adminStore, setUserInfo(userData));
         expect(state.user).toEqual(userData);
-        expect(state.isLoaded).toBeFalsy();
+        expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 
     test("should Fetch All Users Success", () => {
-        const state: AdminState = adminReducer(adminStore, getAllUsers(usersData));
+        const state: AdminState = adminReducer(adminStore, setAllUsers(usersData));
         expect(state.users).toEqual(usersData);
-        expect(state.isLoaded).toBeFalsy();
-    });
-
-    test("should Fetch User Info By Query Success", () => {
-        const state: AdminState = adminReducer(adminStore, getUserInfoByQuery(userData));
-        expect(state.user).toEqual(userData);
-        expect(state.isLoaded).toBeFalsy();
-    });
-
-    test("should Fetch All Users By Query Success", () => {
-        const state: AdminState = adminReducer(adminStore, getAllUsersByQuery(usersData));
-        expect(state.users).toEqual(usersData);
-        expect(state.isLoaded).toBeFalsy();
+        expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 
     test("should Form Reset", () => {
-        const state: AdminState = adminReducer(adminStore, formReset());
+        const state: AdminState = adminReducer(adminStore, resetAdminState());
         expect(state.isPerfumeAdded).toBeFalsy();
         expect(state.isPerfumeEdited).toBeFalsy();
         expect(state.errors).toEqual({});

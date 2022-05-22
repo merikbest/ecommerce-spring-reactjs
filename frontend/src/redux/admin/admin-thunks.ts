@@ -3,11 +3,9 @@ import { Dispatch } from "redux";
 import {
     addPerfumeFailure,
     addPerfumeSuccess,
-    getAllUsers,
-    getAllUsersByQuery,
-    getUserInfo,
-    getUserInfoByQuery,
-    loadingData,
+    setAdminLoadingState,
+    setAllUsers,
+    setUserInfo,
     updatePerfumeFailure,
     updatePerfumeSuccess
 } from "./admin-actions";
@@ -24,9 +22,11 @@ import {
     ADMIN_USER,
     ADMIN_USER_ALL
 } from "../../constants/urlConstants";
+import { LoadingStatus } from "../../types/types";
 
 export const addPerfume = (data: FormData) => async (dispatch: Dispatch) => {
     try {
+        dispatch(setAdminLoadingState(LoadingStatus.LOADING));
         await RequestService.post(ADMIN_ADD, data, true, "multipart/form-data");
         dispatch(addPerfumeSuccess());
     } catch (error) {
@@ -36,6 +36,7 @@ export const addPerfume = (data: FormData) => async (dispatch: Dispatch) => {
 
 export const updatePerfume = (data: FormData) => async (dispatch: Dispatch) => {
     try {
+        dispatch(setAdminLoadingState(LoadingStatus.LOADING));
         const response = await RequestService.post(ADMIN_EDIT, data, true, "multipart/form-data");
         dispatch(updatePerfumeSuccess());
         dispatch(setPerfume(response.data));
@@ -50,26 +51,26 @@ export const deletePerfume = (id?: number) => async (dispatch: Dispatch) => {
 };
 
 export const fetchAllUsers = () => async (dispatch: Dispatch) => {
-    dispatch(loadingData());
+    dispatch(setAdminLoadingState(LoadingStatus.LOADING));
     const response = await RequestService.get(ADMIN_USER_ALL, true);
-    dispatch(getAllUsers(response.data));
+    dispatch(setAllUsers(response.data));
 };
 
 export const fetchUserInfo = (id: string) => async (dispatch: Dispatch) => {
-    dispatch(loadingData());
+    dispatch(setAdminLoadingState(LoadingStatus.LOADING));
     const response = await RequestService.get(`${ADMIN_USER}/${id}`, true);
-    dispatch(getUserInfo(response.data));
+    dispatch(setUserInfo(response.data));
 };
 
 //GraphQL thunks
 export const fetchUserInfoByQuery = (id: string) => async (dispatch: Dispatch) => {
-    dispatch(loadingData());
+    dispatch(setAdminLoadingState(LoadingStatus.LOADING));
     const response = await RequestService.post(ADMIN_GRAPHQL_USER, { query: userByQuery(id) }, true);
-    dispatch(getUserInfoByQuery(response.data.data.user));
+    dispatch(setUserInfo(response.data.data.user));
 };
 
 export const fetchAllUsersByQuery = () => async (dispatch: Dispatch) => {
-    dispatch(loadingData());
+    dispatch(setAdminLoadingState(LoadingStatus.LOADING));
     const response = await RequestService.post(ADMIN_GRAPHQL_USER_ALL, { query: usersByQuery }, true);
-    dispatch(getAllUsersByQuery(response.data.data.users));
+    dispatch(setAllUsers(response.data.data.users));
 };

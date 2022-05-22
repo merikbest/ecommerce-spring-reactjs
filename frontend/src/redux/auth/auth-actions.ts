@@ -1,4 +1,4 @@
-import { AuthErrors, User } from "../../types/types";
+import { AuthErrors, LoadingStatus } from "../../types/types";
 import {
     ACTIVATE_ACCOUNT_FAILURE,
     ACTIVATE_ACCOUNT_SUCCESS,
@@ -9,39 +9,33 @@ import {
     ForgotPasswordFailureActionType,
     ForgotPasswordSuccessActionType,
     LOGIN_FAILURE,
-    LOGIN_SUCCESS,
     LoginFailureActionType,
-    LoginSuccessActionType,
-    LOGOUT_SUCCESS,
-    LogoutSuccessActionType,
     REGISTER_FAILURE,
     REGISTER_SUCCESS,
     RegisterFailureActionType,
     RegisterSuccessActionType,
+    RESET_AUTH_STATE,
     RESET_PASSWORD_CODE_FAILURE,
     RESET_PASSWORD_CODE_SUCCESS,
     RESET_PASSWORD_FAILURE,
     RESET_PASSWORD_SUCCESS,
+    ResetAuthStateActionType,
     ResetPasswordCodeFailureActionType,
     ResetPasswordCodeSuccessActionType,
     ResetPasswordFailureActionType,
     ResetPasswordSuccessActionType,
-    SHOW_LOADER,
-    ShowLoaderActionType
+    SET_AUTH_LOADING_STATE,
+    SetAuthLoadingStateActionType
 } from "./auth-action-types";
-
-export const loginSuccess = (userRole: string): LoginSuccessActionType => ({
-    type: LOGIN_SUCCESS,
-    payload: userRole
-});
 
 export const loginFailure = (error: string): LoginFailureActionType => ({
     type: LOGIN_FAILURE,
     payload: error
 });
 
-export const showLoader = (): ShowLoaderActionType => ({
-    type: SHOW_LOADER
+export const setAuthLoadingState = (status: LoadingStatus): SetAuthLoadingStateActionType => ({
+    type: SET_AUTH_LOADING_STATE,
+    payload: status
 });
 
 export const registerSuccess = (): RegisterSuccessActionType => ({
@@ -51,10 +45,6 @@ export const registerSuccess = (): RegisterSuccessActionType => ({
 export const registerFailure = (errors: AuthErrors): RegisterFailureActionType => ({
     type: REGISTER_FAILURE,
     payload: errors
-});
-
-export const logoutSuccess = (): LogoutSuccessActionType => ({
-    type: LOGOUT_SUCCESS
 });
 
 export const activateAccountSuccess = (message: string): ActivateAccountSuccessActionType => ({
@@ -77,9 +67,9 @@ export const forgotPasswordFailure = (error: string): ForgotPasswordFailureActio
     payload: error
 });
 
-export const resetPasswordCodeSuccess = (user: User): ResetPasswordCodeSuccessActionType => ({
+export const resetPasswordCodeSuccess = (email: string): ResetPasswordCodeSuccessActionType => ({
     type: RESET_PASSWORD_CODE_SUCCESS,
-    payload: user
+    payload: email
 });
 
 export const resetPasswordCodeFailure = (error: string): ResetPasswordCodeFailureActionType => ({
@@ -95,4 +85,8 @@ export const resetPasswordSuccess = (message: string): ResetPasswordSuccessActio
 export const resetPasswordFailure = (errors: AuthErrors): ResetPasswordFailureActionType => ({
     type: RESET_PASSWORD_FAILURE,
     payload: errors
+});
+
+export const resetAuthState = (): ResetAuthStateActionType => ({
+    type: RESET_AUTH_STATE
 });

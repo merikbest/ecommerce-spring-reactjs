@@ -3,10 +3,11 @@ package com.gmail.merikbest2015.ecommerce.controller;
 import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponse;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequest;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.FullPerfumeResponse;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
+import com.gmail.merikbest2015.ecommerce.dto.user.BaseUserResponse;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserRequest;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserResponse;
-import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
 import com.gmail.merikbest2015.ecommerce.mapper.OrderMapper;
 import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
@@ -34,16 +35,16 @@ public class AdminController {
     private final GraphQLProvider graphQLProvider;
 
     @PostMapping("/add")
-    public ResponseEntity<PerfumeResponse> addPerfume(@RequestPart(name = "file", required = false) MultipartFile file,
-                                                      @RequestPart("perfume") @Valid PerfumeRequest perfume,
-                                                      BindingResult bindingResult) {
+    public ResponseEntity<FullPerfumeResponse> addPerfume(@RequestPart(name = "file", required = false) MultipartFile file,
+                                                          @RequestPart("perfume") @Valid PerfumeRequest perfume,
+                                                          BindingResult bindingResult) {
         return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, file, bindingResult));
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<PerfumeResponse> updatePerfume(@RequestPart(name = "file", required = false) MultipartFile file,
-                                                         @RequestPart("perfume") @Valid PerfumeRequest perfume,
-                                                         BindingResult bindingResult) {
+    public ResponseEntity<FullPerfumeResponse> updatePerfume(@RequestPart(name = "file", required = false) MultipartFile file,
+                                                             @RequestPart("perfume") @Valid PerfumeRequest perfume,
+                                                             BindingResult bindingResult) {
         return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, file, bindingResult));
     }
 
@@ -73,7 +74,7 @@ public class AdminController {
     }
 
     @GetMapping("/user/all")
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
+    public ResponseEntity<List<BaseUserResponse>> getAllUsers() {
         return ResponseEntity.ok(userMapper.findAllUsers());
     }
 

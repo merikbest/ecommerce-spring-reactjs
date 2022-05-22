@@ -32,6 +32,18 @@ public class OrderServiceImpl implements OrderService {
     private final MailSender mailSender;
 
     @Override
+    public Order getOrderById(Long orderId) {
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> new ApiRequestException("Order not found.", HttpStatus.NOT_FOUND)); // TODO add test
+    }
+
+    @Override
+    public List<OrderItem> getOrderItemsByOrderId(Long orderId) { // TODO add test
+        Order order = getOrderById(orderId);
+        return order.getOrderItems();
+    }
+
+    @Override
     public List<Order> findAll() {
         return orderRepository.findAllByOrderByIdAsc();
     }

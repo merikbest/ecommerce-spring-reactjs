@@ -1,7 +1,6 @@
-import { AuthErrors, ReviewError, User, UserEditErrors } from "../../types/types";
-import { LogoutSuccessActionType } from "../auth/auth-action-types";
+import {AuthErrors, LoadingStatus, ReviewError, User, UserEditErrors} from "../../types/types";
 
-export const LOADING_USER_INFO = "user/LOADING_USER_INFO";
+export const SET_USER_LOADING_STATE = "user/SET_USER_LOADING_STATE";
 export const SET_USER = "user/SET_USER";
 export const SET_UPDATED_USER = "user/SET_UPDATED_USER";
 export const USER_UPDATED_FAILURE = "user/USER_UPDATED_FAILURE";
@@ -10,9 +9,11 @@ export const USER_UPDATED_PASSWORD_FAILURE = "user/USER_UPDATED_PASSWORD_FAILURE
 export const USER_ADDED_REVIEW_SUCCESS = "user/USER_ADDED_REVIEW_SUCCESS";
 export const USER_ADDED_REVIEW_FAILURE = "user/USER_ADDED_REVIEW_FAILURE";
 export const RESET_INPUT_FORM = "user/RESET_INPUT_FORM";
+export const LOGOUT_SUCCESS = "user/LOGOUT_SUCCESS";
 
-export type LoadingUserInfoActionType = {
-    type: typeof LOADING_USER_INFO;
+export type SetUserLoadingStateActionType = {
+    type: typeof SET_USER_LOADING_STATE;
+    payload: LoadingStatus;
 };
 
 export type SetUserActionType = {
@@ -53,8 +54,12 @@ export type ResetInputFormActionType = {
     type: typeof RESET_INPUT_FORM;
 };
 
+export type LogoutSuccessActionType = {
+    type: typeof LOGOUT_SUCCESS;
+};
+
 export type UserActionTypes =
-    | LoadingUserInfoActionType
+    | SetUserLoadingStateActionType
     | SetUpdatedUserActionType
     | SetUserActionType
     | UserUpdatedFailureActionType

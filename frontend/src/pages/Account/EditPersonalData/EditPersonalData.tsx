@@ -4,7 +4,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 import { UserEdit } from "../../../types/types";
 import { updateUserInfo } from "../../../redux/user/user-thunks";
-import Input from "../../../component/EditInput/Input";
+import Input from "../../../component/Input/Input";
 import IconButton from "../../../component/IconButton/IconButton";
 import { selectUserEditErrors, selectUserFromUserState } from "../../../redux/user/user-selector";
 import { resetInputForm } from "../../../redux/user/user-actions";

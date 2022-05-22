@@ -2,7 +2,9 @@ package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.FullPerfumeResponse;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeSearchRequest;
+import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponse;
 import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
 import com.gmail.merikbest2015.ecommerce.service.graphql.GraphQLProvider;
 import graphql.ExecutionResult;
@@ -25,9 +27,14 @@ public class PerfumeController {
         return ResponseEntity.ok(perfumeMapper.findAllPerfumes());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PerfumeResponse> getPerfume(@PathVariable("id") Long perfumeId) {
+    @GetMapping("/{perfumeId}")
+    public ResponseEntity<FullPerfumeResponse> getPerfume(@PathVariable Long perfumeId) {
         return ResponseEntity.ok(perfumeMapper.findPerfumeById(perfumeId));
+    }
+
+    @GetMapping("/reviews/{perfumeId}")
+    public ResponseEntity<List<ReviewResponse>> getReviewsByPerfumeId(@PathVariable Long perfumeId) {
+        return ResponseEntity.ok(perfumeMapper.getReviewsByPerfumeId(perfumeId));
     }
 
     @PostMapping("/ids")
@@ -42,12 +49,12 @@ public class PerfumeController {
 
     @PostMapping("/search/gender")
     public ResponseEntity<List<PerfumeResponse>> findByPerfumeGender(@RequestBody PerfumeSearchRequest filter) {
-        return ResponseEntity.ok(perfumeMapper.findByPerfumeGenderOrderByPriceDesc(filter.getPerfumeGender()));
+        return ResponseEntity.ok(perfumeMapper.findByPerfumeGender(filter.getPerfumeGender()));
     }
 
     @PostMapping("/search/perfumer")
     public ResponseEntity<List<PerfumeResponse>> findByPerfumer(@RequestBody PerfumeSearchRequest filter) {
-        return ResponseEntity.ok(perfumeMapper.findByPerfumerOrderByPriceDesc(filter.getPerfumer()));
+        return ResponseEntity.ok(perfumeMapper.findByPerfumer(filter.getPerfumer()));
     }
 
     @PostMapping("/graphql/ids")

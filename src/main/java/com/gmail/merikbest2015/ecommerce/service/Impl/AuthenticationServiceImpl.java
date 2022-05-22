@@ -50,17 +50,16 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private String captchaUrl;
 
     @Override
-    public Map<String, String> login(String email, String password) {
+    public Map<String, Object> login(String email, String password) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new ApiRequestException("Email not found.", HttpStatus.NOT_FOUND));
             String userRole = user.getRoles().iterator().next().name();
             String token = jwtProvider.createToken(email, userRole);
-            Map<String, String> response = new HashMap<>();
-            response.put("email", email);
+            Map<String, Object> response = new HashMap<>();
+            response.put("user", user);
             response.put("token", token);
-            response.put("userRole", userRole);
             return response;
         } catch (AuthenticationException e) {
             throw new ApiRequestException("Incorrect password or email", HttpStatus.FORBIDDEN);
@@ -118,8 +117,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public User findByPasswordResetCode(String code) {
-        return userRepository.findByPasswordResetCode(code)
+    public String getEmailByPasswordResetCode(String code) {
+        return userRepository.getEmailByPasswordResetCode(code)
                 .orElseThrow(() -> new ApiRequestException("Password reset code is invalid!", HttpStatus.BAD_REQUEST));
     }
 

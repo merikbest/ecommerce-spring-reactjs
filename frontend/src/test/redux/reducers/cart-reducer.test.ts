@@ -2,15 +2,21 @@ import { createStore } from "redux";
 
 import rootReducer from "../../../redux/root-reducer";
 import cartReducer, { CartState } from "../../../redux/cart/cart-reducer";
-import { calculateCartPrice, loadingCart, resetCartState, setCartItemsCount } from "../../../redux/cart/cart-actions";
+import {
+    calculateCartPrice,
+    resetCartState,
+    setCartItemsCount,
+    setCartLoadingState
+} from "../../../redux/cart/cart-actions";
 import { perfumesData } from "../../test-data/perfume-test-data";
+import { LoadingStatus } from "../../../types/types";
 
 describe("cart reducer", () => {
     const cartStore = createStore(rootReducer).getState().cart;
 
     test("should Loading Cart", () => {
-        const state: CartState = cartReducer(cartStore, loadingCart());
-        expect(state.loading).toBeTruthy();
+        const state: CartState = cartReducer(cartStore, setCartLoadingState(LoadingStatus.LOADING));
+        expect(state.loadingState).toEqual(LoadingStatus.LOADING);
     });
 
     test("should Set Cart Items Count", () => {
@@ -21,11 +27,11 @@ describe("cart reducer", () => {
     test("should Calculate Cart Price", () => {
         const state: CartState = cartReducer(cartStore, calculateCartPrice(perfumesData));
         expect(state.totalPrice).toEqual(0);
-        expect(state.loading).toBeFalsy();
+        expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 
     test("should reset cart state", () => {
         const state: CartState = cartReducer(cartStore, resetCartState());
-        expect(state.loading).toBeTruthy();
+        expect(state.loadingState).toEqual(LoadingStatus.LOADING);
     });
 });

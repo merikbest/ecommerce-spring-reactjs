@@ -1,13 +1,6 @@
 import React, { ChangeEvent, FC, ReactElement, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-    faChevronDown,
-    faChevronUp,
-    faMinusSquare,
-    faShoppingBag,
-    faShoppingCart
-} from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Spinner from "../../component/Spinner/Spinner";
@@ -17,14 +10,15 @@ import { selectIsCartLoading, selectTotalPrice } from "../../redux/cart/cart-sel
 import { calculateCartPrice, resetCartState, setCartItemsCount } from "../../redux/cart/cart-actions";
 import { selectPerfumes } from "../../redux/perfumes/perfumes-selector";
 import { removePerfumeById } from "../../redux/perfumes/perfumes-actions";
-import { ORDER } from "../../constants/routeConstants";
+import CartItem from "./CartItem";
+import CartCheckout from "./CartCheckout";
 import "./Cart.css";
 
 const Cart: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const perfumes = useSelector(selectPerfumes);
     const totalPrice = useSelector(selectTotalPrice);
-    const loading = useSelector(selectIsCartLoading);
+    const isCartLoading = useSelector(selectIsCartLoading);
     const [perfumeInCart, setPerfumeInCart] = useState(() => new Map());
 
     useEffect(() => {
@@ -82,7 +76,7 @@ const Cart: FC = (): ReactElement => {
 
     return (
         <div className="container mt-5 pb-5 cart_wrapper">
-            {loading ? (
+            {isCartLoading ? (
                 <Spinner />
             ) : (
                 <div>
@@ -94,77 +88,17 @@ const Cart: FC = (): ReactElement => {
                                 <FontAwesomeIcon className="mr-2" icon={faShoppingCart} /> Cart
                             </p>
                             {perfumes.map((perfume: Perfume) => (
-                                <div key={perfume.id} className="card mb-3 mx-auto perfume_item_wrapper">
-                                    <div className="row no-gutters">
-                                        <div className="col-2 mx-3 my-3">
-                                            <img src={perfume.filename} className="img-fluid" />
-                                        </div>
-                                        <div className="col-6">
-                                            <div className="card-body">
-                                                <h4 className="card-title">
-                                                    {perfume.perfumer + " " + perfume.perfumeTitle}
-                                                </h4>
-                                                <p className="card-text">{perfume.type}</p>
-                                                <p className="card-text">
-                                                    <span>{perfume.volume}</span> ml.
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="col-1 mt-3">
-                                            <button
-                                                className="btn btn-default"
-                                                disabled={perfumeInCart.get(perfume.id) === 99}
-                                                onClick={() => onChangePerfumeItemCount(perfume.id, true)}
-                                            >
-                                                <FontAwesomeIcon size="lg" icon={faChevronUp} />
-                                            </button>
-                                            <input
-                                                type="text"
-                                                className="form-control input-number perfume_input_count"
-                                                value={perfumeInCart.get(perfume.id)}
-                                                onChange={(event) => handleInputChange(event, perfume.id)}
-                                            />
-                                            <button
-                                                className="btn btn-default"
-                                                disabled={perfumeInCart.get(perfume.id) === 1}
-                                                onClick={() => onChangePerfumeItemCount(perfume.id, false)}
-                                            >
-                                                <FontAwesomeIcon size="lg" icon={faChevronDown} />
-                                            </button>
-                                        </div>
-                                        <div className="col-2">
-                                            <div className="card-body">
-                                                <h5 className="card-title">
-                                                    <span>$ {perfume.price * perfumeInCart.get(perfume.id)}</span>
-                                                </h5>
-                                                <button
-                                                    className="btn btn-warning mb-2"
-                                                    onClick={() => deleteFromCart(perfume.id)}
-                                                >
-                                                    <FontAwesomeIcon className="mr-2" icon={faMinusSquare} /> Remove
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <CartItem
+                                    key={perfume.id}
+                                    perfume={perfume}
+                                    perfumeInCart={perfumeInCart}
+                                    onChangePerfumeItemCount={onChangePerfumeItemCount}
+                                    handleInputChange={handleInputChange}
+                                    deleteFromCart={deleteFromCart}
+                                />
                             ))}
                             <hr className="my-3" />
-                            <div className="row">
-                                <div className="col-9">
-                                    <p className="h5 text-right">
-                                        Total: $ <span>{totalPrice}</span>
-                                    </p>
-                                </div>
-                                <div className="col-3">
-                                    <div className="form-row">
-                                        <Link to={ORDER}>
-                                            <button className="btn btn-success">
-                                                <FontAwesomeIcon className="mr-2" icon={faShoppingBag} /> Checkout
-                                            </button>
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
+                            <CartCheckout totalPrice={totalPrice} />
                         </div>
                     )}
                 </div>

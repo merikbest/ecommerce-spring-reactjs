@@ -7,12 +7,20 @@ type PropsType = {
     buttonClassName?: string;
     icon: IconDefinition;
     iconClassName: string;
+    disabled?: boolean;
     onClick?: any;
 };
 
-const IconButton: FC<PropsType> = ({ buttonText, buttonClassName, icon, iconClassName, onClick }): ReactElement => {
+const IconButton: FC<PropsType> = ({
+    buttonText,
+    buttonClassName,
+    icon,
+    iconClassName,
+    disabled,
+    onClick
+}): ReactElement => {
     return (
-        <button type="submit" className={`btn btn-dark ${buttonClassName}`} onClick={onClick}>
+        <button disabled={disabled} type="submit" className={`btn btn-dark ${buttonClassName}`} onClick={onClick}>
             <FontAwesomeIcon className={iconClassName} icon={icon} />
             {buttonText}
         </button>

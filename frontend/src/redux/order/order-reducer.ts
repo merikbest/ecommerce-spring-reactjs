@@ -1,37 +1,49 @@
-import { Order, OrderError } from "../../types/types";
+import { LoadingStatus, Order, OrderError, OrderItem } from "../../types/types";
 import {
-    LOADING_ORDER,
     ORDER_ADDED_FAILURE,
     OrderActionTypes,
     RESET_ORDER_STATE,
-    SET_ORDER
+    SET_ORDER,
+    SET_ORDER_ERROR,
+    SET_ORDER_ITEMS,
+    SET_ORDER_LOADING_STATE
 } from "./order-action-types";
 
 export type OrderState = {
     order: Partial<Order>;
+    orderItems: Array<OrderItem>;
     errors: Partial<OrderError>;
-    loading: boolean;
+    errorMessage: string;
+    loadingState: LoadingStatus;
 };
 
 const initialState: OrderState = {
     order: {},
+    orderItems: [],
     errors: {},
-    loading: false
+    errorMessage: "",
+    loadingState: LoadingStatus.LOADING
 };
 
 const orderReducer = (state: OrderState = initialState, action: OrderActionTypes): OrderState => {
     switch (action.type) {
-        case LOADING_ORDER:
-            return { ...state, loading: true };
+        case SET_ORDER_LOADING_STATE:
+            return { ...state, loadingState: action.payload };
 
         case SET_ORDER:
-            return { ...state, order: action.payload, loading: false };
+            return { ...state, order: action.payload, loadingState: LoadingStatus.LOADED };
+
+        case SET_ORDER_ITEMS:
+            return { ...state, orderItems: action.payload };
+
+        case SET_ORDER_ERROR:
+            return { ...state, errorMessage: action.payload, loadingState: LoadingStatus.ERROR };
 
         case ORDER_ADDED_FAILURE:
-            return { ...state, errors: action.payload, loading: false };
+            return { ...state, errors: action.payload, loadingState: LoadingStatus.ERROR };
 
         case RESET_ORDER_STATE:
-            return { ...state, errors: {}, loading: false };
+            return { ...initialState };
 
         default:
             return state;

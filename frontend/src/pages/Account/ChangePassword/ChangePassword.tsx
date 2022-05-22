@@ -7,7 +7,7 @@ import { updateUserPassword } from "../../../redux/user/user-thunks";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 import Alert from "../../../component/Alert/Alert";
 import IconButton from "../../../component/IconButton/IconButton";
-import Input from "../../../component/EditInput/Input";
+import Input from "../../../component/Input/Input";
 import { selectSuccessMessage, selectUserResetPasswordErrors } from "../../../redux/user/user-selector";
 import { resetInputForm } from "../../../redux/user/user-actions";
 import "./ChangePassword.css";

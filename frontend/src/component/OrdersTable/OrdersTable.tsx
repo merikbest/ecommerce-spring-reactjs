@@ -40,7 +40,7 @@ const OrdersTable: FC<PropsType> = ({ loading, orders }): ReactElement => {
                                     <th>{order.email}</th>
                                     <th>{order.totalPrice}</th>
                                     <th>
-                                        <Link to={{ pathname: `${ACCOUNT_USER_ORDERS}/${order.id}`, state: order }}>
+                                        <Link to={`${ACCOUNT_USER_ORDERS}/${order.id}`}>
                                             Show more
                                         </Link>
                                     </th>

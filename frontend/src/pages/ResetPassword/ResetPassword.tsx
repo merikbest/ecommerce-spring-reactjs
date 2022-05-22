@@ -7,10 +7,10 @@ import { fetchResetPasswordCode, resetPassword } from "../../redux/auth/auth-thu
 import { UserResetPasswordData } from "../../types/types";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
 import Alert from "../../component/Alert/Alert";
-import Input from "../../component/EditInput/Input";
+import Input from "../../component/Input/Input";
 import IconButton from "../../component/IconButton/IconButton";
-import { selectErrorMessage, selectErrors, selectUserAuth } from "../../redux/auth/auth-selector";
-import { formReset } from "../../redux/admin/admin-actions";
+import { selectErrorMessage, selectErrors, selectUserAuthEmail } from "../../redux/auth/auth-selector";
+import { resetAuthState } from "../../redux/auth/auth-actions";
 
 const initialState = {
     password: "",
@@ -21,14 +21,14 @@ const ResetPassword: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const params = useParams<{ code: string }>();
     const history = useHistory();
-    const user = useSelector(selectUserAuth);
+    const userEmail = useSelector(selectUserAuthEmail);
     const error = useSelector(selectErrorMessage);
     const errors = useSelector(selectErrors);
     const [passwordData, setPasswordData] = useState(initialState);
     const { password, password2 } = passwordData;
 
     useEffect(() => {
-        dispatch(formReset());
+        dispatch(resetAuthState());
 
         if (params.code) {
             dispatch(fetchResetPasswordCode(params.code));
@@ -37,7 +37,7 @@ const ResetPassword: FC = (): ReactElement => {
 
     const onClickReset = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        const userResetPasswordData: UserResetPasswordData = { email: user.email, password, password2 };
+        const userResetPasswordData: UserResetPasswordData = { email: userEmail, password, password2 };
         dispatch(resetPassword(userResetPasswordData, history));
     };
 

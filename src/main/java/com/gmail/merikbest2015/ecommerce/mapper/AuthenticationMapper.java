@@ -22,16 +22,15 @@ public class AuthenticationMapper {
     private final CommonMapper commonMapper;
 
     public AuthenticationResponse login(AuthenticationRequest request) {
-        Map<String, String> credentials = authenticationService.login(request.getEmail(), request.getPassword());
+        Map<String, Object> credentials = authenticationService.login(request.getEmail(), request.getPassword());
         AuthenticationResponse response = new AuthenticationResponse();
-        response.setEmail(credentials.get("email"));
-        response.setToken(credentials.get("token"));
-        response.setUserRole(credentials.get("userRole"));
+        response.setUser(commonMapper.convertToResponse(credentials.get("user"), UserResponse.class));
+        response.setToken((String) credentials.get("token"));
         return response;
     }
 
-    public UserResponse findByPasswordResetCode(String code) {
-        return commonMapper.convertToResponse(authenticationService.findByPasswordResetCode(code), UserResponse.class);
+    public String getEmailByPasswordResetCode(String code) {
+        return authenticationService.getEmailByPasswordResetCode(code);
     }
 
     public String registerUser(String captcha, RegistrationRequest registrationRequest, BindingResult bindingResult) {

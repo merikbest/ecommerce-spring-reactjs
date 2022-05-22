@@ -1,33 +1,27 @@
-import { AuthErrors, User } from "../../types/types";
-import { FormResetActionType } from "../admin/admin-action-types";
+import { AuthErrors, LoadingStatus } from "../../types/types";
 
 export const ACTIVATE_ACCOUNT_FAILURE = "auth/ACTIVATE_ACCOUNT_FAILURE";
 export const ACTIVATE_ACCOUNT_SUCCESS = "auth/ACTIVATE_ACCOUNT_SUCCESS";
 export const FORGOT_PASSWORD_FAILURE = "auth/FORGOT_PASSWORD_FAILURE";
 export const FORGOT_PASSWORD_SUCCESS = "auth/FORGOT_PASSWORD_SUCCESS";
 export const LOGIN_FAILURE = "auth/LOGIN_FAILURE";
-export const LOGIN_SUCCESS = "auth/LOGIN_SUCCESS";
-export const LOGOUT_SUCCESS = "auth/LOGOUT_SUCCESS";
 export const REGISTER_FAILURE = "auth/REGISTER_FAILURE";
 export const REGISTER_SUCCESS = "auth/REGISTER_SUCCESS";
 export const RESET_PASSWORD_CODE_FAILURE = "auth/RESET_PASSWORD_CODE_FAILURE";
 export const RESET_PASSWORD_CODE_SUCCESS = "auth/RESET_PASSWORD_CODE_SUCCESS";
 export const RESET_PASSWORD_FAILURE = "auth/RESET_PASSWORD_FAILURE";
 export const RESET_PASSWORD_SUCCESS = "auth/RESET_PASSWORD_SUCCESS";
-export const SHOW_LOADER = "SHOW_LOADER";
-
-export type LoginSuccessActionType = {
-    type: typeof LOGIN_SUCCESS;
-    payload: string;
-};
+export const SET_AUTH_LOADING_STATE = "auth/SET_AUTH_LOADING_STATE";
+export const RESET_AUTH_STATE = "auth/RESET_AUTH_STATE";
 
 export type LoginFailureActionType = {
     type: typeof LOGIN_FAILURE;
     payload: string;
 };
 
-export type ShowLoaderActionType = {
-    type: typeof SHOW_LOADER;
+export type SetAuthLoadingStateActionType = {
+    type: typeof SET_AUTH_LOADING_STATE;
+    payload: LoadingStatus;
 };
 
 export type RegisterSuccessActionType = {
@@ -37,10 +31,6 @@ export type RegisterSuccessActionType = {
 export type RegisterFailureActionType = {
     type: typeof REGISTER_FAILURE;
     payload: AuthErrors;
-};
-
-export type LogoutSuccessActionType = {
-    type: typeof LOGOUT_SUCCESS;
 };
 
 export type ActivateAccountSuccessActionType = {
@@ -65,7 +55,7 @@ export type ForgotPasswordFailureActionType = {
 
 export type ResetPasswordCodeSuccessActionType = {
     type: typeof RESET_PASSWORD_CODE_SUCCESS;
-    payload: User;
+    payload: string;
 };
 
 export type ResetPasswordCodeFailureActionType = {
@@ -83,13 +73,15 @@ export type ResetPasswordFailureActionType = {
     payload: AuthErrors;
 };
 
+export type ResetAuthStateActionType = {
+    type: typeof RESET_AUTH_STATE;
+};
+
 export type AuthActionTypes =
-    | LoginSuccessActionType
     | LoginFailureActionType
-    | ShowLoaderActionType
+    | SetAuthLoadingStateActionType
     | RegisterSuccessActionType
     | RegisterFailureActionType
-    | LogoutSuccessActionType
     | ActivateAccountSuccessActionType
     | ActivateAccountFailureActionType
     | ForgotPasswordSuccessActionType
@@ -98,4 +90,4 @@ export type AuthActionTypes =
     | ResetPasswordCodeFailureActionType
     | ResetPasswordSuccessActionType
     | ResetPasswordFailureActionType
-    | FormResetActionType;
+    | ResetAuthStateActionType;

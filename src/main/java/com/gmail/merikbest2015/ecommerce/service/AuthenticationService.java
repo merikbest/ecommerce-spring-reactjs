@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface AuthenticationService {
 
-    Map<String, String> login(String email, String password);
+    Map<String, Object> login(String email, String password);
 
     String registerUser(User user, String captcha, String password2);
 
@@ -17,7 +17,7 @@ public interface AuthenticationService {
 
     String activateUser(String code);
 
-    User findByPasswordResetCode(String code);
+    String getEmailByPasswordResetCode(String code);
 
     String sendPasswordResetCode(String email);
 

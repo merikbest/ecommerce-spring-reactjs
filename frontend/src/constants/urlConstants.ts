@@ -20,8 +20,8 @@ export const ADMIN_EDIT = ADMIN + "/edit";
 export const ADMIN_DELETE = ADMIN + "/delete";
 export const ADMIN_USER = ADMIN + USER;
 export const ADMIN_USER_ALL = ADMIN_USER + "/all";
-export const ADMIN_ORDER = ADMIN_USER + ORDER;
-export const ADMIN_ORDERS = ADMIN_USER + ORDERS;
+export const ADMIN_ORDER = ADMIN + ORDER;
+export const ADMIN_ORDERS = ADMIN + ORDERS;
 export const ADMIN_GRAPHQL = ADMIN + GRAPHQL;
 export const ADMIN_GRAPHQL_USER = ADMIN_GRAPHQL + USER;
 export const ADMIN_GRAPHQL_USER_ALL = ADMIN_GRAPHQL_USER + "/all";
@@ -48,6 +48,7 @@ export const USERS_GRAPHQL_INFO = USERS_GRAPHQL + "/info";
 
 // perfumes
 export const PERFUMES_IDS = PERFUMES + "/ids";
+export const PERFUMES_REVIEWS = PERFUMES + "/reviews";
 export const PERFUMES_SEARCH = PERFUMES + SEARCH;
 export const PERFUMES_SEARCH_GENDER = PERFUMES + SEARCH + "/gender";
 export const PERFUMES_SEARCH_PERFUMER = PERFUMES + SEARCH + "/perfumer";

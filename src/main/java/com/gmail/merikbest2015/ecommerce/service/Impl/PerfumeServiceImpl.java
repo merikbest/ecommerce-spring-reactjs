@@ -3,6 +3,7 @@ package com.gmail.merikbest2015.ecommerce.service.Impl;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
@@ -31,33 +32,15 @@ public class PerfumeServiceImpl implements PerfumeService {
     private String bucketName;
 
     @Override
-    public DataFetcher<Perfume> getPerfumeByQuery() {
-        return dataFetchingEnvironment -> {
-            Long perfumeId = Long.parseLong(dataFetchingEnvironment.getArgument("id"));
-            return perfumeRepository.findById(perfumeId).get();
-        };
-    }
-
-    @Override
-    public DataFetcher<List<Perfume>> getAllPerfumesByQuery() {
-        return dataFetchingEnvironment -> perfumeRepository.findAllByOrderByIdAsc();
-    }
-
-    @Override
-    public DataFetcher<List<Perfume>> getAllPerfumesByIdsQuery() {
-        return dataFetchingEnvironment -> {
-            List<String> objects = dataFetchingEnvironment.getArgument("ids");
-            List<Long> perfumesId = objects.stream()
-                    .map(Long::parseLong)
-                    .collect(Collectors.toList());
-            return perfumeRepository.findByIdIn(perfumesId);
-        };
-    }
-
-    @Override
     public Perfume findPerfumeById(Long perfumeId) {
         return perfumeRepository.findById(perfumeId)
                 .orElseThrow(() -> new ApiRequestException("Perfume not found.", HttpStatus.NOT_FOUND)); // TODO add test
+    }
+    
+    @Override
+    public List<Review> getReviewsByPerfumeId(Long perfumeId) { // TODO add test
+        Perfume perfume = findPerfumeById(perfumeId);
+        return perfume.getReviews();
     }
 
     @Override
@@ -116,12 +99,12 @@ public class PerfumeServiceImpl implements PerfumeService {
     }
 
     @Override
-    public List<Perfume> findByPerfumerOrderByPriceDesc(String perfumer) {
+    public List<Perfume> findByPerfumer(String perfumer) {
         return perfumeRepository.findByPerfumerOrderByPriceDesc(perfumer);
     }
 
     @Override
-    public List<Perfume> findByPerfumeGenderOrderByPriceDesc(String perfumeGender) {
+    public List<Perfume> findByPerfumeGender(String perfumeGender) {
         return perfumeRepository.findByPerfumeGenderOrderByPriceDesc(perfumeGender);
     }
 
@@ -152,5 +135,29 @@ public class PerfumeServiceImpl implements PerfumeService {
         perfume.getReviews().forEach(review -> reviewRepository.deleteById(review.getId()));
         perfumeRepository.delete(perfume);
         return perfumeRepository.findAllByOrderByIdAsc();
+    }
+
+    @Override
+    public DataFetcher<Perfume> getPerfumeByQuery() {
+        return dataFetchingEnvironment -> {
+            Long perfumeId = Long.parseLong(dataFetchingEnvironment.getArgument("id"));
+            return perfumeRepository.findById(perfumeId).get();
+        };
+    }
+
+    @Override
+    public DataFetcher<List<Perfume>> getAllPerfumesByQuery() {
+        return dataFetchingEnvironment -> perfumeRepository.findAllByOrderByIdAsc();
+    }
+
+    @Override
+    public DataFetcher<List<Perfume>> getAllPerfumesByIdsQuery() {
+        return dataFetchingEnvironment -> {
+            List<String> objects = dataFetchingEnvironment.getArgument("ids");
+            List<Long> perfumesId = objects.stream()
+                    .map(Long::parseLong)
+                    .collect(Collectors.toList());
+            return perfumeRepository.findByIdIn(perfumesId);
+        };
     }
 }

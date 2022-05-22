@@ -2,12 +2,12 @@ import React, { FC, ReactElement } from "react";
 import { useSelector } from "react-redux";
 
 import Spinner from "../../../component/Spinner/Spinner";
-import { selectIsLoaded, selectUserFromUserState } from "../../../redux/user/user-selector";
+import { selectIsUserLoading, selectUserFromUserState } from "../../../redux/user/user-selector";
 import "./AccountItem.css";
 
 const AccountItem: FC = (): ReactElement => {
     const usersData = useSelector(selectUserFromUserState);
-    const loading = useSelector(selectIsLoaded);
+    const loading = useSelector(selectIsUserLoading);
 
     return (
         <>

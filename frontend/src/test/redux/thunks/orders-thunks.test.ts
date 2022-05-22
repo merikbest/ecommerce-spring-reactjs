@@ -20,8 +20,9 @@ import {
     fetchUserOrdersByEmailQuery,
     fetchUserOrdersByQuery
 } from "../../../redux/orders/orders-thunks";
-import { loadingOrders, setUserOrders } from "../../../redux/orders/orders-actions";
+import { setOrdersLoadingState, setUserOrders } from "../../../redux/orders/orders-actions";
 import { OrdersState } from "../../../redux/orders/orders-reducer";
+import { LoadingStatus } from "../../../types/types";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore<OrdersState, ThunkDispatch<OrdersState, void, AnyAction>>(middlewares);
@@ -30,14 +31,14 @@ const store = mockStore();
 
 describe("orders actions", () => {
     const mockEmail = "test123@test.com";
-    
+
     beforeEach(() => {
         store.clearActions();
     });
 
     test("fetchUserOrders should dispatches LOADING_ORDERS and SET_USER_ORDERS on success", async () => {
         mock.onGet(API_BASE_URL + USERS_ORDERS).reply(200, ordersData);
-        let expectedActions = [loadingOrders(), setUserOrders(ordersData)];
+        let expectedActions = [setOrdersLoadingState(LoadingStatus.LOADING), setUserOrders(ordersData)];
         await store.dispatch(fetchUserOrders());
         expect(store.getActions()).toEqual(expectedActions);
     });
@@ -45,20 +46,20 @@ describe("orders actions", () => {
     test("fetchAllUsersOrders should dispatches LOADING_ORDERS and SET_USER_ORDERS on success", async () => {
         mock.onGet(API_BASE_URL + ADMIN_ORDERS).reply(200, ordersData);
         await store.dispatch(fetchAllUsersOrders());
-        let expectedActions = [loadingOrders(), setUserOrders(ordersData)];
+        let expectedActions = [setOrdersLoadingState(LoadingStatus.LOADING), setUserOrders(ordersData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("fetchUserOrdersByEmail should dispatches LOADING_ORDERS and SET_USER_ORDERS on success", async () => {
         mock.onPost(API_BASE_URL + ADMIN_ORDER).reply(200, ordersData);
         await store.dispatch(fetchUserOrdersByEmail(mockEmail));
-        let expectedActions = [loadingOrders(), setUserOrders(ordersData)];
+        let expectedActions = [setOrdersLoadingState(LoadingStatus.LOADING), setUserOrders(ordersData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("fetchUserOrdersByQuery should LOADING_ORDERS and SET_USER_ORDERS on success", async () => {
         mock.onPost(API_BASE_URL + USERS_GRAPHQL_ORDERS).reply(200, { data: { ordersByEmail: ordersData } });
-        let expectedActions = [loadingOrders(), setUserOrders(ordersData)];
+        let expectedActions = [setOrdersLoadingState(LoadingStatus.LOADING), setUserOrders(ordersData)];
         await store.dispatch(fetchUserOrdersByQuery(mockEmail));
         expect(store.getActions()).toEqual(expectedActions);
     });
@@ -66,14 +67,14 @@ describe("orders actions", () => {
     test("fetchUserOrdersByEmailQuery should dispatches LOADING_DATA and SET_USER_ORDERS on success", async () => {
         mock.onPost(API_BASE_URL + ADMIN_GRAPHQL_ORDER).reply(200, { data: { ordersByEmail: ordersData } });
         await store.dispatch(fetchUserOrdersByEmailQuery(mockEmail));
-        let expectedActions = [loadingOrders(), setUserOrders(ordersData)];
+        let expectedActions = [setOrdersLoadingState(LoadingStatus.LOADING), setUserOrders(ordersData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("fetchUserOrdersByEmailQuery should dispatches LOADING_ORDERS and SET_USER_ORDERS on success", async () => {
         mock.onPost(API_BASE_URL + ADMIN_GRAPHQL_ORDER).reply(200, { data: { ordersByEmail: ordersData } });
         await store.dispatch(fetchUserOrdersByEmailQuery(mockEmail));
-        let expectedActions = [loadingOrders(), setUserOrders(ordersData)];
+        let expectedActions = [setOrdersLoadingState(LoadingStatus.LOADING), setUserOrders(ordersData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 });

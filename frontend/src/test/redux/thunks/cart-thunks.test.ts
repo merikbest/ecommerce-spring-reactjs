@@ -1,15 +1,16 @@
-import thunk, {ThunkDispatch} from "redux-thunk";
+import thunk, { ThunkDispatch } from "redux-thunk";
 import configureMockStore from "redux-mock-store";
-import {AnyAction} from "redux";
+import { AnyAction } from "redux";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
-import {CartState} from "../../../redux/cart/cart-reducer";
+import { CartState } from "../../../redux/cart/cart-reducer";
 import { API_BASE_URL, USERS_CART } from "../../../constants/urlConstants";
-import {fetchCart} from "../../../redux/cart/cart-thunks";
-import {perfumesData} from "../../test-data/perfume-test-data";
-import {calculateCartPrice, loadingCart, setCartItemsCount} from "../../../redux/cart/cart-actions";
-import {setPerfumes} from "../../../redux/perfumes/perfumes-actions";
+import { fetchCart } from "../../../redux/cart/cart-thunks";
+import { perfumesData } from "../../test-data/perfume-test-data";
+import { calculateCartPrice, setCartItemsCount, setCartLoadingState } from "../../../redux/cart/cart-actions";
+import { setPerfumes } from "../../../redux/perfumes/perfumes-actions";
+import { LoadingStatus } from "../../../types/types";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore<CartState, ThunkDispatch<CartState, void, AnyAction>>(middlewares);
@@ -30,7 +31,7 @@ describe("cart actions", () => {
     test("fetchCart should dispatches LOADING_CART, FETCH_CART_SUCCESS, CALCULATE_CART_PRICE_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + USERS_CART).reply(200, perfumesData);
         await store.dispatch(fetchCart([33, 34]));
-        let expectedActions = [loadingCart(), setPerfumes(perfumesData), setCartItemsCount(3), calculateCartPrice(perfumesData)];
+        let expectedActions = [setCartLoadingState(LoadingStatus.LOADING), setPerfumes(perfumesData), setCartItemsCount(3), calculateCartPrice(perfumesData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 });

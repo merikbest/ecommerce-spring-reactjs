@@ -22,7 +22,7 @@ type PropsType = {
 
 const PerfumeListComponent: FC<PropsType> = ({ data, itemsPerPage, startFrom, searchByData }): ReactElement => {
     const dispatch = useDispatch();
-    const loading = useSelector(selectIsPerfumesLoading);
+    const isPerfumesLoading = useSelector(selectIsPerfumesLoading);
     const [modalActive, setModalActive] = useState<boolean>(false);
     const [perfumeInfo, setPerfumeInfo] = useState<Perfume>();
 
@@ -70,7 +70,7 @@ const PerfumeListComponent: FC<PropsType> = ({ data, itemsPerPage, startFrom, se
                     nextPage={nextPage}
                 />
             </div>
-            {loading ? (
+            {isPerfumesLoading ? (
                 <Spinner />
             ) : (
                 <>

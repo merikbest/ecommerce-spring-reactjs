@@ -17,7 +17,6 @@ import EditPerfume from "./EditPerfume/EditPerfume";
 import ManageUserOrder from "./ManageUserOrder/ManageUserOrder";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
 import AccountLink from "./AccountLink";
-import { formReset } from "../../redux/admin/admin-actions";
 import { selectUserFromUserState } from "../../redux/user/user-selector";
 import { UserRoles } from "../../types/types";
 import {
@@ -31,6 +30,7 @@ import {
     ACCOUNT_USER_ORDERS
 } from "../../constants/routeConstants";
 import "./Account.css";
+import { resetAuthState } from "../../redux/auth/auth-actions";
 
 const Account: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const Account: FC = (): ReactElement => {
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
     useEffect(() => {
-        dispatch(formReset());
+        dispatch(resetAuthState());
         dispatch(fetchUserInfo());
     }, []);
 
@@ -60,7 +60,6 @@ const Account: FC = (): ReactElement => {
                             <AccountLink link={ACCOUNT_ADMIN_PERFUMES} title={"List of perfumes"} />
                             <AccountLink link={ACCOUNT_ADMIN_ORDERS} title={"List of all orders"} />
                             <AccountLink link={ACCOUNT_ADMIN_USERS} title={"List of all users"} />
-                            <AccountLink link={ACCOUNT_USER_EDIT} title={"Change password"} />
                         </>
                     ) : (
                         <>

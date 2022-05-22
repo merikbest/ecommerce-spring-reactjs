@@ -1,12 +1,15 @@
-import { Order, OrderError } from "../../types/types";
+import {LoadingStatus, Order, OrderError, OrderItem} from "../../types/types";
 
-export const LOADING_ORDER = "order/LOADING_ORDER";
+export const SET_ORDER_LOADING_STATE = "order/SET_ORDER_LOADING_STATE";
 export const RESET_ORDER_STATE = "order/RESET_ORDER_STATE";
 export const SET_ORDER = "order/SET_ORDER";
+export const SET_ORDER_ITEMS = "order/SET_ORDER_ITEMS";
+export const SET_ORDER_ERROR = "order/SET_ORDER_ERROR";
 export const ORDER_ADDED_FAILURE = "order/ORDER_ADDED_FAILURE";
 
-export type LoadingOrderActionType = {
-    type: typeof LOADING_ORDER;
+export type SetOrderLoadingStateActionType = {
+    type: typeof SET_ORDER_LOADING_STATE;
+    payload: LoadingStatus;
 };
 
 export type ResetOrderStateActionType = {
@@ -18,13 +21,25 @@ export type SetOrderActionType = {
     payload: Order;
 };
 
+export type SetOrderItemsActionType = {
+    type: typeof SET_ORDER_ITEMS;
+    payload: Array<OrderItem>;
+};
+
+export type SetOrderErrorActionType = {
+    type: typeof SET_ORDER_ERROR;
+    payload: string;
+};
+
 export type OrderAddedFailureActionType = {
     type: typeof ORDER_ADDED_FAILURE;
     payload: OrderError;
 };
 
 export type OrderActionTypes =
-    | LoadingOrderActionType
+    | SetOrderLoadingStateActionType
     | ResetOrderStateActionType
     | SetOrderActionType
+    | SetOrderItemsActionType
+    | SetOrderErrorActionType
     | OrderAddedFailureActionType;

@@ -1,29 +1,26 @@
-import { PerfumeErrors, User } from "../../types/types";
+import { LoadingStatus, PerfumeErrors, User } from "../../types/types";
 import {
     AddPerfumeFailureActionType,
     AddPerfumeSuccessActionType,
-    FETCH_ALL_USERS_BY_QUERY_SUCCESS,
-    FETCH_ALL_USERS_SUCCESS,
-    FETCH_USER_INFO_BY_QUERY_SUCCESS,
-    FETCH_USER_INFO_SUCCESS,
-    FORM_RESET,
-    FormResetActionType,
-    GetAllUsersActionType,
-    GetAllUsersByQueryActionType,
-    GetUserInfoActionType,
-    GetUserInfoByQueryActionType,
-    LOADING_DATA,
-    LoadingDataActionType,
+    RESET_ADMIN_STATE,
+    ResetAdminStateActionType,
     PERFUME_ADDED_FAILURE,
     PERFUME_ADDED_SUCCESS,
     PERFUME_UPDATED_FAILURE,
     PERFUME_UPDATED_SUCCESS,
+    SET_ADMIN_LOADING_STATE,
+    SET_ALL_USERS,
+    SET_USER_INFO,
+    SetAdminLoadingStateActionType,
+    SetAllUsersActionType,
+    SetUserInfoActionType,
     UpdatePerfumeFailureActionType,
     UpdatePerfumeSuccessActionType
 } from "./admin-action-types";
 
-export const loadingData = (): LoadingDataActionType => ({
-    type: LOADING_DATA
+export const setAdminLoadingState = (status: LoadingStatus): SetAdminLoadingStateActionType => ({
+    type: SET_ADMIN_LOADING_STATE,
+    payload: status
 });
 
 export const addPerfumeSuccess = (): AddPerfumeSuccessActionType => ({
@@ -44,26 +41,16 @@ export const updatePerfumeFailure = (error: PerfumeErrors): UpdatePerfumeFailure
     payload: error
 });
 
-export const getAllUsers = (users: Array<User>): GetAllUsersActionType => ({
-    type: FETCH_ALL_USERS_SUCCESS,
+export const setAllUsers = (users: Array<User>): SetAllUsersActionType => ({
+    type: SET_ALL_USERS,
     payload: users
 });
 
-export const getUserInfo = (user: User): GetUserInfoActionType => ({
-    type: FETCH_USER_INFO_SUCCESS,
+export const setUserInfo = (user: User): SetUserInfoActionType => ({
+    type: SET_USER_INFO,
     payload: user
 });
 
-export const formReset = (): FormResetActionType => ({
-    type: FORM_RESET
-});
-
-export const getUserInfoByQuery = (user: User): GetUserInfoByQueryActionType => ({
-    type: FETCH_USER_INFO_BY_QUERY_SUCCESS,
-    payload: user
-});
-
-export const getAllUsersByQuery = (users: Array<User>): GetAllUsersByQueryActionType => ({
-    type: FETCH_ALL_USERS_BY_QUERY_SUCCESS,
-    payload: users
+export const resetAdminState = (): ResetAdminStateActionType => ({
+    type: RESET_ADMIN_STATE
 });

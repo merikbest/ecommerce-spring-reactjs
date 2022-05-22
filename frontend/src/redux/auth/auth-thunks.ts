@@ -7,25 +7,25 @@ import {
     forgotPasswordFailure,
     forgotPasswordSuccess,
     loginFailure,
-    loginSuccess,
     registerFailure,
     registerSuccess,
     resetPasswordCodeFailure,
     resetPasswordCodeSuccess,
     resetPasswordFailure,
     resetPasswordSuccess,
-    showLoader
+    setAuthLoadingState
 } from "./auth-actions";
-import { UserData, UserRegistration, UserResetPasswordData } from "../../types/types";
+import { LoadingStatus, UserData, UserRegistration, UserResetPasswordData } from "../../types/types";
 import RequestService from "../../utils/request-service";
 import { AUTH_FORGOT, AUTH_LOGIN, AUTH_RESET, REGISTRATION, REGISTRATION_ACTIVATE } from "../../constants/urlConstants";
 import { ACCOUNT, LOGIN } from "../../constants/routeConstants";
+import { setUser } from "../user/user-actions";
 
 export const login = (userData: UserData, history: History<LocationState>) => async (dispatch: Dispatch) => {
     try {
         const response = await RequestService.post(AUTH_LOGIN, userData);
         localStorage.setItem("token", response.data.token);
-        dispatch(loginSuccess(response.data.userRole));
+        dispatch(setUser(response.data.user));
         history.push(ACCOUNT);
     } catch (error) {
         dispatch(loginFailure(error.response.data));
@@ -34,7 +34,7 @@ export const login = (userData: UserData, history: History<LocationState>) => as
 
 export const registration = (userRegistrationData: UserRegistration) => async (dispatch: Dispatch) => {
     try {
-        dispatch(showLoader());
+        dispatch(setAuthLoadingState(LoadingStatus.LOADING));
         await RequestService.post(REGISTRATION, userRegistrationData);
         dispatch(registerSuccess());
     } catch (error) {
@@ -53,7 +53,7 @@ export const activateAccount = (code: string) => async (dispatch: Dispatch) => {
 
 export const forgotPassword = (email: { email: string }) => async (dispatch: Dispatch) => {
     try {
-        dispatch(showLoader());
+        dispatch(setAuthLoadingState(LoadingStatus.LOADING));
         const response = await RequestService.post(AUTH_FORGOT, email);
         dispatch(forgotPasswordSuccess(response.data));
     } catch (error) {

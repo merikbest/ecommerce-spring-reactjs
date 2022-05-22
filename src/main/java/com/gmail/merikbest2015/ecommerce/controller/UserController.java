@@ -1,10 +1,12 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
+import com.gmail.merikbest2015.ecommerce.dto.order.OrderItemResponse;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderRequest;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponse;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.FullPerfumeResponse;
 import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequest;
+import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponse;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserRequest;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserResponse;
 import com.gmail.merikbest2015.ecommerce.mapper.OrderMapper;
@@ -37,11 +39,6 @@ public class UserController {
         return ResponseEntity.ok(userMapper.findUserByEmail(user.getEmail()));
     }
 
-    @PostMapping("/graphql/info")
-    public ResponseEntity<ExecutionResult> getUserInfoByQuery(@RequestBody GraphQLRequest request) {
-        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
-    }
-
     @PutMapping("/edit")
     public ResponseEntity<UserResponse> updateUserInfo(@AuthenticationPrincipal UserPrincipal user,
                                                        @Valid @RequestBody UserRequest request,
@@ -50,18 +47,23 @@ public class UserController {
     }
 
     @PostMapping("/cart")
-    public ResponseEntity<List<PerfumeResponse>> getCart(@RequestBody List<Long> perfumesIds) {
+    public ResponseEntity<List<FullPerfumeResponse>> getCart(@RequestBody List<Long> perfumesIds) {
         return ResponseEntity.ok(userMapper.getCart(perfumesIds));
+    }
+
+    @GetMapping("/order/{orderId}")
+    public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long orderId) {
+        return ResponseEntity.ok(orderMapper.getOrderById(orderId));
+    }
+
+    @GetMapping("/order/{orderId}/items")
+    public ResponseEntity<List<OrderItemResponse>> getOrderItemsByOrderId(@PathVariable Long orderId) {
+        return ResponseEntity.ok(orderMapper.getOrderItemsByOrderId(orderId));
     }
 
     @GetMapping("/orders")
     public ResponseEntity<List<OrderResponse>> getUserOrders(@AuthenticationPrincipal UserPrincipal user) {
         return ResponseEntity.ok(orderMapper.findOrderByEmail(user.getEmail()));
-    }
-
-    @PostMapping("/graphql/orders")
-    public ResponseEntity<ExecutionResult> getUserOrdersByQuery(@RequestBody GraphQLRequest request) {
-        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
     @PostMapping("/order")
@@ -70,9 +72,20 @@ public class UserController {
     }
 
     @PostMapping("/review")
-    public ResponseEntity<PerfumeResponse> addReviewToPerfume(@Valid @RequestBody ReviewRequest review, BindingResult bindingResult) {
-        PerfumeResponse perfume = userMapper.addReviewToPerfume(review, review.getPerfumeId(), bindingResult);
-        messagingTemplate.convertAndSend("/topic/reviews/" + perfume.getId(), perfume);
-        return ResponseEntity.ok(perfume);
+    public ResponseEntity<ReviewResponse> addReviewToPerfume(@Valid @RequestBody ReviewRequest reviewRequest,
+                                                             BindingResult bindingResult) {
+        ReviewResponse review = userMapper.addReviewToPerfume(reviewRequest, reviewRequest.getPerfumeId(), bindingResult);
+        messagingTemplate.convertAndSend("/topic/reviews/" + reviewRequest.getPerfumeId(), review);
+        return ResponseEntity.ok(review);
+    }
+
+    @PostMapping("/graphql/info")
+    public ResponseEntity<ExecutionResult> getUserInfoByQuery(@RequestBody GraphQLRequest request) {
+        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+    }
+
+    @PostMapping("/graphql/orders")
+    public ResponseEntity<ExecutionResult> getUserOrdersByQuery(@RequestBody GraphQLRequest request) {
+        return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 }

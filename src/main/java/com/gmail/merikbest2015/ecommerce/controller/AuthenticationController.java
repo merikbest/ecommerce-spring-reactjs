@@ -3,7 +3,6 @@ package com.gmail.merikbest2015.ecommerce.controller;
 import com.gmail.merikbest2015.ecommerce.dto.PasswordResetRequest;
 import com.gmail.merikbest2015.ecommerce.dto.auth.AuthenticationRequest;
 import com.gmail.merikbest2015.ecommerce.dto.auth.AuthenticationResponse;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserResponse;
 import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
 import com.gmail.merikbest2015.ecommerce.mapper.AuthenticationMapper;
 import com.gmail.merikbest2015.ecommerce.security.UserPrincipal;
@@ -33,8 +32,8 @@ public class AuthenticationController {
     }
 
     @GetMapping("/reset/{code}")
-    public ResponseEntity<UserResponse> getPasswordResetCode(@PathVariable String code) {
-        return ResponseEntity.ok(authenticationMapper.findByPasswordResetCode(code));
+    public ResponseEntity<String> getEmailByPasswordResetCode(@PathVariable String code) {
+        return ResponseEntity.ok(authenticationMapper.getEmailByPasswordResetCode(code));
     }
 
     @PostMapping("/reset")

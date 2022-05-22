@@ -28,16 +28,17 @@ import {
     forgotPasswordFailure,
     forgotPasswordSuccess,
     loginFailure,
-    loginSuccess,
     registerFailure,
     registerSuccess,
     resetPasswordCodeFailure,
     resetPasswordCodeSuccess,
     resetPasswordFailure,
     resetPasswordSuccess,
-    showLoader
+    setAuthLoadingState
 } from "../../../redux/auth/auth-actions";
 import { authErrorsData, userData, userRegistrationData, userResetPasswordData } from "../../test-data/user-test-data";
+import { LoadingStatus } from "../../../types/types";
+import { setUser } from "../../../redux/user/user-actions";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore<AuthState, ThunkDispatch<AuthState, void, AnyAction>>(middlewares);
@@ -60,13 +61,11 @@ describe("auth actions", () => {
 
     test("login should dispatches LOGIN_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + AUTH_LOGIN).reply(200, {
-            email: "test123@test.com",
-            token: "test_token",
-            userRole: "USER",
-            isLoggedIn: "true"
+            user: userData,
+            token: "test_token"
         });
         await store.dispatch(login({ email: "test123@test.com", password: "test123" }, useHistory()));
-        let expectedActions = [loginSuccess("USER")];
+        let expectedActions = [setUser(userData)];
         expect(store.getActions()).toEqual(expectedActions);
         expect(localStorage.getItem("token")).toEqual("test_token");
     });
@@ -81,14 +80,14 @@ describe("auth actions", () => {
     test("registration should dispatches REGISTER_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + REGISTRATION).reply(200);
         await store.dispatch(registration(userRegistrationData));
-        let expectedActions = [showLoader(), registerSuccess()];
+        let expectedActions = [setAuthLoadingState(LoadingStatus.LOADING), registerSuccess()];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("registration should dispatches REGISTER_FAILURE on failure", async () => {
         mock.onPost(API_BASE_URL + REGISTRATION).reply(400, authErrorsData);
         await store.dispatch(registration(userRegistrationData));
-        let expectedActions = [showLoader(), registerFailure(authErrorsData)];
+        let expectedActions = [setAuthLoadingState(LoadingStatus.LOADING), registerFailure(authErrorsData)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
@@ -112,21 +111,24 @@ describe("auth actions", () => {
     test("forgotPassword should dispatches SHOW_LOADER and FORGOT_PASSWORD_SUCCESS on success", async () => {
         mock.onPost(API_BASE_URL + AUTH_FORGOT).reply(200, "Reset password code is send to your E-mail");
         await store.dispatch(forgotPassword({ email: "test123@test.com" }));
-        let expectedActions = [showLoader(), forgotPasswordSuccess("Reset password code is send to your E-mail")];
+        let expectedActions = [
+            setAuthLoadingState(LoadingStatus.LOADING),
+            forgotPasswordSuccess("Reset password code is send to your E-mail")
+        ];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("forgotPassword should dispatches SHOW_LOADER and FORGOT_PASSWORD_FAILURE on failure", async () => {
         mock.onPost(API_BASE_URL + AUTH_FORGOT).reply(400, "Email not found");
         await store.dispatch(forgotPassword({ email: "test123@test.com" }));
-        let expectedActions = [showLoader(), forgotPasswordFailure("Email not found")];
+        let expectedActions = [setAuthLoadingState(LoadingStatus.LOADING), forgotPasswordFailure("Email not found")];
         expect(store.getActions()).toEqual(expectedActions);
     });
 
     test("fetchResetPasswordCode should dispatches RESET_PASSWORD_CODE_SUCCESS on success", async () => {
-        mock.onGet(API_BASE_URL + `${AUTH_RESET}/${mockTestCode}`).reply(200, userData);
+        mock.onGet(API_BASE_URL + `${AUTH_RESET}/${mockTestCode}`).reply(200, "test@test.com");
         await store.dispatch(fetchResetPasswordCode(mockTestCode));
-        let expectedActions = [resetPasswordCodeSuccess(userData)];
+        let expectedActions = [resetPasswordCodeSuccess("test@test.com")];
         expect(store.getActions()).toEqual(expectedActions);
     });
 

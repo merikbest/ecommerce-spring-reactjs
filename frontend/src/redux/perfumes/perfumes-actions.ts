@@ -1,17 +1,18 @@
-import { Perfume } from "../../types/types";
+import { LoadingStatus, Perfume } from "../../types/types";
 import {
-    LOADING_PERFUME,
-    LoadingPerfumeActionType,
     REMOVE_PERFUME_BY_ID,
     RemovePerfumeByIdActionType,
     RESET_PERFUMES_STATE,
     ResetPerfumesStateActionType,
     SET_PERFUMES,
-    SetPerfumesActionType
+    SET_PERFUMES_LOADING_STATE,
+    SetPerfumesActionType,
+    SetPerfumesLoadingStateActionType
 } from "./perfumes-action-types";
 
-export const loadingPerfume = (): LoadingPerfumeActionType => ({
-    type: LOADING_PERFUME
+export const setPerfumesLoadingState = (status: LoadingStatus): SetPerfumesLoadingStateActionType => ({
+    type: SET_PERFUMES_LOADING_STATE,
+    payload: status
 });
 
 export const setPerfumes = (perfumes: Array<Perfume>): SetPerfumesActionType => ({

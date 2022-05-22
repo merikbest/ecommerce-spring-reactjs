@@ -98,7 +98,7 @@ public class PerfumeServiceImplTest {
         perfumeList.add(perfumeCreed);
 
         when(perfumeRepository.findByPerfumerOrderByPriceDesc(PERFUMER_CHANEL)).thenReturn(perfumeList);
-        perfumeService.findByPerfumerOrderByPriceDesc(PERFUMER_CHANEL);
+        perfumeService.findByPerfumer(PERFUMER_CHANEL);
         assertEquals(perfumeList.get(0).getPerfumer(), PERFUMER_CHANEL);
         assertNotEquals(perfumeList.get(0).getPerfumer(), PERFUMER_CREED);
         verify(perfumeRepository, times(1)).findByPerfumerOrderByPriceDesc(PERFUMER_CHANEL);
@@ -112,7 +112,7 @@ public class PerfumeServiceImplTest {
         perfumeList.add(perfumeChanel);
 
         when(perfumeRepository.findByPerfumeGenderOrderByPriceDesc(PERFUME_GENDER)).thenReturn(perfumeList);
-        perfumeService.findByPerfumeGenderOrderByPriceDesc(PERFUME_GENDER);
+        perfumeService.findByPerfumeGender(PERFUME_GENDER);
         assertEquals(perfumeList.get(0).getPerfumeGender(), PERFUME_GENDER);
         assertNotEquals(perfumeList.get(0).getPerfumeGender(), "male");
         verify(perfumeRepository, times(1)).findByPerfumeGenderOrderByPriceDesc(PERFUME_GENDER);

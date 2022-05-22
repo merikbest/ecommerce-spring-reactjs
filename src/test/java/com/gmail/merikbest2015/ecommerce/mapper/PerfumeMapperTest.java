@@ -2,7 +2,7 @@ package com.gmail.merikbest2015.ecommerce.mapper;
 
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequest;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.FullPerfumeResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -65,18 +65,18 @@ public class PerfumeMapperTest {
         perfume.setVolume(VOLUME);
         perfume.setType(TYPE);
 
-        PerfumeResponse perfumeResponse = modelMapper.map(perfume, PerfumeResponse.class);
-        assertEquals(perfume.getId(), perfumeResponse.getId());
-        assertEquals(perfume.getPerfumer(), perfumeResponse.getPerfumer());
-        assertEquals(perfume.getPerfumeTitle(), perfumeResponse.getPerfumeTitle());
-        assertEquals(perfume.getYear(), perfumeResponse.getYear());
-        assertEquals(perfume.getCountry(), perfumeResponse.getCountry());
-        assertEquals(perfume.getPerfumeGender(), perfumeResponse.getPerfumeGender());
-        assertEquals(perfume.getFragranceTopNotes(), perfumeResponse.getFragranceTopNotes());
-        assertEquals(perfume.getFragranceMiddleNotes(), perfumeResponse.getFragranceMiddleNotes());
-        assertEquals(perfume.getFragranceBaseNotes(), perfumeResponse.getFragranceBaseNotes());
-        assertEquals(perfume.getPrice(), perfumeResponse.getPrice());
-        assertEquals(perfume.getVolume(), perfumeResponse.getVolume());
-        assertEquals(perfume.getType(), perfumeResponse.getType());
+        FullPerfumeResponse fullPerfumeResponse = modelMapper.map(perfume, FullPerfumeResponse.class);
+        assertEquals(perfume.getId(), fullPerfumeResponse.getId());
+        assertEquals(perfume.getPerfumer(), fullPerfumeResponse.getPerfumer());
+        assertEquals(perfume.getPerfumeTitle(), fullPerfumeResponse.getPerfumeTitle());
+        assertEquals(perfume.getYear(), fullPerfumeResponse.getYear());
+        assertEquals(perfume.getCountry(), fullPerfumeResponse.getCountry());
+        assertEquals(perfume.getPerfumeGender(), fullPerfumeResponse.getPerfumeGender());
+        assertEquals(perfume.getFragranceTopNotes(), fullPerfumeResponse.getFragranceTopNotes());
+        assertEquals(perfume.getFragranceMiddleNotes(), fullPerfumeResponse.getFragranceMiddleNotes());
+        assertEquals(perfume.getFragranceBaseNotes(), fullPerfumeResponse.getFragranceBaseNotes());
+        assertEquals(perfume.getPrice(), fullPerfumeResponse.getPrice());
+        assertEquals(perfume.getVolume(), fullPerfumeResponse.getVolume());
+        assertEquals(perfume.getType(), fullPerfumeResponse.getType());
     }
 }

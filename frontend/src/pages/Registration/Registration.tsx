@@ -10,8 +10,8 @@ import InfoTitle from "../../component/InfoTitle/InfoTitle";
 import Alert from "../../component/Alert/Alert";
 import IconButton from "../../component/IconButton/IconButton";
 import { selectErrors, selectIsAuthLoading, selectIsRegistered } from "../../redux/auth/auth-selector";
-import { formReset } from "../../redux/admin/admin-actions";
-import Input from "../../component/EditInput/Input";
+import Input from "../../component/Input/Input";
+import { resetAuthState } from "../../redux/auth/auth-actions";
 
 const initialState = {
     email: "",
@@ -24,7 +24,7 @@ const initialState = {
 const Registration: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const isRegistered = useSelector(selectIsRegistered);
-    const loading = useSelector(selectIsAuthLoading);
+    const isLoading = useSelector(selectIsAuthLoading);
     const errors = useSelector(selectErrors);
 
     const [registrationInfo, setRegistrationInfo] = useState(initialState);
@@ -32,7 +32,7 @@ const Registration: FC = (): ReactElement => {
     const { email, firstName, lastName, password, password2 } = registrationInfo;
 
     useEffect(() => {
-        dispatch(formReset());
+        dispatch(resetAuthState());
     }, []);
 
     useEffect(() => {
@@ -65,7 +65,7 @@ const Registration: FC = (): ReactElement => {
     };
 
     let pageLoading;
-    if (loading) {
+    if (isLoading) {
         pageLoading = <PageLoader />;
     }
 

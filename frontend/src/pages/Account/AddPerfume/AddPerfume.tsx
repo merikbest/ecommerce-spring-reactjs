@@ -4,50 +4,39 @@ import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
 import ToastShow from "../../../component/Toasts/ToastShow";
 import { addPerfume } from "../../../redux/admin/admin-thunks";
-import { fetchPerfumes } from "../../../redux/perfumes/perfumes-thunks";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
-import Input from "../../../component/EditInput/Input";
+import Input from "../../../component/Input/Input";
 import AddPerfumeSelect from "./AddPerfumeSelect/AddPerfumeSelect";
 import IconButton from "../../../component/IconButton/IconButton";
-import { selectAdminStateErrors, selectIsPerfumeAdded } from "../../../redux/admin/admin-selector";
-import { formReset } from "../../../redux/admin/admin-actions";
+import {
+    selectAdminStateErrors,
+    selectIsAdminStateLoading,
+    selectIsPerfumeAdded
+} from "../../../redux/admin/admin-selector";
+import { resetAdminState, setAdminLoadingState } from "../../../redux/admin/admin-actions";
+import { LoadingStatus } from "../../../types/types";
 
-type InitialStateType = {
-    perfumeTitle: string;
-    perfumer: string;
-    year: string;
-    country: string;
-    type: string;
-    volume: string;
-    perfumeGender: string;
-    fragranceTopNotes: string;
-    fragranceMiddleNotes: string;
-    fragranceBaseNotes: string;
-    price: string;
-    file: string | Blob;
-    perfumeRating: number;
+const initialState = {
+    perfumeTitle: "",
+    perfumer: "",
+    year: "",
+    country: "",
+    type: "",
+    volume: "",
+    perfumeGender: "",
+    fragranceTopNotes: "",
+    fragranceMiddleNotes: "",
+    fragranceBaseNotes: "",
+    price: "",
+    file: "",
+    perfumeRating: 0.0
 };
 
 const AddPerfume: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const isPerfumeAdded = useSelector(selectIsPerfumeAdded);
+    const isLoading = useSelector(selectIsAdminStateLoading);
     const errors = useSelector(selectAdminStateErrors);
-
-    const initialState: InitialStateType = {
-        perfumeTitle: "",
-        perfumer: "",
-        year: "",
-        country: "",
-        type: "",
-        volume: "",
-        perfumeGender: "",
-        fragranceTopNotes: "",
-        fragranceMiddleNotes: "",
-        fragranceBaseNotes: "",
-        price: "",
-        file: "",
-        perfumeRating: 0.0
-    };
 
     const [
         {
@@ -70,15 +59,22 @@ const AddPerfume: FC = (): ReactElement => {
     const [showToast, setShowToast] = useState(false);
 
     useEffect(() => {
+        dispatch(setAdminLoadingState(LoadingStatus.LOADED));
+
+        return () => {
+            dispatch(resetAdminState());
+        };
+    }, []);
+
+    useEffect(() => {
         if (isPerfumeAdded) {
             setState({ ...initialState });
             setShowToast(true);
             setTimeout(() => {
                 setShowToast(false);
-                dispatch(formReset());
+                dispatch(resetAdminState());
             }, 5000);
             window.scrollTo(0, 0);
-            dispatch(fetchPerfumes());
         }
     }, [isPerfumeAdded]);
 
@@ -138,6 +134,7 @@ const AddPerfume: FC = (): ReactElement => {
                             name={"perfumeTitle"}
                             value={perfumeTitle}
                             placeholder={"Enter the perfume title"}
+                            disabled={isLoading}
                             onChange={handleInputChange}
                         />
                         <Input
@@ -148,6 +145,7 @@ const AddPerfume: FC = (): ReactElement => {
                             name={"perfumer"}
                             value={perfumer}
                             placeholder={"Enter the brand"}
+                            disabled={isLoading}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -160,6 +158,7 @@ const AddPerfume: FC = (): ReactElement => {
                             name={"year"}
                             value={year}
                             placeholder={"Enter the release year"}
+                            disabled={isLoading}
                             onChange={handleInputChange}
                         />
                         <Input
@@ -170,6 +169,7 @@ const AddPerfume: FC = (): ReactElement => {
                             name={"country"}
                             value={country}
                             placeholder={"Enter the manufacturer country"}
+                            disabled={isLoading}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -179,6 +179,7 @@ const AddPerfume: FC = (): ReactElement => {
                             error={errors.typeError}
                             name={"type"}
                             values={["Eau de Parfum", "Eau de Toilette"]}
+                            disabled={isLoading}
                             onChange={handleInputChange}
                         />
                         <Input
@@ -189,6 +190,7 @@ const AddPerfume: FC = (): ReactElement => {
                             name={"volume"}
                             value={volume}
                             placeholder={"Enter the volume"}
+                            disabled={isLoading}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -198,6 +200,7 @@ const AddPerfume: FC = (): ReactElement => {
                             error={errors.perfumeGenderError}
                             name={"perfumeGender"}
                             values={["male", "female"]}
+                            disabled={isLoading}
                             onChange={handleInputChange}
                         />
                         <Input
@@ -208,6 +211,7 @@ const AddPerfume: FC = (): ReactElement => {
                             name={"fragranceTopNotes"}
                             value={fragranceTopNotes}
                             placeholder={"Enter the top notes"}
+                            disabled={isLoading}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -220,6 +224,7 @@ const AddPerfume: FC = (): ReactElement => {
                             name={"fragranceMiddleNotes"}
                             value={fragranceMiddleNotes}
                             placeholder={"Enter the heart notes"}
+                            disabled={isLoading}
                             onChange={handleInputChange}
                         />
                         <Input
@@ -230,6 +235,7 @@ const AddPerfume: FC = (): ReactElement => {
                             name={"fragranceBaseNotes"}
                             value={fragranceBaseNotes}
                             placeholder={"Enter the base notes"}
+                            disabled={isLoading}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -242,6 +248,7 @@ const AddPerfume: FC = (): ReactElement => {
                             name={"price"}
                             value={price}
                             placeholder={"Enter the price"}
+                            disabled={isLoading}
                             onChange={handleInputChange}
                         />
                         <div className="col" style={{ marginTop: "35px" }}>
@@ -253,6 +260,7 @@ const AddPerfume: FC = (): ReactElement => {
                         buttonClassName={"mt-3"}
                         icon={faPlusSquare}
                         iconClassName={"mr-2"}
+                        disabled={isLoading}
                     />
                 </form>
             </div>

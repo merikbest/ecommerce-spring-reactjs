@@ -1,17 +1,18 @@
 import {
     CALCULATE_CART_PRICE,
     CalculateCartPriceActionType,
-    LOADING_CART,
-    LoadingCartActionType,
     RESET_CART_STATE,
     ResetCartStateActionType,
     SET_CART_ITEMS_COUNT,
-    SetCartItemsCountActionType
+    SET_CART_LOADING_STATE,
+    SetCartItemsCountActionType,
+    SetCartLoadingStateActionType
 } from "./cart-action-types";
-import { Perfume } from "../../types/types";
+import { LoadingStatus, Perfume } from "../../types/types";
 
-export const loadingCart = (): LoadingCartActionType => ({
-    type: LOADING_CART
+export const setCartLoadingState = (status: LoadingStatus): SetCartLoadingStateActionType => ({
+    type: SET_CART_LOADING_STATE,
+    payload: status
 });
 
 export const calculateCartPrice = (perfumes: Array<Perfume>): CalculateCartPriceActionType => ({

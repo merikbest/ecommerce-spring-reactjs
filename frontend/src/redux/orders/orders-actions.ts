@@ -1,15 +1,16 @@
-import { Order } from "../../types/types";
+import { LoadingStatus, Order } from "../../types/types";
 import {
-    LOADING_ORDERS,
-    LoadingOrdersActionType,
     RESET_ORDERS_STATE,
     ResetOrdersStateActionType,
+    SET_ORDERS_LOADING_STATE,
     SET_USER_ORDERS,
+    SetOrdersLoadingStateActionType,
     SetUserOrdersActionType
 } from "./orders-action-types";
 
-export const loadingOrders = (): LoadingOrdersActionType => ({
-    type: LOADING_ORDERS
+export const setOrdersLoadingState = (status: LoadingStatus): SetOrdersLoadingStateActionType => ({
+    type: SET_ORDERS_LOADING_STATE,
+    payload: status
 });
 
 export const setUserOrders = (orders: Array<Order>): SetUserOrdersActionType => ({

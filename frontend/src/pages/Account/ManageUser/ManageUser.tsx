@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { faUserEdit } from "@fortawesome/free-solid-svg-icons";
 
@@ -7,35 +7,39 @@ import { fetchUserInfo } from "../../../redux/admin/admin-thunks";
 import Spinner from "../../../component/Spinner/Spinner";
 import AccountDataItem from "../../../component/AccountDataItem/AccountDataItem";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
-import { selectAdminStateUser, selectIsAdminStateLoaded } from "../../../redux/admin/admin-selector";
+import { selectAdminStateUser, selectIsAdminStateLoading } from "../../../redux/admin/admin-selector";
 import { fetchUserOrdersByEmail } from "../../../redux/orders/orders-thunks";
 import { selectOrders } from "../../../redux/orders/orders-selector";
 import { resetOrders } from "../../../redux/orders/orders-actions";
-import { ACCOUNT_USER_ORDERS } from "../../../constants/routeConstants";
+import { resetAdminState } from "../../../redux/admin/admin-actions";
+import ManageUserTable from "./ManageUserTable/ManageUserTable";
 
 const ManageUser: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const params = useParams<{ id: string }>();
     const userData = useSelector(selectAdminStateUser);
     const userOrders = useSelector(selectOrders);
-    const loading = useSelector(selectIsAdminStateLoaded);
+    const isUserLoading = useSelector(selectIsAdminStateLoading);
     const { id, email, firstName, lastName, city, address, phoneNumber, postIndex, provider, roles } = userData;
 
     useEffect(() => {
         dispatch(fetchUserInfo(params.id));
-    }, []);
-
-    useEffect(() => {
-        dispatch(fetchUserOrdersByEmail(email!));
 
         return () => {
             dispatch(resetOrders());
+            dispatch(resetAdminState());
         };
+    }, []);
+
+    useEffect(() => {
+        if (userData.email) {
+            dispatch(fetchUserOrdersByEmail(userData.email!));
+        }
     }, [userData]);
 
     return (
         <div className="container">
-            {loading ? (
+            {isUserLoading ? (
                 <Spinner />
             ) : (
                 <>
@@ -59,46 +63,9 @@ const ManageUser: FC = (): ReactElement => {
                         </div>
                     </div>
                     {userOrders.length === 0 ? (
-                        <h5 style={{ textAlign: "center" }}>No orders</h5>
+                        <h5 className="text-center">No orders</h5>
                     ) : (
-                        <>
-                            <h5 style={{ textAlign: "center" }}>Orders</h5>
-                            <table className="table border text-center">
-                                <thead className="table-active">
-                                    <tr>
-                                        <th>Order №</th>
-                                        <th>Date</th>
-                                        <th>City</th>
-                                        <th>Address</th>
-                                        <th>Post index</th>
-                                        <th>Order Summary</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {userOrders.map((order) => (
-                                        <tr key={order.id}>
-                                            <th>{order.id}</th>
-                                            <th>{order.date}</th>
-                                            <th>{order.city}</th>
-                                            <th>{order.address}</th>
-                                            <th>{order.postIndex}</th>
-                                            <th>{order.totalPrice}.0 $</th>
-                                            <th>
-                                                <Link
-                                                    to={{
-                                                        pathname: `${ACCOUNT_USER_ORDERS}/${order.id}`,
-                                                        state: order
-                                                    }}
-                                                >
-                                                    Show more
-                                                </Link>
-                                            </th>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </>
+                        <ManageUserTable userOrders={userOrders} />
                     )}
                 </>
             )}

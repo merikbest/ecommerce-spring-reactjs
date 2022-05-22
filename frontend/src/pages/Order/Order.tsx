@@ -6,16 +6,16 @@ import { faCheckCircle, faShoppingBag } from "@fortawesome/free-solid-svg-icons"
 
 import { addOrder } from "../../redux/order/order-thunks";
 import { validateEmail } from "../../utils/input-validators";
-import PageLoader from "../../component/PageLoader/PageLoader";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
 import OrderItem from "./OrderItem/OrderItem";
-import { resetOrderState } from "../../redux/order/order-actions";
+import { resetOrderState, setOrderLoadingState } from "../../redux/order/order-actions";
 import { selectIsOrderLoading, selectOrderErrors } from "../../redux/order/order-selector";
 import { selectTotalPrice } from "../../redux/cart/cart-selector";
 import { selectUserFromUserState } from "../../redux/user/user-selector";
 import { selectPerfumes } from "../../redux/perfumes/perfumes-selector";
 import { resetPerfumesState } from "../../redux/perfumes/perfumes-actions";
-import Input from "../../component/EditInput/Input";
+import Input from "../../component/Input/Input";
+import { LoadingStatus } from "../../types/types";
 
 const initialState = {
     firstName: "",
@@ -44,6 +44,8 @@ const Order: FC = (): ReactElement => {
     const { firstName, lastName, city, address, phoneNumber, postIndex, email } = user;
 
     useEffect(() => {
+        dispatch(setOrderLoadingState(LoadingStatus.LOADED));
+
         if (usersData) {
             setUser(usersData);
         }
@@ -74,14 +76,8 @@ const Order: FC = (): ReactElement => {
         setUser({ ...user, [name]: value });
     };
 
-    let pageLoading;
-    if (isOrderLoading) {
-        pageLoading = <PageLoader />;
-    }
-
     return (
         <div className="container mt-5 pb-5">
-            {pageLoading}
             <InfoTitle iconClass={"mr-2"} icon={faShoppingBag} titleClass={"mb-4 text-center"} title={"Ordering"} />
             <br />
             <form onSubmit={onFormSubmit}>
@@ -96,6 +92,7 @@ const Order: FC = (): ReactElement => {
                             name={"firstName"}
                             value={firstName}
                             placeholder={"Enter the first name"}
+                            disabled={isOrderLoading}
                             onChange={handleInputChange}
                         />
                         <Input
@@ -107,6 +104,7 @@ const Order: FC = (): ReactElement => {
                             name={"lastName"}
                             value={lastName}
                             placeholder={"Enter the last name"}
+                            disabled={isOrderLoading}
                             onChange={handleInputChange}
                         />
                         <Input
@@ -118,6 +116,7 @@ const Order: FC = (): ReactElement => {
                             name={"city"}
                             value={city}
                             placeholder={"Enter the city"}
+                            disabled={isOrderLoading}
                             onChange={handleInputChange}
                         />
                         <Input
@@ -129,6 +128,7 @@ const Order: FC = (): ReactElement => {
                             name={"address"}
                             value={address}
                             placeholder={"Enter the address"}
+                            disabled={isOrderLoading}
                             onChange={handleInputChange}
                         />
                         <Input
@@ -140,6 +140,7 @@ const Order: FC = (): ReactElement => {
                             name={"postIndex"}
                             value={postIndex}
                             placeholder={"Enter the index"}
+                            disabled={isOrderLoading}
                             onChange={handleInputChange}
                         />
                         <Input
@@ -151,6 +152,7 @@ const Order: FC = (): ReactElement => {
                             name={"phoneNumber"}
                             value={phoneNumber}
                             placeholder={"(___)-___-____"}
+                            disabled={isOrderLoading}
                             onChange={handleInputChange}
                         />
                         <Input
@@ -162,6 +164,7 @@ const Order: FC = (): ReactElement => {
                             name={"email"}
                             value={email}
                             placeholder={"example@gmail.com"}
+                            disabled={isOrderLoading}
                             onChange={handleInputChange}
                         />
                     </div>
@@ -177,7 +180,11 @@ const Order: FC = (): ReactElement => {
                                 ))}
                             </div>
                         </div>
-                        <button type="submit" className="btn btn-primary btn-lg btn-success px-5 float-right">
+                        <button
+                            type="submit"
+                            className="btn btn-primary btn-lg btn-success px-5 float-right"
+                            disabled={isOrderLoading}
+                        >
                             <FontAwesomeIcon icon={faCheckCircle} /> Validate order
                         </button>
                         <div className="row">

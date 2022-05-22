@@ -1,22 +1,44 @@
-import { Perfume } from "../../types/types";
+import { LoadingStatus, Perfume, Review } from "../../types/types";
 import {
-    LOADING_PERFUME,
-    LoadingPerfumeActionType,
     RESET_PERFUME_STATE,
     ResetPerfumeStateActionType,
     SET_PERFUME,
     SET_PERFUME_BY_QUERY,
+    SET_PERFUME_ERROR,
+    SET_PERFUME_LOADING_STATE,
+    SET_REVIEW,
+    SET_REVIEWS,
     SetPerfumeActionType,
-    SetPerfumeByQueryActionType
+    SetPerfumeByQueryActionType,
+    SetPerfumeErrorActionType,
+    SetPerfumeLoadingStateActionType,
+    SetReviewActionType,
+    SetReviewsActionType
 } from "./perfume-action-types";
 
-export const loadingPerfume = (): LoadingPerfumeActionType => ({
-    type: LOADING_PERFUME
+export const setPerfumeLoadingState = (status: LoadingStatus): SetPerfumeLoadingStateActionType => ({
+    type: SET_PERFUME_LOADING_STATE,
+    payload: status
 });
 
 export const setPerfume = (perfume: Perfume): SetPerfumeActionType => ({
     type: SET_PERFUME,
     payload: perfume
+});
+
+export const setReviews = (reviews: Array<Review>): SetReviewsActionType => ({
+    type: SET_REVIEWS,
+    payload: reviews
+});
+
+export const setReview = (review: Review): SetReviewActionType => ({
+    type: SET_REVIEW,
+    payload: review
+});
+
+export const setPerfumeError = (errorMessage: string): SetPerfumeErrorActionType => ({
+    type: SET_PERFUME_ERROR,
+    payload: errorMessage
 });
 
 export const setPerfumeByQuery = (perfume: Perfume): SetPerfumeByQueryActionType => ({

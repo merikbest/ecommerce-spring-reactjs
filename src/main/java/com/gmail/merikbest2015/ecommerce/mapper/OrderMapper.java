@@ -1,6 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.mapper;
 
 import com.gmail.merikbest2015.ecommerce.domain.Order;
+import com.gmail.merikbest2015.ecommerce.dto.order.OrderItemResponse;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderRequest;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponse;
 import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
@@ -17,6 +18,14 @@ public class OrderMapper {
 
     private final CommonMapper commonMapper;
     private final OrderService orderService;
+    
+    public OrderResponse getOrderById(Long orderId) {
+        return commonMapper.convertToResponse(orderService.getOrderById(orderId), OrderResponse.class);
+    }
+    
+    public List<OrderItemResponse> getOrderItemsByOrderId(Long orderId) {
+        return commonMapper.convertToResponseList(orderService.getOrderItemsByOrderId(orderId), OrderItemResponse.class);
+    }
 
     public List<OrderResponse> findAllOrders() {
         return commonMapper.convertToResponseList(orderService.findAll(), OrderResponse.class);

@@ -1,13 +1,15 @@
-import { AuthErrors, ReviewError, User, UserEditErrors } from "../../types/types";
+import { AuthErrors, LoadingStatus, ReviewError, User, UserEditErrors } from "../../types/types";
 import {
-    LOADING_USER_INFO,
-    LoadingUserInfoActionType,
+    LOGOUT_SUCCESS,
+    LogoutSuccessActionType,
     RESET_INPUT_FORM,
     ResetInputFormActionType,
     SET_UPDATED_USER,
     SET_USER,
+    SET_USER_LOADING_STATE,
     SetUpdatedUserActionType,
     SetUserActionType,
+    SetUserLoadingStateActionType,
     USER_ADDED_REVIEW_FAILURE,
     USER_ADDED_REVIEW_SUCCESS,
     USER_UPDATED_FAILURE,
@@ -20,8 +22,9 @@ import {
     UserUpdatedPasswordSuccessActionType
 } from "./user-action-types";
 
-export const loadingUserInfo = (): LoadingUserInfoActionType => ({
-    type: LOADING_USER_INFO
+export const setUserLoadingState = (status: LoadingStatus): SetUserLoadingStateActionType => ({
+    type: SET_USER_LOADING_STATE,
+    payload: status
 });
 
 export const setUser = (user: User): SetUserActionType => ({
@@ -60,4 +63,8 @@ export const userAddedReviewFailure = (errors: ReviewError): UserAddedReviewFail
 
 export const resetInputForm = (): ResetInputFormActionType => ({
     type: RESET_INPUT_FORM
+});
+
+export const logoutSuccess = (): LogoutSuccessActionType => ({
+    type: LOGOUT_SUCCESS
 });

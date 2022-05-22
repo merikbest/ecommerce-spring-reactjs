@@ -2,7 +2,7 @@ import React, { FC, ReactElement, useEffect } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchPerfumesByIdsQuery } from "../../redux/perfumes/perfumes-thunks";
+import { fetchPerfumesByIds } from "../../redux/perfumes/perfumes-thunks";
 import { Perfume } from "../../types/types";
 import { selectPerfumes } from "../../redux/perfumes/perfumes-selector";
 import { resetPerfumesState } from "../../redux/perfumes/perfumes-actions";
@@ -16,8 +16,8 @@ const PerfumeCardsSlider: FC = (): ReactElement => {
 
     useEffect(() => {
         // GraphQL example
-        dispatch(fetchPerfumesByIdsQuery(perfumesId));
-        // dispatch(fetchPerfumesByIds(perfumesId));
+        // dispatch(fetchPerfumesByIdsQuery(perfumesId));
+        dispatch(fetchPerfumesByIds(perfumesId));
 
         return () => {
             dispatch(resetPerfumesState());

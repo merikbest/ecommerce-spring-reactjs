@@ -8,18 +8,17 @@ import {
     forgotPasswordFailure,
     forgotPasswordSuccess,
     loginFailure,
-    loginSuccess,
-    logoutSuccess,
     registerFailure,
     registerSuccess,
+    resetAuthState,
     resetPasswordCodeFailure,
     resetPasswordCodeSuccess,
     resetPasswordFailure,
     resetPasswordSuccess,
-    showLoader
+    setAuthLoadingState
 } from "../../../redux/auth/auth-actions";
-import { authErrorsData, userData } from "../../test-data/user-test-data";
-import { formReset } from "../../../redux/admin/admin-actions";
+import { authErrorsData } from "../../test-data/user-test-data";
+import { LoadingStatus } from "../../../types/types";
 
 describe("auth reducer", () => {
     const authStore = createStore(rootReducer).getState().auth;
@@ -28,14 +27,9 @@ describe("auth reducer", () => {
     const success = "User successfully activated.";
 
     test("should Show Loader", () => {
-        const state: AuthState = authReducer(authStore, showLoader());
-        expect(state.loading).toBeTruthy();
+        const state: AuthState = authReducer(authStore, setAuthLoadingState(LoadingStatus.LOADING));
+        expect(state.loadingState).toEqual(LoadingStatus.LOADING);
         expect(state.errors).toEqual({});
-    });
-
-    test("should Login Success", () => {
-        const state: AuthState = authReducer(authStore, loginSuccess("USER"));
-        expect(state.userRole).toEqual("USER");
     });
 
     test("should Login Failure", () => {
@@ -46,14 +40,14 @@ describe("auth reducer", () => {
     test("should Register Success", () => {
         const state: AuthState = authReducer(authStore, registerSuccess());
         expect(state.isRegistered).toBeTruthy();
-        expect(state.loading).toBeFalsy();
+        expect(state.loadingState).toEqual(LoadingStatus.LOADED);
         expect(state.errors).toEqual({});
     });
 
     test("should Register Failure", () => {
         const state: AuthState = authReducer(authStore, registerFailure(errors));
         expect(state.errors).toEqual(errors);
-        expect(state.loading).toBeFalsy();
+        expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 
     test("should Activate Account Success", () => {
@@ -72,7 +66,7 @@ describe("auth reducer", () => {
             forgotPasswordSuccess("Reset password code is send to your E-mail")
         );
         expect(state.success).toEqual("Reset password code is send to your E-mail");
-        expect(state.loading).toBeFalsy();
+        expect(state.loadingState).toEqual(LoadingStatus.LOADED);
         expect(state.errors).toEqual({});
         expect(state.error).toEqual("");
     });
@@ -80,12 +74,12 @@ describe("auth reducer", () => {
     test("should Forgot Password Failure", () => {
         const state: AuthState = authReducer(authStore, forgotPasswordFailure(error));
         expect(state.error).toEqual(error);
-        expect(state.loading).toBeFalsy();
+        expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 
     test("should Reset Password Code Success", () => {
-        const state: AuthState = authReducer(authStore, resetPasswordCodeSuccess(userData));
-        expect(state.user).toEqual(userData);
+        const state: AuthState = authReducer(authStore, resetPasswordCodeSuccess("test@test.com"));
+        expect(state.email).toEqual("test@test.com");
     });
 
     test("should Reset Password Code Failure", () => {
@@ -103,17 +97,12 @@ describe("auth reducer", () => {
         expect(state.errors).toEqual(errors);
     });
 
-    test("should Logout", () => {
-        const state: AuthState = authReducer(authStore, logoutSuccess());
-        expect(state.userRole).toEqual("");
-    });
-
     test("should Form Reset", () => {
-        const state: AuthState = authReducer(authStore, formReset());
+        const state: AuthState = authReducer(authStore, resetAuthState());
         expect(state.error).toEqual("");
         expect(state.errors).toEqual({});
         expect(state.success).toEqual("");
         expect(state.isRegistered).toBeFalsy();
-        expect(state.loading).toBeFalsy();
+        expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 });

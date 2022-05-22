@@ -1,10 +1,10 @@
-import { AuthErrors, ReviewError, User, UserEditErrors } from "../../types/types";
-import { LOGOUT_SUCCESS } from "../auth/auth-action-types";
+import { AuthErrors, LoadingStatus, ReviewError, User, UserEditErrors } from "../../types/types";
 import {
-    LOADING_USER_INFO,
+    LOGOUT_SUCCESS,
     RESET_INPUT_FORM,
     SET_UPDATED_USER,
     SET_USER,
+    SET_USER_LOADING_STATE,
     USER_ADDED_REVIEW_FAILURE,
     USER_ADDED_REVIEW_SUCCESS,
     USER_UPDATED_FAILURE,
@@ -15,7 +15,7 @@ import {
 
 export type UserState = {
     user?: User;
-    isLoaded: boolean;
+    loadingState: LoadingStatus;
     successMessage: string;
     userEditErrors: Partial<UserEditErrors>;
     userResetPasswordErrors: Partial<AuthErrors>;
@@ -25,7 +25,7 @@ export type UserState = {
 
 const initialState: UserState = {
     user: undefined,
-    isLoaded: false,
+    loadingState: LoadingStatus.LOADING,
     successMessage: "",
     userEditErrors: {},
     userResetPasswordErrors: {},
@@ -35,11 +35,11 @@ const initialState: UserState = {
 
 const userReducer = (state: UserState = initialState, action: UserActionTypes): UserState => {
     switch (action.type) {
-        case LOADING_USER_INFO:
-            return { ...state, isLoaded: true };
+        case SET_USER_LOADING_STATE:
+            return { ...state, loadingState: action.payload };
 
         case SET_USER:
-            return { ...state, user: action.payload, isLoaded: false };
+            return { ...state, user: action.payload, loadingState: LoadingStatus.LOADED };
 
         case SET_UPDATED_USER:
             return { ...state, user: action.payload, userEditErrors: {} };
