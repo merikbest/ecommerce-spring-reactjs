@@ -13,13 +13,13 @@ public interface OrderService {
 
     List<OrderItem> getOrderItemsByOrderId(Long orderId);
     
-    List<Order> findAll();
+    List<Order> getAllOrders();
 
-    List<Order> findOrderByEmail(String email);
+    List<Order> getUserOrders(String email);
 
     Order postOrder(Order validOrder, Map<Long, Long> perfumesId);
 
-    List<Order> deleteOrder(Long orderId);
+    String deleteOrder(Long orderId);
 
     DataFetcher<List<Order>> getAllOrdersByQuery();
 

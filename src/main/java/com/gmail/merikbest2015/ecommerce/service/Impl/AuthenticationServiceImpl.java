@@ -21,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -67,6 +68,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
+    @Transactional
     public String registerUser(User user, String captcha, String password2) {
         String url = String.format(captchaUrl, secret, captcha);
         restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponse.class);
@@ -74,10 +76,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (user.getPassword() != null && !user.getPassword().equals(password2)) {
             throw new PasswordException("Passwords do not match.");
         }
-        User userFromDb = userRepository.findByEmail(user.getEmail())
-                .orElseThrow(() -> new EmailException("Email is already used."));
 
-        if (userFromDb != null) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             throw new EmailException("Email is already used.");
         }
         user.setActive(false);
@@ -87,16 +87,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
-        String subject = "Activation code";
-        String template = "registration-template";
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("firstName", user.getFirstName());
-        attributes.put("registrationUrl", "http://" + hostname + "/activate/" + user.getActivationCode());
-        mailSender.sendMessageHtml(user.getEmail(), subject, template, attributes);
+        sendEmail(user, "Activation code", "registration-template", "registrationUrl", "/activate/" + user.getActivationCode());
         return "User successfully registered.";
     }
 
     @Override
+    @Transactional
     public User registerOauth2User(String provider, OAuth2UserInfo oAuth2UserInfo) {
         User user = new User();
         user.setEmail(oAuth2UserInfo.getEmail());
@@ -109,6 +105,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
+    @Transactional
     public User updateOauth2User(User user, String provider, OAuth2UserInfo oAuth2UserInfo) {
         user.setFirstName(oAuth2UserInfo.getFirstName());
         user.setLastName(oAuth2UserInfo.getLastName());
@@ -123,22 +120,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
+    @Transactional
     public String sendPasswordResetCode(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiRequestException("Email not found.", HttpStatus.NOT_FOUND));
         user.setPasswordResetCode(UUID.randomUUID().toString());
         userRepository.save(user);
 
-        String subject = "Password reset";
-        String template = "password-reset-template";
-        Map<String, Object> attributes = new HashMap<>();
-        attributes.put("firstName", user.getFirstName());
-        attributes.put("resetUrl", "http://" + hostname + "/reset/" + user.getPasswordResetCode());
-        mailSender.sendMessageHtml(user.getEmail(), subject, template, attributes);
+        sendEmail(user, "Password reset", "password-reset-template", "resetUrl", "/reset/" + user.getPasswordResetCode());
         return "Reset password code is send to your E-mail";
     }
 
     @Override
+    @Transactional
     public String passwordReset(String email, String password, String password2) {
         if (StringUtils.isEmpty(password2)) {
             throw new PasswordConfirmationException("Password confirmation cannot be empty.");
@@ -155,6 +149,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
+    @Transactional
     public String activateUser(String code) {
         User user = userRepository.findByActivationCode(code)
                 .orElseThrow(() -> new ApiRequestException("Activation code not found.", HttpStatus.NOT_FOUND));
@@ -162,5 +157,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setActive(true);
         userRepository.save(user);
         return "User successfully activated.";
+    }
+
+    private void sendEmail(User user, String subject, String template, String urlAttribute, String urlPath) {
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("firstName", user.getFirstName());
+        attributes.put(urlAttribute, "http://" + hostname + urlPath);
+        mailSender.sendMessageHtml(user.getEmail(), subject, template, attributes);
     }
 }

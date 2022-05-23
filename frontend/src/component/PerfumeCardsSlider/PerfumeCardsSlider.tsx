@@ -24,11 +24,11 @@ const PerfumeCardsSlider: FC = (): ReactElement => {
         };
     }, []);
 
-    const addCarouselItems = (array: Array<Perfume>, counter: number) => {
+    const addCarouselItems = (perfumes: Array<Perfume>, counter: number) => {
         return (
             <Carousel.Item>
                 <div className="card-deck">
-                    {array.map((perfume: Perfume) => {
+                    {perfumes.map((perfume) => {
                         for (let i = counter; i < counter + 4; i++) {
                             if (perfume.id === perfumesId[i]) {
                                 return <PerfumeCardSliderItem key={perfume.id} perfume={perfume} />;

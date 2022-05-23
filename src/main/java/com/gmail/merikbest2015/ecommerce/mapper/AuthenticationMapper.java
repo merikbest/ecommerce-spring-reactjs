@@ -52,4 +52,12 @@ public class AuthenticationMapper {
     public String passwordReset(String email, PasswordResetRequest passwordReset) {
         return authenticationService.passwordReset(email, passwordReset.getPassword(), passwordReset.getPassword2());
     }
+
+    public String passwordReset(String email, PasswordResetRequest passwordReset, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new InputFieldException(bindingResult);
+        } else {
+            return authenticationService.passwordReset(email, passwordReset.getPassword(), passwordReset.getPassword2());
+        }
+    }
 }

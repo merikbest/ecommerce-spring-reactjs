@@ -27,14 +27,14 @@ import {
 } from "../../../redux/admin/admin-thunks";
 import {
     addPerfumeFailure,
-    addPerfumeSuccess,
+    addPerfumeSuccess, deletePerfumeSuccess,
     setAdminLoadingState,
     setAllUsers,
     setUserInfo,
     updatePerfumeFailure,
     updatePerfumeSuccess
 } from "../../../redux/admin/admin-actions";
-import { setPerfumes } from "../../../redux/perfumes/perfumes-actions";
+import {removePerfumeById, setPerfumes} from "../../../redux/perfumes/perfumes-actions";
 import { userData, usersData } from "../../test-data/user-test-data";
 import { setPerfume } from "../../../redux/perfume/perfume-actions";
 import { LoadingStatus } from "../../../types/types";
@@ -88,7 +88,7 @@ describe("admin actions", () => {
     test("deletePerfume should dispatches FETCH_PERFUMES on success", async () => {
         mock.onDelete(API_BASE_URL + `${ADMIN_DELETE}/${1}`).reply(200, perfumesData);
         await store.dispatch(deletePerfume(1));
-        const expectedActions = [setPerfumes(perfumesData)];
+        const expectedActions = [deletePerfumeSuccess(), removePerfumeById(1)];
         expect(store.getActions()).toEqual(expectedActions);
     });
 

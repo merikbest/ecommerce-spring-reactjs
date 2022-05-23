@@ -35,7 +35,7 @@ const ForgotPassword: FC = (): ReactElement => {
         if (validateEmailError) {
             setValidateEmailError(validateEmailError);
         } else {
-            dispatch(forgotPassword({ email }));
+            dispatch(forgotPassword(email));
         }
     };
 

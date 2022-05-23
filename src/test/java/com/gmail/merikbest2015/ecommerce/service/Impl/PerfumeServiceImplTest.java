@@ -11,7 +11,9 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
@@ -35,7 +37,7 @@ public class PerfumeServiceImplTest {
         perfume.setId(123L);
 
         when(perfumeRepository.findById(123L)).thenReturn(java.util.Optional.of(perfume));
-        perfumeService.findPerfumeById(123L);
+        perfumeService.getPerfumeById(123L);
         assertEquals(123L, perfume.getId());
         assertNotEquals(1L, perfume.getId());
         verify(perfumeRepository, times(1)).findById(123L);
@@ -48,7 +50,7 @@ public class PerfumeServiceImplTest {
         perfumeList.add(new Perfume());
 
         when(perfumeRepository.findAllByOrderByIdAsc()).thenReturn(perfumeList);
-        perfumeService.findAllPerfumes();
+        perfumeService.getAllPerfumes();
         assertEquals(2, perfumeList.size());
         verify(perfumeRepository, times(1)).findAllByOrderByIdAsc();
     }
@@ -75,16 +77,11 @@ public class PerfumeServiceImplTest {
         List<String> genders = new ArrayList<>();
         genders.add(PERFUME_GENDER);
 
-        when(perfumeRepository.findByPerfumerIn(perfumers)).thenReturn(perfumeList);
-        perfumeService.filter(perfumers, new ArrayList<>(), new ArrayList<>(), false);
+        when(perfumeRepository.findPerfumesByFilterParams(perfumers, new ArrayList<>(), 1, 1000, false)).thenReturn(perfumeList);
+        perfumeService.findPerfumesByFilterParams(perfumers, new ArrayList<>(), Arrays.asList(1, 1000), false);
         assertEquals(2, perfumeList.size());
         assertEquals(perfumeList.get(0).getPerfumer(), PERFUMER_CHANEL);
-        verify(perfumeRepository, times(1)).findByPerfumerIn(perfumers);
-
-        when(perfumeRepository.findByPerfumeGenderIn(genders)).thenReturn(perfumeList);
-        perfumeService.filter(new ArrayList<>(), genders, new ArrayList<>(), false);
-        assertEquals(2, perfumeList.size());
-        verify(perfumeRepository, times(1)).findByPerfumeGenderIn(genders);
+        verify(perfumeRepository, times(1)).findPerfumesByFilterParams(perfumers, new ArrayList<>(), 1, 1000, false);
     }
 
     @Test

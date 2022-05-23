@@ -54,8 +54,8 @@ public class RegistrationControllerTest {
         registrationRequest.setPassword2("");
 
         mockMvc.perform(post(URL_REGISTRATION_BASIC)
-                .content(mapper.writeValueAsString(registrationRequest))
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                        .content(mapper.writeValueAsString(registrationRequest))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.password2Error", is("The password confirmation must be between 6 and 16 characters long")));
     }
@@ -65,8 +65,8 @@ public class RegistrationControllerTest {
         registrationRequest.setPassword2("12345678");
 
         mockMvc.perform(post(URL_REGISTRATION_BASIC)
-                .content(mapper.writeValueAsString(registrationRequest))
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                        .content(mapper.writeValueAsString(registrationRequest))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.passwordError", is("Passwords do not match.")));
     }
@@ -82,8 +82,8 @@ public class RegistrationControllerTest {
         registrationRequest.setCaptcha("12345");
 
         mockMvc.perform(post(URL_REGISTRATION_BASIC)
-                .content(mapper.writeValueAsString(registrationRequest))
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                        .content(mapper.writeValueAsString(registrationRequest))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.emailError").value("Email is already used."));
     }
@@ -93,8 +93,8 @@ public class RegistrationControllerTest {
         registrationRequest.setCaptcha(null);
 
         mockMvc.perform(post(URL_REGISTRATION_BASIC)
-                .content(mapper.writeValueAsString(registrationRequest))
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                        .content(mapper.writeValueAsString(registrationRequest))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.captchaError").value("Fill captcha."));
     }
@@ -102,23 +102,25 @@ public class RegistrationControllerTest {
     @Test
     public void registration_ShouldInputFieldsAreEmpty() throws Exception {
         mockMvc.perform(post(URL_REGISTRATION_BASIC)
-                .param("password2", "")
-                .param("g-recaptcha-response", "")
-                .content(mapper.writeValueAsString(new RegistrationRequest()))
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                        .param("password2", "")
+                        .param("g-recaptcha-response", "")
+                        .content(mapper.writeValueAsString(new RegistrationRequest()))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     public void activateEmailCode() throws Exception {
-        mockMvc.perform(get(URL_REGISTRATION_ACTIVATE, USER_ACTIVATION_CODE))
+        mockMvc.perform(get(URL_REGISTRATION_ACTIVATE, USER_ACTIVATION_CODE)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("User successfully activated.")));
     }
 
     @Test
     public void activateEmailCode_ShouldNotFoundActivationCode() throws Exception {
-        mockMvc.perform(get(URL_REGISTRATION_ACTIVATE, "123"))
+        mockMvc.perform(get(URL_REGISTRATION_ACTIVATE, "123")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$", is("Activation code not found.")));
     }

@@ -2,12 +2,14 @@ import { LoadingStatus, PerfumeErrors, User } from "../../types/types";
 import {
     AddPerfumeFailureActionType,
     AddPerfumeSuccessActionType,
-    RESET_ADMIN_STATE,
-    ResetAdminStateActionType,
+    DeletePerfumeSuccessActionType,
     PERFUME_ADDED_FAILURE,
     PERFUME_ADDED_SUCCESS,
+    PERFUME_DELETED_SUCCESS,
     PERFUME_UPDATED_FAILURE,
     PERFUME_UPDATED_SUCCESS,
+    RESET_ADMIN_STATE,
+    ResetAdminStateActionType,
     SET_ADMIN_LOADING_STATE,
     SET_ALL_USERS,
     SET_USER_INFO,
@@ -39,6 +41,10 @@ export const updatePerfumeSuccess = (): UpdatePerfumeSuccessActionType => ({
 export const updatePerfumeFailure = (error: PerfumeErrors): UpdatePerfumeFailureActionType => ({
     type: PERFUME_UPDATED_FAILURE,
     payload: error
+});
+
+export const deletePerfumeSuccess = (): DeletePerfumeSuccessActionType => ({
+    type: PERFUME_DELETED_SUCCESS
 });
 
 export const setAllUsers = (users: Array<User>): SetAllUsersActionType => ({

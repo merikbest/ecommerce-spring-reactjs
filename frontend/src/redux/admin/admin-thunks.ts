@@ -3,13 +3,14 @@ import { Dispatch } from "redux";
 import {
     addPerfumeFailure,
     addPerfumeSuccess,
+    deletePerfumeSuccess,
     setAdminLoadingState,
     setAllUsers,
     setUserInfo,
     updatePerfumeFailure,
     updatePerfumeSuccess
 } from "./admin-actions";
-import { setPerfumes } from "../perfumes/perfumes-actions";
+import { removePerfumeById } from "../perfumes/perfumes-actions";
 import RequestService from "../../utils/request-service";
 import { userByQuery, usersByQuery } from "../../utils/graphql-query/users-query";
 import { setPerfume } from "../perfume/perfume-actions";
@@ -45,9 +46,10 @@ export const updatePerfume = (data: FormData) => async (dispatch: Dispatch) => {
     }
 };
 
-export const deletePerfume = (id?: number) => async (dispatch: Dispatch) => {
-    const response = await RequestService.delete(`${ADMIN_DELETE}/${id}`, true);
-    dispatch(setPerfumes(response.data));
+export const deletePerfume = (perfumeId: number) => async (dispatch: Dispatch) => {
+    await RequestService.delete(`${ADMIN_DELETE}/${perfumeId}`, true);
+    dispatch(deletePerfumeSuccess());
+    dispatch(removePerfumeById(perfumeId));
 };
 
 export const fetchAllUsers = () => async (dispatch: Dispatch) => {
@@ -56,16 +58,16 @@ export const fetchAllUsers = () => async (dispatch: Dispatch) => {
     dispatch(setAllUsers(response.data));
 };
 
-export const fetchUserInfo = (id: string) => async (dispatch: Dispatch) => {
+export const fetchUserInfo = (userId: string) => async (dispatch: Dispatch) => {
     dispatch(setAdminLoadingState(LoadingStatus.LOADING));
-    const response = await RequestService.get(`${ADMIN_USER}/${id}`, true);
+    const response = await RequestService.get(`${ADMIN_USER}/${userId}`, true);
     dispatch(setUserInfo(response.data));
 };
 
 //GraphQL thunks
-export const fetchUserInfoByQuery = (id: string) => async (dispatch: Dispatch) => {
+export const fetchUserInfoByQuery = (userId: string) => async (dispatch: Dispatch) => {
     dispatch(setAdminLoadingState(LoadingStatus.LOADING));
-    const response = await RequestService.post(ADMIN_GRAPHQL_USER, { query: userByQuery(id) }, true);
+    const response = await RequestService.post(ADMIN_GRAPHQL_USER, { query: userByQuery(userId) }, true);
     dispatch(setUserInfo(response.data.data.user));
 };
 

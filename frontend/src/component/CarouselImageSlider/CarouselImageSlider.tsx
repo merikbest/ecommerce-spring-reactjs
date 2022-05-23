@@ -1,6 +1,7 @@
 import React, { FC, ReactElement } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import { Link } from "react-router-dom";
+
 import { PRODUCT } from "../../constants/routeConstants";
 
 const sliderItems = [
@@ -19,7 +20,7 @@ const sliderItems = [
 const CarouselImageSlider: FC = (): ReactElement => {
     return (
         <Carousel indicators={false} fade={true} interval={3000}>
-            {sliderItems.map((item, index) => (
+            {sliderItems.map((item) => (
                 <Carousel.Item key={item.id}>
                     <Link to={`${PRODUCT}/${item.id}`}>
                         <img className="d-block w-100" src={item.url} alt={item.name}/>

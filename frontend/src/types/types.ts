@@ -40,7 +40,7 @@ export type Review = {
     date: any;
 };
 
-export type ReviewData = {
+export type ReviewRequest = {
     perfumeId: number | string;
     author: string;
     message: string;
@@ -112,7 +112,7 @@ export type User = {
     roles: Array<string>;
 };
 
-export type UserEdit = {
+export type UserEditRequest = {
     id: number | undefined;
     firstName: string | undefined;
     lastName: string | undefined;
@@ -141,7 +141,7 @@ export type UserRegistration = {
     captcha: string | null;
 };
 
-export type UserResetPasswordData = {
+export type UserResetPasswordRequest = {
     email: string | undefined;
     password: string;
     password2: string;

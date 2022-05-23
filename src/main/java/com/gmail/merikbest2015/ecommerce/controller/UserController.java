@@ -7,7 +7,7 @@ import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponse;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.FullPerfumeResponse;
 import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequest;
 import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponse;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserRequest;
+import com.gmail.merikbest2015.ecommerce.dto.user.UpdateUserRequest;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserResponse;
 import com.gmail.merikbest2015.ecommerce.mapper.OrderMapper;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
@@ -36,14 +36,14 @@ public class UserController {
 
     @GetMapping("/info")
     public ResponseEntity<UserResponse> getUserInfo(@AuthenticationPrincipal UserPrincipal user) {
-        return ResponseEntity.ok(userMapper.findUserByEmail(user.getEmail()));
+        return ResponseEntity.ok(userMapper.getUserInfo(user.getEmail()));
     }
 
     @PutMapping("/edit")
     public ResponseEntity<UserResponse> updateUserInfo(@AuthenticationPrincipal UserPrincipal user,
-                                                       @Valid @RequestBody UserRequest request,
+                                                       @Valid @RequestBody UpdateUserRequest request,
                                                        BindingResult bindingResult) {
-        return ResponseEntity.ok(userMapper.updateProfile(user.getEmail(), request, bindingResult));
+        return ResponseEntity.ok(userMapper.updateUserInfo(user.getEmail(), request, bindingResult));
     }
 
     @PostMapping("/cart")
@@ -63,7 +63,7 @@ public class UserController {
 
     @GetMapping("/orders")
     public ResponseEntity<List<OrderResponse>> getUserOrders(@AuthenticationPrincipal UserPrincipal user) {
-        return ResponseEntity.ok(orderMapper.findOrderByEmail(user.getEmail()));
+        return ResponseEntity.ok(orderMapper.getUserOrders(user.getEmail()));
     }
 
     @PostMapping("/order")

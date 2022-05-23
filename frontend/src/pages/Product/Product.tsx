@@ -7,7 +7,7 @@ import { CompatClient, Stomp } from "@stomp/stompjs";
 import { WEBSOCKET_URL } from "../../constants/urlConstants";
 import { fetchPerfume, fetchReviewsByPerfumeId } from "../../redux/perfume/perfume-thunks";
 import { addReviewToPerfume } from "../../redux/user/user-thunks";
-import { ReviewData } from "../../types/types";
+import { ReviewRequest } from "../../types/types";
 import Spinner from "../../component/Spinner/Spinner";
 import ProductReview from "./ProductReview/ProductReview";
 import ScrollButton from "../../component/ScrollButton/ScrollButton";
@@ -94,7 +94,7 @@ const Product: FC = (): ReactElement => {
 
     const addReview = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        const review: ReviewData = { perfumeId: params.id as string, author, message, rating };
+        const review: ReviewRequest = { perfumeId: params.id as string, author, message, rating };
         dispatch(addReviewToPerfume(review));
     };
 

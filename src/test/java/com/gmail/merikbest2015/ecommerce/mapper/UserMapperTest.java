@@ -4,7 +4,7 @@ import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.RegistrationRequest;
 import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequest;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserRequest;
+import com.gmail.merikbest2015.ecommerce.dto.user.UpdateUserRequest;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,13 +25,11 @@ public class UserMapperTest {
 
     @Test
     public void convertUserRequestDtoToEntity() {
-        UserRequest userRequest = new UserRequest();
+        UpdateUserRequest userRequest = new UpdateUserRequest();
         userRequest.setFirstName(FIRST_NAME);
-        userRequest.setEmail(USER_EMAIL);
 
         User user = modelMapper.map(userRequest, User.class);
         assertEquals(userRequest.getFirstName(), user.getFirstName());
-        assertEquals(userRequest.getEmail(), user.getEmail());
     }
 
     @Test

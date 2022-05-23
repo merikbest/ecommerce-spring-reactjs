@@ -9,15 +9,15 @@ import java.util.List;
 
 public interface UserService {
 
-    User findUserById(Long userId);
+    User getUserById(Long userId);
 
-    User findUserByEmail(String email);
+    User getUserInfo(String email);
 
-    List<User> findAllUsers();
+    List<User> getAllUsers();
 
     List<Perfume> getCart(List<Long> perfumeIds);
 
-    User updateProfile(String email, User user);
+    User updateUserInfo(String email, User user);
 
     Review addReviewToPerfume(Review review, Long perfumeId);
 

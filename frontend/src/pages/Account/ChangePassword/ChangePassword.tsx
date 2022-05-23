@@ -2,7 +2,7 @@ import React, { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState } 
 import { useDispatch, useSelector } from "react-redux";
 import { faLock, faUndo } from "@fortawesome/free-solid-svg-icons";
 
-import { UserResetPasswordData } from "../../../types/types";
+import { UserResetPasswordRequest } from "../../../types/types";
 import { updateUserPassword } from "../../../redux/user/user-thunks";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 import Alert from "../../../component/Alert/Alert";
@@ -35,7 +35,7 @@ const ChangePassword: FC = (): ReactElement => {
 
     const onFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        const data: UserResetPasswordData = { email: "", password, password2 };
+        const data: UserResetPasswordRequest = { email: "", password, password2 };
         dispatch(updateUserPassword(data));
     };
 

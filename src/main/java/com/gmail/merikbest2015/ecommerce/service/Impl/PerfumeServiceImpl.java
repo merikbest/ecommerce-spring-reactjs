@@ -6,7 +6,6 @@ import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
-import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,77 +27,36 @@ import java.util.stream.Collectors;
 public class PerfumeServiceImpl implements PerfumeService {
 
     private final PerfumeRepository perfumeRepository;
-    private final ReviewRepository reviewRepository;
     private final AmazonS3 amazonS3client;
 
     @Value("${amazon.s3.bucket.name}")
     private String bucketName;
 
     @Override
-    public Perfume findPerfumeById(Long perfumeId) {
+    public Perfume getPerfumeById(Long perfumeId) {
         return perfumeRepository.findById(perfumeId)
-                .orElseThrow(() -> new ApiRequestException("Perfume not found.", HttpStatus.NOT_FOUND)); // TODO add test
+                .orElseThrow(() -> new ApiRequestException("Perfume not found.", HttpStatus.NOT_FOUND));
     }
-    
+
     @Override
-    public List<Review> getReviewsByPerfumeId(Long perfumeId) { // TODO add test
-        Perfume perfume = findPerfumeById(perfumeId);
+    public List<Review> getReviewsByPerfumeId(Long perfumeId) {
+        Perfume perfume = getPerfumeById(perfumeId);
         return perfume.getReviews();
     }
 
     @Override
-    public List<Perfume> findAllPerfumes() {
+    public List<Perfume> getAllPerfumes() {
         return perfumeRepository.findAllByOrderByIdAsc();
     }
 
     @Override
-    public List<Perfume> findPerfumesByIds(List<Long> perfumesId) {
+    public List<Perfume> getPerfumesByIds(List<Long> perfumesId) {
         return perfumeRepository.findByIdIn(perfumesId);
     }
 
     @Override
-    public List<Perfume> filter(List<String> perfumers, List<String> genders, List<Integer> prices, boolean sortByPrice) {
-        List<Perfume> perfumeList = new ArrayList<>();
-
-        if (!perfumers.isEmpty() || !genders.isEmpty() || !prices.isEmpty()) {
-            if (!perfumers.isEmpty()) {
-                if (!perfumeList.isEmpty()) {
-                    List<Perfume> perfumersList = new ArrayList<>();
-                    for (String perfumer : perfumers) {
-                        perfumersList.addAll(perfumeList.stream()
-                                .filter(perfume -> perfume.getPerfumer().equals(perfumer))
-                                .collect(Collectors.toList()));
-                    }
-                    perfumeList = perfumersList;
-                } else {
-                    perfumeList.addAll(perfumeRepository.findByPerfumerIn(perfumers));
-                }
-            }
-            if (!genders.isEmpty()) {
-                if (!perfumeList.isEmpty()) {
-                    List<Perfume> gendersList = new ArrayList<>();
-                    for (String gender : genders) {
-                        gendersList.addAll(perfumeList.stream()
-                                .filter(perfume -> perfume.getPerfumeGender().equals(gender))
-                                .collect(Collectors.toList()));
-                    }
-                    perfumeList = gendersList;
-                } else {
-                    perfumeList.addAll(perfumeRepository.findByPerfumeGenderIn(genders));
-                }
-            }
-            if (!prices.isEmpty()) {
-                perfumeList = perfumeRepository.findByPriceBetween(prices.get(0), prices.get(1));
-            }
-        } else {
-            perfumeList = perfumeRepository.findAllByOrderByIdAsc();
-        }
-        if (sortByPrice) {
-            perfumeList.sort(Comparator.comparing(Perfume::getPrice));
-        } else {
-            perfumeList.sort((perfume1, perfume2) -> perfume2.getPrice().compareTo(perfume1.getPrice()));
-        }
-        return perfumeList;
+    public List<Perfume> findPerfumesByFilterParams(List<String> perfumers, List<String> genders, List<Integer> prices, boolean sortByPrice) {
+        return perfumeRepository.findPerfumesByFilterParams(perfumers, genders, prices.get(0), prices.get(1), sortByPrice);
     }
 
     @Override
@@ -109,6 +70,7 @@ public class PerfumeServiceImpl implements PerfumeService {
     }
 
     @Override
+    @Transactional
     public Perfume savePerfume(Perfume perfume, MultipartFile multipartFile) {
         if (multipartFile == null) {
             perfume.setFilename(amazonS3client.getUrl(bucketName, "empty.jpg").toString());
@@ -129,12 +91,11 @@ public class PerfumeServiceImpl implements PerfumeService {
 
     @Override
     @Transactional
-    public List<Perfume> deletePerfume(Long perfumeId) {
+    public String deletePerfume(Long perfumeId) {
         Perfume perfume = perfumeRepository.findById(perfumeId)
-                .orElseThrow(() -> new ApiRequestException("Perfume not found.", HttpStatus.NOT_FOUND)); // TODO add test
-        perfume.getReviews().forEach(review -> reviewRepository.deleteById(review.getId()));
+                .orElseThrow(() -> new ApiRequestException("Perfume not found.", HttpStatus.NOT_FOUND));
         perfumeRepository.delete(perfume);
-        return perfumeRepository.findAllByOrderByIdAsc();
+        return "Perfume deleted successfully";
     }
 
     @Override

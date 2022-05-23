@@ -7,6 +7,7 @@ import ScrollButton from "../../../component/ScrollButton/ScrollButton";
 import { fetchPerfumes } from "../../../redux/perfumes/perfumes-thunks";
 import { selectPerfumes } from "../../../redux/perfumes/perfumes-selector";
 import { resetPerfumesState } from "../../../redux/perfumes/perfumes-actions";
+import { resetAdminState } from "../../../redux/admin/admin-actions";
 
 const PerfumeList: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const PerfumeList: FC = (): ReactElement => {
 
         return () => {
             dispatch(resetPerfumesState());
+            dispatch(resetAdminState());
         };
     }, []);
 

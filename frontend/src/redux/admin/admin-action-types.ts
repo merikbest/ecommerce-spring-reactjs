@@ -8,6 +8,7 @@ export const PERFUME_ADDED_FAILURE = "admin/PERFUME_ADDED_FAILURE";
 export const PERFUME_ADDED_SUCCESS = "admin/PERFUME_ADDED_SUCCESS";
 export const PERFUME_UPDATED_FAILURE = "admin/PERFUME_UPDATED_FAILURE";
 export const PERFUME_UPDATED_SUCCESS = "admin/PERFUME_UPDATED_SUCCESS";
+export const PERFUME_DELETED_SUCCESS = "admin/PERFUME_DELETED_SUCCESS";
 
 export type SetAdminLoadingStateActionType = {
     type: typeof SET_ADMIN_LOADING_STATE;
@@ -32,6 +33,10 @@ export type UpdatePerfumeFailureActionType = {
     payload: PerfumeErrors;
 };
 
+export type DeletePerfumeSuccessActionType = {
+    type: typeof PERFUME_DELETED_SUCCESS;
+};
+
 export type SetAllUsersActionType = {
     type: typeof SET_ALL_USERS;
     payload: Array<User>;
@@ -52,6 +57,7 @@ export type AdminActionTypes =
     | AddPerfumeFailureActionType
     | UpdatePerfumeSuccessActionType
     | UpdatePerfumeFailureActionType
+    | DeletePerfumeSuccessActionType
     | SetAllUsersActionType
     | SetUserInfoActionType
     | ResetAdminStateActionType;

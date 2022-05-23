@@ -27,7 +27,7 @@ export const fetchAllUsersOrders = () => async (dispatch: Dispatch) => {
 
 export const fetchUserOrdersByEmail = (email: string) => async (dispatch: Dispatch) => {
     dispatch(setOrdersLoadingState(LoadingStatus.LOADING));
-    const response = await RequestService.post(ADMIN_ORDER, { email: email }, true);
+    const response = await RequestService.get(`${ADMIN_ORDER}/${email}`, true);
     dispatch(setUserOrders(response.data));
 };
 

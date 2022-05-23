@@ -9,13 +9,13 @@ import java.util.List;
 
 public interface PerfumeService {
 
-    Perfume findPerfumeById(Long perfumeId);
+    Perfume getPerfumeById(Long perfumeId);
 
-    List<Perfume> findAllPerfumes();
+    List<Perfume> getAllPerfumes();
 
-    List<Perfume> findPerfumesByIds(List<Long> perfumesId);
+    List<Perfume> getPerfumesByIds(List<Long> perfumesId);
 
-    List<Perfume> filter(List<String> perfumers, List<String> genders, List<Integer> prices, boolean sortByPrice);
+    List<Perfume> findPerfumesByFilterParams(List<String> perfumers, List<String> genders, List<Integer> prices, boolean sortByPrice);
 
     List<Perfume> findByPerfumer(String perfumer);
 
@@ -23,7 +23,7 @@ public interface PerfumeService {
 
     Perfume savePerfume(Perfume perfume, MultipartFile file);
 
-    List<Perfume> deletePerfume(Long perfumeId);
+    String deletePerfume(Long perfumeId);
 
     List<Review> getReviewsByPerfumeId(Long perfumeId);
 

@@ -34,35 +34,22 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order getOrderById(Long orderId) {
         return orderRepository.findById(orderId)
-                .orElseThrow(() -> new ApiRequestException("Order not found.", HttpStatus.NOT_FOUND)); // TODO add test
+                .orElseThrow(() -> new ApiRequestException("Order not found.", HttpStatus.NOT_FOUND));
     }
 
     @Override
-    public List<OrderItem> getOrderItemsByOrderId(Long orderId) { // TODO add test
+    public List<OrderItem> getOrderItemsByOrderId(Long orderId) {
         Order order = getOrderById(orderId);
         return order.getOrderItems();
     }
 
     @Override
-    public List<Order> findAll() {
+    public List<Order> getAllOrders() {
         return orderRepository.findAllByOrderByIdAsc();
     }
 
     @Override
-    public DataFetcher<List<Order>> getAllOrdersByQuery() {
-        return dataFetchingEnvironment -> orderRepository.findAllByOrderByIdAsc();
-    }
-
-    @Override
-    public DataFetcher<List<Order>> getUserOrdersByEmailQuery() {
-        return dataFetchingEnvironment -> {
-            String email = dataFetchingEnvironment.getArgument("email").toString();
-            return orderRepository.findOrderByEmail(email);
-        };
-    }
-
-    @Override
-    public List<Order> findOrderByEmail(String email) {
+    public List<Order> getUserOrders(String email) {
         return orderRepository.findOrderByEmail(email);
     }
 
@@ -102,11 +89,23 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public List<Order> deleteOrder(Long orderId) {
+    public String deleteOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new ApiRequestException("Order not found.", HttpStatus.NOT_FOUND)); // TODO add test
-        order.getOrderItems().forEach(orderItem -> orderItemRepository.deleteById(orderItem.getId()));
+                .orElseThrow(() -> new ApiRequestException("Order not found.", HttpStatus.NOT_FOUND));
         orderRepository.delete(order);
-        return orderRepository.findAllByOrderByIdAsc();
+        return "Order deleted successfully";
+    }
+
+    @Override
+    public DataFetcher<List<Order>> getAllOrdersByQuery() {
+        return dataFetchingEnvironment -> orderRepository.findAllByOrderByIdAsc();
+    }
+
+    @Override
+    public DataFetcher<List<Order>> getUserOrdersByEmailQuery() {
+        return dataFetchingEnvironment -> {
+            String email = dataFetchingEnvironment.getArgument("email").toString();
+            return orderRepository.findOrderByEmail(email);
+        };
     }
 }

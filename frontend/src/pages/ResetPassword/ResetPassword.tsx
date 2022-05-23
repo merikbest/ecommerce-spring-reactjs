@@ -4,7 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { faLock, faSync, faUndo } from "@fortawesome/free-solid-svg-icons";
 
 import { fetchResetPasswordCode, resetPassword } from "../../redux/auth/auth-thunks";
-import { UserResetPasswordData } from "../../types/types";
+import { UserResetPasswordRequest } from "../../types/types";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
 import Alert from "../../component/Alert/Alert";
 import Input from "../../component/Input/Input";
@@ -37,7 +37,7 @@ const ResetPassword: FC = (): ReactElement => {
 
     const onClickReset = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        const userResetPasswordData: UserResetPasswordData = { email: userEmail, password, password2 };
+        const userResetPasswordData: UserResetPasswordRequest = { email: userEmail, password, password2 };
         dispatch(resetPassword(userResetPasswordData, history));
     };
 

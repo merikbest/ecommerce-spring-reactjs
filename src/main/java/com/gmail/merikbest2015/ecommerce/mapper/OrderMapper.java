@@ -27,16 +27,16 @@ public class OrderMapper {
         return commonMapper.convertToResponseList(orderService.getOrderItemsByOrderId(orderId), OrderItemResponse.class);
     }
 
-    public List<OrderResponse> findAllOrders() {
-        return commonMapper.convertToResponseList(orderService.findAll(), OrderResponse.class);
+    public List<OrderResponse> getAllOrders() {
+        return commonMapper.convertToResponseList(orderService.getAllOrders(), OrderResponse.class);
     }
 
-    public List<OrderResponse> findOrderByEmail(String email) {
-        return commonMapper.convertToResponseList(orderService.findOrderByEmail(email), OrderResponse.class);
+    public List<OrderResponse> getUserOrders(String email) {
+        return commonMapper.convertToResponseList(orderService.getUserOrders(email), OrderResponse.class);
     }
 
-    public List<OrderResponse> deleteOrder(Long orderId) {
-        return commonMapper.convertToResponseList(orderService.deleteOrder(orderId), OrderResponse.class);
+    public String deleteOrder(Long orderId) {
+        return orderService.deleteOrder(orderId);
     }
 
     public OrderResponse postOrder(OrderRequest orderRequest, BindingResult bindingResult) {

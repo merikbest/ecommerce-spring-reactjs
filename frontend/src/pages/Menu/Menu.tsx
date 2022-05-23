@@ -25,7 +25,7 @@ const Menu: FC = (): ReactElement => {
     const [filterParams, setFilterParams] = useState<FilterParamsType>({
         perfumers: [],
         genders: [],
-        prices: []
+        prices: [1, 999]
     });
     const [sortByPrice, setSortByPrice] = useState<boolean>();
     const { state } = useLocation<{ id: string }>();

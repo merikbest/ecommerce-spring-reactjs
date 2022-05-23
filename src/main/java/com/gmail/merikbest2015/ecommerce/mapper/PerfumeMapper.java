@@ -4,6 +4,7 @@ import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequest;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.FullPerfumeResponse;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeSearchRequest;
 import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponse;
 import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
@@ -21,24 +22,25 @@ public class PerfumeMapper {
     private final CommonMapper commonMapper;
     private final PerfumeService perfumeService;
 
-    public FullPerfumeResponse findPerfumeById(Long perfumeId) {
-        return commonMapper.convertToResponse(perfumeService.findPerfumeById(perfumeId), FullPerfumeResponse.class);
+    public FullPerfumeResponse getPerfumeById(Long perfumeId) {
+        return commonMapper.convertToResponse(perfumeService.getPerfumeById(perfumeId), FullPerfumeResponse.class);
     }
 
     public List<ReviewResponse> getReviewsByPerfumeId(Long perfumeId) {
         return commonMapper.convertToResponseList(perfumeService.getReviewsByPerfumeId(perfumeId), ReviewResponse.class);
     }
 
-    public List<PerfumeResponse> findPerfumesByIds(List<Long> perfumesId) {
-        return commonMapper.convertToResponseList(perfumeService.findPerfumesByIds(perfumesId), PerfumeResponse.class);
+    public List<PerfumeResponse> getPerfumesByIds(List<Long> perfumesId) {
+        return commonMapper.convertToResponseList(perfumeService.getPerfumesByIds(perfumesId), PerfumeResponse.class);
     }
 
-    public List<PerfumeResponse> findAllPerfumes() {
-        return commonMapper.convertToResponseList(perfumeService.findAllPerfumes(), PerfumeResponse.class);
+    public List<PerfumeResponse> getAllPerfumes() {
+        return commonMapper.convertToResponseList(perfumeService.getAllPerfumes(), PerfumeResponse.class);
     }
 
-    public List<PerfumeResponse> filter(List<String> perfumers, List<String> genders, List<Integer> prices, boolean sortByPrice) {
-        List<Perfume> perfumeList = perfumeService.filter(perfumers, genders, prices, sortByPrice);
+    public List<PerfumeResponse> findPerfumesByFilterParams(PerfumeSearchRequest filter) {
+        List<Perfume> perfumeList = perfumeService.findPerfumesByFilterParams(filter.getPerfumers(), filter.getGenders(), 
+                filter.getPrices(), filter.isSortByPrice());
         return commonMapper.convertToResponseList(perfumeList, PerfumeResponse.class);
     }
 
@@ -58,7 +60,7 @@ public class PerfumeMapper {
         return commonMapper.convertToResponse(perfumeService.savePerfume(perfume, file), FullPerfumeResponse.class);
     }
 
-    public List<PerfumeResponse> deleteOrder(Long perfumeId) {
-        return commonMapper.convertToResponseList(perfumeService.deletePerfume(perfumeId), PerfumeResponse.class);
+    public String deletePerfume(Long perfumeId) {
+        return perfumeService.deletePerfume(perfumeId);
     }
 }

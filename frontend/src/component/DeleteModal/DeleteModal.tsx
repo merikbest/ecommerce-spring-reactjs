@@ -6,7 +6,7 @@ import "./DeleteModal.css";
 
 type PropTypes = {
     perfume?: Perfume;
-    deletePerfumeHandler: (id?: number) => void;
+    deletePerfumeHandler: (id: number) => void;
     setModalActive: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -38,7 +38,7 @@ const DeleteModal: FC<PropTypes> = ({ perfume, deletePerfumeHandler, setModalAct
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button className="btn btn-danger" onClick={() => deletePerfumeHandler(perfume?.id)}>
+                                <button className="btn btn-danger" onClick={() => deletePerfumeHandler(perfume?.id!)}>
                                     Delete
                                 </button>
                                 <button className="btn btn-secondary" onClick={() => setModalActive(false)}>

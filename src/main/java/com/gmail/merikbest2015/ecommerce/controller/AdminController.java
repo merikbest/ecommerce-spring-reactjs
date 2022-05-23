@@ -4,9 +4,7 @@ import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponse;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequest;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.FullPerfumeResponse;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
 import com.gmail.merikbest2015.ecommerce.dto.user.BaseUserResponse;
-import com.gmail.merikbest2015.ecommerce.dto.user.UserRequest;
 import com.gmail.merikbest2015.ecommerce.dto.user.UserResponse;
 import com.gmail.merikbest2015.ecommerce.mapper.OrderMapper;
 import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
@@ -49,33 +47,33 @@ public class AdminController {
     }
 
     @DeleteMapping("/delete/{perfumeId}")
-    public ResponseEntity<List<PerfumeResponse>> deletePerfume(@PathVariable(value = "perfumeId") Long perfumeId) {
-        return ResponseEntity.ok(perfumeMapper.deleteOrder(perfumeId));
+    public ResponseEntity<String> deletePerfume(@PathVariable Long perfumeId) {
+        return ResponseEntity.ok(perfumeMapper.deletePerfume(perfumeId));
     }
 
     @GetMapping("/orders")
     public ResponseEntity<List<OrderResponse>> getAllOrders() {
-        return ResponseEntity.ok(orderMapper.findAllOrders());
+        return ResponseEntity.ok(orderMapper.getAllOrders());
     }
 
-    @PostMapping("/order")
-    public ResponseEntity<List<OrderResponse>> getUserOrdersByEmail(@RequestBody UserRequest user) {
-        return ResponseEntity.ok(orderMapper.findOrderByEmail(user.getEmail()));
+    @GetMapping("/order/{userEmail}")
+    public ResponseEntity<List<OrderResponse>> getUserOrdersByEmail(@PathVariable String userEmail) {
+        return ResponseEntity.ok(orderMapper.getUserOrders(userEmail));
     }
 
     @DeleteMapping("/order/delete/{orderId}")
-    public ResponseEntity<List<OrderResponse>> deleteOrder(@PathVariable(value = "orderId") Long orderId) {
+    public ResponseEntity<String> deleteOrder(@PathVariable Long orderId) {
         return ResponseEntity.ok(orderMapper.deleteOrder(orderId));
     }
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<UserResponse> getUser(@PathVariable("id") Long userId) {
-        return ResponseEntity.ok(userMapper.findUserById(userId));
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
+        return ResponseEntity.ok(userMapper.getUserById(userId));
     }
 
     @GetMapping("/user/all")
     public ResponseEntity<List<BaseUserResponse>> getAllUsers() {
-        return ResponseEntity.ok(userMapper.findAllUsers());
+        return ResponseEntity.ok(userMapper.getAllUsers());
     }
 
     @PostMapping("/graphql/user")

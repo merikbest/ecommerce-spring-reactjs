@@ -1,11 +1,11 @@
 import {
     AuthErrors,
-    ReviewData,
+    ReviewRequest,
     ReviewError,
     User,
     UserEditErrors,
     UserRegistration,
-    UserResetPasswordData
+    UserResetPasswordRequest
 } from "../../types/types";
 
 export const userData: User = {
@@ -54,7 +54,7 @@ export const authErrorsData: AuthErrors = {
     password2Error: "Email cannot be empty"
 };
 
-export const reviewData: ReviewData = {
+export const reviewData: ReviewRequest = {
     "perfumeId": 1,
     "author": "John Doe",
     "message": "Hello",
@@ -67,7 +67,7 @@ export const reviewErrorsData: ReviewError = {
     ratingError: "Chose perfume rating"
 };
 
-export const userResetPasswordData: UserResetPasswordData = {
+export const userResetPasswordData: UserResetPasswordRequest = {
     "email": "test123@test.com",
     "password": "string",
     "password2": "string"

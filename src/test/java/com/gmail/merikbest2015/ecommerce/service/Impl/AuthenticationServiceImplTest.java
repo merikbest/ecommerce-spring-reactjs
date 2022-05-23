@@ -59,7 +59,7 @@ public class AuthenticationServiceImplTest {
     public void findByPasswordResetCode() {
         User user = new User();
         user.setPasswordResetCode(USER_PASSWORD_RESET_CODE);
-        when(userRepository.getEmailByPasswordResetCode(USER_PASSWORD_RESET_CODE)).thenReturn(Optional.of(user));
+        when(userRepository.getEmailByPasswordResetCode(USER_PASSWORD_RESET_CODE)).thenReturn(Optional.of(USER_EMAIL));
         authenticationService.getEmailByPasswordResetCode(USER_PASSWORD_RESET_CODE);
 
         assertEquals(USER_PASSWORD_RESET_CODE, user.getPasswordResetCode());

@@ -1,10 +1,11 @@
 import {
     AdminActionTypes,
-    RESET_ADMIN_STATE,
     PERFUME_ADDED_FAILURE,
     PERFUME_ADDED_SUCCESS,
+    PERFUME_DELETED_SUCCESS,
     PERFUME_UPDATED_FAILURE,
     PERFUME_UPDATED_SUCCESS,
+    RESET_ADMIN_STATE,
     SET_ADMIN_LOADING_STATE,
     SET_ALL_USERS,
     SET_USER_INFO
@@ -17,6 +18,7 @@ export type AdminState = {
     errors: Partial<PerfumeErrors>;
     isPerfumeAdded: boolean;
     isPerfumeEdited: boolean;
+    isPerfumeDeleted: boolean;
     loadingState: LoadingStatus;
 };
 
@@ -26,6 +28,7 @@ const initialState: AdminState = {
     errors: {},
     isPerfumeAdded: false,
     isPerfumeEdited: false,
+    isPerfumeDeleted: false,
     loadingState: LoadingStatus.LOADING
 };
 
@@ -46,6 +49,9 @@ const adminReducer = (state: AdminState = initialState, action: AdminActionTypes
         case PERFUME_UPDATED_FAILURE:
             return { ...state, isPerfumeEdited: false, errors: action.payload, loadingState: LoadingStatus.LOADED };
 
+        case PERFUME_DELETED_SUCCESS:
+            return { ...state, isPerfumeDeleted: true, errors: {}, loadingState: LoadingStatus.LOADED };
+
         case SET_USER_INFO:
             return { ...state, user: action.payload, loadingState: LoadingStatus.LOADED };
 
@@ -59,6 +65,7 @@ const adminReducer = (state: AdminState = initialState, action: AdminActionTypes
                 errors: {},
                 isPerfumeAdded: false,
                 isPerfumeEdited: false,
+                isPerfumeDeleted: false,
                 loadingState: LoadingStatus.LOADING
             };
 

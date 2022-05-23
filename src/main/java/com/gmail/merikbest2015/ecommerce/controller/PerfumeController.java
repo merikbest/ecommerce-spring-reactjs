@@ -24,12 +24,12 @@ public class PerfumeController {
 
     @GetMapping
     public ResponseEntity<List<PerfumeResponse>> getAllPerfumes() {
-        return ResponseEntity.ok(perfumeMapper.findAllPerfumes());
+        return ResponseEntity.ok(perfumeMapper.getAllPerfumes());
     }
 
     @GetMapping("/{perfumeId}")
-    public ResponseEntity<FullPerfumeResponse> getPerfume(@PathVariable Long perfumeId) {
-        return ResponseEntity.ok(perfumeMapper.findPerfumeById(perfumeId));
+    public ResponseEntity<FullPerfumeResponse> getPerfumeById(@PathVariable Long perfumeId) {
+        return ResponseEntity.ok(perfumeMapper.getPerfumeById(perfumeId));
     }
 
     @GetMapping("/reviews/{perfumeId}")
@@ -39,12 +39,12 @@ public class PerfumeController {
 
     @PostMapping("/ids")
     public ResponseEntity<List<PerfumeResponse>> getPerfumesByIds(@RequestBody List<Long> perfumesIds) {
-        return ResponseEntity.ok(perfumeMapper.findPerfumesByIds(perfumesIds));
+        return ResponseEntity.ok(perfumeMapper.getPerfumesByIds(perfumesIds));
     }
 
     @PostMapping("/search")
     public ResponseEntity<List<PerfumeResponse>> findPerfumesByFilterParams(@RequestBody PerfumeSearchRequest filter) {
-        return ResponseEntity.ok(perfumeMapper.filter(filter.getPerfumers(), filter.getGenders(), filter.getPrices(), filter.isSortByPrice()));
+        return ResponseEntity.ok(perfumeMapper.findPerfumesByFilterParams(filter));
     }
 
     @PostMapping("/search/gender")

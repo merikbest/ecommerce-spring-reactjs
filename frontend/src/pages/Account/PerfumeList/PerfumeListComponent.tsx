@@ -12,6 +12,8 @@ import Spinner from "../../../component/Spinner/Spinner";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 import PerfumeListItem from "./PerfumeListItem/PerfumeListItem";
 import { selectIsPerfumesLoading } from "../../../redux/perfumes/perfumes-selector";
+import ToastShow from "../../../component/Toasts/ToastShow";
+import { selectIsPerfumeDeleted } from "../../../redux/admin/admin-selector";
 
 type PropsType = {
     data: Array<Perfume>;
@@ -23,8 +25,10 @@ type PropsType = {
 const PerfumeListComponent: FC<PropsType> = ({ data, itemsPerPage, startFrom, searchByData }): ReactElement => {
     const dispatch = useDispatch();
     const isPerfumesLoading = useSelector(selectIsPerfumesLoading);
+    const isPerfumeDeleted = useSelector(selectIsPerfumeDeleted);
     const [modalActive, setModalActive] = useState<boolean>(false);
     const [perfumeInfo, setPerfumeInfo] = useState<Perfume>();
+    const [showToast, setShowToast] = useState<boolean>(false);
 
     const { slicedData, pagination, prevPage, nextPage, changePage, setFilteredData, setSearching } = usePagination({
         itemsPerPage,
@@ -34,10 +38,17 @@ const PerfumeListComponent: FC<PropsType> = ({ data, itemsPerPage, startFrom, se
 
     useEffect(() => {
         setModalActive(false);
+        
+        if (isPerfumeDeleted) {
+            setShowToast(true);
+            setTimeout(() => {
+                setShowToast(false);
+            }, 5000);
+        }
     }, [data]);
 
-    const deletePerfumeHandler = (id?: number): void => {
-        dispatch(deletePerfume(id));
+    const deletePerfumeHandler = (perfumeId: number): void => {
+        dispatch(deletePerfume(perfumeId));
     };
 
     const showDeleteModalWindow = (perfume: Perfume): void => {
@@ -54,6 +65,7 @@ const PerfumeListComponent: FC<PropsType> = ({ data, itemsPerPage, startFrom, se
                     setModalActive={setModalActive}
                 />
             )}
+            <ToastShow showToast={showToast} message={"Perfume successfully deleted!"} />
             <InfoTitle iconClass={"ml-2 mr-2"} icon={faList} title={"List of perfumes"} />
             <br />
             <SearchForm

@@ -24,7 +24,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String provider = userRequest.getClientRegistration().getRegistrationId();
         OAuth2User oAuth2User = super.loadUser(userRequest);
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserFactory.getOAuth2UserInfo(provider, oAuth2User.getAttributes());
-        User user = userService.findUserByEmail(oAuth2UserInfo.getEmail());
+        User user = userService.getUserInfo(oAuth2UserInfo.getEmail());
 
         if (user == null) {
             user = authenticationService.registerOauth2User(provider, oAuth2UserInfo);

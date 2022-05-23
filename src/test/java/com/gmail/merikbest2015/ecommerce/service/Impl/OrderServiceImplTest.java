@@ -49,7 +49,7 @@ public class OrderServiceImplTest {
         orderList.add(new Order());
 
         when(orderRepository.findAllByOrderByIdAsc()).thenReturn(orderList);
-        orderService.findAll();
+        orderService.getAllOrders();
         assertEquals(2, orderList.size());
         verify(orderRepository, times(1)).findAllByOrderByIdAsc();
     }
@@ -65,7 +65,7 @@ public class OrderServiceImplTest {
         orderList.add(order2);
 
         when(orderRepository.findOrderByEmail(ORDER_EMAIL)).thenReturn(orderList);
-        orderService.findOrderByEmail(ORDER_EMAIL);
+        orderService.getUserOrders(ORDER_EMAIL);
         assertEquals(2, orderList.size());
         verify(orderRepository, times(1)).findOrderByEmail(ORDER_EMAIL);
     }

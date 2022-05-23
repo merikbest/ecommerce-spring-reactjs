@@ -43,18 +43,18 @@ public class UserServiceImlTest {
         user.setId(122L);
 
         when(userRepository.findById(122L)).thenReturn(java.util.Optional.of(user));
-        userService.findUserById(122L);
+        userService.getUserById(122L);
         assertEquals(122L, user.getId());
         verify(userRepository, times(1)).findById(122L);
     }
 
     @Test
-    public void findUserByEmail() {
+    public void getUserInfo() {
         User user = new User();
         user.setEmail(USER_EMAIL);
-        userService.findUserByEmail(USER_EMAIL);
 
         when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.of(user));
+        userService.getUserInfo(USER_EMAIL);
         assertEquals(USER_EMAIL, user.getEmail());
         verify(userRepository, times(1)).findByEmail(USER_EMAIL);
     }
@@ -64,7 +64,7 @@ public class UserServiceImlTest {
         List<User> usersList = new ArrayList<>();
         usersList.add(new User());
         usersList.add(new User());
-        userService.findAllUsers();
+        userService.getAllUsers();
 
         when(userRepository.findAllByOrderByIdAsc()).thenReturn(usersList);
         assertEquals(2, usersList.size());
@@ -103,18 +103,16 @@ public class UserServiceImlTest {
     }
 
     @Test
-    public void updateProfile() {
+    public void updateUserInfo() {
         User user = new User();
         user.setEmail(USER_EMAIL);
         user.setFirstName(FIRST_NAME);
 
         when(userRepository.findByEmail(USER_EMAIL)).thenReturn(Optional.of(user));
-        when(userRepository.save(user)).thenReturn(user);
-        userService.updateProfile(USER_EMAIL, user);
+        userService.updateUserInfo(USER_EMAIL, user);
         assertEquals(USER_EMAIL, user.getEmail());
         assertEquals(FIRST_NAME, user.getFirstName());
         verify(userRepository, times(1)).findByEmail(user.getEmail());
-        verify(userRepository, times(1)).save(user);
     }
 
     @Test
@@ -127,12 +125,12 @@ public class UserServiceImlTest {
         perfume.setId(123L);
         perfume.setReviews(reviewList);
 
-        when(perfumeRepository.getOne(123L)).thenReturn(perfume);
+        when(perfumeRepository.findById(123L)).thenReturn(Optional.of(perfume));
         when(reviewRepository.save(review)).thenReturn(review);
         userService.addReviewToPerfume(review, 123L);
         assertEquals(123L, perfume.getId());
         assertNotNull(perfume.getReviews());
-        verify(perfumeRepository, times(1)).getOne(123L);
+        verify(perfumeRepository, times(1)).findById(123L);
         verify(reviewRepository, times(1)).save(review);
     }
 }

@@ -27,7 +27,7 @@ const EditPerfume: FC = (): ReactElement => {
     const errors = useSelector(selectAdminStateErrors);
     const isPerfumeEdited = useSelector(selectIsPerfumeEdited);
     const [perfume, setPerfume] = useState<Partial<Perfume> | undefined>(undefined);
-    const [showToast, setShowToast] = useState(false);
+    const [showToast, setShowToast] = useState<boolean>(false);
 
     useEffect(() => {
         dispatch(setAdminLoadingState(LoadingStatus.LOADED));
@@ -45,7 +45,6 @@ const EditPerfume: FC = (): ReactElement => {
             setShowToast(true);
             setTimeout(() => {
                 setShowToast(false);
-                dispatch(resetAdminState());
             }, 5000);
             window.scrollTo(0, 0);
         }

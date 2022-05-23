@@ -15,7 +15,7 @@ import {
     resetPasswordSuccess,
     setAuthLoadingState
 } from "./auth-actions";
-import { LoadingStatus, UserData, UserRegistration, UserResetPasswordData } from "../../types/types";
+import { LoadingStatus, UserData, UserRegistration, UserResetPasswordRequest } from "../../types/types";
 import RequestService from "../../utils/request-service";
 import { AUTH_FORGOT, AUTH_LOGIN, AUTH_RESET, REGISTRATION, REGISTRATION_ACTIVATE } from "../../constants/urlConstants";
 import { ACCOUNT, LOGIN } from "../../constants/routeConstants";
@@ -51,10 +51,10 @@ export const activateAccount = (code: string) => async (dispatch: Dispatch) => {
     }
 };
 
-export const forgotPassword = (email: { email: string }) => async (dispatch: Dispatch) => {
+export const forgotPassword = (email: string) => async (dispatch: Dispatch) => {
     try {
         dispatch(setAuthLoadingState(LoadingStatus.LOADING));
-        const response = await RequestService.post(AUTH_FORGOT, email);
+        const response = await RequestService.get(`${AUTH_FORGOT}/${email}`);
         dispatch(forgotPasswordSuccess(response.data));
     } catch (error) {
         dispatch(forgotPasswordFailure(error.response.data));
@@ -71,7 +71,7 @@ export const fetchResetPasswordCode = (code: string) => async (dispatch: Dispatc
 };
 
 export const resetPassword =
-    (data: UserResetPasswordData, history: History<LocationState>) => async (dispatch: Dispatch) => {
+    (data: UserResetPasswordRequest, history: History<LocationState>) => async (dispatch: Dispatch) => {
         try {
             const response = await RequestService.post(AUTH_RESET, data);
             dispatch(resetPasswordSuccess(response.data));
