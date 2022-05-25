@@ -295,7 +295,6 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.id", equalTo(1)))
                 .andExpect(jsonPath("$.author", equalTo(FIRST_NAME)))
                 .andExpect(jsonPath("$.rating", equalTo(5)))
-                .andExpect(jsonPath("$.date", equalTo("2022-05-23")))
                 .andExpect(jsonPath("$.message", equalTo("Hello world")));
     }
 
