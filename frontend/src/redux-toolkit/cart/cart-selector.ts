@@ -1,6 +1,6 @@
 import { LoadingStatus } from "../../types/types";
 import { RootState } from "../../store-rtk";
-import { CartState } from "../../redux/cart/cart-reducer";
+import { CartState } from "./cart-slice";
 
 export const selectCartState = (state: RootState): CartState => state.cart;
 export const selectTotalPrice = (state: RootState): number => selectCartState(state).totalPrice;

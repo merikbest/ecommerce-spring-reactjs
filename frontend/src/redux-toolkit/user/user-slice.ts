@@ -33,34 +33,9 @@ export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        setUserLoadingState(state, action: PayloadAction<LoadingStatus>) {
-            state.loadingState = action.payload;
-        },
         setUser(state, action: PayloadAction<User>) {
             state.user = action.payload;
             state.loadingState = LoadingStatus.LOADED;
-        },
-        setUpdatedUser(state, action: PayloadAction<User>) {
-            state.user = action.payload;
-            state.userEditErrors = {};
-        },
-        userUpdatedFailure(state, action: PayloadAction<UserEditErrors>) {
-            state.userEditErrors = action.payload;
-        },
-        userUpdatedPasswordSuccess(state, action: PayloadAction<string>) {
-            state.successMessage = action.payload;
-            state.userResetPasswordErrors = {};
-        },
-        userUpdatedPasswordFailure(state, action: PayloadAction<AuthErrors>) {
-            state.userResetPasswordErrors = action.payload;
-        },
-        userAddedReviewSuccess(state) {
-            state.reviewErrors = {};
-            state.isReviewAdded = true;
-        },
-        userAddedReviewFailure(state, action: PayloadAction<ReviewError>) {
-            state.reviewErrors = action.payload;
-            state.isReviewAdded = false;
         },
         resetInputForm(state) {
             state.userResetPasswordErrors = {};
@@ -94,7 +69,7 @@ export const userSlice = createSlice({
         builder.addCase(updateUserPassword.rejected, (state, action) => {
             state.userResetPasswordErrors = action.payload!;
         });
-        builder.addCase(addReviewToPerfume.fulfilled, (state, action) => {
+        builder.addCase(addReviewToPerfume.fulfilled, (state) => {
             state.reviewErrors = {};
             state.isReviewAdded = true;
         });
@@ -112,16 +87,5 @@ export const userSlice = createSlice({
     }
 });
 
-export const {
-    setUserLoadingState,
-    setUser,
-    setUpdatedUser,
-    userUpdatedFailure,
-    userUpdatedPasswordSuccess,
-    userUpdatedPasswordFailure,
-    userAddedReviewSuccess,
-    userAddedReviewFailure,
-    resetInputForm,
-    logoutSuccess
-} = userSlice.actions;
+export const { setUser, resetInputForm, logoutSuccess } = userSlice.actions;
 export default userSlice.reducer;

@@ -3,7 +3,6 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { faEnvelope, faLock, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 
-import { activateAccount, login } from "../../redux/auth/auth-thunks";
 import { UserData } from "../../types/types";
 import googleLogo from "../../img/google.png";
 import facebookLogo from "../../img/facebook.png";
@@ -13,10 +12,12 @@ import Alert from "../../component/Alert/Alert";
 import Input from "../../component/Input/Input";
 import IconButton from "../../component/IconButton/IconButton";
 import SocialButton from "./SocialButton/SocialButton";
-import { selectErrorMessage, selectSuccessMessage } from "../../redux/auth/auth-selector";
 import { FORGOT } from "../../constants/routeConstants";
+import { selectErrorMessage } from "../../redux-toolkit/auth/auth-selector";
+import { resetAuthState } from "../../redux-toolkit/auth/auth-slice";
+import { activateAccount, login } from "../../redux-toolkit/auth/auth-thunks";
+import { selectSuccessMessage } from "../../redux-toolkit/user/user-selector";
 import "./Login.css";
-import { resetAuthState } from "../../redux/auth/auth-actions";
 
 const initialState = {
     email: "",
@@ -33,17 +34,19 @@ const Login: FC = (): ReactElement => {
     const { email, password } = loginInfo;
 
     useEffect(() => {
-        dispatch(resetAuthState());
-
         if (params.code) {
             dispatch(activateAccount(params.code));
         }
+
+        return () => {
+            dispatch(resetAuthState());
+        };
     }, []);
 
     const onClickSignIn = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         const userData: UserData = { email, password };
-        dispatch(login(userData, history));
+        dispatch(login({ userData, history }));
     };
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {

@@ -2,15 +2,15 @@ import React, { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState } 
 import { useDispatch, useSelector } from "react-redux";
 import { faEnvelope, faKey, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 
-import { forgotPassword } from "../../redux/auth/auth-thunks";
 import { validateEmail } from "../../utils/input-validators";
 import PageLoader from "../../component/PageLoader/PageLoader";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
 import Alert from "../../component/Alert/Alert";
 import Input from "../../component/Input/Input";
 import IconButton from "../../component/IconButton/IconButton";
-import { selectErrorMessage, selectIsAuthLoading, selectSuccessMessage } from "../../redux/auth/auth-selector";
-import { resetAuthState } from "../../redux/auth/auth-actions";
+import { selectErrorMessage, selectIsAuthLoading, selectSuccessMessage } from "../../redux-toolkit/auth/auth-selector";
+import { resetAuthState } from "../../redux-toolkit/auth/auth-slice";
+import { forgotPassword } from "../../redux-toolkit/auth/auth-thunks";
 
 const ForgotPassword: FC = (): ReactElement => {
     const dispatch = useDispatch();

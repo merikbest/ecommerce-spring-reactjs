@@ -5,12 +5,14 @@ import SockJS from "sockjs-client";
 import { CompatClient, Stomp } from "@stomp/stompjs";
 
 import { WEBSOCKET_URL } from "../../constants/urlConstants";
-import { fetchPerfume, fetchReviewsByPerfumeId } from "../../redux/perfume/perfume-thunks";
-import { addReviewToPerfume } from "../../redux/user/user-thunks";
 import { ReviewRequest } from "../../types/types";
 import Spinner from "../../component/Spinner/Spinner";
 import ProductReview from "./ProductReview/ProductReview";
 import ScrollButton from "../../component/ScrollButton/ScrollButton";
+import { CART } from "../../constants/routeConstants";
+import ProductInfo from "./ProductInfo/ProductInfo";
+import ProductReviewForm from "./ProductReviewForm/ProductReviewForm";
+import "./Product.css";
 import {
     selectIsPerfumeLoaded,
     selectIsPerfumeLoading,
@@ -18,14 +20,12 @@ import {
     selectPerfumeError,
     selectPerfumeErrorMessage,
     selectReviews
-} from "../../redux/perfume/perfume-selector";
-import { selectIsReviewAdded, selectReviewErrors } from "../../redux/user/user-selector";
-import { resetPerfumeState, setReview } from "../../redux/perfume/perfume-actions";
-import { resetInputForm } from "../../redux/user/user-actions";
-import { CART } from "../../constants/routeConstants";
-import ProductInfo from "./ProductInfo/ProductInfo";
-import ProductReviewForm from "./ProductReviewForm/ProductReviewForm";
-import "./Product.css";
+} from "../../redux-toolkit/perfume/perfume-selector";
+import { selectIsReviewAdded, selectReviewErrors } from "../../redux-toolkit/user/user-selector";
+import { fetchPerfume, fetchReviewsByPerfumeId } from "../../redux-toolkit/perfume/perfume-thunks";
+import { resetInputForm } from "../../redux-toolkit/user/user-slice";
+import { resetPerfumeState, setReview } from "../../redux-toolkit/perfume/perfume-slice";
+import { addReviewToPerfume } from "../../redux-toolkit/user/user-thunks";
 
 let stompClient: CompatClient | null = null;
 

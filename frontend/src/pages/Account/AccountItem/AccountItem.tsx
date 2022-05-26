@@ -2,7 +2,7 @@ import React, { FC, ReactElement } from "react";
 import { useSelector } from "react-redux";
 
 import Spinner from "../../../component/Spinner/Spinner";
-import { selectIsUserLoading, selectUserFromUserState } from "../../../redux/user/user-selector";
+import { selectIsUserLoading, selectUserFromUserState } from "../../../redux-toolkit/user/user-selector";
 import "./AccountItem.css";
 
 const AccountItem: FC = (): ReactElement => {

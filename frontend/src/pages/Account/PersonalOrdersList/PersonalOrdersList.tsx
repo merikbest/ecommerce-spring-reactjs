@@ -5,8 +5,8 @@ import { faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 import OrdersTable from "../../../component/OrdersTable/OrdersTable";
 import Spinner from "../../../component/Spinner/Spinner";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
-import { fetchUserOrders } from "../../../redux/orders/orders-thunks";
-import { selectIsOrdersLoading, selectOrders } from "../../../redux/orders/orders-selector";
+import { fetchUserOrders } from "../../../redux-toolkit/orders/orders-thunks";
+import { selectIsOrdersLoading, selectOrders } from "../../../redux-toolkit/orders/orders-selector";
 import "./PersonalOrdersList.css";
 
 const PersonalOrdersList: FC = (): ReactElement => {

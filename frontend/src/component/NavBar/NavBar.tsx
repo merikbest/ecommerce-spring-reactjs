@@ -5,11 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt, faSignOutAlt, faUser, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
 import NavBarLink from "./NavBarLink/NavBarLink";
-import { selectUserFromUserState } from "../../redux/user/user-selector";
-import { selectCartItemsCount } from "../../redux/cart/cart-selector";
 import { ACCOUNT, BASE, CONTACTS, LOGIN, MENU, REGISTRATION } from "../../constants/routeConstants";
 import { CART } from "../../constants/urlConstants";
-import { logoutSuccess } from "../../redux/user/user-actions";
+import { logoutSuccess } from "../../redux-toolkit/user/user-slice";
+import { selectUserFromUserState } from "../../redux-toolkit/user/user-selector";
+import { selectCartItemsCount } from "../../redux-toolkit/cart/cart-selector";
 import "./NavBar.css";
 
 const NavBar: FC = (): ReactElement => {

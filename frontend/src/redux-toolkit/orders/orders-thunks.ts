@@ -16,7 +16,7 @@ export const fetchUserOrders = createAsyncThunk<Array<Order>>("orders/fetchUserO
     return response.data;
 });
 
-export const fetchAllUsersOrders = createAsyncThunk<Array<Order>>("orders/fetchUserOrders", async () => {
+export const fetchAllUsersOrders = createAsyncThunk<Array<Order>>("orders/fetchAllUsersOrders", async () => {
     const response = await RequestService.get(ADMIN_ORDERS, true);
     return response.data;
 });

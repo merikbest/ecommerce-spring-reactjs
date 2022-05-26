@@ -18,9 +18,9 @@ export const fetchPerfumes = createAsyncThunk<Array<Perfume>>("perfumes/fetchPer
     return response.data;
 });
 
-export const fetchPerfumesByIds = createAsyncThunk<Array<Perfume>, { ids: Array<number> }>(
+export const fetchPerfumesByIds = createAsyncThunk<Array<Perfume>, Array<number>>(
     "perfumes/fetchPerfumesByIds",
-    async ({ ids }) => {
+    async (ids) => {
         const response = await RequestService.post(PERFUMES_IDS, ids);
         return response.data;
     }
@@ -56,9 +56,9 @@ export const fetchPerfumesByQuery = createAsyncThunk<Array<Perfume>>("perfumes/f
     return response.data.data.perfume;
 });
 
-export const fetchPerfumesByIdsQuery = createAsyncThunk<Array<Perfume>, { ids: Array<number> }>(
+export const fetchPerfumesByIdsQuery = createAsyncThunk<Array<Perfume>, Array<number>>(
     "perfumes/fetchPerfumesByIdsQuery",
-    async ({ ids }) => {
+    async (ids) => {
         const response = await RequestService.post(PERFUMES_GRAPHQL_IDS, { query: gePerfumesByIdsQuery(ids) });
         return response.data.data.perfume;
     }

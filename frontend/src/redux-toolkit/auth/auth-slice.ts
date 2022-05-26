@@ -36,58 +36,16 @@ export const authSlice = createSlice({
             state.loadingState = action.payload;
             state.errors = {};
         },
-        loginFailure(state, action: PayloadAction<string>) {
-            state.error = action.payload;
-        },
-        registerSuccess(state) {
-            state.isRegistered = true;
-            state.loadingState = LoadingStatus.LOADED;
-            state.errors = {};
-        },
-        registerFailure(state, action: PayloadAction<AuthErrors>) {
-            state.errors = action.payload;
-            state.loadingState = LoadingStatus.LOADED;
-        },
-        activateAccountSuccess(state, action: PayloadAction<string>) {
-            state.success = action.payload;
-        },
-        activateAccountFailure(state, action: PayloadAction<string>) {
-            state.error = action.payload;
-        },
-        forgotPasswordSuccess(state, action: PayloadAction<string>) {
-            state.success = action.payload;
-            state.loadingState = LoadingStatus.LOADED;
-            state.errors = {};
-            state.error = "";
-        },
-        forgotPasswordFailure(state, action: PayloadAction<string>) {
-            state.error = action.payload;
-            state.loadingState = LoadingStatus.LOADED;
-        },
-        resetPasswordCodeSuccess(state, action: PayloadAction<string>) {
-            state.email = action.payload;
-        },
-        resetPasswordCodeFailure(state, action: PayloadAction<string>) {
-            state.error = action.payload;
-        },
-        resetPasswordSuccess(state, action: PayloadAction<string>) {
-            state.success = action.payload;
-        },
-        resetPasswordFailure(state, action: PayloadAction<AuthErrors>) {
-            state.errors = action.payload;
-        },
-        resetAuthState(state) {
-            state = { ...initialState, loadingState: LoadingStatus.LOADED };
-        }
+        resetAuthState: () => initialState
     },
     extraReducers: (builder) => {
         builder.addCase(login.rejected, (state, action) => {
             state.error = action.payload!;
         });
-        builder.addCase(registration.pending, (state, action) => {
+        builder.addCase(registration.pending, (state) => {
             state.loadingState = LoadingStatus.LOADING;
         });
-        builder.addCase(registration.fulfilled, (state, action) => {
+        builder.addCase(registration.fulfilled, (state) => {
             state.isRegistered = true;
             state.loadingState = LoadingStatus.LOADED;
             state.errors = {};
@@ -102,7 +60,7 @@ export const authSlice = createSlice({
         builder.addCase(activateAccount.rejected, (state, action) => {
             state.error = action.payload!;
         });
-        builder.addCase(forgotPassword.pending, (state, action) => {
+        builder.addCase(forgotPassword.pending, (state) => {
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(forgotPassword.fulfilled, (state, action) => {
@@ -130,19 +88,5 @@ export const authSlice = createSlice({
     }
 });
 
-export const {
-    setAuthLoadingState,
-    loginFailure,
-    registerSuccess,
-    registerFailure,
-    activateAccountSuccess,
-    activateAccountFailure,
-    forgotPasswordSuccess,
-    forgotPasswordFailure,
-    resetPasswordCodeSuccess,
-    resetPasswordCodeFailure,
-    resetPasswordSuccess,
-    resetPasswordFailure,
-    resetAuthState
-} = authSlice.actions;
+export const { setAuthLoadingState, resetAuthState } = authSlice.actions;
 export default authSlice.reducer;

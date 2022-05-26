@@ -6,17 +6,17 @@ import Checkbox from "../../component/CheckBox/Checkbox";
 import CheckboxRadio from "../../component/CheckboxRadio/CheckboxRadio";
 import MenuCards from "../../component/MenuCards/MenuCards";
 import { gender, perfumer, price } from "./MenuData";
+import { FilterParamsType } from "../../types/types";
+import ScrollButton from "../../component/ScrollButton/ScrollButton";
+import { selectIsPerfumesLoading, selectPerfumes } from "../../redux-toolkit/perfumes/perfumes-selector";
 import {
     fetchPerfumes,
     fetchPerfumesByFilterParams,
     fetchPerfumesByGender,
     fetchPerfumesByPerfumer
-} from "../../redux/perfumes/perfumes-thunks";
+} from "../../redux-toolkit/perfumes/perfumes-thunks";
+import { resetPerfumesState } from "../../redux-toolkit/perfumes/perfumes-slice";
 import "./MenuStyle.css";
-import { FilterParamsType } from "../../types/types";
-import ScrollButton from "../../component/ScrollButton/ScrollButton";
-import { selectIsPerfumesLoading, selectPerfumes } from "../../redux/perfumes/perfumes-selector";
-import { resetPerfumesState } from "../../redux/perfumes/perfumes-actions";
 
 const Menu: FC = (): ReactElement => {
     const dispatch = useDispatch();

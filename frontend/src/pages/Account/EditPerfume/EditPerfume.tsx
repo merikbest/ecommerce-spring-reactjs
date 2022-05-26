@@ -3,21 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 
-import { updatePerfume } from "../../../redux/admin/admin-thunks";
 import { LoadingStatus, Perfume } from "../../../types/types";
 import ToastShow from "../../../component/Toasts/ToastShow";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 import IconButton from "../../../component/IconButton/IconButton";
 import EditPerfumeSelect from "./EditPerfumeSelect/EditPerfumeSelect";
 import Input from "../../../component/Input/Input";
-import { selectPerfume } from "../../../redux/perfume/perfume-selector";
-import { fetchPerfume } from "../../../redux/perfume/perfume-thunks";
+import { selectPerfume } from "../../../redux-toolkit/perfume/perfume-selector";
 import {
     selectAdminStateErrors,
     selectIsAdminStateLoading,
     selectIsPerfumeEdited
-} from "../../../redux/admin/admin-selector";
-import { resetAdminState, setAdminLoadingState } from "../../../redux/admin/admin-actions";
+} from "../../../redux-toolkit/admin/admin-selector";
+import { resetAdminState, setAdminLoadingState } from "../../../redux-toolkit/admin/admin-slice";
+import { fetchPerfume } from "../../../redux-toolkit/perfume/perfume-thunks";
+import { updatePerfume } from "../../../redux-toolkit/admin/admin-thunks";
 
 const EditPerfume: FC = (): ReactElement => {
     const dispatch = useDispatch();

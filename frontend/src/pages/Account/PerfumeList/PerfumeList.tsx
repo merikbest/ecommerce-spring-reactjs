@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import PerfumeListComponent from "./PerfumeListComponent";
 import ScrollButton from "../../../component/ScrollButton/ScrollButton";
-import { fetchPerfumes } from "../../../redux/perfumes/perfumes-thunks";
-import { selectPerfumes } from "../../../redux/perfumes/perfumes-selector";
-import { resetPerfumesState } from "../../../redux/perfumes/perfumes-actions";
-import { resetAdminState } from "../../../redux/admin/admin-actions";
+import { selectPerfumes } from "../../../redux-toolkit/perfumes/perfumes-selector";
+import { fetchPerfumes } from "../../../redux-toolkit/perfumes/perfumes-thunks";
+import { resetPerfumesState } from "../../../redux-toolkit/perfumes/perfumes-slice";
+import { resetAdminState } from "../../../redux-toolkit/admin/admin-slice";
 
 const PerfumeList: FC = (): ReactElement => {
     const dispatch = useDispatch();

@@ -4,14 +4,14 @@ import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Spinner from "../../component/Spinner/Spinner";
-import { fetchCart } from "../../redux/cart/cart-thunks";
 import { Perfume } from "../../types/types";
-import { selectIsCartLoading, selectTotalPrice } from "../../redux/cart/cart-selector";
-import { calculateCartPrice, resetCartState, setCartItemsCount } from "../../redux/cart/cart-actions";
-import { selectPerfumes } from "../../redux/perfumes/perfumes-selector";
-import { removePerfumeById } from "../../redux/perfumes/perfumes-actions";
 import CartItem from "./CartItem";
 import CartCheckout from "./CartCheckout";
+import { selectPerfumes } from "../../redux-toolkit/perfumes/perfumes-selector";
+import { selectIsCartLoading, selectTotalPrice } from "../../redux-toolkit/cart/cart-selector";
+import { fetchCart } from "../../redux-toolkit/cart/cart-thunks";
+import { calculateCartPrice, resetCartState, setCartItemsCount } from "../../redux-toolkit/cart/cart-slice";
+import { removePerfumeById } from "../../redux-toolkit/perfumes/perfumes-slice";
 import "./Cart.css";
 
 const Cart: FC = (): ReactElement => {

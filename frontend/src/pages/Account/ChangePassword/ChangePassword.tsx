@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { faLock, faUndo } from "@fortawesome/free-solid-svg-icons";
 
 import { UserResetPasswordRequest } from "../../../types/types";
-import { updateUserPassword } from "../../../redux/user/user-thunks";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 import Alert from "../../../component/Alert/Alert";
 import IconButton from "../../../component/IconButton/IconButton";
 import Input from "../../../component/Input/Input";
-import { selectSuccessMessage, selectUserResetPasswordErrors } from "../../../redux/user/user-selector";
-import { resetInputForm } from "../../../redux/user/user-actions";
+import { selectSuccessMessage, selectUserResetPasswordErrors } from "../../../redux-toolkit/user/user-selector";
+import { resetInputForm } from "../../../redux-toolkit/user/user-slice";
+import { updateUserPassword } from "../../../redux-toolkit/user/user-thunks";
 import "./ChangePassword.css";
 
 const initialState = {

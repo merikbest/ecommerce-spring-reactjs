@@ -2,11 +2,11 @@ import React, { FC, ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
 
-import { fetchAllUsers } from "../../../redux/admin/admin-thunks";
 import Spinner from "../../../component/Spinner/Spinner";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
-import { selectAdminStateUsers, selectIsAdminStateLoading } from "../../../redux/admin/admin-selector";
 import UsersListItem from "./UsersListItem";
+import { selectAdminStateUsers, selectIsAdminStateLoading } from "../../../redux-toolkit/admin/admin-selector";
+import { fetchAllUsers } from "../../../redux-toolkit/admin/admin-thunks";
 
 const UsersList: FC = (): ReactElement => {
     const dispatch = useDispatch();

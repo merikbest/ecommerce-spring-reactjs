@@ -7,13 +7,13 @@ import { Perfume } from "../../../types/types";
 import DeleteModal from "../../../component/DeleteModal/DeleteModal";
 import SearchForm from "../../../component/SearchForm/SearchForm";
 import PaginationItem from "../../../component/Pagination/PaginationItem";
-import { deletePerfume } from "../../../redux/admin/admin-thunks";
 import Spinner from "../../../component/Spinner/Spinner";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 import PerfumeListItem from "./PerfumeListItem/PerfumeListItem";
-import { selectIsPerfumesLoading } from "../../../redux/perfumes/perfumes-selector";
 import ToastShow from "../../../component/Toasts/ToastShow";
-import { selectIsPerfumeDeleted } from "../../../redux/admin/admin-selector";
+import { selectIsPerfumesLoading } from "../../../redux-toolkit/perfumes/perfumes-selector";
+import { selectIsPerfumeDeleted } from "../../../redux-toolkit/admin/admin-selector";
+import { deletePerfume } from "../../../redux-toolkit/admin/admin-thunks";
 
 type PropsType = {
     data: Array<Perfume>;
@@ -38,7 +38,7 @@ const PerfumeListComponent: FC<PropsType> = ({ data, itemsPerPage, startFrom, se
 
     useEffect(() => {
         setModalActive(false);
-        
+
         if (isPerfumeDeleted) {
             setShowToast(true);
             setTimeout(() => {

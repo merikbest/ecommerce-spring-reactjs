@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Route } from "react-router-dom";
 import { faUserEdit } from "@fortawesome/free-solid-svg-icons";
 
-import { fetchUserInfo } from "../../redux/user/user-thunks";
 import PersonalOrdersList from "./PersonalOrdersList/PersonalOrdersList";
 import ChangePassword from "./ChangePassword/ChangePassword";
 import PersonalData from "./PersonalData/PersonalData";
@@ -17,7 +16,6 @@ import EditPerfume from "./EditPerfume/EditPerfume";
 import ManageUserOrder from "./ManageUserOrder/ManageUserOrder";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
 import AccountLink from "./AccountLink";
-import { selectUserFromUserState } from "../../redux/user/user-selector";
 import { UserRoles } from "../../types/types";
 import {
     ACCOUNT,
@@ -29,8 +27,10 @@ import {
     ACCOUNT_USER_INFO,
     ACCOUNT_USER_ORDERS
 } from "../../constants/routeConstants";
+import { selectUserFromUserState } from "../../redux-toolkit/user/user-selector";
+import { resetAuthState } from "../../redux-toolkit/auth/auth-slice";
+import { fetchUserInfo } from "../../redux-toolkit/user/user-thunks";
 import "./Account.css";
-import { resetAuthState } from "../../redux/auth/auth-actions";
 
 const Account: FC = (): ReactElement => {
     const dispatch = useDispatch();

@@ -10,25 +10,25 @@ import authSlice, { AuthState } from "./redux-toolkit/auth/auth-slice";
 import adminSlice, { AdminState } from "./redux-toolkit/admin/admin-slice";
 
 export interface RootState {
-    perfumes: PerfumesState;
-    perfume: PerfumeState;
-    user: UserState;
-    orders: OrdersState;
-    order: OrderState;
-    cart: CartState;
-    auth: AuthState;
     admin: AdminState;
+    auth: AuthState;
+    cart: CartState;
+    order: OrderState;
+    orders: OrdersState;
+    perfume: PerfumeState;
+    perfumes: PerfumesState;
+    user: UserState;
 }
 
 export const store = configureStore({
     reducer: {
-        perfumes: perfumesSlice,
-        perfume: perfumeSlice,
-        user: userSlice,
-        orders: ordersSlice,
-        order: orderSlice,
-        cart: cartSlice,
+        admin: adminSlice,
         auth: authSlice,
-        admin: adminSlice
+        cart: cartSlice,
+        order: orderSlice,
+        orders: ordersSlice,
+        perfume: perfumeSlice,
+        perfumes: perfumesSlice,
+        user: userSlice,
     }
 });

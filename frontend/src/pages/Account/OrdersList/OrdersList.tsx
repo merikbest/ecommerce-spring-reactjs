@@ -2,9 +2,9 @@ import React, { FC, ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import OrdersTable from "../../../component/OrdersTable/OrdersTable";
-import { fetchAllUsersOrders } from "../../../redux/orders/orders-thunks";
-import { selectIsOrdersLoading, selectOrders } from "../../../redux/orders/orders-selector";
-import { resetOrders } from "../../../redux/orders/orders-actions";
+import { selectIsOrdersLoading, selectOrders } from "../../../redux-toolkit/orders/orders-selector";
+import { resetOrders } from "../../../redux-toolkit/orders/orders-slice";
+import { fetchAllUsersOrders } from "../../../redux-toolkit/orders/orders-thunks";
 
 const OrdersList: FC = (): ReactElement => {
     const dispatch = useDispatch();

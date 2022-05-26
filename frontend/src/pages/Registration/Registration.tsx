@@ -3,15 +3,15 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useDispatch, useSelector } from "react-redux";
 import { faEnvelope, faLock, faUser, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
-import { registration } from "../../redux/auth/auth-thunks";
 import PageLoader from "../../component/PageLoader/PageLoader";
-import { UserRegistration } from "../../types/types";
+import { LoadingStatus, UserRegistration } from "../../types/types";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
 import Alert from "../../component/Alert/Alert";
 import IconButton from "../../component/IconButton/IconButton";
-import { selectErrors, selectIsAuthLoading, selectIsRegistered } from "../../redux/auth/auth-selector";
 import Input from "../../component/Input/Input";
-import { resetAuthState } from "../../redux/auth/auth-actions";
+import { selectErrors, selectIsAuthLoading, selectIsRegistered } from "../../redux-toolkit/auth/auth-selector";
+import { resetAuthState, setAuthLoadingState } from "../../redux-toolkit/auth/auth-slice";
+import { registration } from "../../redux-toolkit/auth/auth-thunks";
 
 const initialState = {
     email: "",
@@ -32,7 +32,11 @@ const Registration: FC = (): ReactElement => {
     const { email, firstName, lastName, password, password2 } = registrationInfo;
 
     useEffect(() => {
-        dispatch(resetAuthState());
+        dispatch(setAuthLoadingState(LoadingStatus.LOADED));
+        
+        return () => {
+            dispatch(resetAuthState());
+        };
     }, []);
 
     useEffect(() => {

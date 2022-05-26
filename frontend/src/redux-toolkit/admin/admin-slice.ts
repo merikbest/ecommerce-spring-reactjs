@@ -21,7 +21,7 @@ export interface AdminState {
     loadingState: LoadingStatus;
 }
 
-const initialState: AdminState = {
+export const initialState: AdminState = {
     users: [],
     user: {},
     errors: {},
@@ -38,39 +38,6 @@ export const adminSlice = createSlice({
         setAdminLoadingState(state, action: PayloadAction<LoadingStatus>) {
             state.loadingState = action.payload;
         },
-        addPerfumeSuccess(state) {
-            state.isPerfumeAdded = true;
-            state.errors = {};
-            state.loadingState = LoadingStatus.LOADED;
-        },
-        addPerfumeFailure(state, action: PayloadAction<PerfumeErrors>) {
-            state.isPerfumeAdded = false;
-            state.errors = action.payload;
-            state.loadingState = LoadingStatus.LOADED;
-        },
-        updatePerfumeSuccess(state) {
-            state.isPerfumeEdited = true;
-            state.errors = {};
-            state.loadingState = LoadingStatus.LOADED;
-        },
-        updatePerfumeFailure(state, action: PayloadAction<PerfumeErrors>) {
-            state.isPerfumeEdited = false;
-            state.errors = action.payload;
-            state.loadingState = LoadingStatus.LOADED;
-        },
-        deletePerfumeSuccess(state) {
-            state.isPerfumeDeleted = true;
-            state.errors = {};
-            state.loadingState = LoadingStatus.LOADED;
-        },
-        setAllUsers(state, action: PayloadAction<Array<User>>) {
-            state.users = action.payload;
-            state.loadingState = LoadingStatus.LOADED;
-        },
-        setUserInfo(state, action: PayloadAction<User>) {
-            state.user = action.payload;
-            state.loadingState = LoadingStatus.LOADED;
-        },
         resetAdminState(state) {
             state.users = [];
             state.user = {};
@@ -82,10 +49,10 @@ export const adminSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(addPerfume.pending, (state, action) => {
+        builder.addCase(addPerfume.pending, (state) => {
             state.loadingState = LoadingStatus.LOADING;
         });
-        builder.addCase(addPerfume.fulfilled, (state, action) => {
+        builder.addCase(addPerfume.fulfilled, (state) => {
             state.isPerfumeAdded = true;
             state.errors = {};
             state.loadingState = LoadingStatus.LOADED;
@@ -95,10 +62,10 @@ export const adminSlice = createSlice({
             state.errors = action.payload!;
             state.loadingState = LoadingStatus.LOADED;
         });
-        builder.addCase(updatePerfume.pending, (state, action) => {
+        builder.addCase(updatePerfume.pending, (state) => {
             state.loadingState = LoadingStatus.LOADING;
         });
-        builder.addCase(updatePerfume.fulfilled, (state, action) => {
+        builder.addCase(updatePerfume.fulfilled, (state) => {
             state.isPerfumeEdited = true;
             state.errors = {};
             state.loadingState = LoadingStatus.LOADED;
@@ -108,33 +75,33 @@ export const adminSlice = createSlice({
             state.errors = action.payload!;
             state.loadingState = LoadingStatus.LOADED;
         });
-        builder.addCase(deletePerfume.fulfilled, (state, action) => {
+        builder.addCase(deletePerfume.fulfilled, (state) => {
             state.isPerfumeDeleted = true;
             state.errors = {};
             state.loadingState = LoadingStatus.LOADED;
         });
-        builder.addCase(fetchAllUsers.pending, (state, action) => {
+        builder.addCase(fetchAllUsers.pending, (state) => {
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchAllUsers.fulfilled, (state, action) => {
             state.users = action.payload;
             state.loadingState = LoadingStatus.LOADED;
         });
-        builder.addCase(fetchUserInfo.pending, (state, action) => {
+        builder.addCase(fetchUserInfo.pending, (state) => {
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchUserInfo.fulfilled, (state, action) => {
             state.user = action.payload;
             state.loadingState = LoadingStatus.LOADED;
         });
-        builder.addCase(fetchUserInfoByQuery.pending, (state, action) => {
+        builder.addCase(fetchUserInfoByQuery.pending, (state) => {
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchUserInfoByQuery.fulfilled, (state, action) => {
             state.user = action.payload;
             state.loadingState = LoadingStatus.LOADED;
         });
-        builder.addCase(fetchAllUsersByQuery.pending, (state, action) => {
+        builder.addCase(fetchAllUsersByQuery.pending, (state) => {
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchAllUsersByQuery.fulfilled, (state, action) => {
@@ -144,15 +111,5 @@ export const adminSlice = createSlice({
     }
 });
 
-export const {
-    setAdminLoadingState,
-    addPerfumeSuccess,
-    addPerfumeFailure,
-    updatePerfumeSuccess,
-    updatePerfumeFailure,
-    deletePerfumeSuccess,
-    setAllUsers,
-    setUserInfo,
-    resetAdminState
-} = adminSlice.actions;
+export const { setAdminLoadingState, resetAdminState } = adminSlice.actions;
 export default adminSlice.reducer;

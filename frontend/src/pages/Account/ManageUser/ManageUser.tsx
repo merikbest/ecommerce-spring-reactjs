@@ -3,16 +3,16 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { faUserEdit } from "@fortawesome/free-solid-svg-icons";
 
-import { fetchUserInfo } from "../../../redux/admin/admin-thunks";
 import Spinner from "../../../component/Spinner/Spinner";
 import AccountDataItem from "../../../component/AccountDataItem/AccountDataItem";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
-import { selectAdminStateUser, selectIsAdminStateLoading } from "../../../redux/admin/admin-selector";
-import { fetchUserOrdersByEmail } from "../../../redux/orders/orders-thunks";
-import { selectOrders } from "../../../redux/orders/orders-selector";
-import { resetOrders } from "../../../redux/orders/orders-actions";
-import { resetAdminState } from "../../../redux/admin/admin-actions";
 import ManageUserTable from "./ManageUserTable/ManageUserTable";
+import { selectAdminStateUser, selectIsAdminStateLoading } from "../../../redux-toolkit/admin/admin-selector";
+import { selectOrders } from "../../../redux-toolkit/orders/orders-selector";
+import { fetchUserInfo } from "../../../redux-toolkit/admin/admin-thunks";
+import { resetOrders } from "../../../redux-toolkit/orders/orders-slice";
+import { resetAdminState } from "../../../redux-toolkit/admin/admin-slice";
+import { fetchUserOrdersByEmail } from "../../../redux-toolkit/orders/orders-thunks";
 
 const ManageUser: FC = (): ReactElement => {
     const dispatch = useDispatch();

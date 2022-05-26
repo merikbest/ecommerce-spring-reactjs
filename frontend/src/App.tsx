@@ -17,8 +17,6 @@ import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import Cart from "./pages/Cart/Cart";
 import Product from "./pages/Product/Product";
 import OAuth2RedirectHandler from "./utils/oauth2/OAuth2RedirectHandler";
-import { fetchCart } from "./redux/cart/cart-thunks";
-import { fetchUserInfo } from "./redux/user/user-thunks";
 import {
     ACCOUNT,
     ACTIVATE,
@@ -35,6 +33,8 @@ import {
     REGISTRATION,
     RESET
 } from "./constants/routeConstants";
+import { fetchCart } from "./redux-toolkit/cart/cart-thunks";
+import { fetchUserInfo } from "./redux-toolkit/user/user-thunks";
 
 const App: FC = (): ReactElement => {
     const dispatch = useDispatch();

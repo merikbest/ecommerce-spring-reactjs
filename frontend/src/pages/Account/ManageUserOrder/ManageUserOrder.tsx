@@ -6,17 +6,17 @@ import { faInfoCircle, faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 
 import AccountDataItem from "../../../component/AccountDataItem/AccountDataItem";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
-import { fetchOrderById, fetchOrderItemsByOrderId } from "../../../redux/order/order-thunks";
-import { resetOrderState } from "../../../redux/order/order-actions";
+import Spinner from "../../../component/Spinner/Spinner";
+import ManageUserOrderTable from "./ManageUserOrderTable/ManageUserOrderTable";
 import {
     selectIsOrderLoaded,
     selectIsOrderLoading,
     selectOrder,
     selectOrderItems
-} from "../../../redux/order/order-selector";
-import Spinner from "../../../component/Spinner/Spinner";
+} from "../../../redux-toolkit/order/order-selector";
+import { fetchOrderById, fetchOrderItemsByOrderId } from "../../../redux-toolkit/order/order-thunks";
+import { resetOrderState } from "../../../redux-toolkit/order/order-slice";
 import "./ManageUserOrder.css";
-import ManageUserOrderTable from "./ManageUserOrderTable/ManageUserOrderTable";
 
 const ManageUserOrder: FC = (): ReactElement => {
     const dispatch = useDispatch();

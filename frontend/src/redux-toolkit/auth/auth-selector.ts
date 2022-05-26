@@ -1,6 +1,6 @@
 import { AuthErrors, LoadingStatus } from "../../types/types";
 import { RootState } from "../../store-rtk";
-import { AuthState } from "../../redux/auth/auth-reducer";
+import { AuthState } from "./auth-slice";
 
 export const selectAuthState = (state: RootState): AuthState => state.auth;
 export const selectUserAuthEmail = (state: RootState): string => selectAuthState(state).email;

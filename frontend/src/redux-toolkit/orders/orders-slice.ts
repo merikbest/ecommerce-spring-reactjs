@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 import { LoadingStatus, Order } from "../../types/types";
 import {
@@ -13,7 +13,7 @@ import {
 export interface OrdersState {
     orders: Array<Order>;
     loadingState: LoadingStatus;
-};
+}
 
 const initialState: OrdersState = {
     orders: [],
@@ -24,16 +24,7 @@ export const ordersSlice = createSlice({
     name: "orders",
     initialState,
     reducers: {
-        setOrdersLoadingState(state, action: PayloadAction<LoadingStatus>) {
-            state.loadingState = action.payload;
-        },
-        setUserOrders(state, action: PayloadAction<Array<Order>>) {
-            state.orders = action.payload;
-            state.loadingState = LoadingStatus.LOADED;
-        },
-        resetOrders(state) {
-            state = initialState;
-        }
+        resetOrders: () => initialState
     },
     extraReducers: (builder) => {
         builder.addCase(fetchUserOrders.pending, (state) => {
@@ -81,5 +72,5 @@ export const ordersSlice = createSlice({
     }
 });
 
-export const { setOrdersLoadingState, setUserOrders, resetOrders } = ordersSlice.actions;
+export const { resetOrders } = ordersSlice.actions;
 export default ordersSlice.reducer;

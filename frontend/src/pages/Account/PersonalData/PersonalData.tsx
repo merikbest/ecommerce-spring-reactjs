@@ -6,7 +6,7 @@ import EditPersonalData from "../EditPersonalData/EditPersonalData";
 import AccountDataItem from "../../../component/AccountDataItem/AccountDataItem";
 import IconButton from "../../../component/IconButton/IconButton";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
-import { selectUserFromUserState } from "../../../redux/user/user-selector";
+import { selectUserFromUserState } from "../../../redux-toolkit/user/user-selector";
 import "./PersonalData.css";
 
 const PersonalData: FC = (): ReactElement => {

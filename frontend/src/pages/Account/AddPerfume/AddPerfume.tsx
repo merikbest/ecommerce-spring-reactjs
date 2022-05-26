@@ -3,18 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
 import ToastShow from "../../../component/Toasts/ToastShow";
-import { addPerfume } from "../../../redux/admin/admin-thunks";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 import Input from "../../../component/Input/Input";
 import AddPerfumeSelect from "./AddPerfumeSelect/AddPerfumeSelect";
 import IconButton from "../../../component/IconButton/IconButton";
+import { LoadingStatus } from "../../../types/types";
 import {
     selectAdminStateErrors,
     selectIsAdminStateLoading,
     selectIsPerfumeAdded
-} from "../../../redux/admin/admin-selector";
-import { resetAdminState, setAdminLoadingState } from "../../../redux/admin/admin-actions";
-import { LoadingStatus } from "../../../types/types";
+} from "../../../redux-toolkit/admin/admin-selector";
+import { resetAdminState, setAdminLoadingState } from "../../../redux-toolkit/admin/admin-slice";
+import { addPerfume } from "../../../redux-toolkit/admin/admin-thunks";
 
 const initialState = {
     perfumeTitle: "",

@@ -4,16 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 
-import { addOrder } from "../../redux/order/order-thunks";
 import { validateEmail } from "../../utils/input-validators";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
 import OrderItem from "./OrderItem/OrderItem";
-import { resetOrderState, setOrderLoadingState } from "../../redux/order/order-actions";
-import { selectIsOrderLoading, selectOrderErrors } from "../../redux/order/order-selector";
-import { selectTotalPrice } from "../../redux/cart/cart-selector";
-import { selectUserFromUserState } from "../../redux/user/user-selector";
-import { selectPerfumes } from "../../redux/perfumes/perfumes-selector";
-import { resetPerfumesState } from "../../redux/perfumes/perfumes-actions";
+import { selectUserFromUserState } from "../../redux-toolkit/user/user-selector";
+import { selectTotalPrice } from "../../redux-toolkit/cart/cart-selector";
+import { selectPerfumes } from "../../redux-toolkit/perfumes/perfumes-selector";
+import { selectIsOrderLoading, selectOrderErrors } from "../../redux-toolkit/order/order-selector";
+import { resetOrderState, setOrderLoadingState } from "../../redux-toolkit/order/order-slice";
+import { resetPerfumesState } from "../../redux-toolkit/perfumes/perfumes-slice";
+import { addOrder } from "../../redux-toolkit/order/order-thunks";
 import Input from "../../component/Input/Input";
 import { LoadingStatus } from "../../types/types";
 
@@ -67,7 +67,7 @@ const Order: FC = (): ReactElement => {
         } else {
             setValidateEmailError("");
             const order = { firstName, lastName, city, address, postIndex, phoneNumber, email, perfumesId, totalPrice };
-            dispatch(addOrder(order, history));
+            dispatch(addOrder({ order, history }));
         }
     };
 

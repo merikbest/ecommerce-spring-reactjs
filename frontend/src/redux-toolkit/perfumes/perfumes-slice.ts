@@ -23,9 +23,6 @@ export const perfumesSlice = createSlice({
     name: "perfumes",
     initialState,
     reducers: {
-        setPerfumesLoadingState(state, action: PayloadAction<LoadingStatus>) {
-            state.loadingState = action.payload;
-        },
         setPerfumes(state, action: PayloadAction<Array<Perfume>>) {
             state.perfumes = action.payload;
             state.loadingState = LoadingStatus.LOADED;
@@ -91,5 +88,5 @@ export const perfumesSlice = createSlice({
     }
 });
 
-export const { setPerfumesLoadingState, setPerfumes, removePerfumeById, resetPerfumesState } = perfumesSlice.actions;
+export const { setPerfumes, removePerfumeById, resetPerfumesState } = perfumesSlice.actions;
 export default perfumesSlice.reducer;

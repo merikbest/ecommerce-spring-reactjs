@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {BrowserRouter} from "react-router-dom";
-import {Provider} from "react-redux";
-import {ApolloProvider, ApolloClient, InMemoryCache, NormalizedCacheObject} from "@apollo/client"
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { ApolloClient, ApolloProvider, InMemoryCache, NormalizedCacheObject } from "@apollo/client";
 
-import App from './App';
-import store from "./store";
-import {API_BASE_URL} from "./constants/urlConstants";
+import App from "./App";
+import { API_BASE_URL } from "./constants/urlConstants";
+import { store } from "./store-rtk";
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
     uri: API_BASE_URL,
@@ -17,8 +17,9 @@ ReactDOM.render(
     <ApolloProvider client={client}>
         <Provider store={store}>
             <BrowserRouter>
-                <App/>
+                <App />
             </BrowserRouter>
         </Provider>
-    </ApolloProvider>, document.getElementById('root')
+    </ApolloProvider>,
+    document.getElementById("root")
 );

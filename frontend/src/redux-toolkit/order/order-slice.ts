@@ -9,7 +9,7 @@ export interface OrderState {
     errors: Partial<OrderError>;
     errorMessage: string;
     loadingState: LoadingStatus;
-};
+}
 
 const initialState: OrderState = {
     order: {},
@@ -26,24 +26,7 @@ export const orderSlice = createSlice({
         setOrderLoadingState(state, action: PayloadAction<LoadingStatus>) {
             state.loadingState = action.payload;
         },
-        setOrder(state, action: PayloadAction<Order>) {
-            state.order = action.payload;
-            state.loadingState = LoadingStatus.LOADED;
-        },
-        setOrderItems(state, action: PayloadAction<Array<OrderItem>>) {
-            state.orderItems = action.payload;
-        },
-        setOrderError(state, action: PayloadAction<string>) {
-            state.errorMessage = action.payload;
-            state.loadingState = LoadingStatus.ERROR;
-        },
-        orderAddedFailure(state, action: PayloadAction<OrderError>) {
-            state.errors = action.payload;
-            state.loadingState = LoadingStatus.ERROR;
-        },
-        resetOrderState(state) {
-            state = initialState;
-        }
+        resetOrderState: () => initialState
     },
     extraReducers: (builder) => {
         builder.addCase(fetchOrderById.pending, (state) => {
@@ -74,6 +57,5 @@ export const orderSlice = createSlice({
     }
 });
 
-export const { setOrderLoadingState, setOrder, setOrderItems, setOrderError, orderAddedFailure, resetOrderState } =
-    orderSlice.actions;
+export const { setOrderLoadingState, resetOrderState } = orderSlice.actions;
 export default orderSlice.reducer;

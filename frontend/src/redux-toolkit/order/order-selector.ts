@@ -1,6 +1,6 @@
 import { LoadingStatus, Order, OrderError, OrderItem } from "../../types/types";
 import { RootState } from "../../store-rtk";
-import { OrderState } from "../../redux/order/order-reducer";
+import { OrderState } from "./order-slice";
 
 export const selectOrderState = (state: RootState): OrderState => state.order;
 export const selectOrder = (state: RootState): Partial<Order> => selectOrderState(state).order;

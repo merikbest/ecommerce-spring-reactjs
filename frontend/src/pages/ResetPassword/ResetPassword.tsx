@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { faLock, faSync, faUndo } from "@fortawesome/free-solid-svg-icons";
 
-import { fetchResetPasswordCode, resetPassword } from "../../redux/auth/auth-thunks";
 import { UserResetPasswordRequest } from "../../types/types";
 import InfoTitle from "../../component/InfoTitle/InfoTitle";
 import Alert from "../../component/Alert/Alert";
 import Input from "../../component/Input/Input";
 import IconButton from "../../component/IconButton/IconButton";
-import { selectErrorMessage, selectErrors, selectUserAuthEmail } from "../../redux/auth/auth-selector";
-import { resetAuthState } from "../../redux/auth/auth-actions";
+import { selectErrorMessage, selectErrors, selectUserAuthEmail } from "../../redux-toolkit/auth/auth-selector";
+import { resetAuthState } from "../../redux-toolkit/auth/auth-slice";
+import { fetchResetPasswordCode, resetPassword } from "../../redux-toolkit/auth/auth-thunks";
 
 const initialState = {
     password: "",
@@ -38,7 +38,7 @@ const ResetPassword: FC = (): ReactElement => {
     const onClickReset = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         const userResetPasswordData: UserResetPasswordRequest = { email: userEmail, password, password2 };
-        dispatch(resetPassword(userResetPasswordData, history));
+        dispatch(resetPassword({ request: userResetPasswordData, history }));
     };
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
