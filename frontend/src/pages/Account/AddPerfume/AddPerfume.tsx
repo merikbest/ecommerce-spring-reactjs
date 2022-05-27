@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState } from "react";
+import React, { FC, FormEvent, ReactElement, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,6 +15,7 @@ import {
 } from "../../../redux-toolkit/admin/admin-selector";
 import { resetAdminState, setAdminLoadingState } from "../../../redux-toolkit/admin/admin-slice";
 import { addPerfume } from "../../../redux-toolkit/admin/admin-thunks";
+import { useInput } from "../../../hooks/useInput";
 
 const initialState = {
     perfumeTitle: "",
@@ -37,26 +38,8 @@ const AddPerfume: FC = (): ReactElement => {
     const isPerfumeAdded = useSelector(selectIsPerfumeAdded);
     const isLoading = useSelector(selectIsAdminStateLoading);
     const errors = useSelector(selectAdminStateErrors);
-
-    const [
-        {
-            perfumeTitle,
-            perfumer,
-            year,
-            country,
-            type,
-            volume,
-            perfumeGender,
-            fragranceTopNotes,
-            fragranceMiddleNotes,
-            fragranceBaseNotes,
-            price,
-            file,
-            perfumeRating
-        },
-        setState
-    ] = useState(initialState);
     const [showToast, setShowToast] = useState(false);
+    const { inputValue, setInputValue, handleInputChange } = useInput(initialState);
 
     useEffect(() => {
         dispatch(setAdminLoadingState(LoadingStatus.LOADED));
@@ -68,7 +51,7 @@ const AddPerfume: FC = (): ReactElement => {
 
     useEffect(() => {
         if (isPerfumeAdded) {
-            setState({ ...initialState });
+            setInputValue(initialState);
             setShowToast(true);
             setTimeout(() => {
                 setShowToast(false);
@@ -82,24 +65,24 @@ const AddPerfume: FC = (): ReactElement => {
         event.preventDefault();
 
         const bodyFormData: FormData = new FormData();
-        bodyFormData.append("file", file);
+        bodyFormData.append("file", inputValue.file);
         bodyFormData.append(
             "perfume",
             new Blob(
                 [
                     JSON.stringify({
-                        perfumeTitle,
-                        perfumer,
-                        year,
-                        country,
-                        type,
-                        volume,
-                        perfumeGender,
-                        fragranceTopNotes,
-                        fragranceMiddleNotes,
-                        fragranceBaseNotes,
-                        price,
-                        perfumeRating
+                        perfumeTitle: inputValue.perfumeTitle,
+                        perfumer: inputValue.perfumer,
+                        year: inputValue.year,
+                        country: inputValue.country,
+                        type: inputValue.type,
+                        volume: inputValue.volume,
+                        perfumeGender: inputValue.perfumeGender,
+                        fragranceTopNotes: inputValue.fragranceTopNotes,
+                        fragranceMiddleNotes: inputValue.fragranceMiddleNotes,
+                        fragranceBaseNotes: inputValue.fragranceBaseNotes,
+                        price: inputValue.price,
+                        perfumeRating: inputValue.perfumeRating
                     })
                 ],
                 { type: "application/json" }
@@ -110,12 +93,7 @@ const AddPerfume: FC = (): ReactElement => {
     };
 
     const handleFileChange = (event: any): void => {
-        setState((prevState) => ({ ...prevState, file: event.target.files[0] }));
-    };
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>): void => {
-        const { name, value } = event.target;
-        setState((prevState) => ({ ...prevState, [name]: value }));
+        setInputValue((prevState: any) => ({ ...prevState, file: event.target.files[0] }));
     };
 
     return (
@@ -132,7 +110,7 @@ const AddPerfume: FC = (): ReactElement => {
                             title={"Perfume title"}
                             error={errors.perfumeTitleError}
                             name={"perfumeTitle"}
-                            value={perfumeTitle}
+                            value={inputValue.perfumeTitle}
                             placeholder={"Enter the perfume title"}
                             disabled={isLoading}
                             onChange={handleInputChange}
@@ -143,7 +121,7 @@ const AddPerfume: FC = (): ReactElement => {
                             title={"Brand"}
                             error={errors.perfumerError}
                             name={"perfumer"}
-                            value={perfumer}
+                            value={inputValue.perfumer}
                             placeholder={"Enter the brand"}
                             disabled={isLoading}
                             onChange={handleInputChange}
@@ -156,7 +134,7 @@ const AddPerfume: FC = (): ReactElement => {
                             title={"Release year"}
                             error={errors.yearError}
                             name={"year"}
-                            value={year}
+                            value={inputValue.year}
                             placeholder={"Enter the release year"}
                             disabled={isLoading}
                             onChange={handleInputChange}
@@ -167,7 +145,7 @@ const AddPerfume: FC = (): ReactElement => {
                             title={"Manufacturer country"}
                             error={errors.countryError}
                             name={"country"}
-                            value={country}
+                            value={inputValue.country}
                             placeholder={"Enter the manufacturer country"}
                             disabled={isLoading}
                             onChange={handleInputChange}
@@ -188,7 +166,7 @@ const AddPerfume: FC = (): ReactElement => {
                             title={"Volume"}
                             error={errors.volumeError}
                             name={"volume"}
-                            value={volume}
+                            value={inputValue.volume}
                             placeholder={"Enter the volume"}
                             disabled={isLoading}
                             onChange={handleInputChange}
@@ -209,7 +187,7 @@ const AddPerfume: FC = (): ReactElement => {
                             title={"Top notes"}
                             error={errors.fragranceTopNotesError}
                             name={"fragranceTopNotes"}
-                            value={fragranceTopNotes}
+                            value={inputValue.fragranceTopNotes}
                             placeholder={"Enter the top notes"}
                             disabled={isLoading}
                             onChange={handleInputChange}
@@ -222,7 +200,7 @@ const AddPerfume: FC = (): ReactElement => {
                             title={"Heart notes"}
                             error={errors.fragranceMiddleNotesError}
                             name={"fragranceMiddleNotes"}
-                            value={fragranceMiddleNotes}
+                            value={inputValue.fragranceMiddleNotes}
                             placeholder={"Enter the heart notes"}
                             disabled={isLoading}
                             onChange={handleInputChange}
@@ -233,7 +211,7 @@ const AddPerfume: FC = (): ReactElement => {
                             title={"Base notes"}
                             error={errors.fragranceBaseNotesError}
                             name={"fragranceBaseNotes"}
-                            value={fragranceBaseNotes}
+                            value={inputValue.fragranceBaseNotes}
                             placeholder={"Enter the base notes"}
                             disabled={isLoading}
                             onChange={handleInputChange}
@@ -246,7 +224,7 @@ const AddPerfume: FC = (): ReactElement => {
                             title={"Price"}
                             error={errors.priceError}
                             name={"price"}
-                            value={price}
+                            value={inputValue.price}
                             placeholder={"Enter the price"}
                             disabled={isLoading}
                             onChange={handleInputChange}

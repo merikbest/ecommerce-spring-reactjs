@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState } from "react";
+import React, { FC, FormEvent, ReactElement, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { faEnvelope, faLock, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
@@ -17,12 +17,8 @@ import { selectErrorMessage } from "../../redux-toolkit/auth/auth-selector";
 import { resetAuthState } from "../../redux-toolkit/auth/auth-slice";
 import { activateAccount, login } from "../../redux-toolkit/auth/auth-thunks";
 import { selectSuccessMessage } from "../../redux-toolkit/user/user-selector";
+import { useInput } from "../../hooks/useInput";
 import "./Login.css";
-
-const initialState = {
-    email: "",
-    password: ""
-};
 
 const Login: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -30,8 +26,8 @@ const Login: FC = (): ReactElement => {
     const params = useParams<{ code: string }>();
     const errorMessage = useSelector(selectErrorMessage);
     const successMessage = useSelector(selectSuccessMessage);
-    const [loginInfo, setLoginInfo] = useState(initialState);
-    const { email, password } = loginInfo;
+    const { inputValue, handleInputChange } = useInput({ email: "", password: "" });
+    const { email, password } = inputValue;
 
     useEffect(() => {
         if (params.code) {
@@ -47,11 +43,6 @@ const Login: FC = (): ReactElement => {
         event.preventDefault();
         const userData: UserData = { email, password };
         dispatch(login({ userData, history }));
-    };
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const { name, value } = event.target;
-        setLoginInfo({ ...loginInfo, [name]: value });
     };
 
     return (

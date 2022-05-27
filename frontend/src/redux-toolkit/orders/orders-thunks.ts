@@ -3,6 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Order } from "../../types/types";
 import RequestService from "../../utils/request-service";
 import {
+    ADMIN_GRAPHQL_ORDER,
     ADMIN_GRAPHQL_ORDERS,
     ADMIN_ORDER,
     ADMIN_ORDERS,
@@ -49,7 +50,7 @@ export const fetchAllUsersOrdersByQuery = createAsyncThunk<Array<Order>>(
 export const fetchUserOrdersByEmailQuery = createAsyncThunk<Array<Order>, string>(
     "orders/fetchUserOrdersByEmailQuery",
     async (email) => {
-        const response = await RequestService.post(USERS_GRAPHQL_ORDERS, { query: ordersByEmailQuery(email) }, true);
+        const response = await RequestService.post(ADMIN_GRAPHQL_ORDER, { query: ordersByEmailQuery(email) }, true);
         return response.data.data.ordersByEmail;
     }
 );

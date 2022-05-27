@@ -16,7 +16,7 @@ export const login = createAsyncThunk<
         const response = await RequestService.post(AUTH_LOGIN, userData);
         localStorage.setItem("token", response.data.token);
         history.push(ACCOUNT);
-        thunkApi.dispatch(setUser(response.data));
+        thunkApi.dispatch(setUser(response.data.user));
         return response.data;
     } catch (error) {
         return thunkApi.rejectWithValue(error.response.data);

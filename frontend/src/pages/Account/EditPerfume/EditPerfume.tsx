@@ -9,7 +9,7 @@ import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 import IconButton from "../../../component/IconButton/IconButton";
 import EditPerfumeSelect from "./EditPerfumeSelect/EditPerfumeSelect";
 import Input from "../../../component/Input/Input";
-import { selectPerfume } from "../../../redux-toolkit/perfume/perfume-selector";
+import { selectIsPerfumeLoaded, selectPerfume } from "../../../redux-toolkit/perfume/perfume-selector";
 import {
     selectAdminStateErrors,
     selectIsAdminStateLoading,
@@ -18,21 +18,22 @@ import {
 import { resetAdminState, setAdminLoadingState } from "../../../redux-toolkit/admin/admin-slice";
 import { fetchPerfume } from "../../../redux-toolkit/perfume/perfume-thunks";
 import { updatePerfume } from "../../../redux-toolkit/admin/admin-thunks";
+import { useInput } from "../../../hooks/useInput";
 
 const EditPerfume: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const params = useParams<{ id: string }>();
     const perfumeData = useSelector(selectPerfume);
+    const isPerfumeLoaded = useSelector(selectIsPerfumeLoaded);
     const isLoading = useSelector(selectIsAdminStateLoading);
     const errors = useSelector(selectAdminStateErrors);
     const isPerfumeEdited = useSelector(selectIsPerfumeEdited);
-    const [perfume, setPerfume] = useState<Partial<Perfume> | undefined>(undefined);
     const [showToast, setShowToast] = useState<boolean>(false);
+    const { inputValue, setInputValue, handleInputChange } = useInput<Partial<Perfume> | undefined>(undefined);
 
     useEffect(() => {
         dispatch(setAdminLoadingState(LoadingStatus.LOADED));
         dispatch(fetchPerfume(params.id));
-        setPerfume(perfumeData);
 
         return () => {
             dispatch(resetAdminState());
@@ -40,39 +41,45 @@ const EditPerfume: FC = (): ReactElement => {
     }, []);
 
     useEffect(() => {
-        setPerfume(perfumeData);
+        if (isPerfumeLoaded) {
+            setInputValue(perfumeData);
+        }
+    }, [isPerfumeLoaded]);
+
+    useEffect(() => {
         if (isPerfumeEdited) {
+            setInputValue(perfumeData);
             setShowToast(true);
             setTimeout(() => {
                 setShowToast(false);
             }, 5000);
             window.scrollTo(0, 0);
         }
-    }, [perfumeData]);
+    }, [isPerfumeEdited]);
 
     const onFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
 
         const bodyFormData: FormData = new FormData();
-        bodyFormData.append("file", perfume?.file);
+        bodyFormData.append("file", inputValue?.file);
         bodyFormData.append(
             "perfume",
             new Blob(
                 [
                     JSON.stringify({
-                        id: perfume?.id,
-                        perfumeTitle: perfume?.perfumeTitle,
-                        perfumer: perfume?.perfumer,
-                        year: perfume?.year,
-                        country: perfume?.country,
-                        type: perfume?.type,
-                        volume: perfume?.volume,
-                        perfumeGender: perfume?.perfumeGender,
-                        fragranceTopNotes: perfume?.fragranceTopNotes,
-                        fragranceMiddleNotes: perfume?.fragranceMiddleNotes,
-                        fragranceBaseNotes: perfume?.fragranceBaseNotes,
-                        filename: perfume?.filename,
-                        price: perfume?.price
+                        id: inputValue?.id,
+                        perfumeTitle: inputValue?.perfumeTitle,
+                        perfumer: inputValue?.perfumer,
+                        year: inputValue?.year,
+                        country: inputValue?.country,
+                        type: inputValue?.type,
+                        volume: inputValue?.volume,
+                        perfumeGender: inputValue?.perfumeGender,
+                        fragranceTopNotes: inputValue?.fragranceTopNotes,
+                        fragranceMiddleNotes: inputValue?.fragranceMiddleNotes,
+                        fragranceBaseNotes: inputValue?.fragranceBaseNotes,
+                        filename: inputValue?.filename,
+                        price: inputValue?.price
                     })
                 ],
                 { type: "application/json" }
@@ -85,13 +92,8 @@ const EditPerfume: FC = (): ReactElement => {
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
         const { name, files } = event.target;
         if (files) {
-            setPerfume({ ...perfume, [name]: files[0] });
+            setInputValue({ ...inputValue, [name]: files[0] });
         }
-    };
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>): void => {
-        const { name, value } = event.target;
-        setPerfume({ ...perfume, [name]: value });
     };
 
     return (
@@ -109,7 +111,7 @@ const EditPerfume: FC = (): ReactElement => {
                                 type={"text"}
                                 error={errors.perfumeTitleError}
                                 name={"perfumeTitle"}
-                                value={perfume?.perfumeTitle}
+                                value={inputValue?.perfumeTitle}
                                 disabled={isLoading}
                                 onChange={handleInputChange}
                             />
@@ -120,7 +122,7 @@ const EditPerfume: FC = (): ReactElement => {
                                 type={"text"}
                                 error={errors.perfumerError}
                                 name={"perfumer"}
-                                value={perfume?.perfumer}
+                                value={inputValue?.perfumer}
                                 disabled={isLoading}
                                 onChange={handleInputChange}
                             />
@@ -131,7 +133,7 @@ const EditPerfume: FC = (): ReactElement => {
                                 type={"text"}
                                 error={errors.yearError}
                                 name={"year"}
-                                value={perfume?.year}
+                                value={inputValue?.year}
                                 disabled={isLoading}
                                 onChange={handleInputChange}
                             />
@@ -142,7 +144,7 @@ const EditPerfume: FC = (): ReactElement => {
                                 type={"text"}
                                 error={errors.countryError}
                                 name={"country"}
-                                value={perfume?.country}
+                                value={inputValue?.country}
                                 disabled={isLoading}
                                 onChange={handleInputChange}
                             />
@@ -173,7 +175,7 @@ const EditPerfume: FC = (): ReactElement => {
                                 type={"text"}
                                 error={errors.volumeError}
                                 name={"volume"}
-                                value={perfume?.volume}
+                                value={inputValue?.volume}
                                 disabled={isLoading}
                                 onChange={handleInputChange}
                             />
@@ -208,7 +210,7 @@ const EditPerfume: FC = (): ReactElement => {
                                 type={"text"}
                                 error={errors.fragranceTopNotesError}
                                 name={"fragranceTopNotes"}
-                                value={perfume?.fragranceTopNotes}
+                                value={inputValue?.fragranceTopNotes}
                                 disabled={isLoading}
                                 onChange={handleInputChange}
                             />
@@ -219,7 +221,7 @@ const EditPerfume: FC = (): ReactElement => {
                                 type={"text"}
                                 error={errors.fragranceMiddleNotesError}
                                 name={"fragranceMiddleNotes"}
-                                value={perfume?.fragranceMiddleNotes}
+                                value={inputValue?.fragranceMiddleNotes}
                                 disabled={isLoading}
                                 onChange={handleInputChange}
                             />
@@ -230,7 +232,7 @@ const EditPerfume: FC = (): ReactElement => {
                                 type={"text"}
                                 error={errors.fragranceBaseNotesError}
                                 name={"fragranceBaseNotes"}
-                                value={perfume?.fragranceBaseNotes}
+                                value={inputValue?.fragranceBaseNotes}
                                 disabled={isLoading}
                                 onChange={handleInputChange}
                             />
@@ -241,13 +243,13 @@ const EditPerfume: FC = (): ReactElement => {
                                 type={"text"}
                                 error={errors.priceError}
                                 name={"price"}
-                                value={perfume?.price}
+                                value={inputValue?.price}
                                 disabled={isLoading}
                                 onChange={handleInputChange}
                             />
                         </div>
                         <div className="col-md-6">
-                            <img src={perfume?.filename} className="rounded mx-auto w-100 mb-2" />
+                            <img src={inputValue?.filename} className="rounded mx-auto w-100 mb-2" />
                             <input type="file" name="file" onChange={handleFileChange} />
                         </div>
                     </div>

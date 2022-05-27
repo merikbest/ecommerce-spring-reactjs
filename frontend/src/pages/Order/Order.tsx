@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState } from "react";
+import React, { FC, FormEvent, ReactElement, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,16 +16,7 @@ import { resetPerfumesState } from "../../redux-toolkit/perfumes/perfumes-slice"
 import { addOrder } from "../../redux-toolkit/order/order-thunks";
 import Input from "../../component/Input/Input";
 import { LoadingStatus } from "../../types/types";
-
-const initialState = {
-    firstName: "",
-    lastName: "",
-    city: "",
-    address: "",
-    phoneNumber: "",
-    postIndex: "",
-    email: ""
-};
+import { useInput } from "../../hooks/useInput";
 
 const Order: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -35,19 +26,27 @@ const Order: FC = (): ReactElement => {
     const totalPrice = useSelector(selectTotalPrice);
     const errors = useSelector(selectOrderErrors);
     const isOrderLoading = useSelector(selectIsOrderLoading);
-    const [user, setUser] = useState(initialState);
     const [validateEmailError, setValidateEmailError] = useState<string>("");
+    const { inputValue, setInputValue, handleInputChange } = useInput({
+        firstName: "",
+        lastName: "",
+        city: "",
+        address: "",
+        phoneNumber: "",
+        postIndex: "",
+        email: ""
+    });
 
     const perfumesFromLocalStorage: Map<number, number> = new Map(
         JSON.parse(localStorage.getItem("perfumes") as string)
     );
-    const { firstName, lastName, city, address, phoneNumber, postIndex, email } = user;
+    const { firstName, lastName, city, address, phoneNumber, postIndex, email } = inputValue;
 
     useEffect(() => {
         dispatch(setOrderLoadingState(LoadingStatus.LOADED));
 
         if (usersData) {
-            setUser(usersData);
+            setInputValue(usersData);
         }
 
         return () => {
@@ -69,11 +68,6 @@ const Order: FC = (): ReactElement => {
             const order = { firstName, lastName, city, address, postIndex, phoneNumber, email, perfumesId, totalPrice };
             dispatch(addOrder({ order, history }));
         }
-    };
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const { name, value } = event.target;
-        setUser({ ...user, [name]: value });
     };
 
     return (

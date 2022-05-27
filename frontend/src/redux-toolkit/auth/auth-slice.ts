@@ -19,7 +19,7 @@ export interface AuthState {
     errors: Partial<AuthErrors>;
 }
 
-const initialState: AuthState = {
+export const initialState: AuthState = {
     email: "",
     isRegistered: false,
     loadingState: LoadingStatus.LOADING,

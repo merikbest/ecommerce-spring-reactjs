@@ -1,5 +1,5 @@
 import { AuthErrors, LoadingStatus, ReviewError, User, UserEditErrors } from "../../types/types";
-import { RootState } from "../../store-rtk";
+import { RootState } from "../../store";
 import { UserState } from "./user-slice";
 
 export const selectUserState = (state: RootState): UserState => state.user;

@@ -10,7 +10,13 @@ import {
     UserResetPasswordRequest
 } from "../../types/types";
 import RequestService from "../../utils/request-service";
-import { USERS_EDIT, USERS_GRAPHQL_INFO, USERS_INFO, USERS_REVIEW } from "../../constants/urlConstants";
+import {
+    AUTH_EDIT_PASSWORD,
+    USERS_EDIT,
+    USERS_GRAPHQL_INFO,
+    USERS_INFO,
+    USERS_REVIEW
+} from "../../constants/urlConstants";
 import { userByQuery } from "../../utils/graphql-query/users-query";
 
 export const fetchUserInfo = createAsyncThunk<User>("user/fetchUserInfo", async () => {
@@ -34,7 +40,7 @@ export const updateUserPassword = createAsyncThunk<string, UserResetPasswordRequ
     "user/updateUserPassword",
     async (request, thunkApi) => {
         try {
-            const response = await RequestService.put(USERS_EDIT, request, true);
+            const response = await RequestService.put(AUTH_EDIT_PASSWORD, request, true);
             return response.data;
         } catch (error) {
             return thunkApi.rejectWithValue(error.response.data);

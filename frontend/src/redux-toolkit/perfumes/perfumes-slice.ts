@@ -5,8 +5,10 @@ import {
     fetchPerfumes,
     fetchPerfumesByFilterParams,
     fetchPerfumesByGender,
-    fetchPerfumesByIds, fetchPerfumesByIdsQuery,
-    fetchPerfumesByPerfumer, fetchPerfumesByQuery
+    fetchPerfumesByIds,
+    fetchPerfumesByIdsQuery,
+    fetchPerfumesByPerfumer,
+    fetchPerfumesByQuery
 } from "./perfumes-thunks";
 
 export interface PerfumesState {
@@ -14,7 +16,7 @@ export interface PerfumesState {
     loadingState: LoadingStatus;
 }
 
-const initialState: PerfumesState = {
+export const initialState: PerfumesState = {
     perfumes: [],
     loadingState: LoadingStatus.LOADING
 };
@@ -31,9 +33,7 @@ export const perfumesSlice = createSlice({
             state.perfumes = state.perfumes.filter((perfume) => perfume.id !== action.payload);
             state.loadingState = LoadingStatus.LOADED;
         },
-        resetPerfumesState(state) {
-            state = initialState;
-        }
+        resetPerfumesState: () => initialState
     },
     extraReducers: (builder) => {
         builder.addCase(fetchPerfumes.pending, (state) => {

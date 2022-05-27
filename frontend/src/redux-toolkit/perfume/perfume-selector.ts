@@ -1,5 +1,5 @@
 import { LoadingStatus, Perfume, Review } from "../../types/types";
-import { RootState } from "../../store-rtk";
+import { RootState } from "../../store";
 import { PerfumeState } from "./perfume-slice";
 
 export const selectPerfumeState = (state: RootState): PerfumeState => state.perfume;

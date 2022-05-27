@@ -9,7 +9,7 @@ export interface CartState {
     cartItemsCount: number;
 }
 
-const initialState: CartState = {
+export const initialState: CartState = {
     loadingState: LoadingStatus.LOADING,
     totalPrice: 0,
     cartItemsCount: 0

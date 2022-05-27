@@ -1,5 +1,5 @@
 import { LoadingStatus, PerfumeErrors, User } from "../../types/types";
-import { RootState } from "../../store-rtk";
+import { RootState } from "../../store";
 import { AdminState } from "./admin-slice";
 
 export const selectAdminState = (state: RootState): AdminState => state.admin;

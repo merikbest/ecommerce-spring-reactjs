@@ -15,7 +15,7 @@ export interface OrdersState {
     loadingState: LoadingStatus;
 }
 
-const initialState: OrdersState = {
+export const initialState: OrdersState = {
     orders: [],
     loadingState: LoadingStatus.LOADING
 };

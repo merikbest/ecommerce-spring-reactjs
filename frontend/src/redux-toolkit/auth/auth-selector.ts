@@ -1,5 +1,5 @@
 import { AuthErrors, LoadingStatus } from "../../types/types";
-import { RootState } from "../../store-rtk";
+import { RootState } from "../../store";
 import { AuthState } from "./auth-slice";
 
 export const selectAuthState = (state: RootState): AuthState => state.auth;

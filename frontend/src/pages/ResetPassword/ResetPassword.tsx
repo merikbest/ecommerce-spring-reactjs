@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState } from "react";
+import React, { FC, FormEvent, ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 import { faLock, faSync, faUndo } from "@fortawesome/free-solid-svg-icons";
@@ -11,11 +11,7 @@ import IconButton from "../../component/IconButton/IconButton";
 import { selectErrorMessage, selectErrors, selectUserAuthEmail } from "../../redux-toolkit/auth/auth-selector";
 import { resetAuthState } from "../../redux-toolkit/auth/auth-slice";
 import { fetchResetPasswordCode, resetPassword } from "../../redux-toolkit/auth/auth-thunks";
-
-const initialState = {
-    password: "",
-    password2: ""
-};
+import { useInput } from "../../hooks/useInput";
 
 const ResetPassword: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -24,8 +20,8 @@ const ResetPassword: FC = (): ReactElement => {
     const userEmail = useSelector(selectUserAuthEmail);
     const error = useSelector(selectErrorMessage);
     const errors = useSelector(selectErrors);
-    const [passwordData, setPasswordData] = useState(initialState);
-    const { password, password2 } = passwordData;
+    const { inputValue, handleInputChange } = useInput({ password: "", password2: "" });
+    const { password, password2 } = inputValue;
 
     useEffect(() => {
         dispatch(resetAuthState());
@@ -39,11 +35,6 @@ const ResetPassword: FC = (): ReactElement => {
         event.preventDefault();
         const userResetPasswordData: UserResetPasswordRequest = { email: userEmail, password, password2 };
         dispatch(resetPassword({ request: userResetPasswordData, history }));
-    };
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const { name, value } = event.target;
-        setPasswordData({ ...passwordData, [name]: value });
     };
 
     return (

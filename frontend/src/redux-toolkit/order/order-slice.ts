@@ -11,7 +11,7 @@ export interface OrderState {
     loadingState: LoadingStatus;
 }
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
     order: {},
     orderItems: [],
     errors: {},

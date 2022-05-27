@@ -1,8 +1,7 @@
-import React, { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState } from "react";
+import React, { FC, FormEvent, ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { faLock, faUndo } from "@fortawesome/free-solid-svg-icons";
 
-import { UserResetPasswordRequest } from "../../../types/types";
 import InfoTitle from "../../../component/InfoTitle/InfoTitle";
 import Alert from "../../../component/Alert/Alert";
 import IconButton from "../../../component/IconButton/IconButton";
@@ -10,6 +9,7 @@ import Input from "../../../component/Input/Input";
 import { selectSuccessMessage, selectUserResetPasswordErrors } from "../../../redux-toolkit/user/user-selector";
 import { resetInputForm } from "../../../redux-toolkit/user/user-slice";
 import { updateUserPassword } from "../../../redux-toolkit/user/user-thunks";
+import { useInput } from "../../../hooks/useInput";
 import "./ChangePassword.css";
 
 const initialState = {
@@ -21,27 +21,21 @@ const ChangePassword: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const errors = useSelector(selectUserResetPasswordErrors);
     const successMessage = useSelector(selectSuccessMessage);
-    const [passwords, setPasswords] = useState(initialState);
+    const { inputValue, setInputValue, handleInputChange } = useInput(initialState);
     const { passwordError, password2Error } = errors;
-    const { password, password2 } = passwords;
+    const { password, password2 } = inputValue;
 
     useEffect(() => {
         dispatch(resetInputForm());
     }, []);
 
     useEffect(() => {
-        setPasswords(initialState);
+        setInputValue(initialState);
     }, [successMessage]);
 
     const onFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
-        const data: UserResetPasswordRequest = { email: "", password, password2 };
-        dispatch(updateUserPassword(data));
-    };
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const { name, value } = event.target;
-        setPasswords({ ...passwords, [name]: value });
+        dispatch(updateUserPassword({ email: "", password, password2 }));
     };
 
     return (

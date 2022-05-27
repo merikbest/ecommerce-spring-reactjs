@@ -19,7 +19,7 @@ export interface UserState {
     isReviewAdded: boolean;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
     user: undefined,
     loadingState: LoadingStatus.LOADING,
     successMessage: "",

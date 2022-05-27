@@ -21,7 +21,7 @@ import "./MenuStyle.css";
 const Menu: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const perfumes = useSelector(selectPerfumes);
-    const loading = useSelector(selectIsPerfumesLoading);
+    const isPerfumesLoading = useSelector(selectIsPerfumesLoading);
     const [filterParams, setFilterParams] = useState<FilterParamsType>({
         perfumers: [],
         genders: [],
@@ -102,7 +102,7 @@ const Menu: FC = (): ReactElement => {
                 component={() => (
                     <MenuCards
                         data={perfumes}
-                        loading={loading}
+                        loading={isPerfumesLoading}
                         itemsPerPage={16}
                         searchByData={[
                             { label: "Brand", value: "perfumer" },

@@ -6,7 +6,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache, NormalizedCacheObject } fr
 
 import App from "./App";
 import { API_BASE_URL } from "./constants/urlConstants";
-import { store } from "./store-rtk";
+import { store } from "./store";
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
     uri: API_BASE_URL,

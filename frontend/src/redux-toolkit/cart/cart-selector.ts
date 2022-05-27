@@ -1,5 +1,5 @@
 import { LoadingStatus } from "../../types/types";
-import { RootState } from "../../store-rtk";
+import { RootState } from "../../store";
 import { CartState } from "./cart-slice";
 
 export const selectCartState = (state: RootState): CartState => state.cart;

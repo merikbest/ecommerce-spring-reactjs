@@ -10,7 +10,7 @@ export interface PerfumeState {
     loadingState: LoadingStatus;
 }
 
-const initialState: PerfumeState = {
+export const initialState: PerfumeState = {
     perfume: {},
     reviews: [],
     errorMessage: "",

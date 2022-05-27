@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState } from "react";
+import React, { FC, FormEvent, ReactElement, useEffect, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useDispatch, useSelector } from "react-redux";
 import { faEnvelope, faLock, faUser, faUserPlus } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +12,7 @@ import Input from "../../component/Input/Input";
 import { selectErrors, selectIsAuthLoading, selectIsRegistered } from "../../redux-toolkit/auth/auth-selector";
 import { resetAuthState, setAuthLoadingState } from "../../redux-toolkit/auth/auth-slice";
 import { registration } from "../../redux-toolkit/auth/auth-thunks";
+import { useInput } from "../../hooks/useInput";
 
 const initialState = {
     email: "",
@@ -26,21 +27,20 @@ const Registration: FC = (): ReactElement => {
     const isRegistered = useSelector(selectIsRegistered);
     const isLoading = useSelector(selectIsAuthLoading);
     const errors = useSelector(selectErrors);
-
-    const [registrationInfo, setRegistrationInfo] = useState(initialState);
     const [captchaValue, setCaptchaValue] = useState<string | null>("");
-    const { email, firstName, lastName, password, password2 } = registrationInfo;
+    const { inputValue, setInputValue, handleInputChange } = useInput(initialState);
+    const { email, firstName, lastName, password, password2 } = inputValue;
 
     useEffect(() => {
         dispatch(setAuthLoadingState(LoadingStatus.LOADED));
-        
+
         return () => {
             dispatch(resetAuthState());
         };
     }, []);
 
     useEffect(() => {
-        setRegistrationInfo(initialState);
+        setInputValue(initialState);
         setCaptchaValue("");
     }, [isRegistered]);
 
@@ -61,11 +61,6 @@ const Registration: FC = (): ReactElement => {
 
     const onChangeRecaptcha = (token: string | null): void => {
         setCaptchaValue(token);
-    };
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const { name, value } = event.target;
-        setRegistrationInfo({ ...registrationInfo, [name]: value });
     };
 
     let pageLoading;
