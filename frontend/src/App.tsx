@@ -35,6 +35,11 @@ import {
 } from "./constants/routeConstants";
 import { fetchCart } from "./redux-toolkit/cart/cart-thunks";
 import { fetchUserInfo } from "./redux-toolkit/user/user-thunks";
+import Login2 from "./refactor/pages/Login/Login2";
+import Registration2 from "./refactor/pages/Registration/Registration2";
+import ForgotPassword2 from "./refactor/pages/ForgotPassword/ForgotPassword";
+import "./App.css";
+import Menu2 from "./refactor/pages/Menu/Menu2";
 
 const App: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -56,11 +61,15 @@ const App: FC = (): ReactElement => {
             <Switch>
                 <Route exact path={BASE} component={HomePage} />
                 <Route exact path={LOGIN} component={Login} />
+                {/*<Route exact path={LOGIN} component={Login2} />*/}
                 <Route exact path={REGISTRATION} component={Registration} />
+                {/*<Route exact path={REGISTRATION} component={Registration2} />*/}
                 <Route exact path={FORGOT} component={ForgotPassword} />
+                {/*<Route exact path={FORGOT} component={ForgotPassword2} />*/}
                 <Route exact path={`${RESET}/:code`} component={ResetPassword} />
                 <Route exact path={`${ACTIVATE}/:code`} component={Login} />
                 <Route exact path={MENU} component={Menu} />
+                {/*<Route exact path={MENU} component={Menu2} />*/}
                 <Route exact path={`${PRODUCT}/:id`} component={Product} />
                 <Route exact path={CONTACTS} component={Contacts} />
                 <Route exact path={CART} component={Cart} />

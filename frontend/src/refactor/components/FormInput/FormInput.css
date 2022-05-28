@@ -1,0 +1,9 @@
+.form-item {
+    align-items: baseline;
+}
+
+.form-item .anticon {
+    float: right;
+    margin-right: 10px;
+    margin-top: 3px;
+}

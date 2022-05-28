@@ -9,8 +9,9 @@ import Alert from "../../component/Alert/Alert";
 import Input from "../../component/Input/Input";
 import IconButton from "../../component/IconButton/IconButton";
 import { selectErrorMessage, selectIsAuthLoading, selectSuccessMessage } from "../../redux-toolkit/auth/auth-selector";
-import { resetAuthState } from "../../redux-toolkit/auth/auth-slice";
+import {resetAuthState, setAuthLoadingState} from "../../redux-toolkit/auth/auth-slice";
 import { forgotPassword } from "../../redux-toolkit/auth/auth-thunks";
+import {LoadingStatus} from "../../types/types";
 
 const ForgotPassword: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const ForgotPassword: FC = (): ReactElement => {
     const [validateEmailError, setValidateEmailError] = useState<string>("");
 
     useEffect(() => {
-        dispatch(resetAuthState());
+        dispatch(setAuthLoadingState(LoadingStatus.LOADED));
     }, []);
 
     useEffect(() => {
