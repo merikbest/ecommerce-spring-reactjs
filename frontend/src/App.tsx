@@ -40,6 +40,11 @@ import Registration2 from "./refactor/pages/Registration/Registration2";
 import ForgotPassword2 from "./refactor/pages/ForgotPassword/ForgotPassword";
 import "./App.css";
 import Menu2 from "./refactor/pages/Menu/Menu2";
+import Contacts2 from "./refactor/pages/Contacts/Contacts2";
+import Cart2 from "./refactor/pages/Cart/Cart2";
+import Order2 from "./refactor/pages/Order/Order2";
+import Home from "./refactor/pages/Home/Home";
+import Product2 from "./refactor/pages/Product/Product2";
 
 const App: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -60,6 +65,7 @@ const App: FC = (): ReactElement => {
             <NavBar />
             <Switch>
                 <Route exact path={BASE} component={HomePage} />
+                {/*<Route exact path={BASE} component={Home} />*/}
                 <Route exact path={LOGIN} component={Login} />
                 {/*<Route exact path={LOGIN} component={Login2} />*/}
                 <Route exact path={REGISTRATION} component={Registration} />
@@ -71,9 +77,13 @@ const App: FC = (): ReactElement => {
                 <Route exact path={MENU} component={Menu} />
                 {/*<Route exact path={MENU} component={Menu2} />*/}
                 <Route exact path={`${PRODUCT}/:id`} component={Product} />
+                {/*<Route exact path={`${PRODUCT}/:id`} component={Product2} />*/}
                 <Route exact path={CONTACTS} component={Contacts} />
+                {/*<Route exact path={CONTACTS} component={Contacts2} />*/}
                 <Route exact path={CART} component={Cart} />
+                {/*<Route exact path={CART} component={Cart2} />*/}
                 <Route exact path={ORDER} component={Order} />
+                {/*<Route exact path={ORDER} component={Order2} />*/}
                 <Route exact path={ORDER_FINALIZE} component={OrderFinalize} />
                 <Route path={OAUTH2_REDIRECT} component={OAuth2RedirectHandler} />
                 <Route

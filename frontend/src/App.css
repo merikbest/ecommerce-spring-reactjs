@@ -1,3 +1,7 @@
 .ant-alert {
     margin-bottom: 16px;
 }
+
+.ant-rate {
+    font-size: 12px !important;
+}

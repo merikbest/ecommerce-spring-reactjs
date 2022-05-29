@@ -1,0 +1,19 @@
+.product-image-wrapper {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.product-image {
+    height: 400px;
+}
+
+.product-header .ant-typography {
+    margin: 0 !important;
+}
+
+.product-rate {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+}

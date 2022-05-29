@@ -1,26 +1,26 @@
-.menu-card .ant-card-cover {
+.perfume-card .ant-card-cover {
     width: 80px;
     text-align: center;
     margin: 0 auto;
 }
 
-.menu-card-image {
-    height: 92px; 
+.perfume-card-image {
+    height: 92px;
     margin-top: 24px;
 }
 
-.menu-card-rate {
+.perfume-card-rate {
     margin-bottom: 8px;
     display: flex;
     justify-content: space-between;
 }
 
-.menu-card-price {
+.perfume-card-price {
     margin-top: 8px;
     display: flex;
     justify-content: center;
 }
 
-.menu-card-price, .ant-rate-star:not(:last-child) {
+.perfume-card-price, .ant-rate-star:not(:last-child) {
     margin-right: 2px;
 }

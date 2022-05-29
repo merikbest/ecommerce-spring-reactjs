@@ -1,0 +1,8 @@
+.cart-item .ant-card-body {
+    padding: 24px 24px 24px 0;
+}
+
+.cart-item-image {
+    display: flex;
+    justify-content: center;
+}

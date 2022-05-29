@@ -1,0 +1,15 @@
+.menu-card .ant-card-cover {
+    width: 80px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.menu-card-image {
+    /*height: 92px;*/
+    margin-top: 24px;
+}
+
+.menu-content .ant-typography {
+    text-align: center;
+    display: block;
+}

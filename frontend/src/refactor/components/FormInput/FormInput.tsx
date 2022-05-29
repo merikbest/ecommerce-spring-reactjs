@@ -12,6 +12,7 @@ type PropsType = {
     name: string;
     error?: string;
     placeholder?: string;
+    disabled?: boolean;
     rule?: Rule[];
 };
 
@@ -23,6 +24,7 @@ const FormInput: FC<PropsType> = ({
     name,
     error,
     placeholder,
+    disabled,
     rule
 }): ReactElement => {
     return (
@@ -33,7 +35,7 @@ const FormInput: FC<PropsType> = ({
             </Col>
             <Col span={wrapperSpan}>
                 <Form.Item name={name} help={error} validateStatus={error && "error"} rules={rule}>
-                    <Input placeholder={placeholder} />
+                    <Input disabled={disabled} placeholder={placeholder} />
                 </Form.Item>
             </Col>
         </Row>

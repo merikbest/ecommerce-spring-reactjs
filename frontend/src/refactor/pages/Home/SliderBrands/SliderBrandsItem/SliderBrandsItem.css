@@ -1,0 +1,9 @@
+.slider-brand-item {
+    position: relative;
+}
+
+.slider-brand-item-link {
+    position: absolute;
+    width: 100%;
+    height: 80%;
+}
