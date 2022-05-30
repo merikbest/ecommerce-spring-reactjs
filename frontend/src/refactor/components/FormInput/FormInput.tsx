@@ -14,6 +14,7 @@ type PropsType = {
     placeholder?: string;
     disabled?: boolean;
     rule?: Rule[];
+    inputPassword?: boolean;
 };
 
 const FormInput: FC<PropsType> = ({
@@ -25,7 +26,8 @@ const FormInput: FC<PropsType> = ({
     error,
     placeholder,
     disabled,
-    rule
+    rule,
+    inputPassword
 }): ReactElement => {
     return (
         <Row className={"form-item"}>
@@ -35,7 +37,11 @@ const FormInput: FC<PropsType> = ({
             </Col>
             <Col span={wrapperSpan}>
                 <Form.Item name={name} help={error} validateStatus={error && "error"} rules={rule}>
-                    <Input disabled={disabled} placeholder={placeholder} />
+                    {inputPassword ? (
+                        <Input.Password disabled={disabled} placeholder={placeholder} />
+                    ) : (
+                        <Input disabled={disabled} placeholder={placeholder} />
+                    )}
                 </Form.Item>
             </Col>
         </Row>

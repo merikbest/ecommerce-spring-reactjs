@@ -65,6 +65,7 @@ const Login2: FC = (): ReactElement => {
                             wrapperSpan={18}
                             name={"password"}
                             placeholder={"Password"}
+                            inputPassword
                         />
                         <Space align={"baseline"} size={13}>
                             <IconButton title={"Sign in"} icon={<LoginOutlined />} />

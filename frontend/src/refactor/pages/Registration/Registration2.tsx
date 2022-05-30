@@ -91,6 +91,7 @@ const Registration2: FC = (): ReactElement => {
                             name={"password"}
                             error={errors.passwordError}
                             placeholder={"Password"}
+                            inputPassword
                         />
                         <FormInput
                             title={"Confirm password:"}
@@ -100,6 +101,7 @@ const Registration2: FC = (): ReactElement => {
                             name={"password2"}
                             error={errors.password2Error}
                             placeholder={"Confirm password"}
+                            inputPassword
                         />
                         <IconButton title={"Sign up"} icon={<UserAddOutlined />} />
                         <Form.Item

@@ -45,6 +45,8 @@ import Cart2 from "./refactor/pages/Cart/Cart2";
 import Order2 from "./refactor/pages/Order/Order2";
 import Home from "./refactor/pages/Home/Home";
 import Product2 from "./refactor/pages/Product/Product2";
+import ResetPassword2 from "./refactor/pages/ResetPassword/ResetPassword2";
+import Account2 from "./refactor/pages/Account/Account2";
 
 const App: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -73,6 +75,7 @@ const App: FC = (): ReactElement => {
                 <Route exact path={FORGOT} component={ForgotPassword} />
                 {/*<Route exact path={FORGOT} component={ForgotPassword2} />*/}
                 <Route exact path={`${RESET}/:code`} component={ResetPassword} />
+                {/*<Route exact path={`${RESET}/:code`} component={ResetPassword2} />*/}
                 <Route exact path={`${ACTIVATE}/:code`} component={Login} />
                 <Route exact path={MENU} component={Menu} />
                 {/*<Route exact path={MENU} component={Menu2} />*/}
@@ -89,9 +92,16 @@ const App: FC = (): ReactElement => {
                 <Route
                     path={ACCOUNT}
                     render={() =>
-                        localStorage.getItem("token") ? <Route component={Account} /> : <Route component={HomePage} />
+                        // localStorage.getItem("token") ? <Route component={Account} /> : <Route component={HomePage} />
+                        localStorage.getItem("token") ? <Route component={Account2} /> : <Route component={HomePage} />
                     }
                 />
+                {/*<Route*/}
+                {/*    path={ACCOUNT}*/}
+                {/*    render={() =>*/}
+                {/*        localStorage.getItem("token") ? <Route component={Account2} /> : <Route component={HomePage} />*/}
+                {/*    }*/}
+                {/*/>*/}
                 <Route path="*" component={HomePage} />
             </Switch>
             <Footer />
