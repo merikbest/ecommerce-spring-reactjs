@@ -22,6 +22,8 @@ import { useLocation } from "react-router-dom";
 import MenuRadioSection from "./MenuSection/MenuRadioSection";
 import MenuSorter from "./MenuSorter/MenuSorter";
 import PerfumeCard from "../../components/PerfumeCard/PerfumeCard";
+import SelectSearchData from "../../components/SelectSearchData/SelectSearchData";
+import InputSearch from "../../components/InputSearch/InputSearch";
 
 const searchByData = [
     { label: "Brand", value: "perfumer" },
@@ -135,21 +137,10 @@ const Menu2: FC = (): ReactElement => {
                     <Col span={18}>
                         <Row>
                             <Col span={9}>
-                                <Select defaultValue="Brand" onChange={handleChangeSelect} style={{ width: 250 }}>
-                                    {searchByData.map((value, index) => (
-                                        <Select.Option key={index} value={value.value}>
-                                            {value.label}
-                                        </Select.Option>
-                                    ))}
-                                </Select>
+                                <SelectSearchData handleChangeSelect={handleChangeSelect} />
                             </Col>
                             <Col span={10}>
-                                <Form onFinish={onSearch}>
-                                    <Input.Group compact>
-                                        <Input style={{ width: "calc(100% - 100px)" }} placeholder={"Search..."} />
-                                        <IconButton title={"Search"} icon={<SearchOutlined />} />
-                                    </Input.Group>
-                                </Form>
+                                <InputSearch onSearch={onSearch} />
                             </Col>
                         </Row>
                         <Row style={{ marginTop: 16, marginBottom: 16 }}>

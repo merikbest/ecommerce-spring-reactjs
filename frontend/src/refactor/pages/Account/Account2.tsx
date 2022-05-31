@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import { Col, Row } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
@@ -23,6 +23,9 @@ import {
 import AccountLink from "./AccountLink/AccountLink";
 import AccountItem from "./AccountItem/AccountItem";
 import PersonalData from "./PersonalData/PersonalData";
+import AddPerfume from "./AddPerfume/AddPerfume";
+import PerfumeList from "./PerfumeList/PerfumeList";
+import EditPerfume from "./EditPerfume/EditPerfume";
 
 const Account2: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -63,6 +66,16 @@ const Account2: FC = (): ReactElement => {
                 <Col span={19}>
                     <Route exact path={ACCOUNT} component={() => <AccountItem />} />
                     <Route path={ACCOUNT_USER_INFO} component={() => <PersonalData />} />
+                    {isAdmin ? (
+                        <>
+                            <Route path={ACCOUNT_ADMIN_ADD} component={() => <AddPerfume />} />
+                            <Route exact path={ACCOUNT_ADMIN_PERFUMES} component={() => <PerfumeList />} />
+                            <Route exact path={`${ACCOUNT_ADMIN_PERFUMES}/:id`} component={() => <EditPerfume />} />
+                        </>
+                    ) : (
+                        // <Redirect to={ACCOUNT} />
+                        <Route exact path={`${ACCOUNT_ADMIN_PERFUMES}/:id`} component={() => <EditPerfume />} />
+                    )}
                 </Col>
             </Row>
         </ContentWrapper>
