@@ -36,7 +36,7 @@ const EditPerfume: FC = (): ReactElement => {
         dispatch(fetchPerfume(params.id));
 
         return () => {
-            dispatch(resetAdminState());
+            dispatch(resetAdminState(LoadingStatus.LOADING));
         };
     }, []);
 

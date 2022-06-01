@@ -13,6 +13,7 @@ import { fetchUserInfo } from "../../../redux-toolkit/admin/admin-thunks";
 import { resetOrders } from "../../../redux-toolkit/orders/orders-slice";
 import { resetAdminState } from "../../../redux-toolkit/admin/admin-slice";
 import { fetchUserOrdersByEmail } from "../../../redux-toolkit/orders/orders-thunks";
+import { LoadingStatus } from "../../../types/types";
 
 const ManageUser: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -27,7 +28,7 @@ const ManageUser: FC = (): ReactElement => {
 
         return () => {
             dispatch(resetOrders());
-            dispatch(resetAdminState());
+            dispatch(resetAdminState(LoadingStatus.LOADING));
         };
     }, []);
 

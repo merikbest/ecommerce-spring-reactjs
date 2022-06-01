@@ -15,10 +15,10 @@ const MenuSorter: FC<PropsType> = ({ onChange, sortByPrice }): ReactElement => {
             <Radio.Button disabled className={"price-button"}>
                 Sort by price
             </Radio.Button>
-            <Radio.Button value={true}>
+            <Radio.Button value={false}>
                 <ArrowDownOutlined />
             </Radio.Button>
-            <Radio.Button value={false}>
+            <Radio.Button value={true}>
                 <ArrowUpOutlined />
             </Radio.Button>
         </Radio.Group>

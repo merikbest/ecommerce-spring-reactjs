@@ -5,7 +5,7 @@ import { CheckOutlined, EditOutlined, EyeInvisibleOutlined, ProfileOutlined } fr
 
 import { selectUserEditErrors, selectUserFromUserState } from "../../../../redux-toolkit/user/user-selector";
 import ContentTitle from "../../../components/ContentTitle/ContentTitle";
-import AccountDataItem from "./AccountDataItem/AccountDataItem";
+import AccountDataItem from "../../../components/AccountDataItem/AccountDataItem";
 import FormInput from "../../../components/FormInput/FormInput";
 import IconButton from "../../../components/IconButton/IconButton";
 import { updateUserInfo } from "../../../../redux-toolkit/user/user-thunks";

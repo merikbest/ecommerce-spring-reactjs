@@ -2,6 +2,7 @@ import React, { FC, ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Col, Form, notification, Row, Upload } from "antd";
 import { PlusSquareFilled, PlusSquareOutlined, UploadOutlined } from "@ant-design/icons";
+import { UploadChangeParam } from "antd/lib/upload/interface";
 
 import {
     selectAdminStateErrors,
@@ -14,7 +15,6 @@ import { addPerfume } from "../../../../redux-toolkit/admin/admin-thunks";
 import ContentTitle from "../../../components/ContentTitle/ContentTitle";
 import AddFormInput from "./AddFormInput";
 import AddFormSelect from "./AddFormSelect";
-import { UploadChangeParam } from "antd/lib/upload/interface";
 import IconButton from "../../../components/IconButton/IconButton";
 
 type AddPerfumeData = {
@@ -42,7 +42,7 @@ const AddPerfume: FC = (): ReactElement => {
         dispatch(setAdminLoadingState(LoadingStatus.LOADED));
 
         return () => {
-            dispatch(resetAdminState());
+            dispatch(resetAdminState(LoadingStatus.LOADING));
         };
     }, []);
 
@@ -53,6 +53,7 @@ const AddPerfume: FC = (): ReactElement => {
                 message: "Perfume added",
                 description: "Perfume successfully added!"
             });
+            dispatch(resetAdminState(LoadingStatus.SUCCESS));
         }
     }, [isPerfumeAdded]);
 
@@ -68,7 +69,7 @@ const AddPerfume: FC = (): ReactElement => {
         dispatch(addPerfume(bodyFormData));
     };
 
-    const handleUpload = ({ file }: UploadChangeParam<any>) => {
+    const handleUpload = ({ file }: UploadChangeParam<any>): void => {
         setFile(file);
     };
 

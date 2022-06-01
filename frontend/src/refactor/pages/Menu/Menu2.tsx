@@ -1,13 +1,12 @@
 import React, { FC, ReactElement, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Col, Form, Input, Layout, Pagination, RadioChangeEvent, Row, Select, Typography } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { Col, Layout, Pagination, RadioChangeEvent, Row, Typography } from "antd";
 import { CheckboxValueType } from "antd/lib/checkbox/Group";
+import { useLocation } from "react-router-dom";
 import "antd/dist/antd.css";
 
 import MenuCheckboxSection from "./MenuSection/MenuCheckboxSection";
 import { gender, perfumer, price } from "../../../pages/Menu/MenuData";
-import IconButton from "../../components/IconButton/IconButton";
 import { selectIsPerfumesLoading, selectPerfumes } from "../../../redux-toolkit/perfumes/perfumes-selector";
 import { FilterParamsType } from "../../../types/types";
 import "./Menu2.css";
@@ -18,25 +17,18 @@ import {
     fetchPerfumesByPerfumer
 } from "../../../redux-toolkit/perfumes/perfumes-thunks";
 import { resetPerfumesState } from "../../../redux-toolkit/perfumes/perfumes-slice";
-import { useLocation } from "react-router-dom";
 import MenuRadioSection from "./MenuSection/MenuRadioSection";
 import MenuSorter from "./MenuSorter/MenuSorter";
 import PerfumeCard from "../../components/PerfumeCard/PerfumeCard";
 import SelectSearchData from "../../components/SelectSearchData/SelectSearchData";
 import InputSearch from "../../components/InputSearch/InputSearch";
-
-const searchByData = [
-    { label: "Brand", value: "perfumer" },
-    { label: "Perfume title", value: "perfumeTitle" },
-    { label: "Manufacturer country", value: "country" }
-];
+import Spinner from "../../components/Spinner/Spinner";
+import { MAX_PAGE_VALUE, usePagination } from "../../hooks/usePagination";
 
 export enum CheckboxCategoryFilter {
     PERFUMERS = "PERFUMERS",
     GENDERS = "GENDERS"
 }
-
-const MAX_PAGE_VALUE = 15;
 
 const Menu2: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -51,8 +43,7 @@ const Menu2: FC = (): ReactElement => {
     const [sortByPrice, setSortByPrice] = useState<boolean | undefined>(undefined);
     const [searchValue, setSearchValue] = useState<string>("");
     const [selectValue, setSelectValue] = useState<string>("");
-    const [minPageValue, setMinPageValue] = useState<number>(0);
-    const [maxPageValue, setMaxPageValue] = useState<number>(MAX_PAGE_VALUE);
+    const { currentPage, minPageValue, maxPageValue, handleChangePagination, resetPagination } = usePagination();
 
     useEffect(() => {
         const perfumeData = location.state.id;
@@ -71,6 +62,11 @@ const Menu2: FC = (): ReactElement => {
         };
     }, []);
 
+    useEffect(() => {
+        getProducts();
+        resetPagination();
+    }, [filterParams, sortByPrice]);
+
     const onChangeCheckbox = (checkedValues: CheckboxValueType[], category: CheckboxCategoryFilter): void => {
         if (CheckboxCategoryFilter.PERFUMERS === category) {
             setFilterParams((prevState) => ({
@@ -88,7 +84,7 @@ const Menu2: FC = (): ReactElement => {
     const onChangeRadio = (event: RadioChangeEvent): void => {
         setFilterParams((prevState) => ({
             ...prevState,
-            prices: [event.target.value]
+            prices: event.target.value
         }));
     };
 
@@ -102,12 +98,6 @@ const Menu2: FC = (): ReactElement => {
 
     const handleChangeSortPrice = (event: RadioChangeEvent): void => {
         setSortByPrice(event.target.value);
-        getProducts();
-    };
-
-    const handleChangePagination = (page: number, pageSize: number): void => {
-        setMinPageValue((page - 1) * MAX_PAGE_VALUE);
-        setMaxPageValue(page * MAX_PAGE_VALUE);
     };
 
     const getProducts = (): void => {
@@ -146,7 +136,7 @@ const Menu2: FC = (): ReactElement => {
                         <Row style={{ marginTop: 16, marginBottom: 16 }}>
                             <Col span={16}>
                                 <Pagination
-                                    defaultCurrent={1}
+                                    current={currentPage}
                                     pageSize={MAX_PAGE_VALUE}
                                     total={perfumes.length}
                                     showSizeChanger={false}
@@ -158,15 +148,19 @@ const Menu2: FC = (): ReactElement => {
                             </Col>
                         </Row>
                         <Row gutter={[32, 32]}>
-                            {perfumes &&
+                            {isPerfumesLoading ? (
+                                <Spinner />
+                            ) : (
+                                perfumes &&
                                 perfumes.length > 0 &&
                                 perfumes
                                     .slice(minPageValue, maxPageValue)
-                                    .map((perfume, index) => <PerfumeCard key={index} perfume={perfume} colSpan={8} />)}
+                                    .map((perfume, index) => <PerfumeCard key={index} perfume={perfume} colSpan={8} />)
+                            )}
                         </Row>
                         <Row style={{ marginTop: 16, marginBottom: 16 }}>
                             <Pagination
-                                defaultCurrent={1}
+                                current={currentPage}
                                 pageSize={MAX_PAGE_VALUE}
                                 total={perfumes.length}
                                 showSizeChanger={false}

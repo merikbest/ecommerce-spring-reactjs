@@ -45,7 +45,7 @@ const AddPerfume: FC = (): ReactElement => {
         dispatch(setAdminLoadingState(LoadingStatus.LOADED));
 
         return () => {
-            dispatch(resetAdminState());
+            dispatch(resetAdminState(LoadingStatus.LOADING));
         };
     }, []);
 
@@ -55,7 +55,7 @@ const AddPerfume: FC = (): ReactElement => {
             setShowToast(true);
             setTimeout(() => {
                 setShowToast(false);
-                dispatch(resetAdminState());
+                dispatch(resetAdminState(LoadingStatus.LOADING));
             }, 5000);
             window.scrollTo(0, 0);
         }

@@ -14,6 +14,8 @@ import { Perfume } from "../../../types/types";
 import CartItem from "./CartItem/CartItem";
 import Spinner from "../../components/Spinner/Spinner";
 import "./Cart.css";
+import {ORDER} from "../../../constants/routeConstants";
+import { Link } from "react-router-dom";
 
 const Cart2: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -96,9 +98,11 @@ const Cart2: FC = (): ReactElement => {
                                             <Typography.Title level={3}>Total: $ {totalPrice}</Typography.Title>
                                         </Col>
                                         <Col span={12}>
-                                            <Button type="primary" icon={<ShoppingOutlined />} size="large">
-                                                Checkout
-                                            </Button>
+                                            <Link to={ORDER}>
+                                                <Button type="primary" icon={<ShoppingOutlined />} size="large">
+                                                    Checkout
+                                                </Button>
+                                            </Link>
                                         </Col>
                                     </Row>
                                 </Col>

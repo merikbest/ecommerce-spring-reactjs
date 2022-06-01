@@ -6,11 +6,12 @@ import "./IconButton.css";
 type PropsType = {
     title: string;
     icon: ReactNode;
+    disabled?: boolean;
 };
 
-const IconButton: FC<PropsType> = ({ title, icon }): ReactElement => {
+const IconButton: FC<PropsType> = ({ title, icon, disabled }): ReactElement => {
     return (
-        <Button type="primary" htmlType="submit" icon={icon}>
+        <Button type="primary" htmlType="submit" icon={icon} disabled={disabled}>
             {title}
         </Button>
     );

@@ -8,6 +8,7 @@ import { selectPerfumes } from "../../../redux-toolkit/perfumes/perfumes-selecto
 import { fetchPerfumes } from "../../../redux-toolkit/perfumes/perfumes-thunks";
 import { resetPerfumesState } from "../../../redux-toolkit/perfumes/perfumes-slice";
 import { resetAdminState } from "../../../redux-toolkit/admin/admin-slice";
+import {LoadingStatus} from "../../../types/types";
 
 const PerfumeList: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const PerfumeList: FC = (): ReactElement => {
 
         return () => {
             dispatch(resetPerfumesState());
-            dispatch(resetAdminState());
+            dispatch(resetAdminState(LoadingStatus.LOADING));
         };
     }, []);
 

@@ -4,7 +4,7 @@ import { Space, Typography } from "antd";
 import "./ContentTitle.css";
 
 type PropsType = {
-    icon: ReactNode;
+    icon?: ReactNode;
     title: string;
     titleLevel?: 1 | 2 | 3 | 4 | 5;
 };

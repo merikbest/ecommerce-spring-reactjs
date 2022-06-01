@@ -142,7 +142,7 @@ export type UserRegistration = {
 };
 
 export type UserResetPasswordRequest = {
-    email: string | undefined;
+    email?: string;
     password: string;
     password2: string;
 };

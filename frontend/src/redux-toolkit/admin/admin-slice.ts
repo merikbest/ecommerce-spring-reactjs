@@ -38,14 +38,14 @@ export const adminSlice = createSlice({
         setAdminLoadingState(state, action: PayloadAction<LoadingStatus>) {
             state.loadingState = action.payload;
         },
-        resetAdminState(state) {
+        resetAdminState(state, action: PayloadAction<LoadingStatus>) {
             state.users = [];
             state.user = {};
             state.errors = {};
             state.isPerfumeAdded = false;
             state.isPerfumeEdited = false;
             state.isPerfumeDeleted = false;
-            state.loadingState = LoadingStatus.LOADING;
+            state.loadingState = action.payload;
         }
     },
     extraReducers: (builder) => {

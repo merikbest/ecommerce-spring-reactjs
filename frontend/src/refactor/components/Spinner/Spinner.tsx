@@ -4,11 +4,7 @@ import { Spin } from "antd";
 import "./Spinner.css";
 
 const Spinner: FC = (): ReactElement => {
-    return (
-        <div className={"spinner"}>
-            <Spin size={"large"} />
-        </div>
-    );
+    return <Spin size={"large"} className={"spinner"} />;
 };
 
 export default Spinner;
