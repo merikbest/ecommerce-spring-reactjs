@@ -1,13 +1,9 @@
 import React, { FC, ReactElement, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle, faShoppingBag } from "@fortawesome/free-solid-svg-icons";
+import { useParams } from "react-router-dom";
+import { Card, Col, Row, Table } from "antd";
+import { InfoCircleOutlined, ShoppingOutlined } from "@ant-design/icons";
 
-import AccountDataItem from "../../../component/AccountDataItem/AccountDataItem";
-import InfoTitle from "../../../component/InfoTitle/InfoTitle";
-import Spinner from "../../../component/Spinner/Spinner";
-import ManageUserOrderTable from "./ManageUserOrderTable/ManageUserOrderTable";
 import {
     selectIsOrderLoaded,
     selectIsOrderLoading,
@@ -16,6 +12,10 @@ import {
 } from "../../../redux-toolkit/order/order-selector";
 import { fetchOrderById, fetchOrderItemsByOrderId } from "../../../redux-toolkit/order/order-thunks";
 import { resetOrderState } from "../../../redux-toolkit/order/order-slice";
+import ContentTitle from "../../../components/ContentTitle/ContentTitle";
+import Spinner from "../../../components/Spinner/Spinner";
+import AccountDataItem from "../../../components/AccountDataItem/AccountDataItem";
+import { OrderItem } from "../../../types/types";
 import "./ManageUserOrder.css";
 
 const ManageUserOrder: FC = (): ReactElement => {
@@ -47,33 +47,80 @@ const ManageUserOrder: FC = (): ReactElement => {
                 <Spinner />
             ) : (
                 <>
-                    <InfoTitle icon={faShoppingBag} titleClass={"manage_user_order_title"} title={` Order #${id}`} />
-                    <div className="row border my-5 px-5 py-3">
-                        <div className="col-md-6">
-                            <h5 className={"manage_user_order_subtitle"}>
-                                <FontAwesomeIcon icon={faInfoCircle} /> Customer information
-                            </h5>
-                            <AccountDataItem title={"First name"} text={firstName} />
-                            <AccountDataItem title={"Last name"} text={lastName} />
-                            <AccountDataItem title={"City"} text={city} />
-                            <AccountDataItem title={"Address"} text={address} />
-                            <AccountDataItem title={"Email"} text={email} />
-                            <AccountDataItem title={"Phone number"} text={phoneNumber} />
-                            <AccountDataItem title={"Post index"} text={postIndex} />
-                        </div>
-                        <div className="col-md-6">
-                            <h5 className={"manage_user_order_subtitle"}>
-                                <FontAwesomeIcon icon={faInfoCircle} /> Order information
-                            </h5>
-                            <AccountDataItem title={"Order id"} text={id} />
-                            <AccountDataItem title={"Date"} text={date} />
-                            <h4 className={"manage_user_order_summary"}>
-                                Order summary:{" "}
-                                <span className={"manage_user_order_summary_price"}> {totalPrice}.0 $</span>
-                            </h4>
-                        </div>
+                    <div style={{ textAlign: "center" }}>
+                        <ContentTitle title={`Order #${id}`} titleLevel={4} icon={<ShoppingOutlined />} />
                     </div>
-                    <ManageUserOrderTable orderItems={orderItems} />
+                    <Row>
+                        <Col span={24}>
+                            <Card>
+                                <Row gutter={32}>
+                                    <Col span={12}>
+                                        <InfoCircleOutlined className={"manage-user-icon"} />
+                                        <ContentTitle title={"Customer information"} titleLevel={5} />
+                                        <AccountDataItem title={"First name"} text={firstName} />
+                                        <AccountDataItem title={"Last name"} text={lastName} />
+                                        <AccountDataItem title={"City"} text={city} />
+                                        <AccountDataItem title={"Address"} text={address} />
+                                        <AccountDataItem title={"Email"} text={email} />
+                                        <AccountDataItem title={"Phone number"} text={phoneNumber} />
+                                        <AccountDataItem title={"Post index"} text={postIndex} />
+                                    </Col>
+                                    <Col span={12}>
+                                        <InfoCircleOutlined className={"manage-user-icon"} />
+                                        <ContentTitle title={"Order information"} titleLevel={5} />
+                                        <AccountDataItem title={"Order id"} text={id} />
+                                        <AccountDataItem title={"Date"} text={date} />
+                                        <ContentTitle title={`Order summary: ${totalPrice}.0 $`} titleLevel={4} />
+                                    </Col>
+                                </Row>
+                                <Row style={{ marginTop: 16 }}>
+                                    <Col span={24}>
+                                        <Table
+                                            rowKey={"id"}
+                                            pagination={false}
+                                            dataSource={orderItems}
+                                            columns={[
+                                                {
+                                                    title: "Perfume Id",
+                                                    dataIndex: "id",
+                                                    key: "id"
+                                                },
+                                                {
+                                                    title: "Perfume Brand",
+                                                    dataIndex: "perfumer",
+                                                    key: "perfumer",
+                                                    render: (_, order: OrderItem) => order.perfume.perfumer
+                                                },
+                                                {
+                                                    title: "Perfume Name",
+                                                    dataIndex: "perfumeTitle",
+                                                    key: "perfumeTitle",
+                                                    render: (_, order: OrderItem) => order.perfume.perfumeTitle
+                                                },
+                                                {
+                                                    title: "Quantity",
+                                                    dataIndex: "quantity",
+                                                    key: "quantity"
+                                                },
+                                                {
+                                                    title: "Price",
+                                                    dataIndex: "price",
+                                                    key: "price",
+                                                    render: (_, order: OrderItem) => `${order.perfume.price}.0 $`
+                                                },
+                                                {
+                                                    title: "Amount",
+                                                    dataIndex: "amount",
+                                                    key: "amount",
+                                                    render: (_, order: OrderItem) => `${order.amount}.0 $`
+                                                }
+                                            ]}
+                                        />
+                                    </Col>
+                                </Row>
+                            </Card>
+                        </Col>
+                    </Row>
                 </>
             )}
         </>

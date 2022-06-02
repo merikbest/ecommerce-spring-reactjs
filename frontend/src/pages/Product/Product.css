@@ -1,12 +1,19 @@
-.product_star_icon {
-    width: 14.5px;
-    margin-bottom: 2px;
+.product-image-wrapper {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
 }
 
-.product_reviews_count {
-    padding-bottom: 50px;
+.product-image {
+    height: 400px;
 }
 
-.product_stock {
-    color: #54C0A1;
+.product-header .ant-typography {
+    margin: 0 !important;
+}
+
+.product-rate {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
 }

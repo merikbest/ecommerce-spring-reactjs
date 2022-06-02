@@ -1,52 +1,50 @@
-import React, { FC, FormEvent, ReactElement, useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { FC, ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle, faShoppingBag } from "@fortawesome/free-solid-svg-icons";
+import { useHistory } from "react-router-dom";
+import { CheckCircleOutlined, ShoppingOutlined } from "@ant-design/icons";
+import { Button, Col, Form, Row, Typography } from "antd";
 
-import { validateEmail } from "../../utils/input-validators";
-import InfoTitle from "../../component/InfoTitle/InfoTitle";
-import OrderItem from "./OrderItem/OrderItem";
+import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
+import ContentTitle from "../../components/ContentTitle/ContentTitle";
+import FormInput from "../../components/FormInput/FormInput";
 import { selectUserFromUserState } from "../../redux-toolkit/user/user-selector";
-import { selectTotalPrice } from "../../redux-toolkit/cart/cart-selector";
 import { selectPerfumes } from "../../redux-toolkit/perfumes/perfumes-selector";
+import { selectTotalPrice } from "../../redux-toolkit/cart/cart-selector";
 import { selectIsOrderLoading, selectOrderErrors } from "../../redux-toolkit/order/order-selector";
 import { resetOrderState, setOrderLoadingState } from "../../redux-toolkit/order/order-slice";
-import { resetPerfumesState } from "../../redux-toolkit/perfumes/perfumes-slice";
-import { addOrder } from "../../redux-toolkit/order/order-thunks";
-import Input from "../../component/Input/Input";
 import { LoadingStatus } from "../../types/types";
-import { useInput } from "../../hooks/useInput";
+import { resetPerfumesState } from "../../redux-toolkit/perfumes/perfumes-slice";
+import OrderItem from "./OrderItem/OrderItem";
+import { addOrder } from "../../redux-toolkit/order/order-thunks";
+
+interface OrderFormData {
+    firstName: string;
+    lastName: string;
+    city: string;
+    address: string;
+    phoneNumber: string;
+    postIndex: string;
+    email: string;
+}
 
 const Order: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const [form] = Form.useForm();
     const usersData = useSelector(selectUserFromUserState);
     const perfumes = useSelector(selectPerfumes);
     const totalPrice = useSelector(selectTotalPrice);
     const errors = useSelector(selectOrderErrors);
     const isOrderLoading = useSelector(selectIsOrderLoading);
-    const [validateEmailError, setValidateEmailError] = useState<string>("");
-    const { inputValue, setInputValue, handleInputChange } = useInput({
-        firstName: "",
-        lastName: "",
-        city: "",
-        address: "",
-        phoneNumber: "",
-        postIndex: "",
-        email: ""
-    });
-
     const perfumesFromLocalStorage: Map<number, number> = new Map(
         JSON.parse(localStorage.getItem("perfumes") as string)
     );
-    const { firstName, lastName, city, address, phoneNumber, postIndex, email } = inputValue;
 
     useEffect(() => {
         dispatch(setOrderLoadingState(LoadingStatus.LOADED));
 
         if (usersData) {
-            setInputValue(usersData);
+            form.setFieldsValue(usersData);
         }
 
         return () => {
@@ -55,141 +53,113 @@ const Order: FC = (): ReactElement => {
         };
     }, []);
 
-    const onFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
-        event.preventDefault();
-
+    const onFormSubmit = (order: OrderFormData): void => {
         const perfumesId = Object.fromEntries(new Map(JSON.parse(localStorage.getItem("perfumes") as string)));
-        const validateEmailError: string = validateEmail(email);
-
-        if (validateEmailError) {
-            setValidateEmailError(validateEmailError);
-        } else {
-            setValidateEmailError("");
-            const order = { firstName, lastName, city, address, postIndex, phoneNumber, email, perfumesId, totalPrice };
-            dispatch(addOrder({ order, history }));
-        }
+        dispatch(addOrder({ order: { ...order, perfumesId }, history }));
     };
 
     return (
-        <div className="container mt-5 pb-5">
-            <InfoTitle iconClass={"mr-2"} icon={faShoppingBag} titleClass={"mb-4 text-center"} title={"Ordering"} />
-            <br />
-            <form onSubmit={onFormSubmit}>
-                <div className="row">
-                    <div className="col-lg-6">
-                        <Input
-                            title={"Name"}
-                            titleClass={"col-sm-2"}
-                            wrapperClass={"col-sm-8"}
-                            type={"text"}
-                            error={errors.firstNameError}
+        <ContentWrapper>
+            <div style={{ textAlign: "center" }}>
+                <ContentTitle icon={<ShoppingOutlined />} title={"Ordering"} />
+            </div>
+            <Form onFinish={onFormSubmit} form={form}>
+                <Row gutter={32}>
+                    <Col span={12}>
+                        <FormInput
+                            title={"Name:"}
+                            titleSpan={5}
+                            wrapperSpan={19}
                             name={"firstName"}
-                            value={firstName}
+                            error={errors.firstNameError}
+                            disabled={isOrderLoading}
                             placeholder={"Enter the first name"}
-                            disabled={isOrderLoading}
-                            onChange={handleInputChange}
                         />
-                        <Input
-                            title={"Surname"}
-                            titleClass={"col-sm-2"}
-                            wrapperClass={"col-sm-8"}
-                            type={"text"}
-                            error={errors.lastNameError}
+                        <FormInput
+                            title={"Surname:"}
+                            titleSpan={5}
+                            wrapperSpan={19}
                             name={"lastName"}
-                            value={lastName}
+                            error={errors.lastNameError}
+                            disabled={isOrderLoading}
                             placeholder={"Enter the last name"}
-                            disabled={isOrderLoading}
-                            onChange={handleInputChange}
                         />
-                        <Input
-                            title={"City"}
-                            titleClass={"col-sm-2"}
-                            wrapperClass={"col-sm-8"}
-                            type={"text"}
-                            error={errors.cityError}
+                        <FormInput
+                            title={"City:"}
+                            titleSpan={5}
+                            wrapperSpan={19}
                             name={"city"}
-                            value={city}
+                            error={errors.cityError}
+                            disabled={isOrderLoading}
                             placeholder={"Enter the city"}
-                            disabled={isOrderLoading}
-                            onChange={handleInputChange}
                         />
-                        <Input
-                            title={"Address"}
-                            titleClass={"col-sm-2"}
-                            wrapperClass={"col-sm-8"}
-                            type={"text"}
-                            error={errors.addressError}
+                        <FormInput
+                            title={"Address:"}
+                            titleSpan={5}
+                            wrapperSpan={19}
                             name={"address"}
-                            value={address}
+                            error={errors.addressError}
+                            disabled={isOrderLoading}
                             placeholder={"Enter the address"}
-                            disabled={isOrderLoading}
-                            onChange={handleInputChange}
                         />
-                        <Input
-                            title={"Index"}
-                            titleClass={"col-sm-2"}
-                            wrapperClass={"col-sm-8"}
-                            type={"text"}
-                            error={errors.postIndexError}
+                        <FormInput
+                            title={"Index:"}
+                            titleSpan={5}
+                            wrapperSpan={19}
                             name={"postIndex"}
-                            value={postIndex}
+                            error={errors.postIndexError}
+                            disabled={isOrderLoading}
                             placeholder={"Enter the index"}
-                            disabled={isOrderLoading}
-                            onChange={handleInputChange}
                         />
-                        <Input
-                            title={"Mobile"}
-                            titleClass={"col-sm-2"}
-                            wrapperClass={"col-sm-8"}
-                            type={"text"}
-                            error={errors.phoneNumberError}
+                        <FormInput
+                            title={"Mobile:"}
+                            titleSpan={5}
+                            wrapperSpan={19}
                             name={"phoneNumber"}
-                            value={phoneNumber}
+                            error={errors.phoneNumberError}
+                            disabled={isOrderLoading}
                             placeholder={"(___)-___-____"}
-                            disabled={isOrderLoading}
-                            onChange={handleInputChange}
                         />
-                        <Input
-                            title={"Email"}
-                            titleClass={"col-sm-2"}
-                            wrapperClass={"col-sm-8"}
-                            type={"text"}
-                            error={errors.emailError || validateEmailError}
+                        <FormInput
+                            title={"Email:"}
+                            titleSpan={5}
+                            wrapperSpan={19}
                             name={"email"}
-                            value={email}
+                            error={errors.emailError}
+                            disabled={isOrderLoading}
                             placeholder={"example@gmail.com"}
-                            disabled={isOrderLoading}
-                            onChange={handleInputChange}
                         />
-                    </div>
-                    <div className="col-lg-6">
-                        <div className="container-fluid">
-                            <div className="row">
-                                {perfumes.map((perfume) => (
-                                    <OrderItem
-                                        key={perfume.id}
-                                        perfume={perfume}
-                                        quantity={perfumesFromLocalStorage.get(perfume.id)}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                        <button
-                            type="submit"
-                            className="btn btn-primary btn-lg btn-success px-5 float-right"
-                            disabled={isOrderLoading}
-                        >
-                            <FontAwesomeIcon icon={faCheckCircle} /> Validate order
-                        </button>
-                        <div className="row">
-                            <h4>
-                                To pay : $ <span>{totalPrice}</span>.00
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
+                    </Col>
+                    <Col span={12}>
+                        <Row gutter={[32, 32]}>
+                            {perfumes.map((perfume) => (
+                                <OrderItem
+                                    key={perfume.id}
+                                    perfume={perfume}
+                                    quantity={perfumesFromLocalStorage.get(perfume.id)}
+                                />
+                            ))}
+                        </Row>
+                        <Row gutter={[32, 32]} style={{ marginTop: 16 }}>
+                            <Col span={12}>
+                                <Typography.Title level={3}>To pay : $ {totalPrice}.00</Typography.Title>
+                            </Col>
+                            <Col>
+                                <Button
+                                    htmlType={"submit"}
+                                    loading={isOrderLoading}
+                                    type="primary"
+                                    size="large"
+                                    icon={<CheckCircleOutlined />}
+                                >
+                                    Validate order
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </Form>
+        </ContentWrapper>
     );
 };
 

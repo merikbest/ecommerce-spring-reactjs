@@ -1,0 +1,21 @@
+.perfume-cards-slider {
+    margin: 32px 400px 85px;
+}
+
+.perfume-cards-slider-title {
+    text-align: center;
+}
+
+.perfume-cards-slider .ant-carousel .slick-dots li button {
+    background: #000000;
+    opacity: 0.4;
+}
+
+.perfume-cards-slider .ant-carousel .slick-dots li.slick-active button {
+    opacity: 1;
+    background: #000000;
+}
+
+.perfume-cards-slider .ant-carousel .slick-dots-bottom {
+    bottom: -50px;
+}

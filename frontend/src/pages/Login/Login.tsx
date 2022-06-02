@@ -1,23 +1,23 @@
-import React, { FC, FormEvent, ReactElement, useEffect } from "react";
+import React, { FC, ReactElement, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { faEnvelope, faLock, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { Alert, Col, Divider, Form, Row, Space } from "antd";
+import { LockOutlined, LoginOutlined, MailOutlined } from "@ant-design/icons";
+import "antd/dist/antd.css";
 
-import { UserData } from "../../types/types";
 import googleLogo from "../../img/google.png";
 import facebookLogo from "../../img/facebook.png";
 import githubLogo from "../../img/github.png";
-import InfoTitle from "../../component/InfoTitle/InfoTitle";
-import Alert from "../../component/Alert/Alert";
-import Input from "../../component/Input/Input";
-import IconButton from "../../component/IconButton/IconButton";
-import SocialButton from "./SocialButton/SocialButton";
-import { FORGOT } from "../../constants/routeConstants";
 import { selectErrorMessage } from "../../redux-toolkit/auth/auth-selector";
 import { resetAuthState } from "../../redux-toolkit/auth/auth-slice";
 import { activateAccount, login } from "../../redux-toolkit/auth/auth-thunks";
 import { selectSuccessMessage } from "../../redux-toolkit/user/user-selector";
-import { useInput } from "../../hooks/useInput";
+import { FORGOT } from "../../constants/routeConstants";
+import SocialButton from "./SocialButton/SocialButton";
+import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
+import ContentTitle from "../../components/ContentTitle/ContentTitle";
+import FormInput from "../../components/FormInput/FormInput";
+import IconButton from "../../components/IconButton/IconButton";
 import "./Login.css";
 
 const Login: FC = (): ReactElement => {
@@ -26,10 +26,10 @@ const Login: FC = (): ReactElement => {
     const params = useParams<{ code: string }>();
     const errorMessage = useSelector(selectErrorMessage);
     const successMessage = useSelector(selectSuccessMessage);
-    const { inputValue, handleInputChange } = useInput({ email: "", password: "" });
-    const { email, password } = inputValue;
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+        
         if (params.code) {
             dispatch(activateAccount(params.code));
         }
@@ -39,61 +39,51 @@ const Login: FC = (): ReactElement => {
         };
     }, []);
 
-    const onClickSignIn = (event: FormEvent<HTMLFormElement>): void => {
-        event.preventDefault();
-        const userData: UserData = { email, password };
+    const onClickSignIn = (userData: { email: ""; password: "" }): void => {
         dispatch(login({ userData, history }));
     };
 
     return (
-        <div id="container" className="container mt-5">
-            <div className="row">
-                <div className="col-md-6">
-                    <InfoTitle iconClass={"mr-3"} icon={faSignInAlt} title={"SIGN IN"} />
-                    <hr />
-                    {errorMessage && <Alert alertType={"danger"} message={errorMessage} />}
-                    {successMessage && <Alert alertType={"success"} message={successMessage} />}
-                    <form onSubmit={onClickSignIn}>
-                        <Input
-                            title={"E-mail"}
-                            titleClass={"col-sm-4"}
-                            wrapperClass={"col-sm-7"}
-                            icon={faEnvelope}
-                            type={"email"}
+        <ContentWrapper>
+            <ContentTitle icon={<LoginOutlined />} title={"SIGN IN"} />
+            <Row gutter={32}>
+                <Col span={12}>
+                    <Form onFinish={onClickSignIn}>
+                        <Divider />
+                        {errorMessage && <Alert type="error" message={errorMessage} />}
+                        {successMessage && <Alert type="success" message={successMessage} />}
+                        <FormInput
+                            title={"E-mail:"}
+                            icon={<MailOutlined />}
+                            titleSpan={6}
+                            wrapperSpan={18}
                             name={"email"}
-                            value={email}
-                            onChange={handleInputChange}
+                            placeholder={"E-mail"}
                         />
-                        <Input
-                            title={"Password"}
-                            titleClass={"col-sm-4"}
-                            wrapperClass={"col-sm-7"}
-                            icon={faLock}
-                            type={"password"}
+                        <FormInput
+                            title={"Password:"}
+                            icon={<LockOutlined />}
+                            titleSpan={6}
+                            wrapperSpan={18}
                             name={"password"}
-                            value={password}
-                            onChange={handleInputChange}
+                            placeholder={"Password"}
+                            inputPassword
                         />
-                        <div className="form-group row">
-                            <IconButton
-                                buttonText={"Sign in"}
-                                buttonClassName={"mx-2"}
-                                icon={faSignInAlt}
-                                iconClassName={"mr-3"}
-                            />
-                            <Link to={FORGOT} className="forgot-password">
-                                Forgot password?
-                            </Link>
-                        </div>
-                    </form>
-                </div>
-                <div className="col-md-6 mt-5">
-                    <SocialButton socialNetwork={"google"} image={googleLogo} />
-                    <SocialButton socialNetwork={"facebook"} image={facebookLogo} />
-                    <SocialButton socialNetwork={"github"} image={githubLogo} />
-                </div>
-            </div>
-        </div>
+                        <Space align={"baseline"} size={13}>
+                            <IconButton title={"Sign in"} icon={<LoginOutlined />} />
+                            <Link to={FORGOT}>Forgot password?</Link>
+                        </Space>
+                    </Form>
+                </Col>
+                <Col span={12}>
+                    <Space direction={"vertical"} className={"social-login-wrapper"}>
+                        <SocialButton socialNetwork={"google"} image={googleLogo} />
+                        <SocialButton socialNetwork={"facebook"} image={facebookLogo} />
+                        <SocialButton socialNetwork={"github"} image={githubLogo} />
+                    </Space>
+                </Col>
+            </Row>
+        </ContentWrapper>
     );
 };
 

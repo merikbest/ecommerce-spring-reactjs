@@ -1,18 +1,11 @@
-import React, { FC, FormEvent, ReactElement, useEffect, useState } from "react";
-import { Route, useHistory, useParams } from "react-router-dom";
+import React, { FC, ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import { Form } from "antd";
 import SockJS from "sockjs-client";
 import { CompatClient, Stomp } from "@stomp/stompjs";
 
-import { WEBSOCKET_URL } from "../../constants/urlConstants";
-import { ReviewRequest } from "../../types/types";
-import Spinner from "../../component/Spinner/Spinner";
-import ProductReview from "./ProductReview/ProductReview";
-import ScrollButton from "../../component/ScrollButton/ScrollButton";
-import { CART } from "../../constants/routeConstants";
-import ProductInfo from "./ProductInfo/ProductInfo";
-import ProductReviewForm from "./ProductReviewForm/ProductReviewForm";
-import "./Product.css";
+import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
 import {
     selectIsPerfumeLoaded,
     selectIsPerfumeLoading,
@@ -24,14 +17,28 @@ import {
 import { selectIsReviewAdded, selectReviewErrors } from "../../redux-toolkit/user/user-selector";
 import { fetchPerfume, fetchReviewsByPerfumeId } from "../../redux-toolkit/perfume/perfume-thunks";
 import { resetInputForm } from "../../redux-toolkit/user/user-slice";
+import { WEBSOCKET_URL } from "../../constants/urlConstants";
 import { resetPerfumeState, setReview } from "../../redux-toolkit/perfume/perfume-slice";
+import Spinner from "../../components/Spinner/Spinner";
+import ErrorMessage from "./ErrorMessage/ErrorMessage";
+import ProductInfo from "./ProductInfo/ProductInfo";
+import ProductReviews from "./ProductReviews/ProductReviews";
+import { CART } from "../../constants/routeConstants";
 import { addReviewToPerfume } from "../../redux-toolkit/user/user-thunks";
+import "./Product.css";
 
 let stompClient: CompatClient | null = null;
+
+export interface ReviewData {
+    author: string;
+    message: string;
+    rating: number;
+}
 
 const Product: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const [form] = Form.useForm();
     const params = useParams<{ id: string }>();
     const perfume = useSelector(selectPerfume);
     const reviews = useSelector(selectReviews);
@@ -39,12 +46,8 @@ const Product: FC = (): ReactElement => {
     const isPerfumeLoaded = useSelector(selectIsPerfumeLoaded);
     const isPerfumeError = useSelector(selectPerfumeError);
     const errorMessage = useSelector(selectPerfumeErrorMessage);
-    const errors = useSelector(selectReviewErrors);
+    const reviewErrors = useSelector(selectReviewErrors);
     const isReviewAdded = useSelector(selectIsReviewAdded);
-
-    const [author, setAuthor] = useState<string>("");
-    const [message, setMessage] = useState<string>("");
-    const [rating, setRating] = useState<number>(0);
 
     useEffect(() => {
         // GraphQL example
@@ -73,9 +76,7 @@ const Product: FC = (): ReactElement => {
     }, [isPerfumeLoaded]);
 
     useEffect(() => {
-        setAuthor("");
-        setMessage("");
-        setRating(0);
+        form.resetFields();
     }, [isReviewAdded]);
 
     const addToCart = (): void => {
@@ -92,43 +93,32 @@ const Product: FC = (): ReactElement => {
         history.push(CART);
     };
 
-    const addReview = (event: FormEvent<HTMLFormElement>): void => {
-        event.preventDefault();
-        const review: ReviewRequest = { perfumeId: params.id as string, author, message, rating };
-        dispatch(addReviewToPerfume(review));
+    const addReview = (data: ReviewData): void => {
+        dispatch(addReviewToPerfume({ perfumeId: params.id, ...data }));
     };
 
     return (
-        <div className="container mt-5 pb-5">
+        <ContentWrapper>
             {isPerfumeLoading ? (
                 <Spinner />
             ) : (
                 <>
                     {isPerfumeError ? (
-                        <h2 className="text-center">{errorMessage}</h2>
+                        <ErrorMessage errorMessage={errorMessage} />
                     ) : (
                         <>
-                            <ScrollButton />
-                            <ProductInfo perfume={perfume} reviewLength={reviews.length} addToCart={addToCart} />
-                            <div className="mt-5">
-                                <h3 className="text-center mb-5">REVIEWS</h3>
-                                <Route exact component={() => <ProductReview data={reviews} itemsPerPage={5} />} />
-                                <ProductReviewForm
-                                    addReview={addReview}
-                                    errors={errors}
-                                    author={author}
-                                    setAuthor={setAuthor}
-                                    rating={rating}
-                                    setRating={setRating}
-                                    message={message}
-                                    setMessage={setMessage}
-                                />
-                            </div>
+                            <ProductInfo perfume={perfume} reviewsLength={reviews.length} addToCart={addToCart} />
+                            <ProductReviews
+                                reviews={reviews}
+                                reviewErrors={reviewErrors}
+                                addReview={addReview}
+                                form={form}
+                            />
                         </>
                     )}
                 </>
             )}
-        </div>
+        </ContentWrapper>
     );
 };
 

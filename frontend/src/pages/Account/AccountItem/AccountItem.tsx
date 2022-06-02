@@ -1,9 +1,9 @@
 import React, { FC, ReactElement } from "react";
 import { useSelector } from "react-redux";
+import { Typography } from "antd";
 
-import Spinner from "../../../component/Spinner/Spinner";
 import { selectIsUserLoading, selectUserFromUserState } from "../../../redux-toolkit/user/user-selector";
-import "./AccountItem.css";
+import Spinner from "../../../components/Spinner/Spinner";
 
 const AccountItem: FC = (): ReactElement => {
     const usersData = useSelector(selectUserFromUserState);
@@ -14,9 +14,9 @@ const AccountItem: FC = (): ReactElement => {
             {loading ? (
                 <Spinner />
             ) : (
-                <h4 className={"account_item_title"}>
+                <Typography.Title level={5} style={{ textAlign: "center" }}>
                     Hello {usersData?.firstName} {usersData?.lastName}!
-                </h4>
+                </Typography.Title>
             )}
         </>
     );

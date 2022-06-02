@@ -1,17 +1,20 @@
-import React, { ChangeEvent, FC, ReactElement, useEffect, useState } from "react";
+import React, { FC, ReactElement, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ShoppingCartOutlined, ShoppingOutlined } from "@ant-design/icons";
+import { Button, Col, Row, Typography } from "antd";
+import { Link } from "react-router-dom";
 
-import Spinner from "../../component/Spinner/Spinner";
-import { Perfume } from "../../types/types";
-import CartItem from "./CartItem";
-import CartCheckout from "./CartCheckout";
+import ContentTitle from "../../components/ContentTitle/ContentTitle";
+import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
 import { selectPerfumes } from "../../redux-toolkit/perfumes/perfumes-selector";
 import { selectIsCartLoading, selectTotalPrice } from "../../redux-toolkit/cart/cart-selector";
 import { fetchCart } from "../../redux-toolkit/cart/cart-thunks";
 import { calculateCartPrice, resetCartState, setCartItemsCount } from "../../redux-toolkit/cart/cart-slice";
 import { removePerfumeById } from "../../redux-toolkit/perfumes/perfumes-slice";
+import { Perfume } from "../../types/types";
+import CartItem from "./CartItem/CartItem";
+import Spinner from "../../components/Spinner/Spinner";
+import {ORDER} from "../../constants/routeConstants";
 import "./Cart.css";
 
 const Cart: FC = (): ReactElement => {
@@ -22,6 +25,7 @@ const Cart: FC = (): ReactElement => {
     const [perfumeInCart, setPerfumeInCart] = useState(() => new Map());
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         const perfumesFromLocalStorage: Map<number, number> = new Map(
             JSON.parse(localStorage.getItem("perfumes") as string)
         );
@@ -50,22 +54,8 @@ const Cart: FC = (): ReactElement => {
         dispatch(setCartItemsCount(perfumeInCart.size));
     };
 
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>, perfumeId: number): void => {
-        if (
-            isNaN(parseInt(event.target.value)) ||
-            parseInt(event.target.value) === 0 ||
-            parseInt(event.target.value) > 99
-        ) {
-            setPerfumes(perfumeId, 1);
-        } else {
-            setPerfumes(perfumeId, parseInt(event.target.value));
-        }
-        dispatch(calculateCartPrice(perfumes));
-    };
-
-    const onChangePerfumeItemCount = (perfumeId: number, perfumeCondition: boolean): void => {
-        const perfume = perfumeInCart.get(perfumeId);
-        setPerfumes(perfumeId, perfumeCondition ? perfume + 1 : perfume - 1);
+    const onChangePerfumeItemCount = (perfumeId: number, inputValue: number): void => {
+        setPerfumes(perfumeId, inputValue);
         dispatch(calculateCartPrice(perfumes));
     };
 
@@ -75,35 +65,54 @@ const Cart: FC = (): ReactElement => {
     };
 
     return (
-        <div className="container mt-5 pb-5 cart_wrapper">
+        <ContentWrapper>
             {isCartLoading ? (
                 <Spinner />
             ) : (
-                <div>
-                    {perfumes.length === 0 ? (
-                        <h2 className="text-center">Cart is empty</h2>
-                    ) : (
-                        <div>
-                            <p className="h4 mb-4 text-center">
-                                <FontAwesomeIcon className="mr-2" icon={faShoppingCart} /> Cart
-                            </p>
-                            {perfumes.map((perfume: Perfume) => (
-                                <CartItem
-                                    key={perfume.id}
-                                    perfume={perfume}
-                                    perfumeInCart={perfumeInCart}
-                                    onChangePerfumeItemCount={onChangePerfumeItemCount}
-                                    handleInputChange={handleInputChange}
-                                    deleteFromCart={deleteFromCart}
-                                />
-                            ))}
-                            <hr className="my-3" />
-                            <CartCheckout totalPrice={totalPrice} />
-                        </div>
-                    )}
-                </div>
+                <>
+                    <div style={{ textAlign: "center" }}>
+                        <ContentTitle icon={<ShoppingCartOutlined />} title={"Cart"} />
+                    </div>
+                    <Row gutter={32}>
+                        {perfumes.length === 0 ? (
+                            <Col span={24}>
+                                <Typography.Title level={3} style={{ textAlign: "center" }}>
+                                    Cart is empty
+                                </Typography.Title>
+                            </Col>
+                        ) : (
+                            <>
+                                <Col span={16}>
+                                    {perfumes.map((perfume: Perfume) => (
+                                        <CartItem
+                                            key={perfume.id}
+                                            perfume={perfume}
+                                            perfumeInCart={perfumeInCart}
+                                            onChangePerfumeItemCount={onChangePerfumeItemCount}
+                                            deleteFromCart={deleteFromCart}
+                                        />
+                                    ))}
+                                </Col>
+                                <Col span={8}>
+                                    <Row>
+                                        <Col span={12}>
+                                            <Typography.Title level={3}>Total: $ {totalPrice}</Typography.Title>
+                                        </Col>
+                                        <Col span={12}>
+                                            <Link to={ORDER}>
+                                                <Button type="primary" icon={<ShoppingOutlined />} size="large">
+                                                    Checkout
+                                                </Button>
+                                            </Link>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </>
+                        )}
+                    </Row>
+                </>
             )}
-        </div>
+        </ContentWrapper>
     );
 };
 

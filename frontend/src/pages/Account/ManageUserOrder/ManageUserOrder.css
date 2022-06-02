@@ -1,16 +1,4 @@
-.manage_user_order_title {
-    text-align: center;
-}
-
-.manage_user_order_subtitle {
-    margin-bottom: 30px;
-}
-
-.manage_user_order_summary {
-    margin-bottom: 30px;
-    margin-top: 30px;
-}
-
-.manage_user_order_summary_price {
-    color: green;
+.manage-user-icon {
+    font-size: 24px;
+    margin-right: 12px;
 }

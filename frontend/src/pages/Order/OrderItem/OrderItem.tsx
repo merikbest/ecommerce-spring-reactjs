@@ -1,6 +1,8 @@
 import React, { FC, ReactElement } from "react";
+import { Card, Col, Typography } from "antd";
 
 import { Perfume } from "../../../types/types";
+import "./OrderItem.css";
 
 type PropsType = {
     perfume: Perfume;
@@ -9,21 +11,19 @@ type PropsType = {
 
 const OrderItem: FC<PropsType> = ({ perfume, quantity }): ReactElement => {
     return (
-        <div key={perfume.id} className="col-lg-6 d-flex align-items-stretch">
-            <div className="card mb-5">
-                <img src={perfume.filename} className="rounded mx-auto w-50" />
-                <div className="card-body text-center">
-                    <h5>{perfume.perfumeTitle}</h5>
-                    <h6>{perfume.perfumer}</h6>
-                    <h6>
-                        <span>Price: $ {perfume.price}</span>.00
-                    </h6>
-                    <h6>
-                        <span>Quantity: {quantity}</span>
-                    </h6>
+        <Col span={12}>
+            <Card
+                className={"menu-card"}
+                cover={<img className={"menu-card-image"} alt={perfume.perfumeTitle} src={perfume.filename} />}
+            >
+                <div className={"menu-content"}>
+                    <Typography.Text strong>{perfume.perfumer}</Typography.Text>
+                    <Typography.Text strong>{perfume.perfumeTitle}</Typography.Text>
+                    <Typography.Text strong>Price: $ {perfume.price}</Typography.Text>
+                    <Typography.Text strong>Quantity: {quantity}</Typography.Text>
                 </div>
-            </div>
-        </div>
+            </Card>
+        </Col>
     );
 };
 

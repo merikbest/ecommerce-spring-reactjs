@@ -1,106 +1,74 @@
 import React, { FC, ReactElement } from "react";
-import StarRatingComponent from "react-star-rating-component";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartPlus, faStar } from "@fortawesome/free-solid-svg-icons";
+import { Button, Col, Divider, Rate, Row, Space, Typography } from "antd";
+import { ShoppingCartOutlined } from "@ant-design/icons";
 
-import halfStar from "../../../img/star-half.svg";
+import Description from "./Description/Description";
 import { Perfume } from "../../../types/types";
 
-type PropType = {
-    perfume: Partial<Perfume>;
-    reviewLength: number;
+type PropsType = {
+    perfume?: Partial<Perfume>;
+    reviewsLength: number;
     addToCart: () => void;
 };
 
-const ProductInfo: FC<PropType> = ({ perfume, reviewLength, addToCart }): ReactElement => {
+const ProductInfo: FC<PropsType> = ({ perfume, reviewsLength, addToCart }): ReactElement => {
     return (
-        <div className="row">
-            <div className="col-md-5">
-                <div>
-                    <img src={perfume.filename} className="rounded mx-auto w-100" />
-                </div>
-            </div>
-            <div className="col-md-7">
-                <h2>{perfume.perfumeTitle}</h2>
-                <h3>{perfume.perfumer}</h3>
-                <p>
-                    Product code: <span>{perfume.id}</span>
-                </p>
-                <div className="row">
-                    <div className="col-md-2">
-                        <StarRatingComponent
-                            renderStarIconHalf={() => (
-                                <img src={halfStar} alt="halfStar" className="product_star_icon" />
-                            )}
-                            renderStarIcon={() => <FontAwesomeIcon className="fa-sm" icon={faStar} />}
-                            name={"star"}
-                            starCount={5}
-                            editing={false}
-                            value={perfume.perfumeRating === 0 ? 5 : perfume.perfumeRating!}
-                        />
-                    </div>
-                    <div className="col-md-10">
-                        <span className="product_reviews_count">{reviewLength} reviews</span>
-                    </div>
-                </div>
-                <p className="product_stock">In Stock</p>
-                <div className="row ml-1">
-                    <h6 className="mr-5">
-                        <span>${perfume.price}</span>.00
-                    </h6>
-                    <button type="submit" className="btn btn-success mx-3" onClick={addToCart}>
-                        <FontAwesomeIcon className="mr-2 fa-lg" icon={faCartPlus} /> ADD TO CART
-                    </button>
-                </div>
-                <br />
-                <table className="table">
-                    <tbody>
-                        <tr>
-                            <td>Perfume title:</td>
-                            <td>{perfume.perfumeTitle}</td>
-                        </tr>
-                        <tr>
-                            <td>Brand:</td>
-                            <td>{perfume.perfumer}</td>
-                        </tr>
-                        <tr>
-                            <td>Perfume type:</td>
-                            <td>{perfume.type}</td>
-                        </tr>
-                        <tr>
-                            <td>Release year:</td>
-                            <td>{perfume.year}</td>
-                        </tr>
-                        <tr>
-                            <td>Volume:</td>
-                            <td>
-                                <span>{perfume.volume}</span> ml.
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Manufacturer country:</td>
-                            <td>{perfume.country}</td>
-                        </tr>
-                        <tr>
-                            <td>Gender:</td>
-                            <td>{perfume.perfumeGender}</td>
-                        </tr>
-                        <tr>
-                            <td>Top notes:</td>
-                            <td>{perfume.fragranceTopNotes}</td>
-                        </tr>
-                        <tr>
-                            <td>Heart notes:</td>
-                            <td>{perfume.fragranceMiddleNotes}</td>
-                        </tr>
-                        <tr>
-                            <td>Base notes:</td>
-                            <td>{perfume.fragranceBaseNotes}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <Row>
+            <Col span={12} className={"product-image-wrapper"}>
+                <img src={perfume?.filename} alt={perfume?.perfumeTitle} className={"product-image"} />
+            </Col>
+            <Col span={12}>
+                <Row className={"product-header"}>
+                    <Col>
+                        <Typography.Title level={3}>{perfume?.perfumeTitle}</Typography.Title>
+                        <Typography.Title level={4}>{perfume?.perfumer}</Typography.Title>
+                        <Typography.Text>{perfume?.type}</Typography.Text>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className={"product-rate"} span={8}>
+                        <Rate allowHalf disabled value={perfume?.perfumeRating} />
+                        <Typography.Text>{reviewsLength} reviews</Typography.Text>
+                    </Col>
+                </Row>
+                <Row>
+                    <Typography.Text type="success">In Stock</Typography.Text>
+                </Row>
+                <Row style={{ marginTop: 16 }}>
+                    <Col span={5}>
+                        <Space align={"baseline"}>
+                            <Typography.Text>${perfume?.price}.00</Typography.Text>
+                        </Space>
+                    </Col>
+                    <Col span={4}>
+                        <Button icon={<ShoppingCartOutlined />} onClick={addToCart}>
+                            Add to cart
+                        </Button>
+                    </Col>
+                </Row>
+                <Divider />
+                <Row>
+                    <Col span={8}>
+                        <Description title={"Gender:"} />
+                        <Description title={"Volume:"} />
+                        <Description title={"Release year:"} />
+                        <Description title={"Manufacturer country:"} />
+                        <Description title={"Top notes:"} />
+                        <Description title={"Heart notes:"} />
+                        <Description title={"Base notes:"} />
+                    </Col>
+                    <Col span={16}>
+                        <Description title={perfume?.perfumeGender} />
+                        <Description title={`${perfume?.volume} ml.`} />
+                        <Description title={perfume?.year} />
+                        <Description title={perfume?.country} />
+                        <Description title={perfume?.fragranceTopNotes} />
+                        <Description title={perfume?.fragranceMiddleNotes} />
+                        <Description title={perfume?.fragranceBaseNotes} />
+                    </Col>
+                </Row>
+            </Col>
+        </Row>
     );
 };
 

@@ -1,22 +1,15 @@
 import React, { FC, ReactElement, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, Route } from "react-router-dom";
-import { faUserEdit } from "@fortawesome/free-solid-svg-icons";
+import { Col, Row } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
-import PersonalOrdersList from "./PersonalOrdersList/PersonalOrdersList";
-import ChangePassword from "./ChangePassword/ChangePassword";
-import PersonalData from "./PersonalData/PersonalData";
-import AccountItem from "./AccountItem/AccountItem";
-import AddPerfume from "./AddPerfume/AddPerfume";
-import OrdersList from "./OrdersList/OrdersList";
-import UsersList from "./UsersList/UsersList";
-import PerfumeList from "./PerfumeList/PerfumeList";
-import ManageUser from "./ManageUser/ManageUser";
-import EditPerfume from "./EditPerfume/EditPerfume";
-import ManageUserOrder from "./ManageUserOrder/ManageUserOrder";
-import InfoTitle from "../../component/InfoTitle/InfoTitle";
-import AccountLink from "./AccountLink";
+import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
+import { selectUserFromUserState } from "../../redux-toolkit/user/user-selector";
+import { resetAuthState } from "../../redux-toolkit/auth/auth-slice";
+import { fetchUserInfo } from "../../redux-toolkit/user/user-thunks";
 import { UserRoles } from "../../types/types";
+import ContentTitle from "../../components/ContentTitle/ContentTitle";
 import {
     ACCOUNT,
     ACCOUNT_ADMIN_ADD,
@@ -27,10 +20,18 @@ import {
     ACCOUNT_USER_INFO,
     ACCOUNT_USER_ORDERS
 } from "../../constants/routeConstants";
-import { selectUserFromUserState } from "../../redux-toolkit/user/user-selector";
-import { resetAuthState } from "../../redux-toolkit/auth/auth-slice";
-import { fetchUserInfo } from "../../redux-toolkit/user/user-thunks";
-import "./Account.css";
+import AccountLink from "./AccountLink/AccountLink";
+import AccountItem from "./AccountItem/AccountItem";
+import PersonalData from "./PersonalData/PersonalData";
+import AddPerfume from "./AddPerfume/AddPerfume";
+import PerfumeList from "./PerfumeList/PerfumeList";
+import EditPerfume from "./EditPerfume/EditPerfume";
+import OrdersList from "./OrdersList/OrdersList";
+import ManageUserOrder from "./ManageUserOrder/ManageUserOrder";
+import UsersList from "./UsersList/UsersList";
+import ManageUser from "./ManageUser/ManageUser";
+import ChangePassword from "./ChangePassword/ChangePassword";
+import PersonalOrdersList from "./PersonalOrdersList/PersonalOrdersList";
 
 const Account: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -49,10 +50,10 @@ const Account: FC = (): ReactElement => {
     }, [usersData]);
 
     return (
-        <div className="account-container container">
-            <div className="row mt-5">
-                <div className="col-md-2">
-                    <InfoTitle iconClass={"mr-1"} icon={faUserEdit} title={"My Account"} />
+        <ContentWrapper>
+            <Row gutter={32}>
+                <Col span={5}>
+                    <ContentTitle title={"My Account"} titleLevel={4} icon={<UserOutlined />} />
                     <AccountLink link={ACCOUNT_USER_INFO} title={"Personal data"} />
                     {isAdmin ? (
                         <>
@@ -67,8 +68,8 @@ const Account: FC = (): ReactElement => {
                             <AccountLink link={ACCOUNT_USER_ORDERS} title={"List of orders"} />
                         </>
                     )}
-                </div>
-                <div className="col-md-10">
+                </Col>
+                <Col span={19}>
                     <Route exact path={ACCOUNT} component={() => <AccountItem />} />
                     <Route path={ACCOUNT_USER_INFO} component={() => <PersonalData />} />
                     <Route path={ACCOUNT_USER_EDIT} component={() => <ChangePassword />} />
@@ -86,9 +87,9 @@ const Account: FC = (): ReactElement => {
                     ) : (
                         <Redirect to={ACCOUNT} />
                     )}
-                </div>
-            </div>
-        </div>
+                </Col>
+            </Row>
+        </ContentWrapper>
     );
 };
 

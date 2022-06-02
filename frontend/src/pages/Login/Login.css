@@ -1,35 +1,14 @@
-.social-btn {
-    border: 1px solid #ced4da
+.form-item {
+    align-items: baseline;
 }
 
-.social-btn:hover {
-    color: white;
-    background-color: #00A1DF;
+.form-item .anticon {
+    float: right;
+    margin-right: 10px;
+    margin-top: 3px;
 }
 
-.social-btn img {
-    float: left;
+.social-login-wrapper {
+    width: 100%;
+    margin-top: 20px;
 }
-
-.social-btn.google img {
-    height: 30px;
-    margin-top: -3px;
-}
-
-.social-btn.facebook img {
-    height: 22px;
-    margin-left: 3px;
-}
-
-.social-btn.github img {
-    height: 24px;
-    margin-left: 3px;
-}
-
-.forgot-password {
-    position: relative;
-    top: 8px;
-}
-
-
-

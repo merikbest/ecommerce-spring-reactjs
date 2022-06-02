@@ -1,78 +1,66 @@
-import React, { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState } from "react";
+import React, { FC, ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { faEnvelope, faKey, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { Alert, Col, Divider, Form, Row, Typography } from "antd";
+import { KeyOutlined, MailOutlined, SendOutlined } from "@ant-design/icons";
 
-import { validateEmail } from "../../utils/input-validators";
-import PageLoader from "../../component/PageLoader/PageLoader";
-import InfoTitle from "../../component/InfoTitle/InfoTitle";
-import Alert from "../../component/Alert/Alert";
-import Input from "../../component/Input/Input";
-import IconButton from "../../component/IconButton/IconButton";
-import { selectErrorMessage, selectIsAuthLoading, selectSuccessMessage } from "../../redux-toolkit/auth/auth-selector";
-import {resetAuthState, setAuthLoadingState} from "../../redux-toolkit/auth/auth-slice";
+import {
+    selectErrorMessage,
+    selectIsAuthLoading,
+    selectSuccessMessage
+} from "../../redux-toolkit/auth/auth-selector";
+import { setAuthLoadingState } from "../../redux-toolkit/auth/auth-slice";
+import { LoadingStatus } from "../../types/types";
+import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
+import ContentTitle from "../../components/ContentTitle/ContentTitle";
+import FormInput from "../../components/FormInput/FormInput";
+import IconButton from "../../components/IconButton/IconButton";
 import { forgotPassword } from "../../redux-toolkit/auth/auth-thunks";
-import {LoadingStatus} from "../../types/types";
 
 const ForgotPassword: FC = (): ReactElement => {
     const dispatch = useDispatch();
+    const [form] = Form.useForm();
     const error = useSelector(selectErrorMessage);
     const success = useSelector(selectSuccessMessage);
     const isLoading = useSelector(selectIsAuthLoading);
-    const [email, setEmail] = useState<string>("");
-    const [validateEmailError, setValidateEmailError] = useState<string>("");
 
     useEffect(() => {
         dispatch(setAuthLoadingState(LoadingStatus.LOADED));
     }, []);
 
     useEffect(() => {
-        setEmail("");
+        form.resetFields();
     }, [success]);
 
-    const onClickSend = (event: FormEvent<HTMLFormElement>): void => {
-        event.preventDefault();
-        const validateEmailError: string = validateEmail(email);
-
-        if (validateEmailError) {
-            setValidateEmailError(validateEmailError);
-        } else {
-            dispatch(forgotPassword(email));
-        }
+    const onClickSend = (value: { email: string }): void => {
+        dispatch(forgotPassword(value.email));
     };
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        setEmail(event.target.value);
-    };
-
-    let pageLoading;
-
-    if (isLoading) {
-        pageLoading = <PageLoader />;
-    }
 
     return (
-        <div id="container" className="container mt-5">
-            {pageLoading}
-            <InfoTitle iconClass={"mr-3"} icon={faKey} title={"FORGOT PASSWORD?"} />
-            <hr />
-            <p>Enter your email address that you used to create your account.</p>
-            {error && <Alert alertType={"danger"} message={error} />}
-            {success && <Alert alertType={"success"} message={success} />}
-            <form onSubmit={onClickSend}>
-                <Input
-                    title={"E-mail"}
-                    titleClass={"col-sm-2"}
-                    wrapperClass={"col-sm-4"}
-                    icon={faEnvelope}
-                    type={"email"}
-                    error={validateEmailError}
-                    name={"email"}
-                    value={email}
-                    onChange={handleInputChange}
-                />
-                <IconButton buttonText={"Send"} icon={faPaperPlane} iconClassName={"mr-3"} />
-            </form>
-        </div>
+        <ContentWrapper>
+            <ContentTitle icon={<KeyOutlined />} title={"FORGOT PASSWORD ?"} />
+            <Row gutter={32}>
+                <Col span={12}>
+                    <Form form={form} onFinish={onClickSend}>
+                        <Divider />
+                        <Typography.Text style={{ display: "block", marginBottom: 16 }}>
+                            Enter your email address that you used to create your account.
+                        </Typography.Text>
+                        {error && <Alert type="error" message={error} />}
+                        {success && <Alert type="success" message={success} />}
+                        <FormInput
+                            title={"E-mail:"}
+                            icon={<MailOutlined />}
+                            titleSpan={8}
+                            wrapperSpan={16}
+                            name={"email"}
+                            placeholder={"E-mail"}
+                            rule={[{ required: true, message: "Please input your E-mail!" }]}
+                        />
+                        <IconButton disabled={isLoading} title={"Send"} icon={<SendOutlined />} />
+                    </Form>
+                </Col>
+            </Row>
+        </ContentWrapper>
     );
 };
 

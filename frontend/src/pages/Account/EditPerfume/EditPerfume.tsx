@@ -1,35 +1,49 @@
-import React, { ChangeEvent, FC, FormEvent, ReactElement, useEffect, useState } from "react";
+import React, { FC, ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
+import { EditOutlined, UploadOutlined } from "@ant-design/icons";
+import { Button, Col, Form, notification, Row, Upload } from "antd";
+import { UploadChangeParam } from "antd/lib/upload/interface";
 
-import { LoadingStatus, Perfume } from "../../../types/types";
-import ToastShow from "../../../component/Toasts/ToastShow";
-import InfoTitle from "../../../component/InfoTitle/InfoTitle";
-import IconButton from "../../../component/IconButton/IconButton";
-import EditPerfumeSelect from "./EditPerfumeSelect/EditPerfumeSelect";
-import Input from "../../../component/Input/Input";
-import { selectIsPerfumeLoaded, selectPerfume } from "../../../redux-toolkit/perfume/perfume-selector";
+import ContentTitle from "../../../components/ContentTitle/ContentTitle";
+import FormInput from "../../../components/FormInput/FormInput";
+import { selectPerfume } from "../../../redux-toolkit/perfume/perfume-selector";
 import {
     selectAdminStateErrors,
     selectIsAdminStateLoading,
     selectIsPerfumeEdited
 } from "../../../redux-toolkit/admin/admin-selector";
+import { LoadingStatus } from "../../../types/types";
 import { resetAdminState, setAdminLoadingState } from "../../../redux-toolkit/admin/admin-slice";
 import { fetchPerfume } from "../../../redux-toolkit/perfume/perfume-thunks";
+import IconButton from "../../../components/IconButton/IconButton";
+import EditPerfumeSelect from "./EditPerfumeSelect";
 import { updatePerfume } from "../../../redux-toolkit/admin/admin-thunks";
-import { useInput } from "../../../hooks/useInput";
+import "./EditPerfume.css";
+
+type EditPerfumeData = {
+    perfumeTitle: string;
+    perfumer: string;
+    year: string;
+    country: string;
+    type: string;
+    volume: string;
+    perfumeGender: string;
+    fragranceTopNotes: string;
+    fragranceMiddleNotes: string;
+    fragranceBaseNotes: string;
+    price: string;
+};
 
 const EditPerfume: FC = (): ReactElement => {
     const dispatch = useDispatch();
+    const [form] = Form.useForm();
     const params = useParams<{ id: string }>();
     const perfumeData = useSelector(selectPerfume);
-    const isPerfumeLoaded = useSelector(selectIsPerfumeLoaded);
     const isLoading = useSelector(selectIsAdminStateLoading);
     const errors = useSelector(selectAdminStateErrors);
     const isPerfumeEdited = useSelector(selectIsPerfumeEdited);
-    const [showToast, setShowToast] = useState<boolean>(false);
-    const { inputValue, setInputValue, handleInputChange } = useInput<Partial<Perfume> | undefined>(undefined);
+    const [file, setFile] = React.useState<string>("");
 
     useEffect(() => {
         dispatch(setAdminLoadingState(LoadingStatus.LOADED));
@@ -39,224 +53,159 @@ const EditPerfume: FC = (): ReactElement => {
             dispatch(resetAdminState(LoadingStatus.LOADING));
         };
     }, []);
-
+    
     useEffect(() => {
-        if (isPerfumeLoaded) {
-            setInputValue(perfumeData);
+        if (perfumeData) {
+            form.setFieldsValue(perfumeData);
         }
-    }, [isPerfumeLoaded]);
+    }, [perfumeData])
 
     useEffect(() => {
         if (isPerfumeEdited) {
-            setInputValue(perfumeData);
-            setShowToast(true);
-            setTimeout(() => {
-                setShowToast(false);
-            }, 5000);
             window.scrollTo(0, 0);
+            notification.success({
+                message: "Perfume edited",
+                description: "Perfume successfully edited!"
+            });
+            dispatch(resetAdminState(LoadingStatus.SUCCESS));
         }
     }, [isPerfumeEdited]);
 
-    const onFormSubmit = (event: FormEvent<HTMLFormElement>): void => {
-        event.preventDefault();
-
+    const onFormSubmit = (data: EditPerfumeData): void => {
         const bodyFormData: FormData = new FormData();
-        bodyFormData.append("file", inputValue?.file);
+        // @ts-ignore
+        bodyFormData.append("file", { file });
         bodyFormData.append(
             "perfume",
-            new Blob(
-                [
-                    JSON.stringify({
-                        id: inputValue?.id,
-                        perfumeTitle: inputValue?.perfumeTitle,
-                        perfumer: inputValue?.perfumer,
-                        year: inputValue?.year,
-                        country: inputValue?.country,
-                        type: inputValue?.type,
-                        volume: inputValue?.volume,
-                        perfumeGender: inputValue?.perfumeGender,
-                        fragranceTopNotes: inputValue?.fragranceTopNotes,
-                        fragranceMiddleNotes: inputValue?.fragranceMiddleNotes,
-                        fragranceBaseNotes: inputValue?.fragranceBaseNotes,
-                        filename: inputValue?.filename,
-                        price: inputValue?.price
-                    })
-                ],
-                { type: "application/json" }
-            )
+            new Blob([JSON.stringify({ ...data, id: perfumeData?.id })], { type: "application/json" })
         );
 
         dispatch(updatePerfume(bodyFormData));
     };
 
-    const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
-        const { name, files } = event.target;
-        if (files) {
-            setInputValue({ ...inputValue, [name]: files[0] });
-        }
+    const handleUpload = ({ file }: UploadChangeParam<any>): void => {
+        setFile(file);
     };
 
     return (
-        <>
-            <ToastShow showToast={showToast} message={"Perfume successfully edited!"} />
-            <div className="container">
-                <InfoTitle iconClass={"mr-2"} icon={faEdit} title={"Edit perfume"} />
-                <form onSubmit={onFormSubmit}>
-                    <div className="row mt-5">
-                        <div className="col-md-6">
-                            <Input
-                                title={"Perfume title"}
-                                titleClass={"col-sm-4 font-weight-bold"}
-                                wrapperClass={"col-sm-8"}
-                                type={"text"}
-                                error={errors.perfumeTitleError}
-                                name={"perfumeTitle"}
-                                value={inputValue?.perfumeTitle}
-                                disabled={isLoading}
-                                onChange={handleInputChange}
-                            />
-                            <Input
-                                title={"Brand"}
-                                titleClass={"col-sm-4 font-weight-bold"}
-                                wrapperClass={"col-sm-8"}
-                                type={"text"}
-                                error={errors.perfumerError}
-                                name={"perfumer"}
-                                value={inputValue?.perfumer}
-                                disabled={isLoading}
-                                onChange={handleInputChange}
-                            />
-                            <Input
-                                title={"Release year"}
-                                titleClass={"col-sm-4 font-weight-bold"}
-                                wrapperClass={"col-sm-8"}
-                                type={"text"}
-                                error={errors.yearError}
-                                name={"year"}
-                                value={inputValue?.year}
-                                disabled={isLoading}
-                                onChange={handleInputChange}
-                            />
-                            <Input
-                                title={"Country"}
-                                titleClass={"col-sm-4 font-weight-bold"}
-                                wrapperClass={"col-sm-8"}
-                                type={"text"}
-                                error={errors.countryError}
-                                name={"country"}
-                                value={inputValue?.country}
-                                disabled={isLoading}
-                                onChange={handleInputChange}
-                            />
-                            <EditPerfumeSelect
-                                title={"Perfume type"}
-                                error={errors.typeError}
-                                name={"type"}
-                                disabled={isLoading}
-                                onChange={handleInputChange}
-                                selectOptions={
-                                    perfumeData.type === "Eau de Parfum" ? (
-                                        <>
-                                            <option value={perfumeData.type}>{perfumeData.type}</option>
-                                            <option value="Eau de Toilette">Eau de Toilette</option>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <option value={perfumeData.type}>{perfumeData.type}</option>
-                                            <option value="Eau de Parfum">Eau de Parfum</option>
-                                        </>
-                                    )
-                                }
-                            />
-                            <Input
-                                title={"Volume"}
-                                titleClass={"col-sm-4 font-weight-bold"}
-                                wrapperClass={"col-sm-8"}
-                                type={"text"}
-                                error={errors.volumeError}
-                                name={"volume"}
-                                value={inputValue?.volume}
-                                disabled={isLoading}
-                                onChange={handleInputChange}
-                            />
-                            <EditPerfumeSelect
-                                title={"Gender"}
-                                error={errors.perfumeGenderError}
-                                name={"perfumeGender"}
-                                disabled={isLoading}
-                                onChange={handleInputChange}
-                                selectOptions={
-                                    perfumeData.perfumeGender === "male" ? (
-                                        <>
-                                            <option value={perfumeData.perfumeGender}>
-                                                {perfumeData.perfumeGender}
-                                            </option>
-                                            <option value="female">female</option>
-                                        </>
-                                    ) : (
-                                        <>
-                                            <option value={perfumeData.perfumeGender}>
-                                                {perfumeData.perfumeGender}
-                                            </option>
-                                            <option value="male">male</option>
-                                        </>
-                                    )
-                                }
-                            />
-                            <Input
-                                title={"Top notes"}
-                                titleClass={"col-sm-4 font-weight-bold"}
-                                wrapperClass={"col-sm-8"}
-                                type={"text"}
-                                error={errors.fragranceTopNotesError}
-                                name={"fragranceTopNotes"}
-                                value={inputValue?.fragranceTopNotes}
-                                disabled={isLoading}
-                                onChange={handleInputChange}
-                            />
-                            <Input
-                                title={"Heart notes"}
-                                titleClass={"col-sm-4 font-weight-bold"}
-                                wrapperClass={"col-sm-8"}
-                                type={"text"}
-                                error={errors.fragranceMiddleNotesError}
-                                name={"fragranceMiddleNotes"}
-                                value={inputValue?.fragranceMiddleNotes}
-                                disabled={isLoading}
-                                onChange={handleInputChange}
-                            />
-                            <Input
-                                title={"Base notes"}
-                                titleClass={"col-sm-4 font-weight-bold"}
-                                wrapperClass={"col-sm-8"}
-                                type={"text"}
-                                error={errors.fragranceBaseNotesError}
-                                name={"fragranceBaseNotes"}
-                                value={inputValue?.fragranceBaseNotes}
-                                disabled={isLoading}
-                                onChange={handleInputChange}
-                            />
-                            <Input
-                                title={"Price"}
-                                titleClass={"col-sm-4 font-weight-bold"}
-                                wrapperClass={"col-sm-8"}
-                                type={"text"}
-                                error={errors.priceError}
-                                name={"price"}
-                                value={inputValue?.price}
-                                disabled={isLoading}
-                                onChange={handleInputChange}
+        <div>
+            <ContentTitle title={"Edit perfume"} titleLevel={4} icon={<EditOutlined />} />
+            <Form onFinish={onFormSubmit} form={form}>
+                <Row gutter={32}>
+                    <Col span={12}>
+                        <FormInput
+                            title={"Perfume title"}
+                            titleSpan={6}
+                            wrapperSpan={18}
+                            name={"perfumeTitle"}
+                            error={errors.perfumeTitleError}
+                            disabled={isLoading}
+                            placeholder={"Perfume title"}
+                        />
+                        <FormInput
+                            title={"Brand"}
+                            titleSpan={6}
+                            wrapperSpan={18}
+                            name={"perfumer"}
+                            error={errors.perfumerError}
+                            disabled={isLoading}
+                            placeholder={"Brand"}
+                        />
+                        <FormInput
+                            title={"Release year"}
+                            titleSpan={6}
+                            wrapperSpan={18}
+                            name={"year"}
+                            error={errors.yearError}
+                            disabled={isLoading}
+                            placeholder={"Release year"}
+                        />
+                        <FormInput
+                            title={"Country"}
+                            titleSpan={6}
+                            wrapperSpan={18}
+                            name={"country"}
+                            error={errors.countryError}
+                            disabled={isLoading}
+                            placeholder={"Country"}
+                        />
+                        <EditPerfumeSelect
+                            title={"Perfume type"}
+                            name={"type"}
+                            placeholder={"Perfume type"}
+                            error={errors.typeError}
+                            disabled={isLoading}
+                            values={["Eau de Parfum", "Eau de Toilette"]}
+                        />
+                        <EditPerfumeSelect
+                            title={"Gender"}
+                            name={"perfumeGender"}
+                            placeholder={"Gender"}
+                            disabled={isLoading}
+                            values={["male", "female"]}
+                        />
+                        <FormInput
+                            title={"Volume"}
+                            titleSpan={6}
+                            wrapperSpan={18}
+                            name={"volume"}
+                            error={errors.volumeError}
+                            disabled={isLoading}
+                            placeholder={"Volume"}
+                        />
+                        <FormInput
+                            title={"Top notes"}
+                            titleSpan={6}
+                            wrapperSpan={18}
+                            name={"fragranceTopNotes"}
+                            error={errors.fragranceTopNotesError}
+                            disabled={isLoading}
+                            placeholder={"Top notes"}
+                        />
+                        <FormInput
+                            title={"Heart notes"}
+                            titleSpan={6}
+                            wrapperSpan={18}
+                            name={"fragranceMiddleNotes"}
+                            error={errors.fragranceMiddleNotesError}
+                            disabled={isLoading}
+                            placeholder={"Heart notes"}
+                        />
+                        <FormInput
+                            title={"Base notes"}
+                            titleSpan={6}
+                            wrapperSpan={18}
+                            name={"fragranceBaseNotes"}
+                            error={errors.fragranceBaseNotesError}
+                            disabled={isLoading}
+                            placeholder={"Base notes"}
+                        />
+                        <FormInput
+                            title={"Price"}
+                            titleSpan={6}
+                            wrapperSpan={18}
+                            name={"price"}
+                            error={errors.priceError}
+                            disabled={isLoading}
+                            placeholder={"Price"}
+                        />
+                    </Col>
+                    <Col span={12}>
+                        <Upload name={"file"} onChange={handleUpload} beforeUpload={() => false}>
+                            <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                        </Upload>
+                        <div className={"edit-perfume-image-wrapper"}>
+                            <img
+                                className={"edit-perfume-image"}
+                                src={perfumeData.filename}
+                                alt={perfumeData.perfumeTitle}
                             />
                         </div>
-                        <div className="col-md-6">
-                            <img src={inputValue?.filename} className="rounded mx-auto w-100 mb-2" />
-                            <input type="file" name="file" onChange={handleFileChange} />
-                        </div>
-                    </div>
-                    <IconButton buttonText={"Edit"} icon={faEdit} iconClassName={"mr-2"} disabled={isLoading} />
-                </form>
-            </div>
-        </>
+                    </Col>
+                </Row>
+                <IconButton title={"Edit"} icon={<EditOutlined />} disabled={isLoading} />
+            </Form>
+        </div>
     );
 };
 

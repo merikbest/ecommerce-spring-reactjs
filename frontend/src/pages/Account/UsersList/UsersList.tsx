@@ -1,12 +1,14 @@
 import React, { FC, ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import { TeamOutlined } from "@ant-design/icons";
+import { Table } from "antd";
 
-import Spinner from "../../../component/Spinner/Spinner";
-import InfoTitle from "../../../component/InfoTitle/InfoTitle";
-import UsersListItem from "./UsersListItem";
 import { selectAdminStateUsers, selectIsAdminStateLoading } from "../../../redux-toolkit/admin/admin-selector";
 import { fetchAllUsers } from "../../../redux-toolkit/admin/admin-thunks";
+import ContentTitle from "../../../components/ContentTitle/ContentTitle";
+import { User } from "../../../types/types";
+import { ACCOUNT_ADMIN_USERS } from "../../../constants/routeConstants";
 
 const UsersList: FC = (): ReactElement => {
     const dispatch = useDispatch();
@@ -18,31 +20,48 @@ const UsersList: FC = (): ReactElement => {
     }, []);
 
     return (
-        <div className="container">
-            {isLoading ? (
-                <Spinner />
-            ) : (
-                <>
-                    <InfoTitle iconClass={"ml-2 mr-2"} icon={faUsers} title={"List of all users"} />
-                    <table className="table mt-4 border text-center">
-                        <thead className="table-active">
-                            <tr>
-                                <th>id</th>
-                                <th>First name</th>
-                                <th>E-mail</th>
-                                <th>Role</th>
-                                <th>Provider</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {users.map((user) => (
-                                <UsersListItem key={user.id} user={user} />
-                            ))}
-                        </tbody>
-                    </table>
-                </>
-            )}
+        <div>
+            <ContentTitle title={"List of all users"} titleLevel={4} icon={<TeamOutlined />} />
+            <Table
+                rowKey={"id"}
+                loading={isLoading}
+                pagination={{ position: ["bottomRight", "topRight"] }}
+                dataSource={users}
+                columns={[
+                    {
+                        title: "Id",
+                        dataIndex: "id",
+                        key: "id"
+                    },
+                    {
+                        title: "First name",
+                        dataIndex: "firstName",
+                        key: "firstName"
+                    },
+                    {
+                        title: "E-mail",
+                        dataIndex: "email",
+                        key: "email"
+                    },
+                    {
+                        title: "Role",
+                        dataIndex: "roles",
+                        key: "roles",
+                        render: (_, user: User) => user.roles[0]
+                    },
+                    {
+                        title: "Provider",
+                        dataIndex: "provider",
+                        key: "provider"
+                    },
+                    {
+                        title: "Action",
+                        dataIndex: "amount",
+                        key: "amount",
+                        render: (_, user: User) => <Link to={`${ACCOUNT_ADMIN_USERS}/${user.id}`}>Show more</Link>
+                    }
+                ]}
+            />
         </div>
     );
 };

@@ -1,12 +1,8 @@
-.cart_wrapper {
-    min-height: 350px;
+.cart-item .ant-card-body {
+    padding: 24px 24px 24px 0;
 }
 
-.perfume_item_wrapper {
-    max-width: 940px;
+.cart-item-image {
+    display: flex;
+    justify-content: center;
 }
-
-.perfume_input_count {
-    width: 45px;
-}
-

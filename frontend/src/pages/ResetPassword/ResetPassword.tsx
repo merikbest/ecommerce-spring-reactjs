@@ -1,27 +1,25 @@
-import React, { FC, FormEvent, ReactElement, useEffect } from "react";
+import React, { FC, ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { LockOutlined, ReloadOutlined, SyncOutlined } from "@ant-design/icons";
 import { useHistory, useParams } from "react-router-dom";
-import { faLock, faSync, faUndo } from "@fortawesome/free-solid-svg-icons";
+import { Alert, Col, Divider, Form, Row } from "antd";
 
-import { UserResetPasswordRequest } from "../../types/types";
-import InfoTitle from "../../component/InfoTitle/InfoTitle";
-import Alert from "../../component/Alert/Alert";
-import Input from "../../component/Input/Input";
-import IconButton from "../../component/IconButton/IconButton";
+import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
+import ContentTitle from "../../components/ContentTitle/ContentTitle";
 import { selectErrorMessage, selectErrors, selectUserAuthEmail } from "../../redux-toolkit/auth/auth-selector";
 import { resetAuthState } from "../../redux-toolkit/auth/auth-slice";
 import { fetchResetPasswordCode, resetPassword } from "../../redux-toolkit/auth/auth-thunks";
-import { useInput } from "../../hooks/useInput";
+import FormInput from "../../components/FormInput/FormInput";
+import IconButton from "../../components/IconButton/IconButton";
 
 const ResetPassword: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const params = useParams<{ code: string }>();
     const history = useHistory();
     const userEmail = useSelector(selectUserAuthEmail);
-    const error = useSelector(selectErrorMessage);
-    const errors = useSelector(selectErrors);
-    const { inputValue, handleInputChange } = useInput({ password: "", password2: "" });
-    const { password, password2 } = inputValue;
+    const errorMessage = useSelector(selectErrorMessage);
+    const resetPasswordErrors = useSelector(selectErrors);
+    const { passwordError, password2Error } = resetPasswordErrors;
 
     useEffect(() => {
         dispatch(resetAuthState());
@@ -31,43 +29,44 @@ const ResetPassword: FC = (): ReactElement => {
         }
     }, []);
 
-    const onClickReset = (event: FormEvent<HTMLFormElement>): void => {
-        event.preventDefault();
-        const userResetPasswordData: UserResetPasswordRequest = { email: userEmail, password, password2 };
+    const onClickReset = (data: { password: ""; password2: "" }): void => {
+        const userResetPasswordData = { email: userEmail, ...data };
         dispatch(resetPassword({ request: userResetPasswordData, history }));
     };
 
     return (
-        <div className="container mt-5">
-            <InfoTitle iconClass={"mr-2"} icon={faSync} title={"RESET PASSWORD"} />
-            <hr />
-            {error && <Alert alertType={"danger"} message={error} />}
-            <form onSubmit={onClickReset}>
-                <Input
-                    title={"Password"}
-                    icon={faLock}
-                    titleClass={"col-sm-2"}
-                    wrapperClass={"col-sm-4"}
-                    type={"password"}
-                    error={errors.passwordError}
-                    name={"password"}
-                    value={password}
-                    onChange={handleInputChange}
-                />
-                <Input
-                    title={"Confirm password"}
-                    icon={faLock}
-                    titleClass={"col-sm-2"}
-                    wrapperClass={"col-sm-4"}
-                    type={"password"}
-                    error={errors.password2Error}
-                    name={"password2"}
-                    value={password2}
-                    onChange={handleInputChange}
-                />
-                <IconButton buttonText={"Reset"} icon={faUndo} iconClassName={"mr-3"} />
-            </form>
-        </div>
+        <ContentWrapper>
+            <ContentTitle icon={<SyncOutlined />} title={"RESET PASSWORD"} />
+            <Row gutter={32}>
+                <Col span={12}>
+                    <Form onFinish={onClickReset}>
+                        <Divider />
+                        {errorMessage && <Alert type="error" message={errorMessage} />}
+                        <FormInput
+                            title={"Password:"}
+                            icon={<LockOutlined />}
+                            titleSpan={8}
+                            wrapperSpan={16}
+                            error={passwordError}
+                            name={"password"}
+                            placeholder={"Password"}
+                            inputPassword
+                        />
+                        <FormInput
+                            title={"Confirm password:"}
+                            icon={<LockOutlined />}
+                            titleSpan={8}
+                            wrapperSpan={16}
+                            error={password2Error}
+                            name={"password2"}
+                            placeholder={"Confirm password"}
+                            inputPassword
+                        />
+                        <IconButton title={"Reset"} icon={<ReloadOutlined />} />
+                    </Form>
+                </Col>
+            </Row>
+        </ContentWrapper>
     );
 };
 

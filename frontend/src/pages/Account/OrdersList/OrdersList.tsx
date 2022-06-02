@@ -1,15 +1,17 @@
 import React, { FC, ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ShoppingOutlined } from "@ant-design/icons";
 
-import OrdersTable from "../../../component/OrdersTable/OrdersTable";
 import { selectIsOrdersLoading, selectOrders } from "../../../redux-toolkit/orders/orders-selector";
-import { resetOrders } from "../../../redux-toolkit/orders/orders-slice";
 import { fetchAllUsersOrders } from "../../../redux-toolkit/orders/orders-thunks";
+import { resetOrders } from "../../../redux-toolkit/orders/orders-slice";
+import ContentTitle from "../../../components/ContentTitle/ContentTitle";
+import OrdersTable from "../../../components/OrdersTable/OrdersTable";
 
 const OrdersList: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const adminOrders = useSelector(selectOrders);
-    const loading = useSelector(selectIsOrdersLoading);
+    const isOrderLoading = useSelector(selectIsOrdersLoading);
 
     useEffect(() => {
         dispatch(fetchAllUsersOrders());
@@ -19,7 +21,12 @@ const OrdersList: FC = (): ReactElement => {
         };
     }, []);
 
-    return <OrdersTable loading={loading} orders={adminOrders} />;
+    return (
+        <>
+            <ContentTitle title={"List of all orders"} titleLevel={4} icon={<ShoppingOutlined />} />
+            <OrdersTable orders={adminOrders} loading={isOrderLoading} />
+        </>
+    );
 };
 
 export default OrdersList;
