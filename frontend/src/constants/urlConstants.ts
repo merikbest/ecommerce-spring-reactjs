@@ -1,5 +1,5 @@
-export const API_BASE_URL = "http://localhost:8080/api/v1";
-export const WEBSOCKET_URL = "http://localhost:8080/websocket";
+export const API_BASE_URL = "https://perfume-websore-api.herokuapp.com/api/v1";
+export const WEBSOCKET_URL = "https://perfume-websore-api.herokuapp.com/websocket";
 
 export const USER = "/user";
 export const REGISTRATION = "/registration";
