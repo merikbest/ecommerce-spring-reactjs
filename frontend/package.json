@@ -26,7 +26,7 @@
     "react-google-recaptcha": "^2.1.0",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.4",
+    "react-scripts": "5.0.1",
     "react-scroll-up": "^1.3.7",
     "sockjs-client": "^1.5.1",
     "typescript": "^4.0.5",
