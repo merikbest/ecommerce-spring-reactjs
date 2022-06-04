@@ -3,12 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Col, Layout, Pagination, RadioChangeEvent, Row, Typography } from "antd";
 import { CheckboxValueType } from "antd/lib/checkbox/Group";
 import { useLocation } from "react-router-dom";
-import "antd/dist/antd.css";
 
 import MenuCheckboxSection from "./MenuSection/MenuCheckboxSection";
 import { selectIsPerfumesLoading, selectPerfumes } from "../../redux-toolkit/perfumes/perfumes-selector";
 import { FilterParamsType } from "../../types/types";
-import "./Menu.css";
 import {
     fetchPerfumes,
     fetchPerfumesByFilterParams,
@@ -24,6 +22,8 @@ import InputSearch from "../../components/InputSearch/InputSearch";
 import Spinner from "../../components/Spinner/Spinner";
 import { MAX_PAGE_VALUE, usePagination } from "../../hooks/usePagination";
 import { gender, perfumer, price } from "./MenuData";
+import { useSearch } from "../../hooks/useSearch";
+import "./Menu.css";
 
 export enum CheckboxCategoryFilter {
     PERFUMERS = "PERFUMERS",
@@ -41,9 +41,8 @@ const Menu: FC = (): ReactElement => {
         prices: [1, 999]
     });
     const [sortByPrice, setSortByPrice] = useState<boolean | undefined>(undefined);
-    const [searchValue, setSearchValue] = useState<string>("");
-    const [selectValue, setSelectValue] = useState<string>("");
     const { currentPage, minPageValue, maxPageValue, handleChangePagination, resetPagination } = usePagination();
+    const { onSearch, handleChangeSelect } = useSearch();
 
     useEffect(() => {
         const perfumeData = location.state.id;
@@ -63,45 +62,36 @@ const Menu: FC = (): ReactElement => {
     }, []);
 
     useEffect(() => {
-        getProducts();
         resetPagination();
     }, [filterParams, sortByPrice]);
 
     const onChangeCheckbox = (checkedValues: CheckboxValueType[], category: CheckboxCategoryFilter): void => {
         if (CheckboxCategoryFilter.PERFUMERS === category) {
-            setFilterParams((prevState) => ({
-                ...prevState,
-                perfumers: [...(checkedValues as string[])]
-            }));
+            setFilterParams((prevState) => {
+                const filter = { ...prevState, perfumers: [...(checkedValues as string[])] };
+                dispatch(fetchPerfumesByFilterParams({ ...filter, sortByPrice }));
+                return filter;
+            });
         } else if (CheckboxCategoryFilter.GENDERS === category) {
-            setFilterParams((prevState) => ({
-                ...prevState,
-                genders: [...(checkedValues as string[])]
-            }));
+            setFilterParams((prevState) => {
+                const filter = { ...prevState, genders: [...(checkedValues as string[])] };
+                dispatch(fetchPerfumesByFilterParams({ ...filter, sortByPrice }));
+                return filter;
+            });
         }
     };
 
     const onChangeRadio = (event: RadioChangeEvent): void => {
-        setFilterParams((prevState) => ({
-            ...prevState,
-            prices: event.target.value
-        }));
-    };
-
-    const handleChangeSelect = (value: string): void => {
-        setSelectValue(value);
-    };
-
-    const onSearch = (): void => {
-        // TODO add search action
+        setFilterParams((prevState) => {
+            const filter = { ...prevState, prices: event.target.value };
+            dispatch(fetchPerfumesByFilterParams({ ...filter, sortByPrice }));
+            return filter;
+        });
     };
 
     const handleChangeSortPrice = (event: RadioChangeEvent): void => {
+        dispatch(fetchPerfumesByFilterParams({ ...filterParams, sortByPrice: event.target.value }));
         setSortByPrice(event.target.value);
-    };
-
-    const getProducts = (): void => {
-        dispatch(fetchPerfumesByFilterParams({ ...filterParams, sortByPrice }));
     };
 
     return (

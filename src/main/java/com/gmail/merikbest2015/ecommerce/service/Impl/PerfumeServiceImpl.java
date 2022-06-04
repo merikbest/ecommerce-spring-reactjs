@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.domain.Review;
+import com.gmail.merikbest2015.ecommerce.enums.SearchPerfume;
 import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
@@ -67,6 +68,17 @@ public class PerfumeServiceImpl implements PerfumeService {
     @Override
     public List<Perfume> findByPerfumeGender(String perfumeGender) {
         return perfumeRepository.findByPerfumeGenderOrderByPriceDesc(perfumeGender);
+    }
+
+    @Override
+    public List<Perfume> findByInputText(SearchPerfume searchType, String text) {
+        if (searchType.equals(SearchPerfume.BRAND)) {
+            return perfumeRepository.findByPerfumer(text);
+        } else if (searchType.equals(SearchPerfume.PERFUME_TITLE)) {
+            return perfumeRepository.findByPerfumeTitle(text);
+        } else {
+            return perfumeRepository.findByManufacturerCountry(text);
+        }
     }
 
     @Override

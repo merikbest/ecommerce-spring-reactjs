@@ -1,5 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.domain;
 
+import com.gmail.merikbest2015.ecommerce.enums.AuthProvider;
+import com.gmail.merikbest2015.ecommerce.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

@@ -3,6 +3,8 @@ package com.gmail.merikbest2015.ecommerce.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeSearchRequest;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.SearchTypeRequest;
+import com.gmail.merikbest2015.ecommerce.enums.SearchPerfume;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -182,6 +184,52 @@ public class PerfumeControllerTest {
                         .content(mapper.writeValueAsString(filter))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*].id").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].filename").isNotEmpty())
+                .andExpect(jsonPath("$[*].price").isNotEmpty());
+    }
+
+    @Test
+    public void findByInputText() throws Exception {
+        SearchTypeRequest request = new SearchTypeRequest();
+        request.setSearchType(SearchPerfume.COUNTRY);
+        request.setText("France");
+        
+        mockMvc.perform(post(URL_PERFUMES_SEARCH + "/text")
+                        .content(mapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*]", hasSize(19)))
+                .andExpect(jsonPath("$[*].id").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].filename").isNotEmpty())
+                .andExpect(jsonPath("$[*].price").isNotEmpty());
+
+        request.setSearchType(SearchPerfume.BRAND);
+        request.setText("Creed");
+        
+        mockMvc.perform(post(URL_PERFUMES_SEARCH + "/text")
+                        .content(mapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*]", hasSize(7)))
+                .andExpect(jsonPath("$[*].id").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
+                .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
+                .andExpect(jsonPath("$[*].filename").isNotEmpty())
+                .andExpect(jsonPath("$[*].price").isNotEmpty());
+
+        request.setSearchType(SearchPerfume.PERFUME_TITLE);
+        request.setText("Chanel N5");
+
+        mockMvc.perform(post(URL_PERFUMES_SEARCH + "/text")
+                        .content(mapper.writeValueAsString(request))
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*]", hasSize(1)))
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
                 .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
                 .andExpect(jsonPath("$[*].perfumer").isNotEmpty())

@@ -1,6 +1,6 @@
 import React, { FC, ReactElement, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Form } from "antd";
 import SockJS from "sockjs-client";
 import { CompatClient, Stomp } from "@stomp/stompjs";
@@ -23,8 +23,8 @@ import Spinner from "../../components/Spinner/Spinner";
 import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import ProductInfo from "./ProductInfo/ProductInfo";
 import ProductReviews from "./ProductReviews/ProductReviews";
-import { CART } from "../../constants/routeConstants";
 import { addReviewToPerfume } from "../../redux-toolkit/user/user-thunks";
+import { useCart } from "../../hooks/useCart";
 import "./Product.css";
 
 let stompClient: CompatClient | null = null;
@@ -37,7 +37,6 @@ export interface ReviewData {
 
 const Product: FC = (): ReactElement => {
     const dispatch = useDispatch();
-    const history = useHistory();
     const [form] = Form.useForm();
     const params = useParams<{ id: string }>();
     const perfume = useSelector(selectPerfume);
@@ -48,6 +47,7 @@ const Product: FC = (): ReactElement => {
     const errorMessage = useSelector(selectPerfumeErrorMessage);
     const reviewErrors = useSelector(selectReviewErrors);
     const isReviewAdded = useSelector(selectIsReviewAdded);
+    const { addToCart } = useCart(perfume?.id!);
 
     useEffect(() => {
         // GraphQL example
@@ -78,20 +78,6 @@ const Product: FC = (): ReactElement => {
     useEffect(() => {
         form.resetFields();
     }, [isReviewAdded]);
-
-    const addToCart = (): void => {
-        const perfumeId: number | undefined = perfume.id;
-        let data: string | null = localStorage.getItem("perfumes");
-        let cart: Map<number, any> = data ? new Map(JSON.parse(data as string)) : new Map();
-
-        if (cart.has(perfumeId as number)) {
-            cart.set(perfumeId as number, cart.get(perfumeId as number) + 1);
-        } else {
-            cart.set(perfumeId as number, 1);
-        }
-        localStorage.setItem("perfumes", JSON.stringify(Array.from(cart.entries())));
-        history.push(CART);
-    };
 
     const addReview = (data: ReviewData): void => {
         dispatch(addReviewToPerfume({ perfumeId: params.id, ...data }));

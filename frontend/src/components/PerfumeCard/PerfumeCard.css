@@ -1,11 +1,11 @@
 .perfume-card .ant-card-cover {
     width: 80px;
+    height: 80px;
     text-align: center;
     margin: 0 auto;
 }
 
 .perfume-card-image {
-    height: 92px;
     margin-top: 24px;
 }
 

@@ -1,9 +1,10 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.FullPerfumeResponse;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeSearchRequest;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.SearchTypeRequest;
 import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponse;
 import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
 import com.gmail.merikbest2015.ecommerce.service.graphql.GraphQLProvider;
@@ -55,6 +56,11 @@ public class PerfumeController {
     @PostMapping("/search/perfumer")
     public ResponseEntity<List<PerfumeResponse>> findByPerfumer(@RequestBody PerfumeSearchRequest filter) {
         return ResponseEntity.ok(perfumeMapper.findByPerfumer(filter.getPerfumer()));
+    }
+
+    @PostMapping("/search/text")
+    public ResponseEntity<List<PerfumeResponse>> findByInputText(@RequestBody SearchTypeRequest searchType) {
+        return ResponseEntity.ok(perfumeMapper.findByInputText(searchType.getSearchType(), searchType.getText()));
     }
 
     @PostMapping("/graphql/ids")

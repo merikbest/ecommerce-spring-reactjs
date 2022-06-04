@@ -3,7 +3,6 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert, Col, Divider, Form, Row, Space } from "antd";
 import { LockOutlined, LoginOutlined, MailOutlined } from "@ant-design/icons";
-import "antd/dist/antd.css";
 
 import googleLogo from "../../img/google.png";
 import facebookLogo from "../../img/facebook.png";

@@ -181,3 +181,9 @@ export enum LoadingStatus {
     NEVER = "NEVER",
     SUCCESS = "SUCCESS"
 }
+
+export enum SearchPerfume {
+    BRAND = "BRAND",
+    PERFUME_TITLE = "PERFUME_TITLE",
+    COUNTRY = "COUNTRY",
+}

@@ -1,7 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.service.Impl;
 
-import com.gmail.merikbest2015.ecommerce.domain.AuthProvider;
-import com.gmail.merikbest2015.ecommerce.domain.Role;
+import com.gmail.merikbest2015.ecommerce.enums.AuthProvider;
+import com.gmail.merikbest2015.ecommerce.enums.Role;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.CaptchaResponse;
 import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;

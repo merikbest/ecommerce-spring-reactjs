@@ -5,14 +5,16 @@ import { SearchOutlined } from "@ant-design/icons";
 import IconButton from "../IconButton/IconButton";
 
 type PropsType = {
-    onSearch: () => void;
+    onSearch: (data: { searchValue: string }) => void;
 };
 
 const InputSearch: FC<PropsType> = ({ onSearch }): ReactElement => {
     return (
         <Form onFinish={onSearch}>
             <Input.Group compact>
-                <Input style={{ width: "calc(100% - 100px)" }} placeholder={"Search..."} />
+                <Form.Item name={"searchValue"}>
+                    <Input placeholder={"Search..."} />
+                </Form.Item>
                 <IconButton title={"Search"} icon={<SearchOutlined />} />
             </Input.Group>
         </Form>

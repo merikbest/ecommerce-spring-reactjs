@@ -17,6 +17,7 @@ import { LoadingStatus, Perfume } from "../../../types/types";
 import DeleteModal from "./DeleteModal/DeleteModal";
 import Spinner from "../../../components/Spinner/Spinner";
 import { MAX_PAGE_VALUE, usePagination } from "../../../hooks/usePagination";
+import { useSearch } from "../../../hooks/useSearch";
 import "./PerfumeList.css";
 
 const PerfumeList: FC = (): ReactElement => {
@@ -24,10 +25,10 @@ const PerfumeList: FC = (): ReactElement => {
     const perfumes = useSelector(selectPerfumes);
     const isPerfumesLoading = useSelector(selectIsPerfumesLoading);
     const isPerfumeDeleted = useSelector(selectIsPerfumeDeleted);
-    const [selectValue, setSelectValue] = useState<string>("");
     const [perfumeInfo, setPerfumeInfo] = useState<Perfume>();
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const { currentPage, minPageValue, maxPageValue, handleChangePagination } = usePagination();
+    const { onSearch, handleChangeSelect } = useSearch();
 
     useEffect(() => {
         dispatch(fetchPerfumes());
@@ -47,14 +48,6 @@ const PerfumeList: FC = (): ReactElement => {
             });
         }
     }, [isPerfumeDeleted]);
-
-    const handleChangeSelect = (value: string): void => {
-        setSelectValue(value);
-    };
-
-    const onSearch = (): void => {
-        // TODO add search action
-    };
 
     const showDeleteModalWindow = (perfume: Perfume): void => {
         setIsModalVisible(true);

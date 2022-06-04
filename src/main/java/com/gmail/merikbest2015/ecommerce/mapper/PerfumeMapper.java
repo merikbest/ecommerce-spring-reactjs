@@ -6,6 +6,7 @@ import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeRequest;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.FullPerfumeResponse;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeSearchRequest;
 import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponse;
+import com.gmail.merikbest2015.ecommerce.enums.SearchPerfume;
 import com.gmail.merikbest2015.ecommerce.exception.InputFieldException;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,10 @@ public class PerfumeMapper {
 
     public List<PerfumeResponse> findByPerfumeGender(String perfumeGender) {
         return commonMapper.convertToResponseList(perfumeService.findByPerfumeGender(perfumeGender), PerfumeResponse.class);
+    }
+    
+    public List<PerfumeResponse> findByInputText(SearchPerfume searchType, String text) {
+        return commonMapper.convertToResponseList(perfumeService.findByInputText(searchType, text), PerfumeResponse.class);
     }
 
     public FullPerfumeResponse savePerfume(PerfumeRequest perfumeRequest, MultipartFile file, BindingResult bindingResult) {

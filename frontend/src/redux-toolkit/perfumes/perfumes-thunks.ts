@@ -8,9 +8,9 @@ import {
     PERFUMES_IDS,
     PERFUMES_SEARCH,
     PERFUMES_SEARCH_GENDER,
-    PERFUMES_SEARCH_PERFUMER
+    PERFUMES_SEARCH_PERFUMER, PERFUMES_SEARCH_TEXT
 } from "../../constants/urlConstants";
-import { FilterParamsType, Perfume } from "../../types/types";
+import {FilterParamsType, Perfume, SearchPerfume} from "../../types/types";
 import { gePerfumesByIdsQuery, getAllPerfumesByQuery } from "../../utils/graphql-query/perfume-query";
 
 export const fetchPerfumes = createAsyncThunk<Array<Perfume>>("perfumes/fetchPerfumes", async () => {
@@ -46,6 +46,14 @@ export const fetchPerfumesByPerfumer = createAsyncThunk<Array<Perfume>, { perfum
     "perfumes/fetchPerfumesByPerfumer",
     async (perfumer) => {
         const response = await RequestService.post(PERFUMES_SEARCH_PERFUMER, perfumer);
+        return response.data;
+    }
+);
+
+export const fetchPerfumesByInputText = createAsyncThunk<Array<Perfume>, { searchType: SearchPerfume, text: string }>(
+    "perfumes/fetchPerfumesByInputText",
+    async (data) => {
+        const response = await RequestService.post(PERFUMES_SEARCH_TEXT, data);
         return response.data;
     }
 );

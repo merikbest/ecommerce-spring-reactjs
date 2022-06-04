@@ -1,58 +1,48 @@
 export const API_BASE_URL = "http://localhost:8080/api/v1";
 export const WEBSOCKET_URL = "http://localhost:8080/websocket";
 
-export const GRAPHQL = "/graphql";
 export const USER = "/user";
-export const USERS = "/users";
-export const ADMIN = "/admin";
-export const AUTH = "/auth";
 export const REGISTRATION = "/registration";
 export const CART = "/cart";
-export const ORDER = "/order";
-export const ORDERS = "/orders";
-export const PERFUME = "/perfume";
 export const PERFUMES = "/perfumes";
-export const SEARCH = "/search";
 
 // admin
-export const ADMIN_ADD = ADMIN + "/add";
-export const ADMIN_EDIT = ADMIN + "/edit";
-export const ADMIN_DELETE = ADMIN + "/delete";
-export const ADMIN_USER = ADMIN + USER;
-export const ADMIN_USER_ALL = ADMIN_USER + "/all";
-export const ADMIN_ORDER = ADMIN + ORDER;
-export const ADMIN_ORDERS = ADMIN + ORDERS;
-export const ADMIN_GRAPHQL = ADMIN + GRAPHQL;
-export const ADMIN_GRAPHQL_USER = ADMIN_GRAPHQL + USER;
-export const ADMIN_GRAPHQL_USER_ALL = ADMIN_GRAPHQL_USER + "/all";
-export const ADMIN_GRAPHQL_ORDERS = ADMIN_GRAPHQL + ORDERS;
-export const ADMIN_GRAPHQL_ORDER = ADMIN_GRAPHQL + ORDER;
+export const ADMIN_ADD = "/admin/add";
+export const ADMIN_EDIT = "/admin/edit";
+export const ADMIN_DELETE = "/admin/delete";
+export const ADMIN_USER = "/admin/user";
+export const ADMIN_USER_ALL = "/admin/user/all";
+export const ADMIN_ORDER = "/admin/order";
+export const ADMIN_ORDERS = "/admin/orders";
+export const ADMIN_GRAPHQL_USER = "/admin/graphql/user";
+export const ADMIN_GRAPHQL_USER_ALL = "/admin/graphql/user/all";
+export const ADMIN_GRAPHQL_ORDERS = "/admin/graphql/orders";
+export const ADMIN_GRAPHQL_ORDER = "/admin/graphql/order";
 
 // auth
-export const AUTH_LOGIN = AUTH + "/login";
-export const AUTH_FORGOT = AUTH + "/forgot";
-export const AUTH_RESET = AUTH + "/reset";
-export const AUTH_EDIT_PASSWORD = AUTH + "/edit/password";
-export const REGISTRATION_ACTIVATE = REGISTRATION + "/activate";
+export const AUTH_LOGIN = "/auth/login";
+export const AUTH_FORGOT = "/auth/forgot";
+export const AUTH_RESET = "/auth/reset";
+export const AUTH_EDIT_PASSWORD = "/auth/edit/password";
+export const REGISTRATION_ACTIVATE = "/registration/activate";
 
 // user
-export const USERS_CART = USERS + CART;
-export const USERS_ORDER = USERS + ORDER;
-export const USERS_ORDERS = USERS + ORDERS;
-export const USERS_INFO = USERS + "/info";
-export const USERS_EDIT = USERS + "/edit";
-export const USERS_REVIEW = USERS + "/review";
-export const USERS_GRAPHQL = USERS + GRAPHQL;
-export const USERS_GRAPHQL_ORDERS = USERS_GRAPHQL + ORDERS;
-export const USERS_GRAPHQL_INFO = USERS_GRAPHQL + "/info";
+export const USERS_CART = "/users/cart";
+export const USERS_ORDER = "/users/order";
+export const USERS_ORDERS = "/users/orders";
+export const USERS_INFO = "/users/info";
+export const USERS_EDIT = "/users/edit";
+export const USERS_REVIEW = "/users/review";
+export const USERS_GRAPHQL_ORDERS = "/users/graphql/review";
+export const USERS_GRAPHQL_INFO = "/users/graphql/info";
 
 // perfumes
-export const PERFUMES_IDS = PERFUMES + "/ids";
-export const PERFUMES_REVIEWS = PERFUMES + "/reviews";
-export const PERFUMES_SEARCH = PERFUMES + SEARCH;
-export const PERFUMES_SEARCH_GENDER = PERFUMES + SEARCH + "/gender";
-export const PERFUMES_SEARCH_PERFUMER = PERFUMES + SEARCH + "/perfumer";
-export const PERFUMES_GRAPHQL = PERFUMES + GRAPHQL;
-export const PERFUMES_GRAPHQL_PERFUME = PERFUMES_GRAPHQL + PERFUME;
-export const PERFUMES_GRAPHQL_PERFUMES = PERFUMES_GRAPHQL + PERFUMES;
-export const PERFUMES_GRAPHQL_IDS = PERFUMES_GRAPHQL + "/ids";
+export const PERFUMES_IDS = "/perfumes/ids";
+export const PERFUMES_REVIEWS = "/perfumes/reviews";
+export const PERFUMES_SEARCH = "/perfumes/search";
+export const PERFUMES_SEARCH_GENDER = "/perfumes/search/gender";
+export const PERFUMES_SEARCH_PERFUMER = "/perfumes/search/perfumer";
+export const PERFUMES_SEARCH_TEXT = "/perfumes/search/text";
+export const PERFUMES_GRAPHQL_PERFUME = "/perfumes/graphql/perfume";
+export const PERFUMES_GRAPHQL_PERFUMES = "/perfumes/graphql/perfumes";
+export const PERFUMES_GRAPHQL_IDS = "/perfumes/graphql/ids";

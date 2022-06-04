@@ -1,6 +1,6 @@
 package com.gmail.merikbest2015.ecommerce.security.oauth2;
 
-import com.gmail.merikbest2015.ecommerce.domain.AuthProvider;
+import com.gmail.merikbest2015.ecommerce.enums.AuthProvider;
 import lombok.SneakyThrows;
 
 import javax.naming.AuthenticationException;

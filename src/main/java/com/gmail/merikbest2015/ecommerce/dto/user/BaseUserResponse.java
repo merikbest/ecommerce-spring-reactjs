@@ -1,6 +1,6 @@
 package com.gmail.merikbest2015.ecommerce.dto.user;
 
-import com.gmail.merikbest2015.ecommerce.domain.Role;
+import com.gmail.merikbest2015.ecommerce.enums.Role;
 import lombok.Getter;
 import lombok.Setter;
 

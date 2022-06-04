@@ -1,6 +1,5 @@
 import React, { FC, ReactElement, ReactNode } from "react";
 import { Layout } from "antd";
-import "antd/dist/antd.css";
 
 import "./ContentWrapper.css";
 

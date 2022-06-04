@@ -31,15 +31,15 @@ const NavBar: FC = (): ReactElement => {
                     <Row style={{ padding: "0px 400px" }}>
                         <Col span={12}>
                             <ul>
-                                <li>
-                                    <Link to={BASE}>HOME</Link>
-                                </li>
+                                <Link to={BASE}>
+                                    <li>HOME</li>
+                                </Link>
                                 <li>
                                     <Link to={{ pathname: MENU, state: { id: "all" } }}>PERFUMES</Link>
                                 </li>
-                                <li>
-                                    <Link to={CONTACTS}>CONTACTS</Link>
-                                </li>
+                                <Link to={CONTACTS}>
+                                    <li>CONTACTS</li>
+                                </Link>
                             </ul>
                         </Col>
                         <Col span={12}>
@@ -53,35 +53,35 @@ const NavBar: FC = (): ReactElement => {
                                 </li>
                                 {usersData ? (
                                     <>
-                                        <li>
-                                            <Link to={ACCOUNT}>
+                                        <Link to={ACCOUNT}>
+                                            <li>
                                                 <UserOutlined />
                                                 MY ACCOUNT
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to={BASE} onClick={handleLogout}>
+                                            </li>
+                                        </Link>
+                                        <Link to={BASE} onClick={handleLogout}>
+                                            <li>
                                                 <LogoutOutlined />
                                                 EXIT
-                                            </Link>
-                                        </li>
+                                            </li>
+                                        </Link>
                                     </>
                                 ) : (
                                     <>
-                                        <li>
-                                            <Link to={LOGIN}>
+                                        <Link to={LOGIN}>
+                                            <li>
                                                 <Space align={"baseline"}>
                                                     <LoginOutlined />
                                                     SIGN IN
                                                 </Space>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link to={REGISTRATION}>
+                                            </li>
+                                        </Link>
+                                        <Link to={REGISTRATION}>
+                                            <li>
                                                 <UserAddOutlined />
                                                 SIGN UP
-                                            </Link>
-                                        </li>
+                                            </li>
+                                        </Link>
                                     </>
                                 )}
                             </ul>

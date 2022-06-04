@@ -1,19 +1,20 @@
 import React, { FC, ReactElement } from "react";
 import { Select } from "antd";
+import {SearchPerfume} from "../../types/types";
 
 const searchByData = [
-    { label: "Brand", value: "perfumer" },
-    { label: "Perfume title", value: "perfumeTitle" },
-    { label: "Manufacturer country", value: "country" }
+    { label: "Brand", value: SearchPerfume.BRAND },
+    { label: "Perfume title", value: SearchPerfume.PERFUME_TITLE },
+    { label: "Manufacturer country", value: SearchPerfume.COUNTRY }
 ];
 
 type PropsType = {
-    handleChangeSelect: (value: string) => void;
+    handleChangeSelect: (value: SearchPerfume) => void;
 };
 
 const SelectSearchData: FC<PropsType> = ({ handleChangeSelect }): ReactElement => {
     return (
-        <Select defaultValue="Brand" onChange={handleChangeSelect} style={{ width: 250 }}>
+        <Select defaultValue={SearchPerfume.BRAND} onChange={handleChangeSelect} style={{ width: 250 }}>
             {searchByData.map((value, index) => (
                 <Select.Option key={index} value={value.value}>
                     {value.label}

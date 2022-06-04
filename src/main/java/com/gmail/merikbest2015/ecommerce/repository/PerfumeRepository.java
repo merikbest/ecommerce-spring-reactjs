@@ -29,4 +29,19 @@ public interface PerfumeRepository extends JpaRepository<Perfume, Long> {
             Integer priceStart, 
             Integer priceEnd, 
             boolean sortByPrice);
+
+    @Query("SELECT perfume FROM Perfume perfume " +
+            "WHERE UPPER(perfume.perfumer) LIKE UPPER(CONCAT('%',:text,'%')) " +
+            "ORDER BY perfume.price DESC")
+    List<Perfume> findByPerfumer(String text);
+
+    @Query("SELECT perfume FROM Perfume perfume " +
+            "WHERE UPPER(perfume.perfumeTitle) LIKE UPPER(CONCAT('%',:text,'%')) " +
+            "ORDER BY perfume.price DESC")
+    List<Perfume> findByPerfumeTitle(String text);
+
+    @Query("SELECT perfume FROM Perfume perfume " +
+            "WHERE UPPER(perfume.country) LIKE UPPER(CONCAT('%',:text,'%')) " +
+            "ORDER BY perfume.price DESC")
+    List<Perfume> findByManufacturerCountry(String text);
 }

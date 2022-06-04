@@ -6,7 +6,7 @@ import {
     fetchPerfumesByFilterParams,
     fetchPerfumesByGender,
     fetchPerfumesByIds,
-    fetchPerfumesByIdsQuery,
+    fetchPerfumesByIdsQuery, fetchPerfumesByInputText,
     fetchPerfumesByPerfumer,
     fetchPerfumesByQuery
 } from "./perfumes-thunks";
@@ -68,6 +68,13 @@ export const perfumesSlice = createSlice({
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchPerfumesByPerfumer.fulfilled, (state, action) => {
+            state.perfumes = action.payload;
+            state.loadingState = LoadingStatus.LOADED;
+        });
+        builder.addCase(fetchPerfumesByInputText.pending, (state) => {
+            state.loadingState = LoadingStatus.LOADING;
+        });
+        builder.addCase(fetchPerfumesByInputText.fulfilled, (state, action) => {
             state.perfumes = action.payload;
             state.loadingState = LoadingStatus.LOADED;
         });

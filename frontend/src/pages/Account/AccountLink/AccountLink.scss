@@ -1,0 +1,21 @@
+.account-sidebar-link {
+  margin: 10px 0 10px 0;
+  padding: 0;
+  color: black;
+
+  a {
+    font-weight: bold;
+    color: black;
+    transition: .3s;
+  }
+
+  a:hover {
+    color: #00A1DF;
+    text-decoration: none;
+  }
+}
+
+.is-active {
+  color: #00A1DF;
+  text-decoration: none;
+}
