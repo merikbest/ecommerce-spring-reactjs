@@ -6,20 +6,23 @@ import { Link } from "react-router-dom";
 
 import ContentTitle from "../../components/ContentTitle/ContentTitle";
 import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
-import { selectPerfumes } from "../../redux-toolkit/perfumes/perfumes-selector";
-import { selectIsCartLoading, selectTotalPrice } from "../../redux-toolkit/cart/cart-selector";
+import { selectCartItems, selectIsCartLoading, selectTotalPrice } from "../../redux-toolkit/cart/cart-selector";
 import { fetchCart } from "../../redux-toolkit/cart/cart-thunks";
-import { calculateCartPrice, resetCartState, setCartItemsCount } from "../../redux-toolkit/cart/cart-slice";
-import { removePerfumeById } from "../../redux-toolkit/perfumes/perfumes-slice";
+import {
+    calculateCartPrice,
+    removePerfumeById,
+    resetCartState,
+    setCartItemsCount
+} from "../../redux-toolkit/cart/cart-slice";
 import { Perfume } from "../../types/types";
 import CartItem from "./CartItem/CartItem";
 import Spinner from "../../components/Spinner/Spinner";
-import {ORDER} from "../../constants/routeConstants";
+import { ORDER } from "../../constants/routeConstants";
 import "./Cart.css";
 
 const Cart: FC = (): ReactElement => {
     const dispatch = useDispatch();
-    const perfumes = useSelector(selectPerfumes);
+    const perfumes = useSelector(selectCartItems);
     const totalPrice = useSelector(selectTotalPrice);
     const isCartLoading = useSelector(selectIsCartLoading);
     const [perfumeInCart, setPerfumeInCart] = useState(() => new Map());
