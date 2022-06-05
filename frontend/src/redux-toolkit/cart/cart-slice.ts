@@ -7,12 +7,14 @@ export interface CartState {
     loadingState: LoadingStatus;
     totalPrice: number;
     cartItemsCount: number;
+    perfumes: Array<Perfume>;
 }
 
 export const initialState: CartState = {
     loadingState: LoadingStatus.LOADING,
     totalPrice: 0,
-    cartItemsCount: 0
+    cartItemsCount: 0,
+    perfumes: []
 };
 
 export const cartSlice = createSlice({
@@ -21,6 +23,10 @@ export const cartSlice = createSlice({
     reducers: {
         calculateCartPrice(state, action: PayloadAction<Array<Perfume>>) {
             state.totalPrice = calculatePrice(action.payload);
+            state.loadingState = LoadingStatus.LOADED;
+        },
+        removePerfumeById(state, action: PayloadAction<number>) {
+            state.perfumes = state.perfumes.filter((perfume) => perfume.id !== action.payload);
             state.loadingState = LoadingStatus.LOADED;
         },
         setCartItemsCount(state, action: PayloadAction<number>) {
@@ -37,12 +43,13 @@ export const cartSlice = createSlice({
         builder.addCase(fetchCart.fulfilled, (state, action) => {
             state.totalPrice = calculatePrice(action.payload);
             state.cartItemsCount = action.payload.length;
+            state.perfumes = action.payload;
             state.loadingState = LoadingStatus.LOADED;
         });
     }
 });
 
-export const { calculateCartPrice, setCartItemsCount, resetCartState } = cartSlice.actions;
+export const { calculateCartPrice, removePerfumeById, setCartItemsCount, resetCartState } = cartSlice.actions;
 export default cartSlice.reducer;
 
 const calculatePrice = (perfumes: Array<Perfume>): number => {

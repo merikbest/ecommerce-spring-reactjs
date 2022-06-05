@@ -6,7 +6,8 @@ import {
     fetchPerfumesByFilterParams,
     fetchPerfumesByGender,
     fetchPerfumesByIds,
-    fetchPerfumesByIdsQuery, fetchPerfumesByInputText,
+    fetchPerfumesByIdsQuery,
+    fetchPerfumesByInputText,
     fetchPerfumesByPerfumer,
     fetchPerfumesByQuery
 } from "./perfumes-thunks";

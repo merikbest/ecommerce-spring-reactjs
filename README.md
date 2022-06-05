@@ -1,22 +1,22 @@
 [![Build Status](https://travis-ci.com/merikbest/ecommerce-spring-reactjs.svg?branch=travis-ci-test)](https://travis-ci.com/merikbest/ecommerce-spring-reactjs)
 [![codecov](https://codecov.io/gh/merikbest/ecommerce-spring-reactjs/branch/travis-ci-test/graph/badge.svg?token=sEfOfpBHDX)](https://codecov.io/gh/merikbest/ecommerce-spring-reactjs)
 
-# :hibiscus: Perfume web store
+# :hibiscus: Perfume webstore
 
 E-commerce project developed using Spring Boot and React.js.<br>
 
-#### An actual version of build is deployed on AWS:
-http://perfumesweb.tk <br>
-Login: admin@gmail.com <br> 
+#### An actual version of frontend build deployed to AWS S3 and backend deployed to Heroku:
+http://perfume-web.tk <br>
+Login: admin@gmail.com <br>
 Password: admin
 
 ## Used Technologies:
 
 * Back-end: Spring (Boot, Data, Security), JPA / Hibernate, PostgreSQL, JUnit, Mockito
-* Front-end: TypeScript, React.js, Redux, Jest, Bootstrap, CSS
+* Front-end: TypeScript, React.js, Redux Toolkit, Ant Design, Jest
 * Security: JWT, OAuth2 Google, Facebook, Github
 * REST API, GraphQL API
-* AWS: EC2, S3, PostgreSQL RDS
+* AWS S3, Heroku
 * Server Build: Maven
 * Client Build: npm, yarn, webpack
 
@@ -62,7 +62,7 @@ Password: admin
 
 ## Swagger Documentation
 
-http://ec2-3-122-228-86.eu-central-1.compute.amazonaws.com:8080/swagger-ui.html <br/>
+https://perfume-websore-api.herokuapp.com/swagger-ui.html <br/>
 Or show local: <br/>
 http://localhost:8080/swagger-ui.html
 
@@ -70,21 +70,20 @@ http://localhost:8080/swagger-ui.html
 
 Menu page  |  Product page
 :------------------------:|:-------------------------:
-![Menu page](https://i.ibb.co/dcp56tb/menu.jpg)  |  ![Product page](https://i.ibb.co/1dBjdMy/product.jpg)
+![Menu page](https://i.ibb.co/VT4RzYj/1menu.jpg)  |  ![Product page](https://i.ibb.co/HtnKp0W/2-Product-page.jpg)
 
-Email template  |  List of users
+Cart  |  Ordering
 :------------------------:|:-------------------------:
-![Email template](https://i.ibb.co/bmKTLPJ/email-template.jpg)  |  ![List of users](https://i.ibb.co/T88cFZt/all-users.jpg)
+![Email template](https://i.ibb.co/8Y8bfSG/3-Cart.jpg)  |  ![List of users](https://i.ibb.co/tLmY8y2/4-Ordering.jpg)
 
-List of orders  |  User order page
+Email template  |  List of orders
 :------------------------:|:-------------------------:
-![List of orders](https://i.ibb.co/T88cFZt/all-users.jpg)  |  ![User order page](https://i.ibb.co/4f7F0hk/all-orders.jpg)
+![Email template](https://i.ibb.co/bmKTLPJ/email-template.jpg)  |  ![List of users](https://i.ibb.co/pLTyF25/6-List-of-orders.jpg)
 
 User profile page  |  Add perfume page
 :------------------------:|:-------------------------:
-![User profile page](https://i.ibb.co/KDF3FZX/user-page.jpg)  |  ![Add perfume page](https://i.ibb.co/KGKhJxR/add-perfume.jpg)
+![User profile page](https://i.ibb.co/qx1Csc8/7-User-profile-page.jpg)  |  ![Add perfume page](https://i.ibb.co/XbsJPQH/8-Add-perfume-page.jpg)
 
 Edit perfume list  |  Edit perfume page
 :------------------------:|:-------------------------:
-![Edit perfume list](https://i.ibb.co/fkFSnFy/edit.jpg)  |  ![Edit perfume page](https://i.ibb.co/cTddspr/edit-perfume.jpg)
-
+![Edit perfume list](https://i.ibb.co/HFb9wfR/9-Edit-perfume-list.jpg)  |  ![Edit perfume page](https://i.ibb.co/jH8R8xL/10-Edit-perfume-page.jpg)

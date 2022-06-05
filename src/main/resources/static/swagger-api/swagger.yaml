@@ -4,6 +4,7 @@ info:
   title: "ecommerce-spring-reactjs"
 servers:
   - url: "http://localhost:8080"
+  - url: "https://perfume-websore-api.herokuapp.com"
 
 tags:
   - name: "AdminController"
@@ -73,10 +74,10 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: "#/components/schemas/PerfumeResponse"
+                $ref: "#/components/schemas/FullPerfumeResponse"
               examples:
                 PerfumeResponse:
-                  $ref: "#/components/schemas/PerfumeResponse"
+                  $ref: "#/components/schemas/FullPerfumeResponse"
         "400":
           description: "Bad request"
           content:
@@ -90,7 +91,7 @@ paths:
         - token: []
 
   /api/v1/admin/edit:
-    put:
+    post:
       tags:
         - "AdminController"
       summary: "Update perfume"
@@ -149,10 +150,10 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: "#/components/schemas/PerfumeResponse"
+                $ref: "#/components/schemas/FullPerfumeResponse"
               examples:
                 PerfumeResponse:
-                  $ref: "#/components/schemas/PerfumeResponse"
+                  $ref: "#/components/schemas/FullPerfumeResponse"
         "400":
           description: "Bad request"
           content:
@@ -184,9 +185,21 @@ paths:
           content:
             'application/json':
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/PerfumeResponse"
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Perfume deleted successfully"
+        "404":
+          description: "Not Found"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Perfume not found."
       security:
         - token: []
 
@@ -209,29 +222,27 @@ paths:
       security:
         - token: []
 
-  /api/v1/admin/order:
-    post:
+  /api/v1/admin/order/{email}:
+    get:
       tags:
         - "AdminController"
-      summary: "Get user order by email"
+      summary: "Get user orders by email"
       operationId: "getUserOrdersByEmail"
-      requestBody:
-        required: true
-        content:
-          'application/json':
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  example: "test123@test.com"
+      parameters:
+        - name: "email"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
       responses:
         "200":
           description: "OK"
           content:
             'application/json':
               schema:
-                $ref: "#/components/schemas/OrderResponse"
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderResponse"
       security:
         - token: []
 
@@ -254,9 +265,21 @@ paths:
           content:
             'application/json':
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/OrderResponse"
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Order deleted successfully"
+        "404":
+          description: "Not Found"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Order not found."
       security:
         - token: []
 
@@ -280,6 +303,16 @@ paths:
             'application/json':
               schema:
                 $ref: "#/components/schemas/User"
+        "404":
+          description: "Not Found"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "User not found."
       security:
         - token: []
 
@@ -298,7 +331,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/User"
+                  $ref: "#/components/schemas/BaseUserResponse"
       security:
         - token: []
 
@@ -503,22 +536,18 @@ paths:
                     type: string
                     example: "Incorrect password or email"
 
-  /api/v1/auth/forgot:
-    post:
+  /api/v1/auth/forgot/{email}:
+    get:
       tags:
         - "AuthenticationController"
       summary: "Send password reset code to users email"
       operationId: "forgotPassword"
-      requestBody:
-        required: true
-        content:
-          'application/json':
-            schema:
-              type: object
-              properties:
-                email:
-                  type: string
-                  example: "test123@test.com"
+      parameters:
+        - name: "email"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
       responses:
         "200":
           description: "OK"
@@ -559,7 +588,11 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: "#/components/schemas/User"
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "test@test.com"
         "400":
           description: "Bad Request"
           content:
@@ -584,6 +617,9 @@ paths:
             schema:
               type: object
               properties:
+                email:
+                  type: string
+                  example: "test@test.com"
                 password:
                   type: string
                   example: "1234567890"
@@ -621,6 +657,62 @@ paths:
                   summary: "Password Confirmation Error"
                   value:
                     password2Error: "Password confirmation cannot be empty."
+                    
+  /api/v1/auth/edit/password:
+    put:
+      tags:
+        - "AuthenticationController"
+      summary: "Change user password"
+      operationId: "updateUserPassword"
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                password:
+                  type: "string"
+                  example: "1234567890"
+                password2:
+                  type: "string"
+                  example: "1234567890"
+              required:
+                - password
+                - password2
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Password successfully changed!"
+        "400":
+          description: "Bad Request"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  passwordError:
+                    type: "string"
+                  password2Error:
+                    type: "string"
+              examples:
+                BindingResultError:
+                  summary: "Binding Result Errors"
+                  value:
+                    passwordError: "The password must be between 6 and 16 characters long"
+                    password2Error: "The password confirmation must be between 6 and 16 characters long"
+                MatchPasswordError:
+                  summary: "Match Password Error"
+                  value:
+                    data: "Passwords do not match."
+      security:
+        - token: []
 
   /api/v1/perfumes:
     get:
@@ -658,7 +750,40 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: "#/components/schemas/PerfumeResponse"
+                $ref: "#/components/schemas/FullPerfumeResponse"
+                
+  /api/v1/perfumes/reviews/{id}:
+    get:
+      tags:
+        - "PerfumeController"
+      summary: "Get Reviews By Perfume Id"
+      operationId: "getReviewsByPerfumeId"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ReviewResponse"
+        "404":
+          description: "Not Found"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Perfume not found."
 
   /api/v1/perfumes/ids:
     post:
@@ -1010,7 +1135,7 @@ paths:
                     type: "string"
                     example: "User successfully activated."
         "404":
-          description: "Bad Request"
+          description: "Not Found"
           content:
             'application/json':
               schema:
@@ -1034,6 +1159,16 @@ paths:
             'application/json':
               schema:
                 $ref: "#/components/schemas/User"
+        "404":
+          description: "Not Found"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Email not found."
       security:
         - token: []
 
@@ -1146,62 +1281,6 @@ paths:
       security:
         - token: []
 
-  /api/v1/users/edit/password:
-    put:
-      tags:
-        - "UserController"
-      summary: "Change user password"
-      operationId: "updateUserPassword"
-      requestBody:
-        content:
-          'application/json':
-            schema:
-              type: object
-              properties:
-                password:
-                  type: "string"
-                  example: "1234567890"
-                password2:
-                  type: "string"
-                  example: "1234567890"
-              required:
-                - password
-                - password2
-      responses:
-        "200":
-          description: "OK"
-          content:
-            'application/json':
-              schema:
-                type: object
-                properties:
-                  data:
-                    type: string
-                    example: "Password successfully changed!"
-        "400":
-          description: "Bad Request"
-          content:
-            'application/json':
-              schema:
-                type: object
-                properties:
-                  passwordError:
-                    type: "string"
-                  password2Error:
-                    type: "string"
-              examples:
-                BindingResultError:
-                  summary: "Binding Result Errors"
-                  value:
-                    passwordError: "The password must be between 6 and 16 characters long"
-                    password2Error: "The password confirmation must be between 6 and 16 characters long"
-                MatchPasswordError:
-                  summary: "Match Password Error"
-                  value:
-                    data: "Passwords do not match."
-      security:
-        - token: []
-
   /api/v1/users/cart:
     post:
       tags:
@@ -1225,7 +1304,75 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PerfumeResponse"
+                  $ref: "#/components/schemas/FullPerfumeResponse"
+
+  /api/v1/users/order/{orderId}:
+    get:
+      tags:
+        - "UserController"
+      summary: "Get Order By Id"
+      operationId: "getOrderById"
+      parameters:
+        - name: "orderId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/OrderResponse"
+        "404":
+          description: "Not Found"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Order not found."
+      security:
+        - token: []
+
+  /api/v1/users/order/{orderId}/items:
+    get:
+      tags:
+        - "UserController"
+      summary: "Get Order Items By Order Id"
+      operationId: "getOrderItemsByOrderId"
+      parameters:
+        - name: "orderId"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/OrderItemResponse"
+        "404":
+          description: "Not Found"
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+                    example: "Order not found."
+      security:
+        - token: [ ]
 
   /api/v1/users/orders:
     get:
@@ -1273,7 +1420,6 @@ paths:
                   $ref: "#/components/schemas/OrderResponse"
       security:
         - token: []
-
 
   /api/v1/users/order:
     post:
@@ -1424,7 +1570,7 @@ components:
       in: header
 
   schemas:
-    PerfumeResponse:
+    FullPerfumeResponse:
       type: "object"
       properties:
         id:
@@ -1437,6 +1583,10 @@ components:
         perfumer:
           type: "string"
           example: "Dior"
+        perfumeRating:
+          type: "integer"
+          format: "int32"
+          example: 5
         year:
           type: "integer"
           format: "int32"
@@ -1472,13 +1622,34 @@ components:
         type:
           type: "string"
           example: "Eau de parfum"
-        reviews:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/ReviewResponse"
         file:
           type: "string"
           format: binary
+            
+    PerfumeResponse:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          example: 43
+        perfumeTitle:
+          type: "string"
+          example: "Sauvage"
+        perfumer:
+          type: "string"
+          example: "Dior"
+        price:
+          type: "integer"
+          format: "int32"
+          example: 62
+        filename:
+          type: "string"
+          example: "Dior_Sauvage.jpg"
+        perfumeRating:
+          type: "integer"
+          format: "int32"
+          example: 5
 
     ReviewResponse:
       type: "object"
@@ -1493,6 +1664,10 @@ components:
         message:
           type: "string"
           example: "Message"
+        perfumeRating:
+          type: "integer"
+          format: "int32"
+          example: 5
         date:
           type: "string"
           example: "2021-04-07"
@@ -1570,10 +1745,6 @@ components:
           type: "integer"
           format: "int32"
           example: 123456
-        orderItems:
-          type: "array"
-          items:
-            $ref: "#/components/schemas/OrderItemResponse"
 
     OrderItemResponse:
       type: "object"
@@ -1592,6 +1763,28 @@ components:
           example: 2
         perfume:
           $ref: "#/components/schemas/PerfumeResponse"
+
+    BaseUserResponse:
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+          format: "int64"
+          example: 2
+        email:
+          type: "string"
+          example: "test123@test.com"
+        firstName:
+          type: "string"
+          example: "John"
+        roles:
+          type: "array"
+          items:
+            type: "string"
+            example: "USER"
+        provider:
+          type: "string"
+          example: "LOCAL"
 
     User:
       type: "object"
@@ -1624,15 +1817,6 @@ components:
         provider:
           type: "string"
           example: "LOCAL"
-        active:
-          type: "boolean"
-          example: true
-        activationCode:
-          type: "string"
-          example: ""
-        passwordResetCode:
-          type: "string"
-          example: ""
         roles:
           type: "array"
           items:
@@ -1642,9 +1826,7 @@ components:
     AuthenticationResponse:
       type: "object"
       properties:
-        email:
-          type: "string"
+        user:
+            $ref: "#/components/schemas/User"
         token:
-          type: "string"
-        userRole:
           type: "string"
