@@ -10,14 +10,12 @@ import {
     PERFUMES_GRAPHQL_IDS,
     PERFUMES_GRAPHQL_PERFUMES,
     PERFUMES_IDS,
-    PERFUMES_SEARCH,
-    PERFUMES_SEARCH_GENDER
+    PERFUMES_SEARCH
 } from "../../../constants/urlConstants";
 import { perfumesData } from "../../../utils/test-data/perfume-test-data";
 import {
     fetchPerfumes,
     fetchPerfumesByFilterParams,
-    fetchPerfumesByGender,
     fetchPerfumesByIds,
     fetchPerfumesByIdsQuery,
     fetchPerfumesByQuery
@@ -35,12 +33,17 @@ describe("perfumes slice tests", () => {
         expect(state.perfumes).toEqual([]);
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onGet(API_BASE_URL + PERFUMES).reply(200, perfumesData);
-        const result = await store.dispatch(fetchPerfumes());
+        mock.onGet(API_BASE_URL + `${PERFUMES}?page=1`).reply(200, perfumesData, {
+            "page-total-count": "1",
+            "page-total-elements": "11"
+        });
+        const result = await store.dispatch(fetchPerfumes(1));
 
         state = store.getState().perfumes;
         expect(result.type).toBe("perfumes/fetchPerfumes/fulfilled");
         expect(state.perfumes).toEqual(perfumesData);
+        expect(state.pagesCount).toEqual(1);
+        expect(state.totalElements).toEqual(11);
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 
@@ -61,27 +64,19 @@ describe("perfumes slice tests", () => {
         expect(state.perfumes).toEqual([]);
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onPost(API_BASE_URL + PERFUMES_SEARCH).reply(200, perfumesData);
+        mock.onPost(API_BASE_URL + `${PERFUMES_SEARCH}?page=1`).reply(200, perfumesData, {
+            "page-total-count": "1",
+            "page-total-elements": "11"
+        });
         const result = await store.dispatch(
-            fetchPerfumesByFilterParams({ perfumers: ["Creed"], genders: [], prices: [] })
+            fetchPerfumesByFilterParams({ perfumers: ["Creed"], genders: [], prices: [], currentPage: 1 })
         );
 
         state = store.getState().perfumes;
         expect(result.type).toBe("perfumes/fetchPerfumesByFilterParams/fulfilled");
         expect(state.perfumes).toEqual(perfumesData);
-        expect(state.loadingState).toEqual(LoadingStatus.LOADED);
-    });
-
-    it("should fetchPerfumesByGender dispatches fulfilled on success", async () => {
-        expect(state.perfumes).toEqual([]);
-        expect(state.loadingState).toEqual(LoadingStatus.LOADING);
-
-        mock.onPost(API_BASE_URL + PERFUMES_SEARCH_GENDER).reply(200, perfumesData);
-        const result = await store.dispatch(fetchPerfumesByGender({ perfumeGender: "male" }));
-
-        state = store.getState().perfumes;
-        expect(result.type).toBe("perfumes/fetchPerfumesByGender/fulfilled");
-        expect(state.perfumes).toEqual(perfumesData);
+        expect(state.pagesCount).toEqual(1);
+        expect(state.totalElements).toEqual(11);
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 

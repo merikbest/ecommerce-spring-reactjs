@@ -7,10 +7,13 @@ import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.enums.SearchPerfume;
 import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
+import com.gmail.merikbest2015.ecommerce.repository.projection.PerfumeProjection;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,18 +49,19 @@ public class PerfumeServiceImpl implements PerfumeService {
     }
 
     @Override
-    public List<Perfume> getAllPerfumes() {
-        return perfumeRepository.findAllByOrderByIdAsc();
+    public Page<PerfumeProjection> getAllPerfumes(Pageable pageable) {
+        return perfumeRepository.findAllByOrderByIdAsc(pageable);
     }
 
     @Override
-    public List<Perfume> getPerfumesByIds(List<Long> perfumesId) {
-        return perfumeRepository.findByIdIn(perfumesId);
+    public List<PerfumeProjection> getPerfumesByIds(List<Long> perfumesId) {
+        return perfumeRepository.getPerfumesByIds(perfumesId);
     }
 
     @Override
-    public List<Perfume> findPerfumesByFilterParams(List<String> perfumers, List<String> genders, List<Integer> prices, boolean sortByPrice) {
-        return perfumeRepository.findPerfumesByFilterParams(perfumers, genders, prices.get(0), prices.get(1), sortByPrice);
+    public Page<PerfumeProjection> findPerfumesByFilterParams(List<String> perfumers, List<String> genders, List<Integer> prices, 
+                                                    boolean sortByPrice, Pageable pageable) {
+        return perfumeRepository.findPerfumesByFilterParams(perfumers, genders, prices.get(0), prices.get(1), sortByPrice, pageable);
     }
 
     @Override
@@ -71,13 +75,13 @@ public class PerfumeServiceImpl implements PerfumeService {
     }
 
     @Override
-    public List<Perfume> findByInputText(SearchPerfume searchType, String text) {
+    public Page<PerfumeProjection> findByInputText(SearchPerfume searchType, String text, Pageable pageable) {
         if (searchType.equals(SearchPerfume.BRAND)) {
-            return perfumeRepository.findByPerfumer(text);
+            return perfumeRepository.findByPerfumer(text, pageable);
         } else if (searchType.equals(SearchPerfume.PERFUME_TITLE)) {
-            return perfumeRepository.findByPerfumeTitle(text);
+            return perfumeRepository.findByPerfumeTitle(text, pageable);
         } else {
-            return perfumeRepository.findByManufacturerCountry(text);
+            return perfumeRepository.findByManufacturerCountry(text, pageable);
         }
     }
 
@@ -119,7 +123,7 @@ public class PerfumeServiceImpl implements PerfumeService {
     }
 
     @Override
-    public DataFetcher<List<Perfume>> getAllPerfumesByQuery() {
+    public DataFetcher<List<PerfumeProjection>> getAllPerfumesByQuery() {
         return dataFetchingEnvironment -> perfumeRepository.findAllByOrderByIdAsc();
     }
 

@@ -7,12 +7,7 @@ import { useLocation } from "react-router-dom";
 import MenuCheckboxSection from "./MenuSection/MenuCheckboxSection";
 import { selectIsPerfumesLoading, selectPerfumes } from "../../redux-toolkit/perfumes/perfumes-selector";
 import { FilterParamsType } from "../../types/types";
-import {
-    fetchPerfumes,
-    fetchPerfumesByFilterParams,
-    fetchPerfumesByGender,
-    fetchPerfumesByPerfumer
-} from "../../redux-toolkit/perfumes/perfumes-thunks";
+import { fetchPerfumesByFilterParams, fetchPerfumesByInputText } from "../../redux-toolkit/perfumes/perfumes-thunks";
 import { resetPerfumesState } from "../../redux-toolkit/perfumes/perfumes-slice";
 import MenuRadioSection from "./MenuSection/MenuRadioSection";
 import MenuSorter from "./MenuSorter/MenuSorter";
@@ -41,18 +36,34 @@ const Menu: FC = (): ReactElement => {
         prices: [1, 999]
     });
     const [sortByPrice, setSortByPrice] = useState<boolean | undefined>(undefined);
-    const { currentPage, minPageValue, maxPageValue, handleChangePagination, resetPagination } = usePagination();
-    const { onSearch, handleChangeSelect } = useSearch();
+    const { currentPage, totalElements, handleChangePagination, resetPagination } = usePagination();
+    const { searchValue, searchTypeValue, resetFields, form, onSearch, handleChangeSelect } = useSearch();
 
     useEffect(() => {
         const perfumeData = location.state.id;
 
         if (perfumeData === "female" || perfumeData === "male") {
-            dispatch(fetchPerfumesByGender({ perfumeGender: perfumeData }));
+            dispatch(
+                fetchPerfumesByFilterParams({
+                    ...filterParams,
+                    genders: [...filterParams.genders, perfumeData],
+                    sortByPrice,
+                    currentPage: 0
+                })
+            );
+            setFilterParams((prevState) => ({ ...prevState, genders: [...prevState.genders, perfumeData] }));
         } else if (perfumeData === "all") {
-            dispatch(fetchPerfumes());
+            dispatch(fetchPerfumesByFilterParams({ ...filterParams, sortByPrice, currentPage: 0 }));
         } else {
-            dispatch(fetchPerfumesByPerfumer({ perfumer: perfumeData }));
+            dispatch(
+                fetchPerfumesByFilterParams({
+                    ...filterParams,
+                    perfumers: [...filterParams.perfumers, perfumeData],
+                    sortByPrice,
+                    currentPage: 0
+                })
+            );
+            setFilterParams((prevState) => ({ ...prevState, perfumers: [...prevState.perfumers, perfumeData] }));
         }
         window.scrollTo(0, 0);
 
@@ -69,29 +80,43 @@ const Menu: FC = (): ReactElement => {
         if (CheckboxCategoryFilter.PERFUMERS === category) {
             setFilterParams((prevState) => {
                 const filter = { ...prevState, perfumers: [...(checkedValues as string[])] };
-                dispatch(fetchPerfumesByFilterParams({ ...filter, sortByPrice }));
+                dispatch(fetchPerfumesByFilterParams({ ...filter, sortByPrice, currentPage: 0 }));
                 return filter;
             });
         } else if (CheckboxCategoryFilter.GENDERS === category) {
             setFilterParams((prevState) => {
                 const filter = { ...prevState, genders: [...(checkedValues as string[])] };
-                dispatch(fetchPerfumesByFilterParams({ ...filter, sortByPrice }));
+                dispatch(fetchPerfumesByFilterParams({ ...filter, sortByPrice, currentPage: 0 }));
                 return filter;
             });
         }
+        resetFields();
     };
 
     const onChangeRadio = (event: RadioChangeEvent): void => {
         setFilterParams((prevState) => {
             const filter = { ...prevState, prices: event.target.value };
-            dispatch(fetchPerfumesByFilterParams({ ...filter, sortByPrice }));
+            dispatch(fetchPerfumesByFilterParams({ ...filter, sortByPrice, currentPage: 0 }));
             return filter;
         });
+        resetFields();
     };
 
     const handleChangeSortPrice = (event: RadioChangeEvent): void => {
-        dispatch(fetchPerfumesByFilterParams({ ...filterParams, sortByPrice: event.target.value }));
+        dispatch(fetchPerfumesByFilterParams({ ...filterParams, sortByPrice: event.target.value, currentPage: 0 }));
         setSortByPrice(event.target.value);
+        resetFields();
+    };
+
+    const changePagination = (page: number, pageSize: number): void => {
+        if (searchValue) {
+            dispatch(
+                fetchPerfumesByInputText({ searchType: searchTypeValue, text: searchValue, currentPage: page - 1 })
+            );
+        } else {
+            dispatch(fetchPerfumesByFilterParams({ ...filterParams, sortByPrice, currentPage: page - 1 }));
+        }
+        handleChangePagination(page, pageSize);
     };
 
     return (
@@ -105,12 +130,14 @@ const Menu: FC = (): ReactElement => {
                             onChange={onChangeCheckbox}
                             data={perfumer}
                             category={CheckboxCategoryFilter.PERFUMERS}
+                            selectedValues={filterParams.perfumers}
                         />
                         <MenuCheckboxSection
                             title={"Gender"}
                             onChange={onChangeCheckbox}
                             data={gender}
                             category={CheckboxCategoryFilter.GENDERS}
+                            selectedValues={filterParams.genders}
                         />
                         <MenuRadioSection title={"Price"} onChange={onChangeRadio} data={price} />
                     </Col>
@@ -120,7 +147,7 @@ const Menu: FC = (): ReactElement => {
                                 <SelectSearchData handleChangeSelect={handleChangeSelect} />
                             </Col>
                             <Col span={10}>
-                                <InputSearch onSearch={onSearch} />
+                                <InputSearch onSearch={onSearch} form={form} />
                             </Col>
                         </Row>
                         <Row style={{ marginTop: 16, marginBottom: 16 }}>
@@ -128,9 +155,9 @@ const Menu: FC = (): ReactElement => {
                                 <Pagination
                                     current={currentPage}
                                     pageSize={MAX_PAGE_VALUE}
-                                    total={perfumes.length}
+                                    total={totalElements}
                                     showSizeChanger={false}
-                                    onChange={handleChangePagination}
+                                    onChange={changePagination}
                                 />
                             </Col>
                             <Col span={8}>
@@ -141,20 +168,18 @@ const Menu: FC = (): ReactElement => {
                             {isPerfumesLoading ? (
                                 <Spinner />
                             ) : (
-                                perfumes &&
-                                perfumes.length > 0 &&
-                                perfumes
-                                    .slice(minPageValue, maxPageValue)
-                                    .map((perfume, index) => <PerfumeCard key={index} perfume={perfume} colSpan={8} />)
+                                perfumes.map((perfume) => (
+                                    <PerfumeCard key={perfume.id} perfume={perfume} colSpan={8} />
+                                ))
                             )}
                         </Row>
                         <Row style={{ marginTop: 16, marginBottom: 16 }}>
                             <Pagination
                                 current={currentPage}
                                 pageSize={MAX_PAGE_VALUE}
-                                total={perfumes.length}
+                                total={totalElements}
                                 showSizeChanger={false}
-                                onChange={handleChangePagination}
+                                onChange={changePagination}
                             />
                         </Row>
                     </Col>

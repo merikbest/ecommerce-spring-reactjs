@@ -3,7 +3,12 @@ package com.gmail.merikbest2015.ecommerce.service;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.enums.SearchPerfume;
+import com.gmail.merikbest2015.ecommerce.repository.projection.PerfumeProjection;
+
 import graphql.schema.DataFetcher;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -12,17 +17,18 @@ public interface PerfumeService {
 
     Perfume getPerfumeById(Long perfumeId);
 
-    List<Perfume> getAllPerfumes();
+    Page<PerfumeProjection> getAllPerfumes(Pageable pageable);
 
-    List<Perfume> getPerfumesByIds(List<Long> perfumesId);
+    List<PerfumeProjection> getPerfumesByIds(List<Long> perfumesId);
 
-    List<Perfume> findPerfumesByFilterParams(List<String> perfumers, List<String> genders, List<Integer> prices, boolean sortByPrice);
+    Page<PerfumeProjection> findPerfumesByFilterParams(List<String> perfumers, List<String> genders, List<Integer> prices, 
+                                             boolean sortByPrice, Pageable pageable);
 
     List<Perfume> findByPerfumer(String perfumer);
 
     List<Perfume> findByPerfumeGender(String perfumeGender);
     
-    List<Perfume> findByInputText(SearchPerfume searchType, String text);
+    Page<PerfumeProjection> findByInputText(SearchPerfume searchType, String text, Pageable pageable);
 
     Perfume savePerfume(Perfume perfume, MultipartFile file);
 
@@ -32,7 +38,7 @@ public interface PerfumeService {
 
     DataFetcher<Perfume> getPerfumeByQuery();
 
-    DataFetcher<List<Perfume>> getAllPerfumesByQuery();
+    DataFetcher<List<PerfumeProjection>> getAllPerfumesByQuery();
 
     DataFetcher<List<Perfume>> getAllPerfumesByIdsQuery();
 }

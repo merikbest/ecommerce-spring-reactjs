@@ -30,6 +30,8 @@ public class MvcConfiguration implements WebMvcConfigurer {
         registry.addMapping("/api/v1/**")
                 .allowedOrigins("http://" + hostname)
                 .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
+                .exposedHeaders("page-total-count")
+                .exposedHeaders("page-total-elements")
                 .allowedHeaders("*");
     }
 }

@@ -1,19 +1,20 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
-import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.FullPerfumeResponse;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeSearchRequest;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.SearchTypeRequest;
-import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponse;
-import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
-import com.gmail.merikbest2015.ecommerce.service.graphql.GraphQLProvider;
-import graphql.ExecutionResult;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.*;
+import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponse;
+import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
+import com.gmail.merikbest2015.ecommerce.service.graphql.GraphQLProvider;
+
+import graphql.ExecutionResult;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,8 +25,9 @@ public class PerfumeController {
     private final GraphQLProvider graphQLProvider;
 
     @GetMapping
-    public ResponseEntity<List<PerfumeResponse>> getAllPerfumes() {
-        return ResponseEntity.ok(perfumeMapper.getAllPerfumes());
+    public ResponseEntity<List<PerfumeResponse>> getAllPerfumes(@PageableDefault(size = 15) Pageable pageable) {
+        PerfumeHeaderResponse response = perfumeMapper.getAllPerfumes(pageable);
+        return ResponseEntity.ok().headers(response.getHeaders()).body(response.getPerfumes());
     }
 
     @GetMapping("/{perfumeId}")
@@ -44,8 +46,10 @@ public class PerfumeController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<PerfumeResponse>> findPerfumesByFilterParams(@RequestBody PerfumeSearchRequest filter) {
-        return ResponseEntity.ok(perfumeMapper.findPerfumesByFilterParams(filter));
+    public ResponseEntity<List<PerfumeResponse>> findPerfumesByFilterParams(@RequestBody PerfumeSearchRequest filter,
+                                                                            @PageableDefault(size = 15) Pageable pageable) {
+        PerfumeHeaderResponse response = perfumeMapper.findPerfumesByFilterParams(filter, pageable);
+        return ResponseEntity.ok().headers(response.getHeaders()).body(response.getPerfumes());
     }
 
     @PostMapping("/search/gender")
@@ -59,8 +63,10 @@ public class PerfumeController {
     }
 
     @PostMapping("/search/text")
-    public ResponseEntity<List<PerfumeResponse>> findByInputText(@RequestBody SearchTypeRequest searchType) {
-        return ResponseEntity.ok(perfumeMapper.findByInputText(searchType.getSearchType(), searchType.getText()));
+    public ResponseEntity<List<PerfumeResponse>> findByInputText(@RequestBody SearchTypeRequest searchType,
+                                                                 @PageableDefault(size = 15) Pageable pageable) {
+        PerfumeHeaderResponse response = perfumeMapper.findByInputText(searchType.getSearchType(), searchType.getText(), pageable);
+        return ResponseEntity.ok().headers(response.getHeaders()).body(response.getPerfumes());
     }
 
     @PostMapping("/graphql/ids")

@@ -19,6 +19,7 @@ export const perfumeData: Perfume = {
         {id: 2, author: "John Doe", message: "Hello world", rating: 5, date: "2021-05-08"},
         {id: 3, author: "John Doe", message: "Seems good.", rating: 5, date: "2021-05-08"}
     ],
+    reviewsCount: 0,
     type: "Eau de parfum",
     volume: "100",
     year: 2010
@@ -44,6 +45,7 @@ export const perfumesData: Array<Perfume> = [
             {id: 2, author: "John Doe", message: "Hello world", rating: 5, date: "2021-05-08"},
             {id: 3, author: "John Doe", message: "Seems good.", rating: 5, date: "2021-05-08"}
         ],
+        reviewsCount: 0,
         type: "Eau de parfum",
         volume: "100",
         year: 2010
@@ -63,6 +65,7 @@ export const perfumesData: Array<Perfume> = [
         perfumeRating: 0,
         price: 110,
         reviews: [],
+        reviewsCount: 0,
         type: "Eau de parfum",
         volume: "100",
         year: 1987
@@ -82,6 +85,7 @@ export const perfumesData: Array<Perfume> = [
         perfumeRating: 0,
         price: 141,
         reviews: [],
+        reviewsCount: 0,
         type: "Eau de parfum",
         volume: "75",
         year: 2016

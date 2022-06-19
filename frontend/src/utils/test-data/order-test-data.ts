@@ -44,6 +44,7 @@ export const orderData: Order = {
                 "volume": "200",
                 "type": "Eau de parfum",
                 "perfumeRating": 0,
+                "reviewsCount": 0,
                 "reviews": [],
                 "file": null
             }
@@ -68,6 +69,7 @@ export const orderData: Order = {
                 "volume": "100",
                 "type": "Eau de parfum",
                 "perfumeRating": 0,
+                "reviewsCount": 0,
                 "reviews": [],
                 "file": null
             }
@@ -109,6 +111,7 @@ export const ordersData: Array<Order> = [
                     "type": "Eau de parfum",
                     "perfumeRating": 0,
                     "reviews": [],
+                    "reviewsCount": 0,
                     "file": null
                 }
             },
@@ -133,6 +136,7 @@ export const ordersData: Array<Order> = [
                     "type": "Eau de parfum",
                     "perfumeRating": 0,
                     "reviews": [],
+                    "reviewsCount": 0,
                     "file": null
                 }
             }
@@ -171,6 +175,7 @@ export const ordersData: Array<Order> = [
                     "type": "Eau de parfum",
                     "perfumeRating": 0,
                     "reviews": [],
+                    "reviewsCount": 0,
                     "file": null
                 }
             },
@@ -195,6 +200,7 @@ export const ordersData: Array<Order> = [
                     "type": "Eau de Toilette",
                     "perfumeRating": 0,
                     "reviews": [],
+                    "reviewsCount": 0,
                     "file": null
                 }
             }
@@ -233,6 +239,7 @@ export const ordersData: Array<Order> = [
                     "type": "Eau de Toilette",
                     "perfumeRating": 0,
                     "reviews": [],
+                    "reviewsCount": 0,
                     "file": null
                 }
             },
@@ -257,6 +264,7 @@ export const ordersData: Array<Order> = [
                     "type": "Eau de Toilette",
                     "perfumeRating": 0,
                     "reviews": [],
+                    "reviewsCount": 0,
                     "file": null
                 }
             },
@@ -281,6 +289,7 @@ export const ordersData: Array<Order> = [
                     "type": "Eau de parfum",
                     "perfumeRating": 0,
                     "reviews": [],
+                    "reviewsCount": 0,
                     "file": null
                 }
             }
@@ -319,6 +328,7 @@ export const ordersData: Array<Order> = [
                     "type": "Eau de parfum",
                     "perfumeRating": 0,
                     "reviews": [],
+                    "reviewsCount": 0,
                     "file": null
                 }
             },
@@ -343,6 +353,7 @@ export const ordersData: Array<Order> = [
                     "type": "Eau de parfum",
                     "perfumeRating": 0,
                     "reviews": [],
+                    "reviewsCount": 0,
                     "file": null
                 }
             }
@@ -381,6 +392,7 @@ export const ordersData: Array<Order> = [
                     "type": "Eau de Toilette",
                     "perfumeRating": 0,
                     "reviews": [],
+                    "reviewsCount": 0,
                     "file": null
                 }
             },
@@ -405,6 +417,7 @@ export const ordersData: Array<Order> = [
                     "type": "Eau de Toilette",
                     "perfumeRating": 0,
                     "reviews": [],
+                    "reviewsCount": 0,
                     "file": null
                 }
             }

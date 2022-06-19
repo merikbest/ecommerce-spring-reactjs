@@ -4,21 +4,23 @@ import { LoadingStatus, Perfume } from "../../types/types";
 import {
     fetchPerfumes,
     fetchPerfumesByFilterParams,
-    fetchPerfumesByGender,
     fetchPerfumesByIds,
     fetchPerfumesByIdsQuery,
     fetchPerfumesByInputText,
-    fetchPerfumesByPerfumer,
     fetchPerfumesByQuery
 } from "./perfumes-thunks";
 
 export interface PerfumesState {
     perfumes: Array<Perfume>;
+    pagesCount: number;
+    totalElements: number;
     loadingState: LoadingStatus;
 }
 
 export const initialState: PerfumesState = {
     perfumes: [],
+    pagesCount: 1,
+    totalElements: 0,
     loadingState: LoadingStatus.LOADING
 };
 
@@ -41,7 +43,9 @@ export const perfumesSlice = createSlice({
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchPerfumes.fulfilled, (state, action) => {
-            state.perfumes = action.payload;
+            state.perfumes = action.payload.perfumes;
+            state.pagesCount = action.payload.pagesCount;
+            state.totalElements = action.payload.totalElements;
             state.loadingState = LoadingStatus.LOADED;
         });
         builder.addCase(fetchPerfumesByIds.pending, (state) => {
@@ -55,28 +59,18 @@ export const perfumesSlice = createSlice({
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchPerfumesByFilterParams.fulfilled, (state, action) => {
-            state.perfumes = action.payload;
-            state.loadingState = LoadingStatus.LOADED;
-        });
-        builder.addCase(fetchPerfumesByGender.pending, (state) => {
-            state.loadingState = LoadingStatus.LOADING;
-        });
-        builder.addCase(fetchPerfumesByGender.fulfilled, (state, action) => {
-            state.perfumes = action.payload;
-            state.loadingState = LoadingStatus.LOADED;
-        });
-        builder.addCase(fetchPerfumesByPerfumer.pending, (state) => {
-            state.loadingState = LoadingStatus.LOADING;
-        });
-        builder.addCase(fetchPerfumesByPerfumer.fulfilled, (state, action) => {
-            state.perfumes = action.payload;
+            state.perfumes = action.payload.perfumes;
+            state.pagesCount = action.payload.pagesCount;
+            state.totalElements = action.payload.totalElements;
             state.loadingState = LoadingStatus.LOADED;
         });
         builder.addCase(fetchPerfumesByInputText.pending, (state) => {
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchPerfumesByInputText.fulfilled, (state, action) => {
-            state.perfumes = action.payload;
+            state.perfumes = action.payload.perfumes;
+            state.pagesCount = action.payload.pagesCount;
+            state.totalElements = action.payload.totalElements;
             state.loadingState = LoadingStatus.LOADED;
         });
         builder.addCase(fetchPerfumesByQuery.pending, (state) => {

@@ -5,7 +5,7 @@ import { Col, notification, Pagination, Row } from "antd";
 
 import { selectIsPerfumeDeleted } from "../../../redux-toolkit/admin/admin-selector";
 import { selectIsPerfumesLoading, selectPerfumes } from "../../../redux-toolkit/perfumes/perfumes-selector";
-import { fetchPerfumes } from "../../../redux-toolkit/perfumes/perfumes-thunks";
+import { fetchPerfumes, fetchPerfumesByInputText } from "../../../redux-toolkit/perfumes/perfumes-thunks";
 import { resetPerfumesState } from "../../../redux-toolkit/perfumes/perfumes-slice";
 import { resetAdminState } from "../../../redux-toolkit/admin/admin-slice";
 import ContentTitle from "../../../components/ContentTitle/ContentTitle";
@@ -27,11 +27,11 @@ const PerfumeList: FC = (): ReactElement => {
     const isPerfumeDeleted = useSelector(selectIsPerfumeDeleted);
     const [perfumeInfo, setPerfumeInfo] = useState<Perfume>();
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-    const { currentPage, minPageValue, maxPageValue, handleChangePagination } = usePagination();
-    const { onSearch, handleChangeSelect } = useSearch();
+    const { currentPage, totalElements, handleChangePagination } = usePagination();
+    const { searchValue, searchTypeValue, onSearch, handleChangeSelect } = useSearch();
 
     useEffect(() => {
-        dispatch(fetchPerfumes());
+        dispatch(fetchPerfumes(0));
 
         return () => {
             dispatch(resetPerfumesState());
@@ -48,6 +48,17 @@ const PerfumeList: FC = (): ReactElement => {
             });
         }
     }, [isPerfumeDeleted]);
+
+    const changePagination = (page: number, pageSize: number): void => {
+        if (searchValue) {
+            dispatch(
+                fetchPerfumesByInputText({ searchType: searchTypeValue, text: searchValue, currentPage: page - 1 })
+            );
+        } else {
+            dispatch(fetchPerfumes(page - 1));
+        }
+        handleChangePagination(page, pageSize);
+    };
 
     const showDeleteModalWindow = (perfume: Perfume): void => {
         setIsModalVisible(true);
@@ -84,34 +95,30 @@ const PerfumeList: FC = (): ReactElement => {
                                     <Pagination
                                         current={currentPage}
                                         pageSize={MAX_PAGE_VALUE}
-                                        total={perfumes.length}
+                                        total={totalElements}
                                         showSizeChanger={false}
-                                        onChange={handleChangePagination}
+                                        onChange={changePagination}
                                     />
                                 </Col>
                             </Row>
                             <Row gutter={[32, 32]}>
-                                {perfumes &&
-                                    perfumes.length > 0 &&
-                                    perfumes
-                                        .slice(minPageValue, maxPageValue)
-                                        .map((perfume, index) => (
-                                            <PerfumeCard
-                                                key={index}
-                                                perfume={perfume}
-                                                colSpan={8}
-                                                onOpenDelete={showDeleteModalWindow}
-                                                edit
-                                            />
-                                        ))}
+                                {perfumes.map((perfume) => (
+                                    <PerfumeCard
+                                        key={perfume.id}
+                                        perfume={perfume}
+                                        colSpan={8}
+                                        onOpenDelete={showDeleteModalWindow}
+                                        edit
+                                    />
+                                ))}
                             </Row>
                             <Row style={{ marginTop: 16, marginBottom: 16 }}>
                                 <Pagination
                                     current={currentPage}
                                     pageSize={MAX_PAGE_VALUE}
-                                    total={perfumes.length}
+                                    total={totalElements}
                                     showSizeChanger={false}
-                                    onChange={handleChangePagination}
+                                    onChange={changePagination}
                                 />
                             </Row>
                         </>

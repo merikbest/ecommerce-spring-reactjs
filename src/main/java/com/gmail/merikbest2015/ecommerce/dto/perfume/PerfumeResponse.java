@@ -12,4 +12,5 @@ public class PerfumeResponse {
     private Integer price;
     private Double perfumeRating;
     private String filename;
+    private Integer reviewsCount;
 }

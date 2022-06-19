@@ -50,7 +50,7 @@ const PerfumeCard: FC<PropsType> = ({ perfume, colSpan, edit, onOpenDelete }): R
                 >
                     <div className={"perfume-card-rate"}>
                         <Rate defaultValue={perfume.perfumeRating === 0 ? 5 : perfume.perfumeRating} disabled />
-                        <Typography.Text>0 reviews</Typography.Text>
+                        <Typography.Text>{perfume.reviewsCount} reviews</Typography.Text>
                     </div>
                     <Meta title={perfume.perfumeTitle} description={perfume.perfumer} style={{ textAlign: "center" }} />
                     <Typography.Text className={"perfume-card-price"}>${perfume.price}.00</Typography.Text>

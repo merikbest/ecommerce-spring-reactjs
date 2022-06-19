@@ -9,15 +9,17 @@ type PropsType = {
     onChange: (checkedValues: CheckboxValueType[], category: CheckboxCategoryFilter) => void;
     category: CheckboxCategoryFilter;
     data: Array<{ name: string }>;
+    selectedValues: Array<string>;
 };
 
-const MenuCheckboxSection: FC<PropsType> = ({ title, onChange, category, data }): ReactElement => {
+const MenuCheckboxSection: FC<PropsType> = ({ title, onChange, category, data, selectedValues }): ReactElement => {
     return (
         <div>
             <Typography.Title level={5} style={{ marginTop: 8 }}>
                 {title}
             </Typography.Title>
             <Checkbox.Group
+                value={selectedValues}
                 onChange={(checkedValues) => onChange(checkedValues, category)}
                 style={{
                     overflow: "auto",

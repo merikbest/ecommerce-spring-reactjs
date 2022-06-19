@@ -16,6 +16,19 @@ export type Perfume = {
     perfumeRating: number;
     file: any;
     reviews: Array<Review>;
+    reviewsCount: number;
+};
+
+export type PerfumeHeaderResponse = {
+    perfumes: Array<Perfume>;
+    pagesCount: number;
+    totalElements: number;
+};
+
+export type PerfumesSearchRequest = { 
+    searchType: SearchPerfume; 
+    text: string, 
+    currentPage: number 
 };
 
 export type PerfumeErrors = {
@@ -160,6 +173,7 @@ export type FilterParamsType = {
     perfumers: Array<string>;
     genders: Array<string>;
     prices: Array<number>;
+    currentPage?: number;
     sortByPrice?: boolean;
 };
 
