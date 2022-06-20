@@ -2,16 +2,22 @@ package com.gmail.merikbest2015.ecommerce.service.Impl;
 
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
+import com.gmail.merikbest2015.ecommerce.repository.projection.PerfumeProjection;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +33,9 @@ public class PerfumeServiceImplTest {
 
     @Autowired
     private PerfumeServiceImpl perfumeService;
+
+    @Autowired
+    private SpelAwareProxyProjectionFactory factory;
 
     @MockBean
     private PerfumeRepository perfumeRepository;
@@ -45,30 +54,35 @@ public class PerfumeServiceImplTest {
 
     @Test
     public void findAllPerfumes() {
-        List<Perfume> perfumeList = new ArrayList<>();
-        perfumeList.add(new Perfume());
-        perfumeList.add(new Perfume());
+        Pageable pageable = PageRequest.of(0, 20);
+        List<PerfumeProjection> perfumeProjectionList = new ArrayList<>();
+        perfumeProjectionList.add(factory.createProjection(PerfumeProjection.class));
+        perfumeProjectionList.add(factory.createProjection(PerfumeProjection.class));
+        Page<PerfumeProjection> perfumeList = new PageImpl<>(perfumeProjectionList);
 
-        when(perfumeRepository.findAllByOrderByIdAsc()).thenReturn(perfumeList);
-        perfumeService.getAllPerfumes();
-        assertEquals(2, perfumeList.size());
-        verify(perfumeRepository, times(1)).findAllByOrderByIdAsc();
+        when(perfumeRepository.findAllByOrderByIdAsc(pageable)).thenReturn(perfumeList);
+        perfumeService.getAllPerfumes(pageable);
+        assertEquals(2, perfumeProjectionList.size());
+        verify(perfumeRepository, times(1)).findAllByOrderByIdAsc(pageable);
     }
 
     @Test
     public void filter() {
-        Perfume perfumeChanel = new Perfume();
+        Pageable pageable = PageRequest.of(0, 20);
+        
+        PerfumeProjection perfumeChanel = factory.createProjection(PerfumeProjection.class);         
         perfumeChanel.setPerfumer(PERFUMER_CHANEL);
         perfumeChanel.setPerfumeGender(PERFUME_GENDER);
         perfumeChanel.setPrice(101);
-        Perfume perfumeCreed = new Perfume();
+        PerfumeProjection perfumeCreed = factory.createProjection(PerfumeProjection.class);
         perfumeCreed.setPerfumer(PERFUMER_CREED);
         perfumeCreed.setPerfumeGender(PERFUME_GENDER);
         perfumeCreed.setPrice(102);
 
-        List<Perfume> perfumeList = new ArrayList<>();
-        perfumeList.add(perfumeChanel);
-        perfumeList.add(perfumeCreed);
+        List<PerfumeProjection> perfumeProjectionList = new ArrayList<>();
+        perfumeProjectionList.add(perfumeChanel);
+        perfumeProjectionList.add(perfumeCreed);
+        Page<PerfumeProjection> perfumeList = new PageImpl<>(perfumeProjectionList);
 
         List<String> perfumers = new ArrayList<>();
         perfumers.add(PERFUMER_CHANEL);
@@ -77,11 +91,11 @@ public class PerfumeServiceImplTest {
         List<String> genders = new ArrayList<>();
         genders.add(PERFUME_GENDER);
 
-        when(perfumeRepository.findPerfumesByFilterParams(perfumers, new ArrayList<>(), 1, 1000, false)).thenReturn(perfumeList);
-        perfumeService.findPerfumesByFilterParams(perfumers, new ArrayList<>(), Arrays.asList(1, 1000), false);
-        assertEquals(2, perfumeList.size());
-        assertEquals(perfumeList.get(0).getPerfumer(), PERFUMER_CHANEL);
-        verify(perfumeRepository, times(1)).findPerfumesByFilterParams(perfumers, new ArrayList<>(), 1, 1000, false);
+        when(perfumeRepository.findPerfumesByFilterParams(perfumers, new ArrayList<>(), 1, 1000, false, pageable)).thenReturn(perfumeList);
+        perfumeService.findPerfumesByFilterParams(perfumers, new ArrayList<>(), Arrays.asList(1, 1000), false, pageable);
+        assertEquals(2, perfumeList.getTotalElements());
+        assertEquals(perfumeList.getContent().get(0).getPerfumer(), PERFUMER_CHANEL);
+        verify(perfumeRepository, times(1)).findPerfumesByFilterParams(perfumers, new ArrayList<>(), 1, 1000, false, pageable);
     }
 
     @Test

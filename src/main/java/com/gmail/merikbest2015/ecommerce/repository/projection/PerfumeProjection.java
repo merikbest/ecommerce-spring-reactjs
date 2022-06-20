@@ -12,4 +12,8 @@ public interface PerfumeProjection {
     
     @Value("#{target.reviews.size()}")
     Integer getReviewsCount();
+
+    void setPerfumer(String perfumer);
+    void setPerfumeGender(String perfumeGender);
+    void setPrice(Integer price);
 }

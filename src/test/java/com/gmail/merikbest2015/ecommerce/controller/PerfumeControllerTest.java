@@ -201,7 +201,7 @@ public class PerfumeControllerTest {
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[*]", hasSize(19)))
+                .andExpect(jsonPath("$[*]", hasSize(15)))
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
                 .andExpect(jsonPath("$[*].perfumeTitle").isNotEmpty())
                 .andExpect(jsonPath("$[*].perfumer").isNotEmpty())
