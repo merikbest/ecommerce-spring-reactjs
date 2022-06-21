@@ -1,4 +1,4 @@
-package com.gmail.merikbest2015.ecommerce.dto.perfume;
+package com.gmail.merikbest2015.ecommerce.dto;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class PerfumeHeaderResponse {
-    private List<PerfumeResponse> perfumes;
+public class HeaderResponse<T> {
+    private List<T> items;
     private HttpHeaders headers;
 }

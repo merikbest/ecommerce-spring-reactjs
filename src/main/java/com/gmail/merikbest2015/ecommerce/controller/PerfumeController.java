@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
+import com.gmail.merikbest2015.ecommerce.dto.HeaderResponse;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.*;
 import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponse;
 import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
@@ -26,8 +27,8 @@ public class PerfumeController {
 
     @GetMapping
     public ResponseEntity<List<PerfumeResponse>> getAllPerfumes(@PageableDefault(size = 15) Pageable pageable) {
-        PerfumeHeaderResponse response = perfumeMapper.getAllPerfumes(pageable);
-        return ResponseEntity.ok().headers(response.getHeaders()).body(response.getPerfumes());
+        HeaderResponse<PerfumeResponse> response = perfumeMapper.getAllPerfumes(pageable);
+        return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
     }
 
     @GetMapping("/{perfumeId}")
@@ -48,8 +49,8 @@ public class PerfumeController {
     @PostMapping("/search")
     public ResponseEntity<List<PerfumeResponse>> findPerfumesByFilterParams(@RequestBody PerfumeSearchRequest filter,
                                                                             @PageableDefault(size = 15) Pageable pageable) {
-        PerfumeHeaderResponse response = perfumeMapper.findPerfumesByFilterParams(filter, pageable);
-        return ResponseEntity.ok().headers(response.getHeaders()).body(response.getPerfumes());
+        HeaderResponse<PerfumeResponse> response = perfumeMapper.findPerfumesByFilterParams(filter, pageable);
+        return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
     }
 
     @PostMapping("/search/gender")
@@ -65,8 +66,8 @@ public class PerfumeController {
     @PostMapping("/search/text")
     public ResponseEntity<List<PerfumeResponse>> findByInputText(@RequestBody SearchTypeRequest searchType,
                                                                  @PageableDefault(size = 15) Pageable pageable) {
-        PerfumeHeaderResponse response = perfumeMapper.findByInputText(searchType.getSearchType(), searchType.getText(), pageable);
-        return ResponseEntity.ok().headers(response.getHeaders()).body(response.getPerfumes());
+        HeaderResponse<PerfumeResponse> response = perfumeMapper.findByInputText(searchType.getSearchType(), searchType.getText(), pageable);
+        return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
     }
 
     @PostMapping("/graphql/ids")

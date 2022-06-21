@@ -13,6 +13,8 @@ import com.gmail.merikbest2015.ecommerce.service.email.MailSender;
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +48,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getAllOrders() {
         return orderRepository.findAllByOrderByIdAsc();
+    }
+
+    @Override
+    public Page<Order> getAllOrders(Pageable pageable) {
+        return orderRepository.findAllByOrderByIdAsc(pageable);
     }
 
     @Override

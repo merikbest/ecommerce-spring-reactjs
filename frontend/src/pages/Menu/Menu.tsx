@@ -35,7 +35,7 @@ const Menu: FC = (): ReactElement => {
         genders: [],
         prices: [1, 999]
     });
-    const [sortByPrice, setSortByPrice] = useState<boolean | undefined>(undefined);
+    const [sortByPrice, setSortByPrice] = useState<boolean>(false);
     const { currentPage, totalElements, handleChangePagination, resetPagination } = usePagination();
     const { searchValue, searchTypeValue, resetFields, form, onSearch, handleChangeSelect } = useSearch();
 

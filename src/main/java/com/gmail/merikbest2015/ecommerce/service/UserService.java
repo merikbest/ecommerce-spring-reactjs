@@ -7,6 +7,9 @@ import graphql.schema.DataFetcher;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 public interface UserService {
 
     User getUserById(Long userId);
@@ -14,6 +17,8 @@ public interface UserService {
     User getUserInfo(String email);
 
     List<User> getAllUsers();
+    
+    Page<User> getAllUsers(Pageable pageable);
 
     List<Perfume> getCart(List<Long> perfumeIds);
 

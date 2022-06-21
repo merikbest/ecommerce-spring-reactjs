@@ -7,6 +7,9 @@ import graphql.schema.DataFetcher;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 public interface OrderService {
 
     Order getOrderById(Long orderId);
@@ -14,6 +17,8 @@ public interface OrderService {
     List<OrderItem> getOrderItemsByOrderId(Long orderId);
     
     List<Order> getAllOrders();
+    
+    Page<Order> getAllOrders(Pageable pageable);
 
     List<Order> getUserOrders(String email);
 
