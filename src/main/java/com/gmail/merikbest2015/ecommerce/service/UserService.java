@@ -15,8 +15,6 @@ public interface UserService {
     User getUserById(Long userId);
 
     User getUserInfo(String email);
-
-    List<User> getAllUsers();
     
     Page<User> getAllUsers(Pageable pageable);
 

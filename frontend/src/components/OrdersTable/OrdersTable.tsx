@@ -1,21 +1,33 @@
 import React, { FC, ReactElement } from "react";
-import {Link} from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { Table } from "antd";
+import { AsyncThunk } from "@reduxjs/toolkit";
 
-import { Order } from "../../types/types";
-import {ACCOUNT_USER_ORDERS} from "../../constants/routeConstants";
+import { HeaderResponse, Order } from "../../types/types";
+import { ACCOUNT_USER_ORDERS } from "../../constants/routeConstants";
+import { selectTotalElements } from "../../redux-toolkit/orders/orders-selector";
+import { useTablePagination } from "../../hooks/useTablePagination";
 
 type PropsType = {
     orders: Array<Order>;
     loading: boolean;
+    fetchOrders: AsyncThunk<HeaderResponse<Order>, number, {}>;
 };
 
-const OrdersTable: FC<PropsType> = ({ orders, loading }): ReactElement => {
+const OrdersTable: FC<PropsType> = ({ orders, loading, fetchOrders }): ReactElement => {
+    const totalElements = useSelector(selectTotalElements);
+    const handleTableChange = useTablePagination<Order, number>(fetchOrders);
+
     return (
         <Table
             rowKey={"id"}
+            onChange={handleTableChange}
             loading={loading}
-            pagination={{ position: ["bottomRight", "topRight"] }}
+            pagination={{
+                total: totalElements,
+                position: ["bottomRight", "topRight"]
+            }}
             dataSource={orders}
             columns={[
                 {

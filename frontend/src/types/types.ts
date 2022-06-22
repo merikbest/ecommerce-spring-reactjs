@@ -19,16 +19,21 @@ export type Perfume = {
     reviewsCount: number;
 };
 
-export type PerfumeHeaderResponse = {
-    perfumes: Array<Perfume>;
+export type HeaderResponse<T> = {
+    items: Array<T>;
     pagesCount: number;
     totalElements: number;
 };
 
-export type PerfumesSearchRequest = { 
-    searchType: SearchPerfume; 
-    text: string, 
-    currentPage: number 
+export type UserOrdersRequest = {
+    email: string;
+    page: number;
+};
+
+export type PerfumesSearchRequest = {
+    searchType: SearchPerfume;
+    text: string;
+    currentPage: number;
 };
 
 export type PerfumeErrors = {
@@ -199,5 +204,5 @@ export enum LoadingStatus {
 export enum SearchPerfume {
     BRAND = "BRAND",
     PERFUME_TITLE = "PERFUME_TITLE",
-    COUNTRY = "COUNTRY",
+    COUNTRY = "COUNTRY"
 }

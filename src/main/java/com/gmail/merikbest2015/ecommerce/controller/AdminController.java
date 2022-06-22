@@ -56,19 +56,16 @@ public class AdminController {
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<List<OrderResponse>> getAllOrders() {
-        return ResponseEntity.ok(orderMapper.getAllOrders());
-    }
-
-    @GetMapping("/orders/pageable")
     public ResponseEntity<List<OrderResponse>> getAllOrders(@PageableDefault(size = 10) Pageable pageable) {
         HeaderResponse<OrderResponse> response = orderMapper.getAllOrders(pageable);
         return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
     }
 
     @GetMapping("/order/{userEmail}")
-    public ResponseEntity<List<OrderResponse>> getUserOrdersByEmail(@PathVariable String userEmail) {
-        return ResponseEntity.ok(orderMapper.getUserOrders(userEmail));
+    public ResponseEntity<List<OrderResponse>> getUserOrdersByEmail(@PathVariable String userEmail, 
+                                                                    @PageableDefault(size = 10) Pageable pageable) {
+        HeaderResponse<OrderResponse> response = orderMapper.getUserOrders(userEmail, pageable);
+        return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
     }
 
     @DeleteMapping("/order/delete/{orderId}")
@@ -82,11 +79,6 @@ public class AdminController {
     }
 
     @GetMapping("/user/all")
-    public ResponseEntity<List<BaseUserResponse>> getAllUsers() {
-        return ResponseEntity.ok(userMapper.getAllUsers());
-    }
-
-    @GetMapping("/user/all/pageable")
     public ResponseEntity<List<BaseUserResponse>> getAllUsers(@PageableDefault(size = 10) Pageable pageable) {
         HeaderResponse<BaseUserResponse> response = userMapper.getAllUsers(pageable);
         return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());

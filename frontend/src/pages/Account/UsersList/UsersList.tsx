@@ -4,19 +4,31 @@ import { Link } from "react-router-dom";
 import { TeamOutlined } from "@ant-design/icons";
 import { Table } from "antd";
 
-import { selectAdminStateUsers, selectIsAdminStateLoading } from "../../../redux-toolkit/admin/admin-selector";
+import {
+    selectAdminStateUsers,
+    selectIsAdminStateLoading,
+    selectTotalElements
+} from "../../../redux-toolkit/admin/admin-selector";
 import { fetchAllUsers } from "../../../redux-toolkit/admin/admin-thunks";
 import ContentTitle from "../../../components/ContentTitle/ContentTitle";
-import { User } from "../../../types/types";
+import { LoadingStatus, User } from "../../../types/types";
 import { ACCOUNT_ADMIN_USERS } from "../../../constants/routeConstants";
+import { resetAdminState } from "../../../redux-toolkit/admin/admin-slice";
+import { useTablePagination } from "../../../hooks/useTablePagination";
 
 const UsersList: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const users = useSelector(selectAdminStateUsers);
     const isLoading = useSelector(selectIsAdminStateLoading);
+    const totalElements = useSelector(selectTotalElements);
+    const handleTableChange = useTablePagination<User, number>(fetchAllUsers);
 
     useEffect(() => {
-        dispatch(fetchAllUsers());
+        dispatch(fetchAllUsers(0));
+
+        return () => {
+            dispatch(resetAdminState(LoadingStatus.LOADING));
+        };
     }, []);
 
     return (
@@ -24,8 +36,12 @@ const UsersList: FC = (): ReactElement => {
             <ContentTitle title={"List of all users"} titleLevel={4} icon={<TeamOutlined />} />
             <Table
                 rowKey={"id"}
+                onChange={handleTableChange}
                 loading={isLoading}
-                pagination={{ position: ["bottomRight", "topRight"] }}
+                pagination={{
+                    total: totalElements,
+                    position: ["bottomRight", "topRight"]
+                }}
                 dataSource={users}
                 columns={[
                     {

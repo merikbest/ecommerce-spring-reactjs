@@ -43,7 +43,7 @@ export const perfumesSlice = createSlice({
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchPerfumes.fulfilled, (state, action) => {
-            state.perfumes = action.payload.perfumes;
+            state.perfumes = action.payload.items;
             state.pagesCount = action.payload.pagesCount;
             state.totalElements = action.payload.totalElements;
             state.loadingState = LoadingStatus.LOADED;
@@ -59,7 +59,7 @@ export const perfumesSlice = createSlice({
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchPerfumesByFilterParams.fulfilled, (state, action) => {
-            state.perfumes = action.payload.perfumes;
+            state.perfumes = action.payload.items;
             state.pagesCount = action.payload.pagesCount;
             state.totalElements = action.payload.totalElements;
             state.loadingState = LoadingStatus.LOADED;
@@ -68,7 +68,7 @@ export const perfumesSlice = createSlice({
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchPerfumesByInputText.fulfilled, (state, action) => {
-            state.perfumes = action.payload.perfumes;
+            state.perfumes = action.payload.items;
             state.pagesCount = action.payload.pagesCount;
             state.totalElements = action.payload.totalElements;
             state.loadingState = LoadingStatus.LOADED;

@@ -15,6 +15,8 @@ export interface AdminState {
     users: Array<User>;
     user: Partial<User>;
     errors: Partial<PerfumeErrors>;
+    pagesCount: number;
+    totalElements: number;
     isPerfumeAdded: boolean;
     isPerfumeEdited: boolean;
     isPerfumeDeleted: boolean;
@@ -25,6 +27,8 @@ export const initialState: AdminState = {
     users: [],
     user: {},
     errors: {},
+    pagesCount: 1,
+    totalElements: 0,
     isPerfumeAdded: false,
     isPerfumeEdited: false,
     isPerfumeDeleted: false,
@@ -45,6 +49,8 @@ export const adminSlice = createSlice({
             state.isPerfumeAdded = false;
             state.isPerfumeEdited = false;
             state.isPerfumeDeleted = false;
+            state.pagesCount = 1;
+            state.totalElements = 0;
             state.loadingState = action.payload;
         }
     },
@@ -84,7 +90,9 @@ export const adminSlice = createSlice({
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchAllUsers.fulfilled, (state, action) => {
-            state.users = action.payload;
+            state.users = action.payload.items;
+            state.pagesCount = action.payload.pagesCount;
+            state.totalElements = action.payload.totalElements;
             state.loadingState = LoadingStatus.LOADED;
         });
         builder.addCase(fetchUserInfo.pending, (state) => {

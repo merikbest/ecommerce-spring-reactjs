@@ -12,11 +12,15 @@ import {
 
 export interface OrdersState {
     orders: Array<Order>;
+    pagesCount: number;
+    totalElements: number;
     loadingState: LoadingStatus;
 }
 
 export const initialState: OrdersState = {
     orders: [],
+    pagesCount: 1,
+    totalElements: 0,
     loadingState: LoadingStatus.LOADING
 };
 
@@ -31,21 +35,27 @@ export const ordersSlice = createSlice({
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchUserOrders.fulfilled, (state, action) => {
-            state.orders = action.payload;
+            state.orders = action.payload.items;
+            state.pagesCount = action.payload.pagesCount;
+            state.totalElements = action.payload.totalElements;
             state.loadingState = LoadingStatus.LOADED;
         });
         builder.addCase(fetchAllUsersOrders.pending, (state) => {
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchAllUsersOrders.fulfilled, (state, action) => {
-            state.orders = action.payload;
+            state.orders = action.payload.items;
+            state.pagesCount = action.payload.pagesCount;
+            state.totalElements = action.payload.totalElements;
             state.loadingState = LoadingStatus.LOADED;
         });
         builder.addCase(fetchUserOrdersByEmail.pending, (state) => {
             state.loadingState = LoadingStatus.LOADING;
         });
         builder.addCase(fetchUserOrdersByEmail.fulfilled, (state, action) => {
-            state.orders = action.payload;
+            state.orders = action.payload.items;
+            state.pagesCount = action.payload.pagesCount;
+            state.totalElements = action.payload.totalElements;
             state.loadingState = LoadingStatus.LOADED;
         });
         builder.addCase(fetchUserOrdersByQuery.pending, (state) => {

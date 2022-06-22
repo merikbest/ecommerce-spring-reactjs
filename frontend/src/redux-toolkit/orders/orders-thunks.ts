@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { Order } from "../../types/types";
+import { HeaderResponse, Order, UserOrdersRequest } from "../../types/types";
 import RequestService from "../../utils/request-service";
 import {
     ADMIN_GRAPHQL_ORDER,
@@ -10,23 +10,41 @@ import {
     USERS_GRAPHQL_ORDERS,
     USERS_ORDERS
 } from "../../constants/urlConstants";
-import {ordersByEmailQuery, ordersByQuery} from "../../utils/graphql-query/orders-query";
+import { ordersByEmailQuery, ordersByQuery } from "../../utils/graphql-query/orders-query";
 
-export const fetchUserOrders = createAsyncThunk<Array<Order>>("orders/fetchUserOrders", async () => {
-    const response = await RequestService.get(USERS_ORDERS, true);
-    return response.data;
-});
+export const fetchUserOrders = createAsyncThunk<HeaderResponse<Order>, number>(
+    "orders/fetchUserOrders",
+    async (page) => {
+        const response = await RequestService.get(`${USERS_ORDERS}?page=${page}`, true);
+        return {
+            items: response.data,
+            pagesCount: parseInt(response.headers["page-total-count"]),
+            totalElements: parseInt(response.headers["page-total-elements"])
+        };
+    }
+);
 
-export const fetchAllUsersOrders = createAsyncThunk<Array<Order>>("orders/fetchAllUsersOrders", async () => {
-    const response = await RequestService.get(ADMIN_ORDERS, true);
-    return response.data;
-});
+export const fetchAllUsersOrders = createAsyncThunk<HeaderResponse<Order>, number>(
+    "orders/fetchAllUsersOrders",
+    async (page) => {
+        const response = await RequestService.get(`${ADMIN_ORDERS}?page=${page}`, true);
+        return {
+            items: response.data,
+            pagesCount: parseInt(response.headers["page-total-count"]),
+            totalElements: parseInt(response.headers["page-total-elements"])
+        };
+    }
+);
 
-export const fetchUserOrdersByEmail = createAsyncThunk<Array<Order>, string>(
+export const fetchUserOrdersByEmail = createAsyncThunk<HeaderResponse<Order>, UserOrdersRequest>(
     "orders/fetchUserOrdersByEmail",
-    async (email) => {
-        const response = await RequestService.get(`${ADMIN_ORDER}/${email}`, true);
-        return response.data;
+    async ({ email, page }) => {
+        const response = await RequestService.get(`${ADMIN_ORDER}/${email}?page=${page}`, true);
+        return {
+            items: response.data,
+            pagesCount: parseInt(response.headers["page-total-count"]),
+            totalElements: parseInt(response.headers["page-total-elements"])
+        };
     }
 );
 

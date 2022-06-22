@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { Perfume, PerfumeErrors, User } from "../../types/types";
+import { HeaderResponse, Perfume, PerfumeErrors, User } from "../../types/types";
 import RequestService from "../../utils/request-service";
 import {
     ADMIN_ADD,
@@ -46,9 +46,13 @@ export const deletePerfume = createAsyncThunk<{}, number>("admin/deletePerfume",
     return response.data;
 });
 
-export const fetchAllUsers = createAsyncThunk<Array<User>>("admin/fetchAllUsers", async () => {
-    const response = await RequestService.get(ADMIN_USER_ALL, true);
-    return response.data;
+export const fetchAllUsers = createAsyncThunk<HeaderResponse<User>, number>("admin/fetchAllUsers", async (page) => {
+    const response = await RequestService.get(`${ADMIN_USER_ALL}?page=${page}`, true);
+    return {
+        items: response.data,
+        pagesCount: parseInt(response.headers["page-total-count"]),
+        totalElements: parseInt(response.headers["page-total-elements"])
+    };
 });
 
 export const fetchUserInfo = createAsyncThunk<User, string>("admin/fetchUserInfo", async (userId) => {

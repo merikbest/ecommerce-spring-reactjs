@@ -31,17 +31,14 @@ public class OrderMapper {
         return commonMapper.convertToResponseList(orderService.getOrderItemsByOrderId(orderId), OrderItemResponse.class);
     }
 
-    public List<OrderResponse> getAllOrders() {
-        return commonMapper.convertToResponseList(orderService.getAllOrders(), OrderResponse.class);
-    }
-
     public HeaderResponse<OrderResponse> getAllOrders(Pageable pageable) {
         Page<Order> orders = orderService.getAllOrders(pageable);
         return commonMapper.getHeaderResponse(orders.getContent(), orders.getTotalPages(), orders.getTotalElements(), OrderResponse.class);
     }
 
-    public List<OrderResponse> getUserOrders(String email) {
-        return commonMapper.convertToResponseList(orderService.getUserOrders(email), OrderResponse.class);
+    public HeaderResponse<OrderResponse> getUserOrders(String email, Pageable pageable) {
+        Page<Order> orders = orderService.getUserOrders(email, pageable);
+        return commonMapper.getHeaderResponse(orders.getContent(), orders.getTotalPages(), orders.getTotalElements(), OrderResponse.class);
     }
 
     public String deleteOrder(Long orderId) {

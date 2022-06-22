@@ -5,23 +5,26 @@ import { UserOutlined } from "@ant-design/icons";
 import { Card, Col, Row, Table } from "antd";
 
 import { selectAdminStateUser, selectIsAdminStateLoading } from "../../../redux-toolkit/admin/admin-selector";
-import { selectOrders } from "../../../redux-toolkit/orders/orders-selector";
+import { selectOrders, selectTotalElements } from "../../../redux-toolkit/orders/orders-selector";
 import { fetchUserInfo } from "../../../redux-toolkit/admin/admin-thunks";
 import { resetOrders } from "../../../redux-toolkit/orders/orders-slice";
 import { resetAdminState } from "../../../redux-toolkit/admin/admin-slice";
-import { LoadingStatus, Order } from "../../../types/types";
+import { LoadingStatus, Order, UserOrdersRequest } from "../../../types/types";
 import { fetchUserOrdersByEmail } from "../../../redux-toolkit/orders/orders-thunks";
 import Spinner from "../../../components/Spinner/Spinner";
 import ContentTitle from "../../../components/ContentTitle/ContentTitle";
 import AccountDataItem from "../../../components/AccountDataItem/AccountDataItem";
 import { ACCOUNT_USER_ORDERS } from "../../../constants/routeConstants";
+import { useTablePagination } from "../../../hooks/useTablePagination";
 
 const ManageUser: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const params = useParams<{ id: string }>();
     const userData = useSelector(selectAdminStateUser);
     const userOrders = useSelector(selectOrders);
+    const totalElements = useSelector(selectTotalElements);
     const isUserLoading = useSelector(selectIsAdminStateLoading);
+    const handleTableChange = useTablePagination<Order, UserOrdersRequest>(fetchUserOrdersByEmail, userData.email!);
     const { id, email, firstName, lastName, city, address, phoneNumber, postIndex, provider, roles } = userData;
 
     useEffect(() => {
@@ -35,7 +38,7 @@ const ManageUser: FC = (): ReactElement => {
 
     useEffect(() => {
         if (userData.email) {
-            dispatch(fetchUserOrdersByEmail(userData.email!));
+            dispatch(fetchUserOrdersByEmail({ email: userData.email!, page: 0 }));
         }
     }, [userData]);
 
@@ -79,7 +82,11 @@ const ManageUser: FC = (): ReactElement => {
                                             </div>
                                             <Table
                                                 rowKey={"id"}
-                                                pagination={false}
+                                                onChange={handleTableChange}
+                                                pagination={{
+                                                    total: totalElements,
+                                                    position: ["bottomRight", "topRight"]
+                                                }}
                                                 dataSource={userOrders}
                                                 columns={[
                                                     {

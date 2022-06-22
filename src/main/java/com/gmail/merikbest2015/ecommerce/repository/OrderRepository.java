@@ -17,4 +17,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Page<Order> findAllByOrderByIdAsc(Pageable pageable);
 
     List<Order> findOrderByEmail(String email);
+
+    Page<Order> findOrderByEmail(String email, Pageable pageable);
 }

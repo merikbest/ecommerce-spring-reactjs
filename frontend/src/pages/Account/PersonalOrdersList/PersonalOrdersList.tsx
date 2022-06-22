@@ -6,6 +6,7 @@ import { selectIsOrdersLoading, selectOrders } from "../../../redux-toolkit/orde
 import { fetchUserOrders } from "../../../redux-toolkit/orders/orders-thunks";
 import ContentTitle from "../../../components/ContentTitle/ContentTitle";
 import Spinner from "../../../components/Spinner/Spinner";
+import { resetOrders } from "../../../redux-toolkit/orders/orders-slice";
 import OrdersTable from "../../../components/OrdersTable/OrdersTable";
 
 const PersonalOrdersList: FC = (): ReactElement => {
@@ -14,7 +15,11 @@ const PersonalOrdersList: FC = (): ReactElement => {
     const isOrdersLoading = useSelector(selectIsOrdersLoading);
 
     useEffect(() => {
-        dispatch(fetchUserOrders());
+        dispatch(fetchUserOrders(0));
+
+        return () => {
+            dispatch(resetOrders());
+        };
     }, []);
 
     return (
@@ -30,7 +35,7 @@ const PersonalOrdersList: FC = (): ReactElement => {
                     ) : (
                         <>
                             <ContentTitle title={"List of all orders"} titleLevel={4} icon={<ShoppingOutlined />} />
-                            <OrdersTable loading={isOrdersLoading} orders={orders} />
+                            <OrdersTable loading={isOrdersLoading} orders={orders} fetchOrders={fetchUserOrders} />
                         </>
                     )}
                 </>

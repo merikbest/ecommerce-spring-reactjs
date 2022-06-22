@@ -16,11 +16,9 @@ public interface OrderService {
 
     List<OrderItem> getOrderItemsByOrderId(Long orderId);
     
-    List<Order> getAllOrders();
-    
     Page<Order> getAllOrders(Pageable pageable);
 
-    List<Order> getUserOrders(String email);
+    Page<Order> getUserOrders(String email, Pageable pageable);
 
     Order postOrder(Order validOrder, Map<Long, Long> perfumesId);
 

@@ -9,17 +9,20 @@ import {
     PERFUMES_SEARCH,
     PERFUMES_SEARCH_TEXT
 } from "../../constants/urlConstants";
-import { FilterParamsType, Perfume, PerfumeHeaderResponse, PerfumesSearchRequest } from "../../types/types";
+import { FilterParamsType, HeaderResponse, Perfume, PerfumesSearchRequest } from "../../types/types";
 import { gePerfumesByIdsQuery, getAllPerfumesByQuery } from "../../utils/graphql-query/perfume-query";
 
-export const fetchPerfumes = createAsyncThunk<PerfumeHeaderResponse, number>("perfumes/fetchPerfumes", async (page) => {
-    const response = await RequestService.get(`${PERFUMES}?page=${page}`);
-    return {
-        perfumes: response.data,
-        pagesCount: parseInt(response.headers["page-total-count"]),
-        totalElements: parseInt(response.headers["page-total-elements"])
-    };
-});
+export const fetchPerfumes = createAsyncThunk<HeaderResponse<Perfume>, number>(
+    "perfumes/fetchPerfumes",
+    async (page) => {
+        const response = await RequestService.get(`${PERFUMES}?page=${page}`);
+        return {
+            items: response.data,
+            pagesCount: parseInt(response.headers["page-total-count"]),
+            totalElements: parseInt(response.headers["page-total-elements"])
+        };
+    }
+);
 
 export const fetchPerfumesByIds = createAsyncThunk<Array<Perfume>, Array<number>>(
     "perfumes/fetchPerfumesByIds",
@@ -29,24 +32,24 @@ export const fetchPerfumesByIds = createAsyncThunk<Array<Perfume>, Array<number>
     }
 );
 
-export const fetchPerfumesByFilterParams = createAsyncThunk<PerfumeHeaderResponse, FilterParamsType>(
+export const fetchPerfumesByFilterParams = createAsyncThunk<HeaderResponse<Perfume>, FilterParamsType>(
     "perfumes/fetchPerfumesByFilterParams",
     async (filter) => {
         const response = await RequestService.post(`${PERFUMES_SEARCH}?page=${filter.currentPage}`, filter);
         return {
-            perfumes: response.data,
+            items: response.data,
             pagesCount: parseInt(response.headers["page-total-count"]),
             totalElements: parseInt(response.headers["page-total-elements"])
         };
     }
 );
 
-export const fetchPerfumesByInputText = createAsyncThunk<PerfumeHeaderResponse, PerfumesSearchRequest>(
+export const fetchPerfumesByInputText = createAsyncThunk<HeaderResponse<Perfume>, PerfumesSearchRequest>(
     "perfumes/fetchPerfumesByInputText",
     async (data) => {
         const response = await RequestService.post(`${PERFUMES_SEARCH_TEXT}?page=${data.currentPage}`, data);
         return {
-            perfumes: response.data,
+            items: response.data,
             pagesCount: parseInt(response.headers["page-total-count"]),
             totalElements: parseInt(response.headers["page-total-elements"])
         };

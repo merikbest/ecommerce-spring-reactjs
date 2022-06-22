@@ -39,10 +39,6 @@ public class UserMapper {
         return commonMapper.convertToResponseList(userService.getCart(perfumesIds), FullPerfumeResponse.class);
     }
 
-    public List<BaseUserResponse> getAllUsers() {
-        return commonMapper.convertToResponseList(userService.getAllUsers(), BaseUserResponse.class);
-    }
-
     public HeaderResponse<BaseUserResponse> getAllUsers(Pageable pageable) {
         Page<User> users = userService.getAllUsers(pageable);
         return commonMapper.getHeaderResponse(users.getContent(), users.getTotalPages(), users.getTotalElements(), BaseUserResponse.class);

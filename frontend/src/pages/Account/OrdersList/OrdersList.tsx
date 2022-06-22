@@ -14,7 +14,7 @@ const OrdersList: FC = (): ReactElement => {
     const isOrderLoading = useSelector(selectIsOrdersLoading);
 
     useEffect(() => {
-        dispatch(fetchAllUsersOrders());
+        dispatch(fetchAllUsersOrders(0));
 
         return () => {
             dispatch(resetOrders());
@@ -24,7 +24,7 @@ const OrdersList: FC = (): ReactElement => {
     return (
         <>
             <ContentTitle title={"List of all orders"} titleLevel={4} icon={<ShoppingOutlined />} />
-            <OrdersTable orders={adminOrders} loading={isOrderLoading} />
+            <OrdersTable orders={adminOrders} loading={isOrderLoading} fetchOrders={fetchAllUsersOrders} />
         </>
     );
 };

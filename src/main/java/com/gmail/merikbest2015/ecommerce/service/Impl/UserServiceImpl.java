@@ -40,11 +40,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAllByOrderByIdAsc();
-    }
-
-    @Override
     public Page<User> getAllUsers(Pageable pageable) {
         return userRepository.findAllByOrderByIdAsc(pageable);
     }
