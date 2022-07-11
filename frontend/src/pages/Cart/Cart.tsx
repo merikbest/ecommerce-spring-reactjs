@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import ContentTitle from "../../components/ContentTitle/ContentTitle";
 import ContentWrapper from "../../components/ContentWrapper/ContentWrapper";
-import { selectCartItems, selectIsCartLoading, selectTotalPrice } from "../../redux-toolkit/cart/cart-selector";
+import { selectCartItems, selectIsCartLoading } from "../../redux-toolkit/cart/cart-selector";
 import { fetchCart } from "../../redux-toolkit/cart/cart-thunks";
 import {
     calculateCartPrice,
@@ -17,13 +17,13 @@ import {
 import { Perfume } from "../../types/types";
 import CartItem from "./CartItem/CartItem";
 import Spinner from "../../components/Spinner/Spinner";
+import CartTotalPrice from "./CartTotalPrice";
 import { ORDER } from "../../constants/routeConstants";
 import "./Cart.css";
 
 const Cart: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const perfumes = useSelector(selectCartItems);
-    const totalPrice = useSelector(selectTotalPrice);
     const isCartLoading = useSelector(selectIsCartLoading);
     const [perfumeInCart, setPerfumeInCart] = useState(() => new Map());
 
@@ -53,7 +53,6 @@ const Cart: FC = (): ReactElement => {
             localStorage.setItem("perfumes", JSON.stringify(Array.from(perfumeInCart.entries())));
         }
         dispatch(removePerfumeById(perfumeId));
-        dispatch(calculateCartPrice(perfumes));
         dispatch(setCartItemsCount(perfumeInCart.size));
     };
 
@@ -90,7 +89,7 @@ const Cart: FC = (): ReactElement => {
                                         <CartItem
                                             key={perfume.id}
                                             perfume={perfume}
-                                            perfumeInCart={perfumeInCart}
+                                            perfumeInCart={perfumeInCart.get(perfume.id)}
                                             onChangePerfumeItemCount={onChangePerfumeItemCount}
                                             deleteFromCart={deleteFromCart}
                                         />
@@ -99,7 +98,7 @@ const Cart: FC = (): ReactElement => {
                                 <Col span={8}>
                                     <Row>
                                         <Col span={12}>
-                                            <Typography.Title level={3}>Total: $ {totalPrice}</Typography.Title>
+                                            <CartTotalPrice />
                                         </Col>
                                         <Col span={12}>
                                             <Link to={ORDER}>

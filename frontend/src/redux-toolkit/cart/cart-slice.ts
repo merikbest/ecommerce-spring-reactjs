@@ -26,7 +26,9 @@ export const cartSlice = createSlice({
             state.loadingState = LoadingStatus.LOADED;
         },
         removePerfumeById(state, action: PayloadAction<number>) {
-            state.perfumes = state.perfumes.filter((perfume) => perfume.id !== action.payload);
+            const perfumes = state.perfumes.filter((perfume) => perfume.id !== action.payload);
+            state.perfumes = perfumes;
+            state.totalPrice = calculatePrice(perfumes);
             state.loadingState = LoadingStatus.LOADED;
         },
         setCartItemsCount(state, action: PayloadAction<number>) {
