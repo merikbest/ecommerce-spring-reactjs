@@ -8,15 +8,16 @@ import { resetPerfumesState } from "../../../redux-toolkit/perfumes/perfumes-sli
 import PerfumeCardsSliderItem from "./PerfumeCardsSliderItem/PerfumeCardsSliderItem";
 import "./PerfumeCardsSlider.css";
 
+export const perfumesIds = [26, 43, 46, 106, 34, 76, 82, 85, 27, 39, 79, 86];
+
 const PerfumeCardsSlider: FC = (): ReactElement => {
     const dispatch = useDispatch();
     const perfumes = useSelector(selectPerfumes);
-    const perfumesId = [26, 43, 46, 106, 34, 76, 82, 85, 27, 39, 79, 86];
 
     useEffect(() => {
         // GraphQL example
         // dispatch(fetchPerfumesByIdsQuery(perfumesId));
-        dispatch(fetchPerfumesByIds(perfumesId));
+        dispatch(fetchPerfumesByIds(perfumesIds));
 
         return () => {
             dispatch(resetPerfumesState());

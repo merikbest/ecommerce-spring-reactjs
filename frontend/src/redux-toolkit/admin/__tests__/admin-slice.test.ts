@@ -117,7 +117,7 @@ describe("admin slice tests", () => {
         expect(state.users).toEqual([]);
 
         mock.onGet(API_BASE_URL + ADMIN_USER_ALL).reply(200, usersData);
-        const result = await store.dispatch(fetchAllUsers());
+        const result = await store.dispatch(fetchAllUsers(0));
 
         state = store.getState().admin;
 

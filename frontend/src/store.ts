@@ -20,15 +20,17 @@ export interface RootState {
     user: UserState;
 }
 
+export const storeReducer = {
+    admin: adminSlice,
+    auth: authSlice,
+    cart: cartSlice,
+    order: orderSlice,
+    orders: ordersSlice,
+    perfume: perfumeSlice,
+    perfumes: perfumesSlice,
+    user: userSlice,
+};
+
 export const store = configureStore({
-    reducer: {
-        admin: adminSlice,
-        auth: authSlice,
-        cart: cartSlice,
-        order: orderSlice,
-        orders: ordersSlice,
-        perfume: perfumeSlice,
-        perfumes: perfumesSlice,
-        user: userSlice,
-    }
+    reducer: storeReducer
 });

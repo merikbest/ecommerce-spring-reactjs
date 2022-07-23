@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { PRODUCT } from "../../../constants/routeConstants";
 import "./CarouselImageSlider.css";
 
-const sliderItems = [
+export const sliderItems = [
     {
         id: "85",
         name: "Photo 1",

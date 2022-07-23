@@ -1,7 +1,7 @@
 import {
     AuthErrors,
-    ReviewRequest,
     ReviewError,
+    ReviewRequest,
     User,
     UserEditErrors,
     UserRegistration,
@@ -9,36 +9,47 @@ import {
 } from "../../types/types";
 
 export const userData: User = {
-    "id": 2,
-    "email": "test123@test.com",
-    "firstName": "John",
-    "lastName": "Doe",
-    "city": "New York",
-    "address": "Wall Street1",
-    "phoneNumber": "1234567890",
-    "postIndex": "1234567890",
-    "provider": "LOCAL",
-    "active": true,
-    "activationCode": null,
-    "passwordResetCode": null,
-    "roles": ["USER"]
+    id: 2,
+    email: "test123@test.com",
+    firstName: "John",
+    lastName: "Doe",
+    city: "New York",
+    address: "Wall Street1",
+    phoneNumber: "1234567890",
+    postIndex: "1234567890",
+    provider: "LOCAL",
+    active: true,
+    roles: ["USER"]
 };
 
-export const usersData: Array<User> = [{
-    "id": 2,
-    "email": "test123@test.com",
-    "firstName": "John",
-    "lastName": "Doe",
-    "city": "New York",
-    "address": "Wall Street1",
-    "phoneNumber": "1234567890",
-    "postIndex": "1234567890",
-    "provider": "LOCAL",
-    "active": true,
-    "activationCode": null,
-    "passwordResetCode": null,
-    "roles": ["USER"]
-}];
+export const usersData: Array<User> = [
+    {
+        id: 2,
+        email: "test123@test.com",
+        firstName: "John",
+        lastName: "Doe",
+        city: "New York",
+        address: "Wall Street1",
+        phoneNumber: "1234567890",
+        postIndex: "1234567890",
+        provider: "LOCAL",
+        active: true,
+        roles: ["USER"]
+    }
+];
+
+export const userAdmin: User = {
+    id: 1,
+    email: "admin@gmail.com",
+    firstName: "Admin1",
+    roles: ["ADMIN"],
+    provider: "LOCAL",
+    lastName: "Admin",
+    city: "",
+    address: "",
+    phoneNumber: "",
+    postIndex: ""
+};
 
 export const userEditErrorsData: UserEditErrors = {
     firstNameError: "First name cannot be empty",
@@ -55,10 +66,10 @@ export const authErrorsData: AuthErrors = {
 };
 
 export const reviewData: ReviewRequest = {
-    "perfumeId": 1,
-    "author": "John Doe",
-    "message": "Hello",
-    "rating": 5
+    perfumeId: 1,
+    author: "John Doe",
+    message: "Hello",
+    rating: 5
 };
 
 export const reviewErrorsData: ReviewError = {
@@ -68,16 +79,16 @@ export const reviewErrorsData: ReviewError = {
 };
 
 export const userResetPasswordData: UserResetPasswordRequest = {
-    "email": "test123@test.com",
-    "password": "string",
-    "password2": "string"
+    email: "test123@test.com",
+    password: "string",
+    password2: "string"
 };
 
 export const userRegistrationData: UserRegistration = {
-    "email": "test123@test.com",
-    "firstName": "John",
-    "lastName": "Doe",
-    "password": "test123",
-    "password2": "test123",
-    "captcha": "test",
+    email: "test123@test.com",
+    firstName: "John",
+    lastName: "Doe",
+    password: "test123",
+    password2: "test123",
+    captcha: "test"
 };

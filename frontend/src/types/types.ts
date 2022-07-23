@@ -123,9 +123,9 @@ export type User = {
     address: string;
     phoneNumber: string;
     postIndex: string;
-    activationCode: string | null;
-    passwordResetCode: string | null;
-    active: boolean;
+    activationCode?: string;
+    passwordResetCode?: string;
+    active?: boolean;
     provider: string;
     roles: Array<string>;
 };

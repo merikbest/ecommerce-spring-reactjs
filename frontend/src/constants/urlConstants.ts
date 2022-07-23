@@ -1,5 +1,6 @@
-export const API_BASE_URL = "http://localhost:8080/api/v1";
-export const WEBSOCKET_URL = "http://localhost:8080/websocket";
+export const BASE_URL = "http://localhost:8080";
+export const API_BASE_URL = BASE_URL + "/api/v1";
+export const WEBSOCKET_URL = BASE_URL + "/websocket";
 
 export const USER = "/user";
 export const REGISTRATION = "/registration";
