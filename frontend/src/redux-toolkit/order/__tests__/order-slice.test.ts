@@ -3,7 +3,7 @@ import axios from "axios";
 import { createMemoryHistory } from "history";
 
 import { API_BASE_URL, USERS_ORDER } from "../../../constants/urlConstants";
-import { orderData, orderErrorData, orderRequestData } from "../../../utils/test-data/order-test-data";
+import { mockOrder, mockOrderErrors, mockOrderRequest } from "../../../utils/test-data/order-test-data";
 import { store } from "../../../store";
 import { LoadingStatus } from "../../../types/types";
 import { addOrder, fetchOrderById, fetchOrderItemsByOrderId } from "../order-thunks";
@@ -24,12 +24,12 @@ describe("order slice tests", () => {
         expect(state.order).toEqual({});
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onGet(API_BASE_URL + `${USERS_ORDER}/1`).reply(200, orderData);
+        mock.onGet(API_BASE_URL + `${USERS_ORDER}/1`).reply(200, mockOrder);
         const result = await store.dispatch(fetchOrderById("1"));
 
         state = store.getState().order;
         expect(result.type).toBe("order/fetchOrderById/fulfilled");
-        expect(state.order).toEqual(orderData);
+        expect(state.order).toEqual(mockOrder);
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 
@@ -49,26 +49,26 @@ describe("order slice tests", () => {
     it("should fetchOrderItemsByOrderId dispatches fulfilled on success", async () => {
         expect(state.orderItems).toEqual([]);
 
-        mock.onGet(API_BASE_URL + `${USERS_ORDER}/1/items`).reply(200, orderData.orderItems);
+        mock.onGet(API_BASE_URL + `${USERS_ORDER}/1/items`).reply(200, mockOrder.orderItems);
         const result = await store.dispatch(fetchOrderItemsByOrderId("1"));
 
         state = store.getState().order;
         expect(result.type).toBe("order/fetchOrderItemsByOrderId/fulfilled");
-        expect(state.orderItems).toEqual(orderData.orderItems);
+        expect(state.orderItems).toEqual(mockOrder.orderItems);
     });
 
     it("should addOrder dispatches fulfilled on success", async () => {
         expect(state.order).toEqual({});
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onPost(API_BASE_URL + USERS_ORDER).reply(200, orderData);
-        const result = await store.dispatch(addOrder({ order: orderRequestData, history: history }));
+        mock.onPost(API_BASE_URL + USERS_ORDER).reply(200, mockOrder);
+        const result = await store.dispatch(addOrder({ order: mockOrderRequest, history: history }));
 
         state = store.getState().order;
         expect(result.type).toBe("order/addOrder/fulfilled");
         expect(pushSpy).toHaveBeenCalled();
         expect(pushSpy).toHaveBeenCalledWith(ORDER_FINALIZE);
-        expect(state.order).toEqual(orderData);
+        expect(state.order).toEqual(mockOrder);
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 
@@ -76,12 +76,12 @@ describe("order slice tests", () => {
         expect(state.errors).toEqual({});
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onPost(API_BASE_URL + USERS_ORDER).reply(400, orderErrorData);
-        const result = await store.dispatch(addOrder({ order: orderRequestData, history: history }));
+        mock.onPost(API_BASE_URL + USERS_ORDER).reply(400, mockOrderErrors);
+        const result = await store.dispatch(addOrder({ order: mockOrderRequest, history: history }));
 
         state = store.getState().order;
         expect(result.type).toBe("order/addOrder/rejected");
-        expect(state.errors).toEqual(orderErrorData);
+        expect(state.errors).toEqual(mockOrderErrors);
         expect(state.loadingState).toEqual(LoadingStatus.ERROR);
     });
 });

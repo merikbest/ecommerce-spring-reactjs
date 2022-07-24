@@ -1,6 +1,6 @@
-import {Perfume, PerfumeErrors} from "../../types/types";
+import {Perfume, PerfumeErrors, Review} from "../../types/types";
 
-export const perfumeData: Perfume = {
+export const perfumeData: Perfume = { // Full perfume
     id: 34,
     perfumer: "Creed",
     perfumeTitle: "Aventus",
@@ -14,11 +14,6 @@ export const perfumeData: Perfume = {
     perfumeGender: "male",
     perfumeRating: 0,
     price: 152,
-    reviews: [
-        {id: 1, author: "John Doe", message: "Hello world", rating: 4, date: "2021-05-08"},
-        {id: 2, author: "John Doe", message: "Hello world", rating: 5, date: "2021-05-08"},
-        {id: 3, author: "John Doe", message: "Seems good.", rating: 5, date: "2021-05-08"}
-    ],
     reviewsCount: 0,
     type: "Eau de parfum",
     volume: "100",
@@ -40,11 +35,6 @@ export const perfumesData: Array<Perfume> = [
         perfumeGender: "male",
         perfumeRating: 0,
         price: 152,
-        reviews: [
-            {id: 1, author: "John Doe", message: "Hello world", rating: 4, date: "2021-05-08"},
-            {id: 2, author: "John Doe", message: "Hello world", rating: 5, date: "2021-05-08"},
-            {id: 3, author: "John Doe", message: "Seems good.", rating: 5, date: "2021-05-08"}
-        ],
         reviewsCount: 0,
         type: "Eau de parfum",
         volume: "100",
@@ -64,7 +54,6 @@ export const perfumesData: Array<Perfume> = [
         perfumeGender: "male",
         perfumeRating: 0,
         price: 110,
-        reviews: [],
         reviewsCount: 0,
         type: "Eau de parfum",
         volume: "100",
@@ -84,13 +73,59 @@ export const perfumesData: Array<Perfume> = [
         perfumeGender: "female",
         perfumeRating: 0,
         price: 141,
-        reviews: [],
         reviewsCount: 0,
         type: "Eau de parfum",
         volume: "75",
         year: 2016
     }
 ];
+
+export const mockReviews: Array<Review> = [
+    {id: 1, author: "John Doe", message: "Hello world", rating: 4, date: "2021-05-08"},
+    {id: 2, author: "John Doe", message: "Hello world", rating: 5, date: "2021-05-08"},
+    {id: 3, author: "John Doe", message: "Seems good.", rating: 5, date: "2021-05-08"}
+];
+
+export const mockCartPerfumes: Array<Perfume> = [
+    {
+        id: 17,
+        perfumeTitle: 'Le Gemme Ashlemah',
+        perfumer: 'Bvlgari',
+        price: 171,
+        perfumeRating: 0,
+        filename: 'https://perfumeweb2.s3.eu-central-1.amazonaws.com/956bbe26-c07d-4e32-a567-5e4306388c0e.Bvlgari Le Gemme Ashlemah.jpg',
+        reviewsCount: 0,
+        year: 2014,
+        country: 'Italy',
+        perfumeGender: 'female',
+        fragranceTopNotes: 'Lavender',
+        fragranceMiddleNotes: 'Orris absolute',
+        fragranceBaseNotes: 'Musk',
+        description: "",
+        volume: '100',
+        type: 'Eau de parfum',
+        file: null
+    },
+    {
+        id: 27,
+        perfumeTitle: 'Good Girl',
+        perfumer: 'Carolina Herrera',
+        price: 156,
+        perfumeRating: 0,
+        filename: 'https://perfumeweb2.s3.eu-central-1.amazonaws.com/184c9da2-2445-4b01-87b8-b4f8b5f6ab8c.Carolina Herrera Good Girl.jpg',
+        reviewsCount: 0,
+        year: 2016,
+        country: 'Spain',
+        perfumeGender: 'female',
+        fragranceTopNotes: 'Bergamot, Lemon',
+        fragranceMiddleNotes: 'Tuberose, Bulgarian rose, Jasmine sambac',
+        fragranceBaseNotes: 'Roasted tonka bean, Cocoa, Sandalwood',
+        description: "",
+        volume: '150',
+        type: 'Eau de parfum',
+        file: null
+    }
+]
 
 export const perfumeErrorData: PerfumeErrors = {
     perfumeTitleError: "Fill in the input field",

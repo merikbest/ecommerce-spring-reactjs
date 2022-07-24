@@ -11,7 +11,7 @@ type PropType = {
     reviews: Review[];
     reviewErrors: Partial<ReviewError>;
     addReview: (data: ReviewData) => void;
-    form: FormInstance<any>;
+    form?: FormInstance<any>;
 };
 
 const ProductReviews: FC<PropType> = ({ reviews, reviewErrors, addReview, form }): ReactElement => {

@@ -15,7 +15,16 @@ export type Perfume = {
     price: number;
     perfumeRating: number;
     file: any;
-    reviews: Array<Review>;
+    reviewsCount: number;
+};
+
+export type PerfumeResponse = {
+    id: number;
+    perfumeTitle: string;
+    perfumer: string;
+    price: number;
+    perfumeRating: number;
+    filename: string;
     reviewsCount: number;
 };
 
@@ -82,7 +91,6 @@ export type Order = {
     email: string;
     phoneNumber: string;
     postIndex: number;
-    orderItems: Array<OrderItem>;
 };
 
 export type OrderItem = {

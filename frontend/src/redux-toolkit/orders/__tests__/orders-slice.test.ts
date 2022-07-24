@@ -13,7 +13,7 @@ import {
     USERS_GRAPHQL_ORDERS,
     USERS_ORDERS
 } from "../../../constants/urlConstants";
-import { ordersData } from "../../../utils/test-data/order-test-data";
+import { mockOrders } from "../../../utils/test-data/order-test-data";
 import {
     fetchAllUsersOrders,
     fetchAllUsersOrdersByQuery,
@@ -36,12 +36,12 @@ describe("orders slice tests", () => {
         expect(state.orders).toEqual([]);
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onGet(API_BASE_URL + USERS_ORDERS).reply(200, ordersData);
+        mock.onGet(API_BASE_URL + USERS_ORDERS).reply(200, mockOrders);
         const result = await store.dispatch(fetchUserOrders());
 
         state = store.getState().orders;
         expect(result.type).toBe("orders/fetchUserOrders/fulfilled");
-        expect(state.orders).toEqual(ordersData);
+        expect(state.orders).toEqual(mockOrders);
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 
@@ -49,12 +49,12 @@ describe("orders slice tests", () => {
         expect(state.orders).toEqual([]);
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onGet(API_BASE_URL + ADMIN_ORDERS).reply(200, ordersData);
+        mock.onGet(API_BASE_URL + ADMIN_ORDERS).reply(200, mockOrders);
         const result = await store.dispatch(fetchAllUsersOrders());
 
         state = store.getState().orders;
         expect(result.type).toBe("orders/fetchAllUsersOrders/fulfilled");
-        expect(state.orders).toEqual(ordersData);
+        expect(state.orders).toEqual(mockOrders);
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 
@@ -62,12 +62,12 @@ describe("orders slice tests", () => {
         expect(state.orders).toEqual([]);
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onGet(API_BASE_URL + `${ADMIN_ORDER}/${mockEmail}`).reply(200, ordersData);
+        mock.onGet(API_BASE_URL + `${ADMIN_ORDER}/${mockEmail}`).reply(200, mockOrders);
         const result = await store.dispatch(fetchUserOrdersByEmail(mockEmail));
 
         state = store.getState().orders;
         expect(result.type).toBe("orders/fetchUserOrdersByEmail/fulfilled");
-        expect(state.orders).toEqual(ordersData);
+        expect(state.orders).toEqual(mockOrders);
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 
@@ -75,12 +75,12 @@ describe("orders slice tests", () => {
         expect(state.orders).toEqual([]);
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onPost(API_BASE_URL + USERS_GRAPHQL_ORDERS).reply(200, { data: { ordersByEmail: ordersData } });
+        mock.onPost(API_BASE_URL + USERS_GRAPHQL_ORDERS).reply(200, { data: { ordersByEmail: mockOrders } });
         const result = await store.dispatch(fetchUserOrdersByQuery(mockEmail));
 
         state = store.getState().orders;
         expect(result.type).toBe("orders/fetchUserOrdersByQuery/fulfilled");
-        expect(state.orders).toEqual(ordersData);
+        expect(state.orders).toEqual(mockOrders);
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 
@@ -88,12 +88,12 @@ describe("orders slice tests", () => {
         expect(state.orders).toEqual([]);
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onPost(API_BASE_URL + ADMIN_GRAPHQL_ORDERS).reply(200, { data: { orders: ordersData } });
+        mock.onPost(API_BASE_URL + ADMIN_GRAPHQL_ORDERS).reply(200, { data: { orders: mockOrders } });
         const result = await store.dispatch(fetchAllUsersOrdersByQuery());
 
         state = store.getState().orders;
         expect(result.type).toBe("orders/fetchAllUsersOrdersByQuery/fulfilled");
-        expect(state.orders).toEqual(ordersData);
+        expect(state.orders).toEqual(mockOrders);
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 
@@ -101,12 +101,12 @@ describe("orders slice tests", () => {
         expect(state.orders).toEqual([]);
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onPost(API_BASE_URL + ADMIN_GRAPHQL_ORDER).reply(200, { data: { ordersByEmail: ordersData } });
+        mock.onPost(API_BASE_URL + ADMIN_GRAPHQL_ORDER).reply(200, { data: { ordersByEmail: mockOrders } });
         const result = await store.dispatch(fetchUserOrdersByEmailQuery(mockEmail));
 
         state = store.getState().orders;
         expect(result.type).toBe("orders/fetchUserOrdersByEmailQuery/fulfilled");
-        expect(state.orders).toEqual(ordersData);
+        expect(state.orders).toEqual(mockOrders);
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 });
