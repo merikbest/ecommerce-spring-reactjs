@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, Input } from "antd";
 
-import { createMockRootState, mockDispatch, mountWithStore, waitForComponentToRender } from "../../../utils/testHelper";
-import { mockCartPerfumes } from "../../../utils/test-data/perfume-test-data";
+import { createMockRootState, mockDispatch, mountWithStore, waitForComponentToRender } from "../../../utils/test/testHelper";
+import { mockCartPerfumesResponse } from "../../../utils/test/__mocks__/perfumes-mock";
 import { LoadingStatus } from "../../../types/types";
 import OrderItem from "../OrderItem/OrderItem";
 import Order from "../Order";
@@ -11,7 +11,7 @@ describe("Order", () => {
     const mockRootStore = createMockRootState(LoadingStatus.SUCCESS);
     const mockStore = {
         ...mockRootStore,
-        cart: { ...mockRootStore.cart, totalPrice: 777, perfumes: mockCartPerfumes }
+        cart: { ...mockRootStore.cart, totalPrice: 777, perfumes: mockCartPerfumesResponse }
     };
     let mockDispatchFn: jest.Mock;
 

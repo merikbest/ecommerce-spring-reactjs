@@ -5,7 +5,7 @@ import { LoadingStatus } from "../../../types/types";
 import { API_BASE_URL, PERFUMES, PERFUMES_GRAPHQL_PERFUME, PERFUMES_REVIEWS } from "../../../constants/urlConstants";
 import { store } from "../../../store";
 import { initialState } from "../perfume-slice";
-import { mockReviews, perfumeData } from "../../../utils/test-data/perfume-test-data";
+import { mockFullPerfumeResponse, mockReviews } from "../../../utils/test/__mocks__/perfumes-mock";
 import { fetchPerfume, fetchPerfumeByQuery, fetchReviewsByPerfumeId } from "../perfume-thunks";
 
 describe("perfume slice tests", () => {
@@ -20,12 +20,12 @@ describe("perfume slice tests", () => {
         expect(state.perfume).toEqual({});
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onGet(API_BASE_URL + `${PERFUMES}/34`).reply(200, perfumeData);
+        mock.onGet(API_BASE_URL + `${PERFUMES}/34`).reply(200, mockFullPerfumeResponse);
         const result = await store.dispatch(fetchPerfume("34"));
 
         state = store.getState().perfume;
         expect(result.type).toBe("perfume/fetchPerfume/fulfilled");
-        expect(state.perfume).toEqual(perfumeData);
+        expect(state.perfume).toEqual(mockFullPerfumeResponse);
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 
@@ -59,12 +59,12 @@ describe("perfume slice tests", () => {
         expect(state.perfume).toEqual({});
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onPost(API_BASE_URL + PERFUMES_GRAPHQL_PERFUME).reply(200, { data: { perfume: perfumeData } });
+        mock.onPost(API_BASE_URL + PERFUMES_GRAPHQL_PERFUME).reply(200, { data: { perfume: mockFullPerfumeResponse } });
         const result = await store.dispatch(fetchPerfumeByQuery("1"));
 
         state = store.getState().perfume;
         expect(result.type).toBe("perfume/fetchPerfumeByQuery/fulfilled");
-        expect(state.perfume).toEqual(perfumeData);
+        expect(state.perfume).toEqual(mockFullPerfumeResponse);
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
     });
 

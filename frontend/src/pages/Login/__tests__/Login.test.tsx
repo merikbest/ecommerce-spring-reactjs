@@ -4,7 +4,7 @@ import { Alert, Input } from "antd";
 import { createMemoryHistory } from "history";
 import { Link } from "react-router-dom";
 
-import { createMockRootState, mockDispatch, mountWithStore } from "../../../utils/testHelper";
+import { createMockRootState, mockDispatch, mountWithStore } from "../../../utils/test/testHelper";
 import { LoadingStatus } from "../../../types/types";
 import ContentTitle from "../../../components/ContentTitle/ContentTitle";
 import IconButton from "../../../components/IconButton/IconButton";

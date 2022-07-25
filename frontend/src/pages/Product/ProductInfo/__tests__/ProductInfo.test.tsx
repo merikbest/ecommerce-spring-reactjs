@@ -1,7 +1,7 @@
 import React from "react";
 
-import { mountWithStore } from "../../../../utils/testHelper";
-import { perfumeData } from "../../../../utils/test-data/perfume-test-data";
+import { mountWithStore } from "../../../../utils/test/testHelper";
+import { perfumeData } from "../../../../utils/test/__mocks__/perfumes-mock";
 import Description from "../Description/Description";
 import ProductInfo from "../ProductInfo";
 

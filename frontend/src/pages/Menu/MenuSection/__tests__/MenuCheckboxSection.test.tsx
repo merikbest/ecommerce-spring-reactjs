@@ -1,7 +1,7 @@
 import React from "react";
 import { Checkbox } from "antd";
 
-import { mountWithStore } from "../../../../utils/testHelper";
+import { mountWithStore } from "../../../../utils/test/testHelper";
 import MenuCheckboxSection from "../MenuCheckboxSection";
 import { CheckboxCategoryFilter } from "../../Menu";
 import { perfumer } from "../../MenuData";

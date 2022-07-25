@@ -11,7 +11,7 @@ import {
 } from "../../../redux-toolkit/admin/admin-selector";
 import { fetchAllUsers } from "../../../redux-toolkit/admin/admin-thunks";
 import ContentTitle from "../../../components/ContentTitle/ContentTitle";
-import { LoadingStatus, User } from "../../../types/types";
+import { BaseUserResponse, LoadingStatus } from "../../../types/types";
 import { ACCOUNT_ADMIN_USERS } from "../../../constants/routeConstants";
 import { resetAdminState } from "../../../redux-toolkit/admin/admin-slice";
 import { useTablePagination } from "../../../hooks/useTablePagination";
@@ -21,7 +21,7 @@ const UsersList: FC = (): ReactElement => {
     const users = useSelector(selectAdminStateUsers);
     const isLoading = useSelector(selectIsAdminStateLoading);
     const totalElements = useSelector(selectTotalElements);
-    const handleTableChange = useTablePagination<User, number>(fetchAllUsers);
+    const handleTableChange = useTablePagination<BaseUserResponse, number>(fetchAllUsers);
 
     useEffect(() => {
         dispatch(fetchAllUsers(0));
@@ -63,7 +63,7 @@ const UsersList: FC = (): ReactElement => {
                         title: "Role",
                         dataIndex: "roles",
                         key: "roles",
-                        render: (_, user: User) => user.roles[0]
+                        render: (_, user: BaseUserResponse) => user.roles[0]
                     },
                     {
                         title: "Provider",
@@ -74,7 +74,9 @@ const UsersList: FC = (): ReactElement => {
                         title: "Action",
                         dataIndex: "amount",
                         key: "amount",
-                        render: (_, user: User) => <Link to={`${ACCOUNT_ADMIN_USERS}/${user.id}`}>Show more</Link>
+                        render: (_, user: BaseUserResponse) => (
+                            <Link to={`${ACCOUNT_ADMIN_USERS}/${user.id}`}>Show more</Link>
+                        )
                     }
                 ]}
             />

@@ -13,7 +13,7 @@ import {
     USERS_GRAPHQL_ORDERS,
     USERS_ORDERS
 } from "../../../constants/urlConstants";
-import { mockOrders } from "../../../utils/test-data/order-test-data";
+import { mockOrders } from "../../../utils/test/__mocks__/orders-mock";
 import {
     fetchAllUsersOrders,
     fetchAllUsersOrdersByQuery,

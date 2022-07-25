@@ -1,51 +1,44 @@
-export type Perfume = {
+export interface PerfumeResponse {
     id: number;
     perfumeTitle: string;
     perfumer: string;
+    price: number;
+    perfumeRating: number;
+    filename: string;
+    reviewsCount: number;
+    volume: string;
+}
+
+export interface FullPerfumeResponse extends PerfumeResponse {
     year: number;
     country: string;
-    type: string;
-    volume: string;
     perfumeGender: string;
     fragranceTopNotes: string;
     fragranceMiddleNotes: string;
     fragranceBaseNotes: string;
     description: string;
-    filename: string;
-    price: number;
-    perfumeRating: number;
+    type: string;
     file: any;
-    reviewsCount: number;
-};
+}
 
-export type PerfumeResponse = {
-    id: number;
-    perfumeTitle: string;
-    perfumer: string;
-    price: number;
-    perfumeRating: number;
-    filename: string;
-    reviewsCount: number;
-};
-
-export type HeaderResponse<T> = {
+export interface HeaderResponse<T> {
     items: Array<T>;
     pagesCount: number;
     totalElements: number;
-};
+}
 
-export type UserOrdersRequest = {
+export interface UserOrdersRequest {
     email: string;
     page: number;
-};
+}
 
-export type PerfumesSearchRequest = {
+export interface PerfumesSearchRequest {
     searchType: SearchPerfume;
     text: string;
     currentPage: number;
-};
+}
 
-export type PerfumeErrors = {
+export interface PerfumeErrors {
     perfumeTitleError: string;
     perfumerError: string;
     yearError: string;
@@ -57,30 +50,30 @@ export type PerfumeErrors = {
     fragranceMiddleNotesError: string;
     fragranceBaseNotesError: string;
     priceError: string;
-};
+}
 
-export type Review = {
+export interface ReviewResponse {
     id: number;
     author: string;
     message: string;
     rating: number;
     date: any;
-};
+}
 
-export type ReviewRequest = {
+export interface ReviewRequest {
     perfumeId: number | string;
     author: string;
     message: string;
     rating: number;
-};
+}
 
-export type ReviewError = {
+export interface ReviewError {
     authorError: string;
     messageError: string;
     ratingError: string;
-};
+}
 
-export type Order = {
+export interface OrderResponse {
     id: number;
     totalPrice: number;
     date: string;
@@ -91,16 +84,16 @@ export type Order = {
     email: string;
     phoneNumber: string;
     postIndex: number;
-};
+}
 
-export type OrderItem = {
+export interface OrderItemResponse {
     id: number;
     amount: number;
     quantity: number;
-    perfume: Perfume;
-};
+    perfume: PerfumeResponse;
+}
 
-export type OrderError = {
+export interface OrderError {
     emailError: string;
     firstNameError: string;
     lastNameError: string;
@@ -108,9 +101,9 @@ export type OrderError = {
     addressError: string;
     postIndexError: string;
     phoneNumberError: string;
-};
+}
 
-export type OrderRequest = {
+export interface OrderRequest {
     totalPrice?: number;
     perfumesId?: any;
     firstName?: string;
@@ -120,12 +113,17 @@ export type OrderRequest = {
     email?: string;
     phoneNumber?: string;
     postIndex?: string;
-};
+}
 
-export type User = {
+export interface BaseUserResponse {
     id: number;
     email: string;
     firstName: string;
+    roles: Array<string>;
+    provider: string;
+}
+
+export interface UserResponse extends BaseUserResponse {
     lastName: string;
     city: string;
     address: string;
@@ -134,11 +132,9 @@ export type User = {
     activationCode?: string;
     passwordResetCode?: string;
     active?: boolean;
-    provider: string;
-    roles: Array<string>;
-};
+}
 
-export type UserEditRequest = {
+export interface UserEditRequest {
     id: number | undefined;
     firstName: string | undefined;
     lastName: string | undefined;
@@ -146,55 +142,55 @@ export type UserEditRequest = {
     address: string | undefined;
     phoneNumber: string | undefined;
     postIndex: string | undefined;
-};
+}
 
-export type UserEditErrors = {
+export interface UserEditErrors {
     firstNameError: string;
     lastNameError: string;
-};
+}
 
-export type UserData = {
+export interface UserData {
     email: string;
     password: string;
-};
+}
 
-export type UserRegistration = {
+export interface UserRegistration {
     email: string;
     firstName: string;
     lastName: string;
     password: string;
     password2: string;
     captcha: string | null;
-};
+}
 
-export type UserResetPasswordRequest = {
+export interface UserResetPasswordRequest {
     email?: string;
     password: string;
     password2: string;
-};
+}
 
-export type AuthErrors = {
+export interface AuthErrors {
     captchaError: string;
     emailError: string;
     firstNameError: string;
     lastNameError: string;
     passwordError: string;
     password2Error: string;
-};
+}
 
-export type FilterParamsType = {
+export interface FilterParamsType {
     perfumers: Array<string>;
     genders: Array<string>;
     prices: Array<number>;
     currentPage?: number;
     sortByPrice?: boolean;
-};
+}
 
-export type PerfumePrice = {
+export interface PerfumePrice {
     id: number;
     name: string;
     array: Array<number>;
-};
+}
 
 export enum UserRoles {
     USER = "USER",

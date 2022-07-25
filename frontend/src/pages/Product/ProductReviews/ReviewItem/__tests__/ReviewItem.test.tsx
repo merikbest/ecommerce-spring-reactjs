@@ -1,7 +1,7 @@
 import React from "react";
 
-import { mountWithStore } from "../../../../../utils/testHelper";
-import { mockReviews } from "../../../../../utils/test-data/perfume-test-data";
+import { mountWithStore } from "../../../../../utils/test/testHelper";
+import { mockReviews } from "../../../../../utils/test/__mocks__/perfumes-mock";
 import ReviewItem from "../ReviewItem";
 
 describe("ReviewItem", () => {

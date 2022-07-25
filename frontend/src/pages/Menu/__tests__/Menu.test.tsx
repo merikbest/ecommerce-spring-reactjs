@@ -2,7 +2,7 @@ import React from "react";
 import routeData from "react-router";
 import {Checkbox, Input, Pagination, Radio} from "antd";
 
-import { createMockRootState, mockDispatch, mountWithStore } from "../../../utils/testHelper";
+import { createMockRootState, mockDispatch, mountWithStore } from "../../../utils/test/testHelper";
 import { LoadingStatus } from "../../../types/types";
 import { MENU } from "../../../constants/routeConstants";
 import Spinner from "../../../components/Spinner/Spinner";
@@ -10,7 +10,7 @@ import MenuCheckboxSection from "../MenuSection/MenuCheckboxSection";
 import MenuRadioSection from "../MenuSection/MenuRadioSection";
 import MenuSorter from "../MenuSorter/MenuSorter";
 import InputSearch from "../../../components/InputSearch/InputSearch";
-import { perfumesData } from "../../../utils/test-data/perfume-test-data";
+import { mockPerfumesResponse } from "../../../utils/test/__mocks__/perfumes-mock";
 import PerfumeCard from "../../../components/PerfumeCard/PerfumeCard";
 import Menu, { CheckboxCategoryFilter } from "../Menu";
 
@@ -36,7 +36,7 @@ describe("Menu", () => {
     });
 
     it("should render perfumes list", () => {
-        const mockState = {...mockRootStore, perfumes: {...mockRootStore.perfumes, perfumes: perfumesData}};
+        const mockState = {...mockRootStore, perfumes: {...mockRootStore.perfumes, perfumes: mockPerfumesResponse}};
         const wrapper = mountWithStore(<Menu />, mockState);
         expect(wrapper.find(PerfumeCard).length).toEqual(3);
     });

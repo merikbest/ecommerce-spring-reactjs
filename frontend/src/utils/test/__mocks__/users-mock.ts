@@ -2,13 +2,13 @@ import {
     AuthErrors,
     ReviewError,
     ReviewRequest,
-    User,
+    UserResponse,
     UserEditErrors,
     UserRegistration,
-    UserResetPasswordRequest
-} from "../../types/types";
+    UserResetPasswordRequest, BaseUserResponse
+} from "../../../types/types";
 
-export const userData: User = {
+export const userData: UserResponse = {
     id: 2,
     email: "test123@test.com",
     firstName: "John",
@@ -22,23 +22,17 @@ export const userData: User = {
     roles: ["USER"]
 };
 
-export const usersData: Array<User> = [
+export const mockBaseUsersResponse: Array<BaseUserResponse> = [
     {
         id: 2,
         email: "test123@test.com",
         firstName: "John",
-        lastName: "Doe",
-        city: "New York",
-        address: "Wall Street1",
-        phoneNumber: "1234567890",
-        postIndex: "1234567890",
         provider: "LOCAL",
-        active: true,
         roles: ["USER"]
     }
 ];
 
-export const userAdmin: User = {
+export const mockUserAdmin: UserResponse = {
     id: 1,
     email: "admin@gmail.com",
     firstName: "Admin1",

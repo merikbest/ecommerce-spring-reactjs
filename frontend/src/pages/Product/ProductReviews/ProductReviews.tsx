@@ -2,13 +2,13 @@ import React, { FC, ReactElement } from "react";
 import { Button, Card, Col, Form, FormInstance, Input, Rate, Row, Typography } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 
-import { Review, ReviewError } from "../../../types/types";
+import { ReviewResponse, ReviewError } from "../../../types/types";
 import ReviewItem from "./ReviewItem/ReviewItem";
 import { ReviewData } from "../Product";
 import "./ProductReviews.css";
 
 type PropType = {
-    reviews: Review[];
+    reviews: ReviewResponse[];
     reviewErrors: Partial<ReviewError>;
     addReview: (data: ReviewData) => void;
     form?: FormInstance<any>;

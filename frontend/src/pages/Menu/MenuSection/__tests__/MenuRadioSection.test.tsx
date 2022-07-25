@@ -1,7 +1,7 @@
 import React from "react";
 import { Radio } from "antd";
 
-import { mountWithStore } from "../../../../utils/testHelper";
+import { mountWithStore } from "../../../../utils/test/testHelper";
 import MenuRadioSection from "../MenuRadioSection";
 import { price } from "../../MenuData";
 

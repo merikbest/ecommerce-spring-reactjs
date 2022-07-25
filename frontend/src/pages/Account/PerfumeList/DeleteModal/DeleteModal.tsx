@@ -1,14 +1,14 @@
 import React, { FC, ReactElement } from "react";
 import { Col, Modal, Row, Typography } from "antd";
 
-import { Perfume } from "../../../../types/types";
+import { PerfumeResponse } from "../../../../types/types";
 import "./DeleteModal.css";
 
 type PropsType = {
     visible: boolean;
     deletePerfumeHandler: () => void;
     handleCancel: () => void;
-    perfumeInfo?: Perfume;
+    perfumeInfo?: PerfumeResponse;
 };
 
 const DeleteModal: FC<PropsType> = ({ visible, deletePerfumeHandler, handleCancel, perfumeInfo }): ReactElement => {

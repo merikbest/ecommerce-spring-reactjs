@@ -1,14 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { History, LocationState } from "history";
 
-import { AuthErrors, User, UserData, UserRegistration, UserResetPasswordRequest } from "../../types/types";
+import { AuthErrors, UserResponse, UserData, UserRegistration, UserResetPasswordRequest } from "../../types/types";
 import RequestService from "../../utils/request-service";
 import { AUTH_FORGOT, AUTH_LOGIN, AUTH_RESET, REGISTRATION, REGISTRATION_ACTIVATE } from "../../constants/urlConstants";
 import { ACCOUNT, LOGIN } from "../../constants/routeConstants";
 import { setUser } from "../user/user-slice";
 
 export const login = createAsyncThunk<
-    User,
+    UserResponse,
     { userData: UserData; history: History<LocationState> },
     { rejectValue: string }
 >("auth/login", async ({ userData, history }, thunkApi) => {

@@ -1,11 +1,11 @@
 import React, { FC, ReactElement } from "react";
 import { Card, Col, Typography } from "antd";
 
-import { Perfume } from "../../../types/types";
+import { PerfumeResponse } from "../../../types/types";
 import "./OrderItem.css";
 
 type PropsType = {
-    perfume: Perfume;
+    perfume: PerfumeResponse;
     quantity?: number;
 };
 

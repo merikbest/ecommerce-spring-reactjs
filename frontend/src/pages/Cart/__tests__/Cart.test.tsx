@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, InputNumber } from "antd";
 
-import { createMockRootState, mockDispatch, mountWithStore } from "../../../utils/testHelper";
+import { createMockRootState, mockDispatch, mountWithStore } from "../../../utils/test/testHelper";
 import { LoadingStatus } from "../../../types/types";
 import Spinner from "../../../components/Spinner/Spinner";
-import { mockCartPerfumes } from "../../../utils/test-data/perfume-test-data";
+import { mockCartPerfumesResponse } from "../../../utils/test/__mocks__/perfumes-mock";
 import CartItem from "../CartItem/CartItem";
 import RemoveButton from "../CartItem/RemoveButton";
 import Cart from "../Cart";
@@ -13,7 +13,7 @@ window.scrollTo = jest.fn();
 
 describe("Cart", () => {
     const mockRootStore = createMockRootState(LoadingStatus.SUCCESS);
-    const mockStore = {...mockRootStore, cart: {...mockRootStore.cart, perfumes: mockCartPerfumes}};
+    const mockStore = {...mockRootStore, cart: {...mockRootStore.cart, perfumes: mockCartPerfumesResponse}};
     let mockDispatchFn: jest.Mock;
 
     beforeEach(() => {
@@ -39,14 +39,14 @@ describe("Cart", () => {
         localStorage.setItem("perfumes", "[[17,1]]");
         const wrapper = mountWithStore(<Cart />, mockStore);
         wrapper.find(CartItem).at(0).find(RemoveButton).find(Button).simulate("click");
-        expect(mockDispatchFn).nthCalledWith(2, { payload: mockCartPerfumes[0].id, type: "cart/removePerfumeById" });
+        expect(mockDispatchFn).nthCalledWith(2, { payload: mockCartPerfumesResponse[0].id, type: "cart/removePerfumeById" });
     });
 
     it("should change Perfume Item Count", () => {
         localStorage.setItem("perfumes", "[[17,1],[27,1]]");
         const wrapper = mountWithStore(<Cart />, mockStore);
         wrapper.find(CartItem).at(0).find(InputNumber).find("input").at(0).simulate("change", { target: { value: 11 } });
-        expect(mockDispatchFn).nthCalledWith(2, { payload: mockCartPerfumes, type: "cart/calculateCartPrice" });
+        expect(mockDispatchFn).nthCalledWith(2, { payload: mockCartPerfumesResponse, type: "cart/calculateCartPrice" });
     });
     
     it("should unmount Cart", () => {

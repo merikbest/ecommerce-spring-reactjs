@@ -15,7 +15,7 @@ import { resetOrderState } from "../../../redux-toolkit/order/order-slice";
 import ContentTitle from "../../../components/ContentTitle/ContentTitle";
 import Spinner from "../../../components/Spinner/Spinner";
 import AccountDataItem from "../../../components/AccountDataItem/AccountDataItem";
-import { OrderItem } from "../../../types/types";
+import { OrderItemResponse } from "../../../types/types";
 import "./ManageUserOrder.css";
 
 const ManageUserOrder: FC = (): ReactElement => {
@@ -89,13 +89,13 @@ const ManageUserOrder: FC = (): ReactElement => {
                                                     title: "Perfume Brand",
                                                     dataIndex: "perfumer",
                                                     key: "perfumer",
-                                                    render: (_, order: OrderItem) => order.perfume.perfumer
+                                                    render: (_, order: OrderItemResponse) => order.perfume.perfumer
                                                 },
                                                 {
                                                     title: "Perfume Name",
                                                     dataIndex: "perfumeTitle",
                                                     key: "perfumeTitle",
-                                                    render: (_, order: OrderItem) => order.perfume.perfumeTitle
+                                                    render: (_, order: OrderItemResponse) => order.perfume.perfumeTitle
                                                 },
                                                 {
                                                     title: "Quantity",
@@ -106,13 +106,13 @@ const ManageUserOrder: FC = (): ReactElement => {
                                                     title: "Price",
                                                     dataIndex: "price",
                                                     key: "price",
-                                                    render: (_, order: OrderItem) => `${order.perfume.price}.0 $`
+                                                    render: (_, order: OrderItemResponse) => `${order.perfume.price}.0 $`
                                                 },
                                                 {
                                                     title: "Amount",
                                                     dataIndex: "amount",
                                                     key: "amount",
-                                                    render: (_, order: OrderItem) => `${order.amount}.0 $`
+                                                    render: (_, order: OrderItemResponse) => `${order.amount}.0 $`
                                                 }
                                             ]}
                                         />

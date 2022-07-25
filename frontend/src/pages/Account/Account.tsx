@@ -70,19 +70,19 @@ const Account: FC = (): ReactElement => {
                     )}
                 </Col>
                 <Col span={19}>
-                    <Route exact path={ACCOUNT} component={() => <AccountItem />} />
-                    <Route path={ACCOUNT_USER_INFO} component={() => <PersonalData />} />
-                    <Route path={ACCOUNT_USER_EDIT} component={() => <ChangePassword />} />
-                    <Route exact path={ACCOUNT_USER_ORDERS} component={() => <PersonalOrdersList />} />
-                    <Route exact path={`${ACCOUNT_USER_ORDERS}/:id`} component={() => <ManageUserOrder />} />
+                    <Route exact path={ACCOUNT} component={AccountItem} />
+                    <Route path={ACCOUNT_USER_INFO} component={PersonalData} />
+                    <Route path={ACCOUNT_USER_EDIT} component={ChangePassword} />
+                    <Route exact path={ACCOUNT_USER_ORDERS} component={PersonalOrdersList} />
+                    <Route exact path={`${ACCOUNT_USER_ORDERS}/:id`} component={ManageUserOrder} />
                     {isAdmin ? (
                         <>
-                            <Route path={ACCOUNT_ADMIN_ADD} component={() => <AddPerfume />} />
-                            <Route exact path={ACCOUNT_ADMIN_PERFUMES} component={() => <PerfumeList />} />
-                            <Route exact path={`${ACCOUNT_ADMIN_PERFUMES}/:id`} component={() => <EditPerfume />} />
-                            <Route exact path={ACCOUNT_ADMIN_ORDERS} component={() => <OrdersList />} />
-                            <Route exact path={ACCOUNT_ADMIN_USERS} component={() => <UsersList />} />
-                            <Route exact path={`${ACCOUNT_ADMIN_USERS}/:id`} component={() => <ManageUser />} />
+                            <Route path={ACCOUNT_ADMIN_ADD} component={AddPerfume} />
+                            <Route exact path={ACCOUNT_ADMIN_PERFUMES} component={PerfumeList} />
+                            <Route exact path={`${ACCOUNT_ADMIN_PERFUMES}/:id`} component={EditPerfume} />
+                            <Route exact path={ACCOUNT_ADMIN_ORDERS} component={OrdersList} />
+                            <Route exact path={ACCOUNT_ADMIN_USERS} component={UsersList} />
+                            <Route exact path={`${ACCOUNT_ADMIN_USERS}/:id`} component={ManageUser} />
                         </>
                     ) : (
                         <Redirect to={ACCOUNT} />

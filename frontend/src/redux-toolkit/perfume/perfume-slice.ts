@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { LoadingStatus, Perfume, Review } from "../../types/types";
+import { FullPerfumeResponse, LoadingStatus, ReviewResponse } from "../../types/types";
 import { fetchPerfume, fetchPerfumeByQuery, fetchReviewsByPerfumeId } from "./perfume-thunks";
 
 export interface PerfumeState {
-    perfume: Partial<Perfume>;
-    reviews: Array<Review>;
+    perfume: Partial<FullPerfumeResponse>;
+    reviews: Array<ReviewResponse>;
     errorMessage: string;
     loadingState: LoadingStatus;
 }
@@ -21,11 +21,11 @@ export const perfumeSlice = createSlice({
     name: "perfume",
     initialState,
     reducers: {
-        setPerfume(state, action: PayloadAction<Perfume>) {
+        setPerfume(state, action: PayloadAction<FullPerfumeResponse>) {
             state.perfume = action.payload;
             state.loadingState = LoadingStatus.LOADED;
         },
-        setReview(state, action: PayloadAction<Review>) {
+        setReview(state, action: PayloadAction<ReviewResponse>) {
             state.reviews = [...state.reviews, action.payload];
             state.loadingState = LoadingStatus.LOADED;
         },

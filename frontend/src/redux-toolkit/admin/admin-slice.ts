@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { LoadingStatus, PerfumeErrors, User } from "../../types/types";
+import { BaseUserResponse, LoadingStatus, PerfumeErrors, UserResponse } from "../../types/types";
 import {
     addPerfume,
     deletePerfume,
@@ -12,8 +12,8 @@ import {
 } from "./admin-thunks";
 
 export interface AdminState {
-    users: Array<User>;
-    user: Partial<User>;
+    users: Array<BaseUserResponse>;
+    user: Partial<UserResponse>;
     errors: Partial<PerfumeErrors>;
     pagesCount: number;
     totalElements: number;

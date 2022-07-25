@@ -1,10 +1,10 @@
 import React from "react";
 import {Form} from "antd";
 
-import { mountWithStore } from "../../../../utils/testHelper";
-import { mockReviews } from "../../../../utils/test-data/perfume-test-data";
+import { mountWithStore } from "../../../../utils/test/testHelper";
+import { mockReviews } from "../../../../utils/test/__mocks__/perfumes-mock";
 import ReviewItem from "../ReviewItem/ReviewItem";
-import {reviewErrorsData} from "../../../../utils/test-data/user-test-data";
+import {reviewErrorsData} from "../../../../utils/test/__mocks__/users-mock";
 import ProductReviews from "../ProductReviews";
 
 describe("ProductReviews", () => {

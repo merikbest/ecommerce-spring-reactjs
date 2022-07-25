@@ -1,6 +1,6 @@
 import React from "react";
 
-import { mountWithStore } from "../../../utils/testHelper";
+import { mountWithStore } from "../../../utils/test/testHelper";
 import CarouselImageSlider from "../CarouselImageSlider/CarouselImageSlider";
 import SliderBrands from "../SliderBrands/SliderBrands";
 import HomePageTheme from "../HomePageTheme/HomePageTheme";

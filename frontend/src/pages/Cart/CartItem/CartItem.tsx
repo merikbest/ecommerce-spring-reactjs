@@ -1,12 +1,12 @@
 import React, { FC, ReactElement, useEffect, useState } from "react";
 import { Card, Col, InputNumber, Row, Typography } from "antd";
 
-import { Perfume } from "../../../types/types";
+import { PerfumeResponse } from "../../../types/types";
 import RemoveButton from "./RemoveButton";
 import CartItemInfo from "./CartItemInfo";
 
 type PropsType = {
-    perfume: Perfume;
+    perfume: PerfumeResponse;
     perfumeInCart: number;
     onChangePerfumeItemCount: (perfumeId: number, inputValue: number) => void;
     deleteFromCart: (perfumeId: number) => void;

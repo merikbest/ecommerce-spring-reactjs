@@ -2,7 +2,7 @@ import React from "react";
 import { createMemoryHistory } from "history";
 import { Link } from "react-router-dom";
 
-import { mountWithStore } from "../../../../utils/testHelper";
+import { mountWithStore } from "../../../../utils/test/testHelper";
 import { MENU } from "../../../../constants/routeConstants";
 import HomePageTheme from "../HomePageTheme";
 

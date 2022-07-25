@@ -14,7 +14,6 @@ import {
     resetCartState,
     setCartItemsCount
 } from "../../redux-toolkit/cart/cart-slice";
-import { Perfume } from "../../types/types";
 import CartItem from "./CartItem/CartItem";
 import Spinner from "../../components/Spinner/Spinner";
 import CartTotalPrice from "./CartTotalPrice";
@@ -85,7 +84,7 @@ const Cart: FC = (): ReactElement => {
                         ) : (
                             <>
                                 <Col span={16}>
-                                    {perfumes.map((perfume: Perfume) => (
+                                    {perfumes.map((perfume) => (
                                         <CartItem
                                             key={perfume.id}
                                             perfume={perfume}

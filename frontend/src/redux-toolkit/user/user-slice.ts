@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { AuthErrors, LoadingStatus, ReviewError, User, UserEditErrors } from "../../types/types";
+import { AuthErrors, LoadingStatus, ReviewError, UserResponse, UserEditErrors } from "../../types/types";
 import {
     addReviewToPerfume,
     fetchUserInfo,
@@ -10,7 +10,7 @@ import {
 } from "./user-thunks";
 
 export interface UserState {
-    user?: User;
+    user?: UserResponse;
     loadingState: LoadingStatus;
     successMessage: string;
     userEditErrors: Partial<UserEditErrors>;
@@ -33,7 +33,7 @@ export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        setUser(state, action: PayloadAction<User>) {
+        setUser(state, action: PayloadAction<UserResponse>) {
             state.user = action.payload;
             state.loadingState = LoadingStatus.LOADED;
         },

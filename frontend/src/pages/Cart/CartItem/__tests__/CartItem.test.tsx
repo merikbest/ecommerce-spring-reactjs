@@ -1,12 +1,12 @@
 import React from "react";
 import { InputNumber } from "antd";
 
-import { mountWithStore } from "../../../../utils/testHelper";
-import { mockCartPerfumes } from "../../../../utils/test-data/perfume-test-data";
+import { mountWithStore } from "../../../../utils/test/testHelper";
+import { mockCartPerfumesResponse } from "../../../../utils/test/__mocks__/perfumes-mock";
 import CartItem from "../CartItem";
 
 describe("CartItem", () => {
-    const mockPerfume = mockCartPerfumes[0];
+    const mockPerfume = mockCartPerfumesResponse[0];
     const mockPerfumeCount = 11;
 
     it("should render correctly", () => {

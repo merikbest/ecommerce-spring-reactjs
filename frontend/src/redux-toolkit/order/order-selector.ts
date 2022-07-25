@@ -1,10 +1,10 @@
-import { LoadingStatus, Order, OrderError, OrderItem } from "../../types/types";
+import { LoadingStatus, OrderResponse, OrderError, OrderItemResponse } from "../../types/types";
 import { RootState } from "../../store";
 import { OrderState } from "./order-slice";
 
 export const selectOrderState = (state: RootState): OrderState => state.order;
-export const selectOrder = (state: RootState): Partial<Order> => selectOrderState(state).order;
-export const selectOrderItems = (state: RootState): Array<OrderItem> => selectOrderState(state).orderItems;
+export const selectOrder = (state: RootState): Partial<OrderResponse> => selectOrderState(state).order;
+export const selectOrderItems = (state: RootState): Array<OrderItemResponse> => selectOrderState(state).orderItems;
 export const selectOrderErrors = (state: RootState): Partial<OrderError> => selectOrderState(state).errors;
 
 export const selectLoadingStatus = (state: RootState): LoadingStatus => selectOrderState(state).loadingState;

@@ -3,9 +3,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import RequestService from "../../utils/request-service";
 import { PERFUMES, PERFUMES_GRAPHQL_PERFUME, PERFUMES_REVIEWS } from "../../constants/urlConstants";
 import { getPerfumeByQuery } from "../../utils/graphql-query/perfume-query";
-import { Perfume, Review } from "../../types/types";
+import { FullPerfumeResponse, ReviewResponse } from "../../types/types";
 
-export const fetchPerfume = createAsyncThunk<Partial<Perfume>, string, { rejectValue: string }>(
+export const fetchPerfume = createAsyncThunk<Partial<FullPerfumeResponse>, string, { rejectValue: string }>(
     "perfume/fetchPerfume",
     async (perfumeId, thunkApi) => {
         try {
@@ -17,7 +17,7 @@ export const fetchPerfume = createAsyncThunk<Partial<Perfume>, string, { rejectV
     }
 );
 
-export const fetchReviewsByPerfumeId = createAsyncThunk<Array<Review>, string>(
+export const fetchReviewsByPerfumeId = createAsyncThunk<Array<ReviewResponse>, string>(
     "perfume/fetchReviewsByPerfumeId",
     async (perfumeId) => {
         const response = await RequestService.get(`${PERFUMES_REVIEWS}/${perfumeId}`);
@@ -26,7 +26,7 @@ export const fetchReviewsByPerfumeId = createAsyncThunk<Array<Review>, string>(
 );
 
 // GraphQL thunks
-export const fetchPerfumeByQuery = createAsyncThunk<Partial<Perfume>, string, { rejectValue: string }>(
+export const fetchPerfumeByQuery = createAsyncThunk<Partial<FullPerfumeResponse>, string, { rejectValue: string }>(
     "perfume/fetchPerfumeByQuery",
     async (perfumeId, thunkApi) => {
         try {

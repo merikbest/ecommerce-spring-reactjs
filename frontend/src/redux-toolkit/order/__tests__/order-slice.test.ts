@@ -3,7 +3,7 @@ import axios from "axios";
 import { createMemoryHistory } from "history";
 
 import { API_BASE_URL, USERS_ORDER } from "../../../constants/urlConstants";
-import { mockOrder, mockOrderErrors, mockOrderRequest } from "../../../utils/test-data/order-test-data";
+import { mockOrder, mockOrderErrors, mockOrderRequest } from "../../../utils/test/__mocks__/orders-mock";
 import { store } from "../../../store";
 import { LoadingStatus } from "../../../types/types";
 import { addOrder, fetchOrderById, fetchOrderItemsByOrderId } from "../order-thunks";

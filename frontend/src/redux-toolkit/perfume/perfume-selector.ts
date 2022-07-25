@@ -1,10 +1,10 @@
-import { LoadingStatus, Perfume, Review } from "../../types/types";
+import { FullPerfumeResponse, LoadingStatus, ReviewResponse } from "../../types/types";
 import { RootState } from "../../store";
 import { PerfumeState } from "./perfume-slice";
 
 export const selectPerfumeState = (state: RootState): PerfumeState => state.perfume;
-export const selectPerfume = (state: RootState): Partial<Perfume> => state.perfume.perfume;
-export const selectReviews = (state: RootState): Array<Review> => state.perfume.reviews;
+export const selectPerfume = (state: RootState): Partial<FullPerfumeResponse> => state.perfume.perfume;
+export const selectReviews = (state: RootState): Array<ReviewResponse> => state.perfume.reviews;
 export const selectPerfumeErrorMessage = (state: RootState): string => state.perfume.errorMessage;
 
 export const selectLoadingStatus = (state: RootState): LoadingStatus => selectPerfumeState(state).loadingState;

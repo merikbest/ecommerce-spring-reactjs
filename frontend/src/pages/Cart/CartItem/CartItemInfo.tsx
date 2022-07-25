@@ -1,10 +1,10 @@
 import React, { FC, memo, ReactElement } from "react";
 import { Col, Typography } from "antd";
 
-import { Perfume } from "../../../types/types";
+import { PerfumeResponse } from "../../../types/types";
 
 type PropsType = {
-    perfume: Perfume;
+    perfume: PerfumeResponse;
 };
 
 const CartItemInfo: FC<PropsType> = memo(({ perfume }): ReactElement => {

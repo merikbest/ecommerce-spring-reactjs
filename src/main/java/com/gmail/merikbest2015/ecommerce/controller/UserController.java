@@ -17,7 +17,7 @@ import com.gmail.merikbest2015.ecommerce.dto.HeaderResponse;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderItemResponse;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderRequest;
 import com.gmail.merikbest2015.ecommerce.dto.order.OrderResponse;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.FullPerfumeResponse;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
 import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequest;
 import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponse;
 import com.gmail.merikbest2015.ecommerce.dto.user.UpdateUserRequest;
@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @PostMapping("/cart")
-    public ResponseEntity<List<FullPerfumeResponse>> getCart(@RequestBody List<Long> perfumesIds) {
+    public ResponseEntity<List<PerfumeResponse>> getCart(@RequestBody List<Long> perfumesIds) {
         return ResponseEntity.ok(userMapper.getCart(perfumesIds));
     }
 

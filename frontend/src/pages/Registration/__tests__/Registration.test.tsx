@@ -1,6 +1,6 @@
 import React from "react";
 
-import { createMockRootState, mockDispatch, mountWithStore } from "../../../utils/testHelper";
+import { createMockRootState, mockDispatch, mountWithStore } from "../../../utils/test/testHelper";
 import { LoadingStatus } from "../../../types/types";
 import Registration from "../Registration";
 

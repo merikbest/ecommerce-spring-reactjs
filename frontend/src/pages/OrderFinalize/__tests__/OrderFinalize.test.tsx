@@ -1,8 +1,8 @@
 import React from "react";
 
-import { createMockRootState, mockDispatch, mountWithStore } from "../../../utils/testHelper";
+import { createMockRootState, mockDispatch, mountWithStore } from "../../../utils/test/testHelper";
 import { LoadingStatus } from "../../../types/types";
-import { mockOrder } from "../../../utils/test-data/order-test-data";
+import { mockOrder } from "../../../utils/test/__mocks__/orders-mock";
 import OrderFinalize from "../OrderFinalize";
 
 describe("OrderFinalize", () => {

@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { LoadingStatus, Perfume } from "../../types/types";
+import { LoadingStatus, PerfumeResponse } from "../../types/types";
 import { fetchCart } from "./cart-thunks";
 
 export interface CartState {
     loadingState: LoadingStatus;
     totalPrice: number;
     cartItemsCount: number;
-    perfumes: Array<Perfume>;
+    perfumes: Array<PerfumeResponse>;
 }
 
 export const initialState: CartState = {
@@ -21,7 +21,7 @@ export const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        calculateCartPrice(state, action: PayloadAction<Array<Perfume>>) {
+        calculateCartPrice(state, action: PayloadAction<Array<PerfumeResponse>>) {
             state.totalPrice = calculatePrice(action.payload);
             state.loadingState = LoadingStatus.LOADED;
         },
@@ -54,7 +54,7 @@ export const cartSlice = createSlice({
 export const { calculateCartPrice, removePerfumeById, setCartItemsCount, resetCartState } = cartSlice.actions;
 export default cartSlice.reducer;
 
-const calculatePrice = (perfumes: Array<Perfume>): number => {
+const calculatePrice = (perfumes: Array<PerfumeResponse>): number => {
     const perfumesFromLocalStorage: Map<number, number> = new Map(JSON.parse(<string>localStorage.getItem("perfumes")));
     let total = 0;
 

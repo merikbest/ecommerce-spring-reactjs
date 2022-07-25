@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { HeaderResponse, Perfume, PerfumeErrors, User } from "../../types/types";
+import { BaseUserResponse, HeaderResponse, PerfumeErrors, UserResponse } from "../../types/types";
 import RequestService from "../../utils/request-service";
 import {
     ADMIN_ADD,
@@ -27,7 +27,7 @@ export const addPerfume = createAsyncThunk<{}, FormData, { rejectValue: PerfumeE
     }
 );
 
-export const updatePerfume = createAsyncThunk<Perfume, FormData, { rejectValue: PerfumeErrors }>(
+export const updatePerfume = createAsyncThunk<{}, FormData, { rejectValue: PerfumeErrors }>(
     "admin/updatePerfume",
     async (data, thunkApi) => {
         try {
@@ -46,7 +46,7 @@ export const deletePerfume = createAsyncThunk<{}, number>("admin/deletePerfume",
     return response.data;
 });
 
-export const fetchAllUsers = createAsyncThunk<HeaderResponse<User>, number>("admin/fetchAllUsers", async (page) => {
+export const fetchAllUsers = createAsyncThunk<HeaderResponse<BaseUserResponse>, number>("admin/fetchAllUsers", async (page) => {
     const response = await RequestService.get(`${ADMIN_USER_ALL}?page=${page}`, true);
     return {
         items: response.data,
@@ -55,18 +55,18 @@ export const fetchAllUsers = createAsyncThunk<HeaderResponse<User>, number>("adm
     };
 });
 
-export const fetchUserInfo = createAsyncThunk<User, string>("admin/fetchUserInfo", async (userId) => {
+export const fetchUserInfo = createAsyncThunk<UserResponse, string>("admin/fetchUserInfo", async (userId) => {
     const response = await RequestService.get(`${ADMIN_USER}/${userId}`, true);
     return response.data;
 });
 
 //GraphQL thunks
-export const fetchUserInfoByQuery = createAsyncThunk<User, string>("admin/fetchUserInfoByQuery", async (userId) => {
+export const fetchUserInfoByQuery = createAsyncThunk<UserResponse, string>("admin/fetchUserInfoByQuery", async (userId) => {
     const response = await RequestService.post(ADMIN_GRAPHQL_USER, { query: userByQuery(userId) }, true);
     return response.data;
 });
 
-export const fetchAllUsersByQuery = createAsyncThunk<Array<User>>("admin/fetchAllUsersByQuery", async () => {
+export const fetchAllUsersByQuery = createAsyncThunk<Array<BaseUserResponse>>("admin/fetchAllUsersByQuery", async () => {
     const response = await RequestService.post(ADMIN_GRAPHQL_USER_ALL, { query: usersByQuery }, true);
     return response.data;
 });

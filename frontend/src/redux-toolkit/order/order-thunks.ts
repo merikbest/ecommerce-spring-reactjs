@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { History, LocationState } from "history";
 
-import { Order, OrderError, OrderItem, OrderRequest } from "../../types/types";
+import { OrderResponse, OrderError, OrderItemResponse, OrderRequest } from "../../types/types";
 import RequestService from "../../utils/request-service";
 import { USERS_ORDER } from "../../constants/urlConstants";
 import { ORDER_FINALIZE } from "../../constants/routeConstants";
 
-export const fetchOrderById = createAsyncThunk<Order, string, { rejectValue: string }>(
+export const fetchOrderById = createAsyncThunk<OrderResponse, string, { rejectValue: string }>(
     "order/fetchOrderById",
     async (orderId, thunkApi) => {
         try {
@@ -18,7 +18,7 @@ export const fetchOrderById = createAsyncThunk<Order, string, { rejectValue: str
     }
 );
 
-export const fetchOrderItemsByOrderId = createAsyncThunk<Array<OrderItem>, string>(
+export const fetchOrderItemsByOrderId = createAsyncThunk<Array<OrderItemResponse>, string>(
     "order/fetchOrderItemsByOrderId",
     async (orderId) => {
         const response = await RequestService.get(`${USERS_ORDER}/${orderId}/items`);
@@ -27,7 +27,7 @@ export const fetchOrderItemsByOrderId = createAsyncThunk<Array<OrderItem>, strin
 );
 
 export const addOrder = createAsyncThunk<
-    Order,
+    OrderResponse,
     { order: OrderRequest; history: History<LocationState> },
     { rejectValue: OrderError }
 >("order/addOrder", async ({ order, history }, thunkApi) => {

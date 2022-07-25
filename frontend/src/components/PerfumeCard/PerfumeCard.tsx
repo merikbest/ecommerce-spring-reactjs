@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 import Meta from "antd/lib/card/Meta";
 import { DeleteOutlined, EditOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 
-import { Perfume } from "../../types/types";
+import { PerfumeResponse } from "../../types/types";
 import { ACCOUNT_ADMIN_PERFUMES, PRODUCT } from "../../constants/routeConstants";
 import { useCart } from "../../hooks/useCart";
 import "./PerfumeCard.css";
 
 type PropsType = {
-    perfume: Perfume;
+    perfume: PerfumeResponse;
     colSpan: number;
     edit?: boolean;
-    onOpenDelete?: (perfume: Perfume) => void;
+    onOpenDelete?: (perfume: PerfumeResponse) => void;
 };
 
 const PerfumeCard: FC<PropsType> = ({ perfume, colSpan, edit, onOpenDelete }): ReactElement => {

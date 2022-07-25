@@ -14,8 +14,6 @@ public class FullPerfumeResponse extends PerfumeResponse {
     private String fragranceMiddleNotes;
     private String fragranceBaseNotes;
     private String description;
-    private String filename;
-    private String volume;
     private String type;
     private MultipartFile file;
 }

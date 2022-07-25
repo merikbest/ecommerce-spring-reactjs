@@ -19,6 +19,6 @@ module.exports = {
     collectCoverageFrom: ["**/*.{ts,tsx}"],
     coverageDirectory: "coverage",
     moduleNameMapper: {
-        "\\.(css|scss|png|jpg|svg)$": "<rootDir>/__mocks__/ImageMock.tsx"
+        "\\.(css|scss|png|jpg|svg)$": "<rootDir>/src/utils/test/__mocks__/image-mock.tsx"
     }
 };

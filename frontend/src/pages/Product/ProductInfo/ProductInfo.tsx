@@ -3,10 +3,10 @@ import { Button, Col, Divider, Rate, Row, Space, Typography } from "antd";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 
 import Description from "./Description/Description";
-import { Perfume } from "../../../types/types";
+import { FullPerfumeResponse } from "../../../types/types";
 
 type PropsType = {
-    perfume?: Partial<Perfume>;
+    perfume?: Partial<FullPerfumeResponse>;
     reviewsLength: number;
     addToCart: () => void;
 };

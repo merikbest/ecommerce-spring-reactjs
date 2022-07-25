@@ -3,7 +3,7 @@ package com.gmail.merikbest2015.ecommerce.mapper;
 import com.gmail.merikbest2015.ecommerce.domain.Review;
 import com.gmail.merikbest2015.ecommerce.domain.User;
 import com.gmail.merikbest2015.ecommerce.dto.HeaderResponse;
-import com.gmail.merikbest2015.ecommerce.dto.perfume.FullPerfumeResponse;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeResponse;
 import com.gmail.merikbest2015.ecommerce.dto.review.ReviewRequest;
 import com.gmail.merikbest2015.ecommerce.dto.review.ReviewResponse;
 import com.gmail.merikbest2015.ecommerce.dto.user.BaseUserResponse;
@@ -35,8 +35,8 @@ public class UserMapper {
         return commonMapper.convertToResponse(userService.getUserInfo(email), UserResponse.class);
     }
 
-    public List<FullPerfumeResponse> getCart(List<Long> perfumesIds) {
-        return commonMapper.convertToResponseList(userService.getCart(perfumesIds), FullPerfumeResponse.class);
+    public List<PerfumeResponse> getCart(List<Long> perfumesIds) {
+        return commonMapper.convertToResponseList(userService.getCart(perfumesIds), PerfumeResponse.class);
     }
 
     public HeaderResponse<BaseUserResponse> getAllUsers(Pageable pageable) {

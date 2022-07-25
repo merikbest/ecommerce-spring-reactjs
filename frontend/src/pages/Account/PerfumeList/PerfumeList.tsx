@@ -13,7 +13,7 @@ import SelectSearchData from "../../../components/SelectSearchData/SelectSearchD
 import InputSearch from "../../../components/InputSearch/InputSearch";
 import PerfumeCard from "../../../components/PerfumeCard/PerfumeCard";
 import { deletePerfume } from "../../../redux-toolkit/admin/admin-thunks";
-import { LoadingStatus, Perfume } from "../../../types/types";
+import { LoadingStatus, PerfumeResponse } from "../../../types/types";
 import DeleteModal from "./DeleteModal/DeleteModal";
 import Spinner from "../../../components/Spinner/Spinner";
 import { MAX_PAGE_VALUE, usePagination } from "../../../hooks/usePagination";
@@ -25,7 +25,7 @@ const PerfumeList: FC = (): ReactElement => {
     const perfumes = useSelector(selectPerfumes);
     const isPerfumesLoading = useSelector(selectIsPerfumesLoading);
     const isPerfumeDeleted = useSelector(selectIsPerfumeDeleted);
-    const [perfumeInfo, setPerfumeInfo] = useState<Perfume>();
+    const [perfumeInfo, setPerfumeInfo] = useState<PerfumeResponse>();
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const { currentPage, totalElements, handleChangePagination } = usePagination();
     const { searchValue, searchTypeValue, onSearch, handleChangeSelect } = useSearch();
@@ -60,7 +60,7 @@ const PerfumeList: FC = (): ReactElement => {
         handleChangePagination(page, pageSize);
     };
 
-    const showDeleteModalWindow = (perfume: Perfume): void => {
+    const showDeleteModalWindow = (perfume: PerfumeResponse): void => {
         setIsModalVisible(true);
         setPerfumeInfo(perfume);
     };

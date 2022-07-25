@@ -8,9 +8,9 @@ import { act } from "react-dom/test-utils";
 import { configure, mount } from "enzyme";
 import { configureStore } from "@reduxjs/toolkit";
 
-import { store, storeReducer } from "../store";
-import { LoadingStatus } from "../types/types";
-import { userAdmin } from "./test-data/user-test-data";
+import { store, storeReducer } from "../../store";
+import { LoadingStatus } from "../../types/types";
+import { mockUserAdmin } from "./__mocks__/users-mock";
 
 configure({ adapter: new Adapter() });
 
@@ -55,6 +55,6 @@ export const createMockRootState = (loadingStatus = LoadingStatus.LOADING): any 
         orders: { ...mockStore.orders, loadingState: loadingStatus },
         perfume: { ...mockStore.perfume, loadingState: loadingStatus },
         perfumes: { ...mockStore.perfumes, loadingState: loadingStatus },
-        user: { ...mockStore.user, user: userAdmin, loadingState: loadingStatus }
+        user: { ...mockStore.user, user: mockUserAdmin, loadingState: loadingStatus }
     };
 };

@@ -1,4 +1,4 @@
-import {Order, OrderError, OrderRequest} from "../../types/types";
+import {OrderResponse, OrderError, OrderRequest} from "../../../types/types";
 
 export const mockOrderRequest: OrderRequest = {
     "firstName": "John",
@@ -12,7 +12,7 @@ export const mockOrderRequest: OrderRequest = {
     "totalPrice": 840
 };
 
-export const mockOrder: Order = {
+export const mockOrder: OrderResponse = {
     "id": 1,
     "totalPrice": 840,
     "date": "2021-04-07",
@@ -25,7 +25,7 @@ export const mockOrder: Order = {
     "postIndex": 1234567890,
 };
 
-export const mockOrders: Array<Order> = [
+export const mockOrders: Array<OrderResponse> = [
     {
         "id": 1,
         "totalPrice": 840,

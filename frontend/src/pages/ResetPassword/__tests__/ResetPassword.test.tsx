@@ -2,7 +2,7 @@ import React from "react";
 import ReactRouter from "react-router";
 import { Alert } from "antd";
 
-import {createMockRootState, mockDispatch, mountWithStore, waitForComponentToRender} from "../../../utils/testHelper";
+import {createMockRootState, mockDispatch, mountWithStore, waitForComponentToRender} from "../../../utils/test/testHelper";
 import { LoadingStatus } from "../../../types/types";
 import IconButton from "../../../components/IconButton/IconButton";
 import ResetPassword from "../ResetPassword";

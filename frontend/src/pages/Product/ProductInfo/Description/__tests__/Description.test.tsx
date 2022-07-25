@@ -1,6 +1,6 @@
 import React from "react";
 
-import { mountWithStore } from "../../../../../utils/testHelper";
+import { mountWithStore } from "../../../../../utils/test/testHelper";
 import Description from "../Description";
 
 describe("Description", () => {

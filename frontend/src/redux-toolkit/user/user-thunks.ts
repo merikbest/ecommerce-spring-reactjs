@@ -4,7 +4,7 @@ import {
     AuthErrors,
     ReviewError,
     ReviewRequest,
-    User,
+    UserResponse,
     UserEditErrors,
     UserEditRequest,
     UserResetPasswordRequest
@@ -19,12 +19,12 @@ import {
 } from "../../constants/urlConstants";
 import { userByQuery } from "../../utils/graphql-query/users-query";
 
-export const fetchUserInfo = createAsyncThunk<User>("user/fetchUserInfo", async () => {
+export const fetchUserInfo = createAsyncThunk<UserResponse>("user/fetchUserInfo", async () => {
     const response = await RequestService.get(USERS_INFO, true);
     return response.data;
 });
 
-export const updateUserInfo = createAsyncThunk<User, UserEditRequest, { rejectValue: UserEditErrors }>(
+export const updateUserInfo = createAsyncThunk<UserResponse, UserEditRequest, { rejectValue: UserEditErrors }>(
     "user/updateUserInfo",
     async (request, thunkApi) => {
         try {
@@ -60,7 +60,7 @@ export const addReviewToPerfume = createAsyncThunk<{}, ReviewRequest, { rejectVa
 );
 
 // GraphQL query
-export const fetchUserInfoByQuery = createAsyncThunk<User, string>("user/fetchUserInfoByQuery", async (userId) => {
+export const fetchUserInfoByQuery = createAsyncThunk<UserResponse, string>("user/fetchUserInfoByQuery", async (userId) => {
     const response = await RequestService.post(USERS_GRAPHQL_INFO, { query: userByQuery(userId) }, true);
     return response.data.data.user;
 });

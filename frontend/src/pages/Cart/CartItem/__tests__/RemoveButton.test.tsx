@@ -1,7 +1,7 @@
 import React from "react";
 import {Button} from "antd";
 
-import { mountWithStore } from "../../../../utils/testHelper";
+import { mountWithStore } from "../../../../utils/test/testHelper";
 import RemoveButton from "../RemoveButton";
 
 describe("RemoveButton", () => {

@@ -1,10 +1,10 @@
 import React, { FC, ReactElement } from "react";
 import {Col, Divider, Rate, Row, Typography} from "antd";
 
-import { Review } from "../../../../types/types";
+import { ReviewResponse } from "../../../../types/types";
 
 type PropType = {
-    review: Review;
+    review: ReviewResponse;
 };
 
 const ReviewItem: FC<PropType> = ({ review }): ReactElement => {

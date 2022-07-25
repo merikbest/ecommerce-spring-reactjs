@@ -9,7 +9,7 @@ import { selectOrders, selectTotalElements } from "../../../redux-toolkit/orders
 import { fetchUserInfo } from "../../../redux-toolkit/admin/admin-thunks";
 import { resetOrders } from "../../../redux-toolkit/orders/orders-slice";
 import { resetAdminState } from "../../../redux-toolkit/admin/admin-slice";
-import { LoadingStatus, Order, UserOrdersRequest } from "../../../types/types";
+import { LoadingStatus, OrderResponse, UserOrdersRequest } from "../../../types/types";
 import { fetchUserOrdersByEmail } from "../../../redux-toolkit/orders/orders-thunks";
 import Spinner from "../../../components/Spinner/Spinner";
 import ContentTitle from "../../../components/ContentTitle/ContentTitle";
@@ -24,7 +24,7 @@ const ManageUser: FC = (): ReactElement => {
     const userOrders = useSelector(selectOrders);
     const totalElements = useSelector(selectTotalElements);
     const isUserLoading = useSelector(selectIsAdminStateLoading);
-    const handleTableChange = useTablePagination<Order, UserOrdersRequest>(fetchUserOrdersByEmail, userData.email!);
+    const handleTableChange = useTablePagination<OrderResponse, UserOrdersRequest>(fetchUserOrdersByEmail, userData.email!);
     const { id, email, firstName, lastName, city, address, phoneNumber, postIndex, provider, roles } = userData;
 
     useEffect(() => {
@@ -118,13 +118,13 @@ const ManageUser: FC = (): ReactElement => {
                                                         title: "Order Summary",
                                                         dataIndex: "totalPrice",
                                                         key: "totalPrice",
-                                                        render: (_, order: Order) => `${order.totalPrice}.0 $`
+                                                        render: (_, order: OrderResponse) => `${order.totalPrice}.0 $`
                                                     },
                                                     {
                                                         title: "Actions",
                                                         dataIndex: "actions",
                                                         key: "actions",
-                                                        render: (_, order: Order) => (
+                                                        render: (_, order: OrderResponse) => (
                                                             <Link to={`${ACCOUNT_USER_ORDERS}/${order.id}`}>
                                                                 Show more
                                                             </Link>

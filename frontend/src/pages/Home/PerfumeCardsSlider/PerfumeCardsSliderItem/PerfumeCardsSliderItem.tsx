@@ -2,10 +2,10 @@ import React, { FC, ReactElement } from "react";
 import { Row } from "antd";
 
 import PerfumeCard from "../../../../components/PerfumeCard/PerfumeCard";
-import { Perfume } from "../../../../types/types";
+import { PerfumeResponse } from "../../../../types/types";
 
 type PropsType = {
-    perfumes: Array<Perfume>;
+    perfumes: Array<PerfumeResponse>;
 };
 
 const PerfumeCardsSliderItem: FC<PropsType> = ({ perfumes }): ReactElement => {

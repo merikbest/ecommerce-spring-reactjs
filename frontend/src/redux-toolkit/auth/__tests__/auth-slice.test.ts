@@ -17,7 +17,7 @@ import {
     userData,
     userRegistrationData,
     userResetPasswordData
-} from "../../../utils/test-data/user-test-data";
+} from "../../../utils/test/__mocks__/users-mock";
 import {
     activateAccount,
     fetchResetPasswordCode,

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { LoadingStatus, Perfume } from "../../types/types";
+import { LoadingStatus, PerfumeResponse } from "../../types/types";
 import {
     fetchPerfumes,
     fetchPerfumesByFilterParams,
@@ -11,7 +11,7 @@ import {
 } from "./perfumes-thunks";
 
 export interface PerfumesState {
-    perfumes: Array<Perfume>;
+    perfumes: Array<PerfumeResponse>;
     pagesCount: number;
     totalElements: number;
     loadingState: LoadingStatus;
@@ -28,7 +28,7 @@ export const perfumesSlice = createSlice({
     name: "perfumes",
     initialState,
     reducers: {
-        setPerfumes(state, action: PayloadAction<Array<Perfume>>) {
+        setPerfumes(state, action: PayloadAction<Array<PerfumeResponse>>) {
             state.perfumes = action.payload;
             state.loadingState = LoadingStatus.LOADED;
         },

@@ -10,7 +10,7 @@ import {
     USERS_INFO,
     USERS_REVIEW
 } from "../../../constants/urlConstants";
-import { perfumeData } from "../../../utils/test-data/perfume-test-data";
+import { perfumeData } from "../../../utils/test/__mocks__/perfumes-mock";
 import { store } from "../../../store";
 import { initialState } from "../user-slice";
 import {
@@ -20,7 +20,7 @@ import {
     userData,
     userEditErrorsData,
     userResetPasswordData
-} from "../../../utils/test-data/user-test-data";
+} from "../../../utils/test/__mocks__/users-mock";
 import {
     addReviewToPerfume,
     fetchUserInfo,

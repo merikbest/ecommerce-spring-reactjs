@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { LoadingStatus, Order } from "../../types/types";
+import { LoadingStatus, OrderResponse } from "../../types/types";
 import {
     fetchAllUsersOrders,
     fetchAllUsersOrdersByQuery,
@@ -11,7 +11,7 @@ import {
 } from "./orders-thunks";
 
 export interface OrdersState {
-    orders: Array<Order>;
+    orders: Array<OrderResponse>;
     pagesCount: number;
     totalElements: number;
     loadingState: LoadingStatus;

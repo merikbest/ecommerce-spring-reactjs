@@ -1,6 +1,6 @@
 import React from "react";
 
-import { mockDispatch, mountWithStore } from "../../../../utils/testHelper";
+import { mockDispatch, mountWithStore } from "../../../../utils/test/testHelper";
 import PerfumeCardsSlider from "../PerfumeCardsSlider";
 import PerfumeCardsSliderItem from "../PerfumeCardsSliderItem/PerfumeCardsSliderItem";
 

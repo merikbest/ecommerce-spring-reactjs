@@ -1,10 +1,10 @@
 import React from "react";
 import { Button } from "antd";
 
-import { createMockRootState, mockDispatch, mountWithStore } from "../../../utils/testHelper";
+import { createMockRootState, mockDispatch, mountWithStore } from "../../../utils/test/testHelper";
 import { LoadingStatus } from "../../../types/types";
 import Spinner from "../../../components/Spinner/Spinner";
-import { mockReviews, perfumeData } from "../../../utils/test-data/perfume-test-data";
+import { mockFullPerfumeResponse, mockReviews } from "../../../utils/test/__mocks__/perfumes-mock";
 import ProductInfo from "../ProductInfo/ProductInfo";
 import ProductReviews from "../ProductReviews/ProductReviews";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
@@ -16,7 +16,7 @@ describe("Product", () => {
     const mockRootStore = createMockRootState(LoadingStatus.LOADED);
     const mockStore = {
         ...mockRootStore,
-        perfume: { ...mockRootStore.perfume, perfume: perfumeData, reviews: mockReviews }
+        perfume: { ...mockRootStore.perfume, perfume: mockFullPerfumeResponse, reviews: mockReviews }
     };
     let mockDispatchFn: jest.Mock;
 
@@ -34,7 +34,7 @@ describe("Product", () => {
     it("should render correctly", () => {
         const wrapper = mountWithStore(<Product />, mockStore);
         expect(mockDispatchFn).nthCalledWith(3, expect.any(Function));
-        expect(wrapper.find(ProductInfo).prop("perfume")).toBe(perfumeData);
+        expect(wrapper.find(ProductInfo).prop("perfume")).toBe(mockFullPerfumeResponse);
         expect(wrapper.find(ProductReviews).prop("reviews")).toBe(mockReviews);
     });
 

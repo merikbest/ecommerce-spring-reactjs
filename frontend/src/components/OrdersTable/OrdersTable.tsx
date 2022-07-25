@@ -4,20 +4,20 @@ import { Link } from "react-router-dom";
 import { Table } from "antd";
 import { AsyncThunk } from "@reduxjs/toolkit";
 
-import { HeaderResponse, Order } from "../../types/types";
+import { HeaderResponse, OrderResponse } from "../../types/types";
 import { ACCOUNT_USER_ORDERS } from "../../constants/routeConstants";
 import { selectTotalElements } from "../../redux-toolkit/orders/orders-selector";
 import { useTablePagination } from "../../hooks/useTablePagination";
 
 type PropsType = {
-    orders: Array<Order>;
+    orders: Array<OrderResponse>;
     loading: boolean;
-    fetchOrders: AsyncThunk<HeaderResponse<Order>, number, {}>;
+    fetchOrders: AsyncThunk<HeaderResponse<OrderResponse>, number, {}>;
 };
 
 const OrdersTable: FC<PropsType> = ({ orders, loading, fetchOrders }): ReactElement => {
     const totalElements = useSelector(selectTotalElements);
-    const handleTableChange = useTablePagination<Order, number>(fetchOrders);
+    const handleTableChange = useTablePagination<OrderResponse, number>(fetchOrders);
 
     return (
         <Table
@@ -45,7 +45,7 @@ const OrdersTable: FC<PropsType> = ({ orders, loading, fetchOrders }): ReactElem
                     title: "Customer",
                     dataIndex: "firstName",
                     key: "firstName",
-                    render: (_, order: Order) => `${order.firstName} ${order.lastName}`
+                    render: (_, order: OrderResponse) => `${order.firstName} ${order.lastName}`
                 },
                 {
                     title: "Email",
@@ -62,7 +62,7 @@ const OrdersTable: FC<PropsType> = ({ orders, loading, fetchOrders }): ReactElem
                     title: "Actions",
                     dataIndex: "operations",
                     key: "operations",
-                    render: (_, order: Order) => <Link to={`${ACCOUNT_USER_ORDERS}/${order.id}`}>Show more</Link>
+                    render: (_, order: OrderResponse) => <Link to={`${ACCOUNT_USER_ORDERS}/${order.id}`}>Show more</Link>
                 }
             ]}
         />

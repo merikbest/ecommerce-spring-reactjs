@@ -22,9 +22,9 @@ import {
     updatePerfume
 } from "../admin-thunks";
 import { LoadingStatus } from "../../../types/types";
-import { perfumeData, perfumeErrorData, perfumesData } from "../../../utils/test-data/perfume-test-data";
+import { mockPerfumesResponse, perfumeErrorData } from "../../../utils/test/__mocks__/perfumes-mock";
 import { initialState } from "../admin-slice";
-import { userData, usersData } from "../../../utils/test-data/user-test-data";
+import { userData, mockBaseUsersResponse } from "../../../utils/test/__mocks__/users-mock";
 
 describe("admin slice tests", () => {
     const mock = new MockAdapter(axios);
@@ -34,7 +34,7 @@ describe("admin slice tests", () => {
     beforeEach(() => {
         state = initialState;
         mockFormData.append("file", "file");
-        mockFormData.append("perfume", new Blob([JSON.stringify(perfumeData)], { type: "application/json" }));
+        mockFormData.append("perfume", new Blob([JSON.stringify(mockPerfumesResponse)], { type: "application/json" }));
     });
 
     it("should addPerfume dispatches pending and fulfilled on success", async () => {
@@ -70,14 +70,14 @@ describe("admin slice tests", () => {
         expect(state.isPerfumeEdited).toEqual(false);
         expect(store.getState().perfume.perfume).toEqual({});
 
-        mock.onPost(API_BASE_URL + ADMIN_EDIT).reply(200, perfumeData);
+        mock.onPost(API_BASE_URL + ADMIN_EDIT).reply(200, mockPerfumesResponse);
         const result = await store.dispatch(updatePerfume(mockFormData));
 
         state = store.getState().admin;
         expect(result.type).toBe("admin/updatePerfume/fulfilled");
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
         expect(state.isPerfumeEdited).toEqual(true);
-        expect(store.getState().perfume.perfume).toEqual(perfumeData);
+        expect(store.getState().perfume.perfume).toEqual(mockPerfumesResponse);
     });
 
     it("should updatePerfume dispatches pending and fulfilled on failure", async () => {
@@ -101,7 +101,7 @@ describe("admin slice tests", () => {
         expect(state.isPerfumeDeleted).toEqual(false);
         expect(state.errors).toEqual({});
 
-        mock.onDelete(API_BASE_URL + `${ADMIN_DELETE}/${1}`).reply(200, perfumesData);
+        mock.onDelete(API_BASE_URL + `${ADMIN_DELETE}/${1}`).reply(200, "Perfume deleted successfully");
         const result = await store.dispatch(deletePerfume(1));
 
         state = store.getState().admin;
@@ -116,14 +116,17 @@ describe("admin slice tests", () => {
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
         expect(state.users).toEqual([]);
 
-        mock.onGet(API_BASE_URL + ADMIN_USER_ALL).reply(200, usersData);
-        const result = await store.dispatch(fetchAllUsers(0));
+        mock.onGet(API_BASE_URL + `${ADMIN_USER_ALL}?page=1`).reply(200, mockBaseUsersResponse, {
+            "page-total-count": "1",
+            "page-total-elements": "11"
+        });
+        const result = await store.dispatch(fetchAllUsers(1));
 
         state = store.getState().admin;
 
         expect(result.type).toBe("admin/fetchAllUsers/fulfilled");
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
-        expect(state.users).toEqual(usersData);
+        expect(state.users).toEqual(mockBaseUsersResponse);
     });
 
     it("should fetchUserInfo dispatches fulfilled on success", async () => {
@@ -158,13 +161,13 @@ describe("admin slice tests", () => {
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
         expect(state.users).toEqual([]);
 
-        mock.onPost(API_BASE_URL + ADMIN_GRAPHQL_USER_ALL).reply(200, usersData);
+        mock.onPost(API_BASE_URL + ADMIN_GRAPHQL_USER_ALL).reply(200, mockBaseUsersResponse);
         const result = await store.dispatch(fetchAllUsersByQuery());
 
         state = store.getState().admin;
 
         expect(result.type).toBe("admin/fetchAllUsersByQuery/fulfilled");
         expect(state.loadingState).toEqual(LoadingStatus.LOADED);
-        expect(state.users).toEqual(usersData);
+        expect(state.users).toEqual(mockBaseUsersResponse);
     });
 });
