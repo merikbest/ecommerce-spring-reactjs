@@ -3,7 +3,7 @@ import axios from "axios";
 import { createMemoryHistory } from "history";
 
 import { API_BASE_URL, USERS_ORDER } from "../../../constants/urlConstants";
-import { mockOrder, mockOrderErrors, mockOrderRequest } from "../../../utils/test/__mocks__/orders-mock";
+import {mockOrder, mockOrderErrors, mockOrderItems, mockOrderRequest} from "../../../utils/test/__mocks__/orders-mock";
 import { store } from "../../../store";
 import { LoadingStatus } from "../../../types/types";
 import { addOrder, fetchOrderById, fetchOrderItemsByOrderId } from "../order-thunks";
@@ -49,12 +49,12 @@ describe("order slice tests", () => {
     it("should fetchOrderItemsByOrderId dispatches fulfilled on success", async () => {
         expect(state.orderItems).toEqual([]);
 
-        mock.onGet(API_BASE_URL + `${USERS_ORDER}/1/items`).reply(200, mockOrder.orderItems);
+        mock.onGet(API_BASE_URL + `${USERS_ORDER}/1/items`).reply(200, mockOrderItems);
         const result = await store.dispatch(fetchOrderItemsByOrderId("1"));
 
         state = store.getState().order;
         expect(result.type).toBe("order/fetchOrderItemsByOrderId/fulfilled");
-        expect(state.orderItems).toEqual(mockOrder.orderItems);
+        expect(state.orderItems).toEqual(mockOrderItems);
     });
 
     it("should addOrder dispatches fulfilled on success", async () => {
