@@ -28,7 +28,7 @@ const PersonalOrdersList: FC = (): ReactElement => {
                 <Spinner />
             ) : (
                 <>
-                    {orders.length !== 0 ? (
+                    {orders.length === 0 ? (
                         <div style={{ textAlign: "center" }}>
                             <ContentTitle title={"You have no orders"} titleLevel={4} icon={<ShoppingOutlined />} />
                         </div>

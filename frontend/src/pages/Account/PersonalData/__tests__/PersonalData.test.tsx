@@ -21,7 +21,7 @@ describe("PersonalData", () => {
 
     it("should render correctly", () => {
         const mockStore = { ...mockRootStore, user: { ...mockRootStore.user, user: mockUserAdmin } };
-        const wrapper = mountWithStore(<PersonalData />, mockStore);
+        mountWithStore(<PersonalData />, mockStore);
         expect(mockDispatchFn).nthCalledWith(1, { type: "user/resetInputForm" });
     });
 
