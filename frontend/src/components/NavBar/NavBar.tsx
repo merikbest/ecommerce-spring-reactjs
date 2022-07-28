@@ -59,7 +59,7 @@ const NavBar: FC = (): ReactElement => {
                                                 MY ACCOUNT
                                             </li>
                                         </Link>
-                                        <Link to={BASE} onClick={handleLogout}>
+                                        <Link id={"handleLogout"} to={BASE} onClick={handleLogout}>
                                             <li>
                                                 <LogoutOutlined />
                                                 EXIT

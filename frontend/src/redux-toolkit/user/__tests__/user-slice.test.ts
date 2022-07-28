@@ -10,7 +10,7 @@ import {
     USERS_INFO,
     USERS_REVIEW
 } from "../../../constants/urlConstants";
-import { perfumeData } from "../../../utils/test/__mocks__/perfumes-mock";
+import { mockFullPerfumeResponse } from "../../../utils/test/__mocks__/perfumes-mock";
 import { store } from "../../../store";
 import { initialState } from "../user-slice";
 import {
@@ -97,7 +97,7 @@ describe("user slice tests", () => {
     it("should addReviewToPerfume dispatches fulfilled on success", async () => {
         expect(state.isReviewAdded).toEqual(false);
 
-        mock.onPost(API_BASE_URL + USERS_REVIEW).reply(200, perfumeData);
+        mock.onPost(API_BASE_URL + USERS_REVIEW).reply(200, mockFullPerfumeResponse);
         const result = await store.dispatch(addReviewToPerfume(reviewData));
 
         state = store.getState().user;
