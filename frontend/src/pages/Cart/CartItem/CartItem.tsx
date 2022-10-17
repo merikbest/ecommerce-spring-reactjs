@@ -24,9 +24,9 @@ const CartItem: FC<PropsType> = ({
         setPerfumeCount(perfumeInCart);
     }, []);
 
-    const handlePerfumesCount = (value: number): void => {
-        setPerfumeCount(value);
-        onChangePerfumeItemCount(perfume.id, value);
+    const handlePerfumesCount = (value: number | null): void => {
+        setPerfumeCount(value!);
+        onChangePerfumeItemCount(perfume.id, value!);
     };
 
     return (
@@ -40,7 +40,7 @@ const CartItem: FC<PropsType> = ({
                                 min={1}
                                 max={99}
                                 value={perfumeCount}
-                                onChange={(value) => handlePerfumesCount(value)}
+                                onChange={handlePerfumesCount}
                             />
                         </Col>
                         <Col span={12}>

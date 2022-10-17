@@ -1,7 +1,11 @@
 import { useHistory } from "react-router-dom";
 import { CART } from "../constants/routeConstants";
 
-export const useCart = (perfumeId: number) => {
+interface UseCart {
+    addToCart: () => void;
+}
+
+export const useCart = (perfumeId: number): UseCart => {
     const history = useHistory();
 
     const addToCart = (): void => {

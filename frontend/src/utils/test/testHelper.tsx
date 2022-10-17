@@ -1,18 +1,15 @@
 import React from "react";
 import * as redux from "react-redux";
 import { Provider } from "react-redux";
-import Adapter from "@wojtekmaj/enzyme-adapter-react-17";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
 import { act } from "react-dom/test-utils";
-import { configure, mount } from "enzyme";
+import { mount } from "enzyme";
 import { configureStore } from "@reduxjs/toolkit";
 
 import { store, storeReducer } from "../../store";
 import { LoadingStatus } from "../../types/types";
 import { mockUserAdmin } from "./__mocks__/users-mock";
-
-configure({ adapter: new Adapter() });
 
 // @ts-ignore
 export const mockDispatch = () => {

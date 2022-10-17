@@ -1,11 +1,20 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Form } from "antd";
+import {Form, FormInstance} from "antd";
 
 import { SearchPerfume } from "../types/types";
 import { fetchPerfumesByInputText } from "../redux-toolkit/perfumes/perfumes-thunks";
 
-export const useSearch = () => {
+interface UseSearch {
+    form: FormInstance<any>,
+    searchTypeValue: SearchPerfume,
+    onSearch: (data: {searchValue: string}) => void,
+    resetFields: () => void,
+    searchValue: string,
+    handleChangeSelect: (value: SearchPerfume) => void
+}
+
+export const useSearch = (): UseSearch => {
     const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [searchTypeValue, setSearchTypeValue] = useState<SearchPerfume>(SearchPerfume.BRAND);
