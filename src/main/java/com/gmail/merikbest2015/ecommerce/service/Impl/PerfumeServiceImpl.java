@@ -3,7 +3,7 @@ package com.gmail.merikbest2015.ecommerce.service.Impl;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
-import com.gmail.merikbest2015.ecommerce.domain.Review;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeSearchRequest;
 import com.gmail.merikbest2015.ecommerce.enums.SearchPerfume;
 import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.gmail.merikbest2015.ecommerce.constants.ErrorMessage.PERFUME_NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
 public class PerfumeServiceImpl implements PerfumeService {
@@ -39,13 +41,7 @@ public class PerfumeServiceImpl implements PerfumeService {
     @Override
     public Perfume getPerfumeById(Long perfumeId) {
         return perfumeRepository.findById(perfumeId)
-                .orElseThrow(() -> new ApiRequestException("Perfume not found.", HttpStatus.NOT_FOUND));
-    }
-
-    @Override
-    public List<Review> getReviewsByPerfumeId(Long perfumeId) {
-        Perfume perfume = getPerfumeById(perfumeId);
-        return perfume.getReviews();
+                .orElseThrow(() -> new ApiRequestException(PERFUME_NOT_FOUND, HttpStatus.NOT_FOUND));
     }
 
     @Override
@@ -59,9 +55,14 @@ public class PerfumeServiceImpl implements PerfumeService {
     }
 
     @Override
-    public Page<PerfumeProjection> findPerfumesByFilterParams(List<String> perfumers, List<String> genders, List<Integer> prices, 
-                                                    boolean sortByPrice, Pageable pageable) {
-        return perfumeRepository.findPerfumesByFilterParams(perfumers, genders, prices.get(0), prices.get(1), sortByPrice, pageable);
+    public Page<PerfumeProjection> findPerfumesByFilterParams(PerfumeSearchRequest filter, Pageable pageable) {
+        return perfumeRepository.findPerfumesByFilterParams(
+                filter.getPerfumers(),
+                filter.getGenders(),
+                filter.getPrices().get(0),
+                filter.getPrices().get(1),
+                filter.getSortByPrice(),
+                pageable);
     }
 
     @Override
@@ -109,7 +110,7 @@ public class PerfumeServiceImpl implements PerfumeService {
     @Transactional
     public String deletePerfume(Long perfumeId) {
         Perfume perfume = perfumeRepository.findById(perfumeId)
-                .orElseThrow(() -> new ApiRequestException("Perfume not found.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApiRequestException(PERFUME_NOT_FOUND, HttpStatus.NOT_FOUND));
         perfumeRepository.delete(perfume);
         return "Perfume deleted successfully";
     }

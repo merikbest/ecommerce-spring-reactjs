@@ -14,6 +14,9 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.gmail.merikbest2015.ecommerce.constants.ErrorMessage.*;
+import static com.gmail.merikbest2015.ecommerce.constants.PathConstants.ACTIVATE_CODE;
+import static com.gmail.merikbest2015.ecommerce.constants.PathConstants.API_V1_REGISTRATION;
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -53,22 +56,22 @@ public class RegistrationControllerTest {
         registrationRequest.setPassword("");
         registrationRequest.setPassword2("");
 
-        mockMvc.perform(post(URL_REGISTRATION_BASIC)
+        mockMvc.perform(post(API_V1_REGISTRATION)
                         .content(mapper.writeValueAsString(registrationRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.password2Error", is("The password confirmation must be between 6 and 16 characters long")));
+                .andExpect(jsonPath("$.password2Error", is(PASSWORD2_CHARACTER_LENGTH)));
     }
 
     @Test
     public void registration_ShouldPasswordsNotMatch() throws Exception {
         registrationRequest.setPassword2("12345678");
 
-        mockMvc.perform(post(URL_REGISTRATION_BASIC)
+        mockMvc.perform(post(API_V1_REGISTRATION)
                         .content(mapper.writeValueAsString(registrationRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.passwordError", is("Passwords do not match.")));
+                .andExpect(jsonPath("$.passwordError", is(PASSWORDS_DO_NOT_MATCH)));
     }
 
     @Test
@@ -81,18 +84,18 @@ public class RegistrationControllerTest {
         registrationRequest.setLastName(LAST_NAME);
         registrationRequest.setCaptcha("12345");
 
-        mockMvc.perform(post(URL_REGISTRATION_BASIC)
+        mockMvc.perform(post(API_V1_REGISTRATION)
                         .content(mapper.writeValueAsString(registrationRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.emailError").value("Email is already used."));
+                .andExpect(jsonPath("$.emailError").value(EMAIL_IN_USE));
     }
 
     @Test
     public void registration_ShouldCaptchaNotFilled() throws Exception {
         registrationRequest.setCaptcha(null);
 
-        mockMvc.perform(post(URL_REGISTRATION_BASIC)
+        mockMvc.perform(post(API_V1_REGISTRATION)
                         .content(mapper.writeValueAsString(registrationRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
@@ -101,7 +104,7 @@ public class RegistrationControllerTest {
 
     @Test
     public void registration_ShouldInputFieldsAreEmpty() throws Exception {
-        mockMvc.perform(post(URL_REGISTRATION_BASIC)
+        mockMvc.perform(post(API_V1_REGISTRATION)
                         .param("password2", "")
                         .param("g-recaptcha-response", "")
                         .content(mapper.writeValueAsString(new RegistrationRequest()))
@@ -111,7 +114,7 @@ public class RegistrationControllerTest {
 
     @Test
     public void activateEmailCode() throws Exception {
-        mockMvc.perform(get(URL_REGISTRATION_ACTIVATE, USER_ACTIVATION_CODE)
+        mockMvc.perform(get(API_V1_REGISTRATION + ACTIVATE_CODE, USER_ACTIVATION_CODE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("User successfully activated.")));
@@ -119,9 +122,9 @@ public class RegistrationControllerTest {
 
     @Test
     public void activateEmailCode_ShouldNotFoundActivationCode() throws Exception {
-        mockMvc.perform(get(URL_REGISTRATION_ACTIVATE, "123")
+        mockMvc.perform(get(API_V1_REGISTRATION + ACTIVATE_CODE, "123")
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$", is("Activation code not found.")));
+                .andExpect(jsonPath("$", is(ACTIVATION_CODE_NOT_FOUND)));
     }
 }

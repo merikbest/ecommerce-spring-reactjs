@@ -22,8 +22,6 @@ public interface UserService {
 
     User updateUserInfo(String email, User user);
 
-    Review addReviewToPerfume(Review review, Long perfumeId);
-
     DataFetcher<List<User>> getAllUsersByQuery();
 
     DataFetcher<User> getUserByQuery();

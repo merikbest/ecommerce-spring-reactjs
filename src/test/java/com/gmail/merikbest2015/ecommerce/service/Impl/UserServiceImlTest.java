@@ -1,17 +1,19 @@
 package com.gmail.merikbest2015.ecommerce.service.Impl;
 
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
-import com.gmail.merikbest2015.ecommerce.domain.Review;
-import com.gmail.merikbest2015.ecommerce.enums.Role;
 import com.gmail.merikbest2015.ecommerce.domain.User;
+import com.gmail.merikbest2015.ecommerce.enums.Role;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
-import com.gmail.merikbest2015.ecommerce.repository.ReviewRepository;
 import com.gmail.merikbest2015.ecommerce.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
@@ -33,9 +35,6 @@ public class UserServiceImlTest {
 
     @MockBean
     private PerfumeRepository perfumeRepository;
-
-    @MockBean
-    private ReviewRepository reviewRepository;
 
     @Test
     public void findUserById() {
@@ -61,14 +60,16 @@ public class UserServiceImlTest {
 
     @Test
     public void findAllUsers() {
+        Pageable pageable = PageRequest.of(0, 20);
         List<User> usersList = new ArrayList<>();
         usersList.add(new User());
         usersList.add(new User());
-        userService.getAllUsers();
+        userService.getAllUsers(pageable);
+        Page<User> users = new PageImpl<>(usersList, pageable, 20);
 
-        when(userRepository.findAllByOrderByIdAsc()).thenReturn(usersList);
+        when(userRepository.findAllByOrderByIdAsc(pageable)).thenReturn(users);
         assertEquals(2, usersList.size());
-        verify(userRepository, times(1)).findAllByOrderByIdAsc();
+        verify(userRepository, times(1)).findAllByOrderByIdAsc(pageable);
     }
 
     @Test
@@ -113,24 +114,5 @@ public class UserServiceImlTest {
         assertEquals(USER_EMAIL, user.getEmail());
         assertEquals(FIRST_NAME, user.getFirstName());
         verify(userRepository, times(1)).findByEmail(user.getEmail());
-    }
-
-    @Test
-    public void addReviewToPerfume() {
-        List<Review> reviewList = new ArrayList<>();
-        Review review = new Review();
-        review.setRating(5);
-        reviewList.add(review);
-        Perfume perfume = new Perfume();
-        perfume.setId(123L);
-        perfume.setReviews(reviewList);
-
-        when(perfumeRepository.findById(123L)).thenReturn(Optional.of(perfume));
-        when(reviewRepository.save(review)).thenReturn(review);
-        userService.addReviewToPerfume(review, 123L);
-        assertEquals(123L, perfume.getId());
-        assertNotNull(perfume.getReviews());
-        verify(perfumeRepository, times(1)).findById(123L);
-        verify(reviewRepository, times(1)).save(review);
     }
 }

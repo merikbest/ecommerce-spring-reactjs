@@ -6,10 +6,14 @@ import { Router } from "react-router-dom";
 import { act } from "react-dom/test-utils";
 import { mount } from "enzyme";
 import { configureStore } from "@reduxjs/toolkit";
+import { TextDecoder, TextEncoder } from "util";
 
 import { store, storeReducer } from "../../store";
 import { LoadingStatus } from "../../types/types";
 import { mockUserAdmin } from "./__mocks__/users-mock";
+
+(global as any).TextEncoder = TextEncoder;
+(global as any).TextDecoder = TextDecoder;
 
 // @ts-ignore
 export const mockDispatch = () => {

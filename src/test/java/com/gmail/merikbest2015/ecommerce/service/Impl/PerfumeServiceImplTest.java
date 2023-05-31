@@ -1,6 +1,7 @@
 package com.gmail.merikbest2015.ecommerce.service.Impl;
 
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeSearchRequest;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.repository.projection.PerfumeProjection;
 
@@ -78,11 +79,7 @@ public class PerfumeServiceImplTest {
         perfumeCreed.setPerfumer(PERFUMER_CREED);
         perfumeCreed.setPerfumeGender(PERFUME_GENDER);
         perfumeCreed.setPrice(102);
-
-        List<PerfumeProjection> perfumeProjectionList = new ArrayList<>();
-        perfumeProjectionList.add(perfumeChanel);
-        perfumeProjectionList.add(perfumeCreed);
-        Page<PerfumeProjection> perfumeList = new PageImpl<>(perfumeProjectionList);
+        Page<PerfumeProjection> perfumeList = new PageImpl<>(Arrays.asList(perfumeChanel, perfumeCreed));
 
         List<String> perfumers = new ArrayList<>();
         perfumers.add(PERFUMER_CHANEL);
@@ -91,11 +88,16 @@ public class PerfumeServiceImplTest {
         List<String> genders = new ArrayList<>();
         genders.add(PERFUME_GENDER);
 
-        when(perfumeRepository.findPerfumesByFilterParams(perfumers, new ArrayList<>(), 1, 1000, false, pageable)).thenReturn(perfumeList);
-        perfumeService.findPerfumesByFilterParams(perfumers, new ArrayList<>(), Arrays.asList(1, 1000), false, pageable);
+        when(perfumeRepository.findPerfumesByFilterParams(perfumers, genders, 1, 1000, false, pageable)).thenReturn(perfumeList);
+        PerfumeSearchRequest filter = new PerfumeSearchRequest();
+        filter.setPerfumers(perfumers);
+        filter.setGenders(genders);
+        filter.setPrices(Arrays.asList(1, 1000));
+        filter.setSortByPrice(false);
+        perfumeService.findPerfumesByFilterParams(filter, pageable);
         assertEquals(2, perfumeList.getTotalElements());
         assertEquals(perfumeList.getContent().get(0).getPerfumer(), PERFUMER_CHANEL);
-        verify(perfumeRepository, times(1)).findPerfumesByFilterParams(perfumers, new ArrayList<>(), 1, 1000, false, pageable);
+        verify(perfumeRepository, times(1)).findPerfumesByFilterParams(perfumers, genders, 1, 1000, false, pageable);
     }
 
     @Test

@@ -23,6 +23,8 @@ import org.springframework.web.context.WebApplicationContext;
 import java.io.File;
 import java.io.FileInputStream;
 
+import static com.gmail.merikbest2015.ecommerce.constants.ErrorMessage.*;
+import static com.gmail.merikbest2015.ecommerce.constants.PathConstants.*;
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -77,7 +79,7 @@ public class AdminControllerTest {
         MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequest).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        mockMvc.perform(multipart(URL_ADMIN_ADD)
+        mockMvc.perform(multipart(API_V1_ADMIN + ADD)
                         .file(multipartFile)
                         .file(jsonFile))
                 .andExpect(status().isOk());
@@ -90,21 +92,21 @@ public class AdminControllerTest {
         MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequest).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        mockMvc.perform(multipart(URL_ADMIN_ADD)
+        mockMvc.perform(multipart(API_V1_ADMIN + ADD)
                         .file(jsonFile)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.perfumeTitleError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.perfumerError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.yearError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.countryError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.perfumeGenderError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.fragranceTopNotesError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.fragranceMiddleNotesError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.fragranceBaseNotesError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.priceError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.volumeError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.typeError", is("Fill in the input field")));
+                .andExpect(jsonPath("$.perfumeTitleError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.perfumerError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.yearError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.countryError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.perfumeGenderError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.fragranceTopNotesError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.fragranceMiddleNotesError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.fragranceBaseNotesError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.priceError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.volumeError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.typeError", is(FILL_IN_THE_INPUT_FIELD)));
     }
 
     @Test
@@ -115,7 +117,7 @@ public class AdminControllerTest {
         MockMultipartFile jsonFileEdit = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequest).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         perfumeRequest.setType("test");
-        mockMvc.perform(multipart(URL_ADMIN_EDIT)
+        mockMvc.perform(multipart(API_V1_ADMIN + EDIT)
                         .file(multipartFile)
                         .file(jsonFileEdit))
                 .andExpect(status().isOk());
@@ -128,27 +130,27 @@ public class AdminControllerTest {
         MockMultipartFile jsonFile = new MockMultipartFile("perfume", "", MediaType.APPLICATION_JSON_VALUE, mapper.writeValueAsString(perfumeRequest).getBytes());
         MockMvc mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 
-        mockMvc.perform(multipart(URL_ADMIN_EDIT)
+        mockMvc.perform(multipart(API_V1_ADMIN + EDIT)
                         .file(jsonFile)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.perfumeTitleError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.perfumerError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.yearError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.countryError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.perfumeGenderError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.fragranceTopNotesError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.fragranceMiddleNotesError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.fragranceBaseNotesError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.priceError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.volumeError", is("Fill in the input field")))
-                .andExpect(jsonPath("$.typeError", is("Fill in the input field")));
+                .andExpect(jsonPath("$.perfumeTitleError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.perfumerError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.yearError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.countryError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.perfumeGenderError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.fragranceTopNotesError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.fragranceMiddleNotesError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.fragranceBaseNotesError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.priceError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.volumeError", is(FILL_IN_THE_INPUT_FIELD)))
+                .andExpect(jsonPath("$.typeError", is(FILL_IN_THE_INPUT_FIELD)));
     }
 
     @Test
     @DisplayName("[200] DELETE /api/v1/admin/delete/46 - Delete Perfume")
     public void deletePerfume() throws Exception {
-        mockMvc.perform(delete(URL_ADMIN_BASIC + "/delete/46")
+        mockMvc.perform(delete(API_V1_ADMIN + DELETE_BY_PERFUME_ID, 46)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is("Perfume deleted successfully")));
@@ -157,16 +159,16 @@ public class AdminControllerTest {
     @Test
     @DisplayName("[404] DELETE /api/v1/admin/delete/99 - Delete Perfume Should Not Found")
     public void deletePerfume_ShouldNotFound() throws Exception {
-        mockMvc.perform(delete(URL_ADMIN_BASIC + "/delete/99")
+        mockMvc.perform(delete(API_V1_ADMIN + DELETE_BY_PERFUME_ID, 99)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$", is("Perfume not found.")));
+                .andExpect(jsonPath("$", is(PERFUME_NOT_FOUND)));
     }
 
     @Test
     @DisplayName("[200] GET /api/v1/admin/orders - Get All Orders")
     public void getAllOrders() throws Exception {
-        mockMvc.perform(get(URL_ADMIN_BASIC + "/orders")
+        mockMvc.perform(get(API_V1_ADMIN + ORDERS)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
@@ -184,7 +186,7 @@ public class AdminControllerTest {
     @Test
     @DisplayName("[200] GET /api/v1/admin/order/test123@test.com - Get User Orders By Email")
     public void getUserOrdersByEmail() throws Exception {
-        mockMvc.perform(get(URL_ADMIN_BASIC + "/order/" + USER_EMAIL)
+        mockMvc.perform(get(API_V1_ADMIN + ORDER_BY_EMAIL, USER_EMAIL)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
@@ -202,7 +204,7 @@ public class AdminControllerTest {
     @Test
     @DisplayName("[200] DELETE /api/v1/admin/order/delete/111 - Delete Order")
     public void deleteOrder() throws Exception {
-        mockMvc.perform(delete(URL_ADMIN_BASIC + "/order/delete/111")
+        mockMvc.perform(delete(API_V1_ADMIN + ORDER_DELETE, 111)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is("Order deleted successfully")));
@@ -211,16 +213,16 @@ public class AdminControllerTest {
     @Test
     @DisplayName("[404] DELETE /api/v1/admin/order/delete/222 - Delete Order Should Not Found")
     public void deleteOrder_ShouldNotFound() throws Exception {
-        mockMvc.perform(delete(URL_ADMIN_BASIC + "/order/delete/222")
+        mockMvc.perform(delete(API_V1_ADMIN + ORDER_DELETE, 222)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$", is("Order not found.")));
+                .andExpect(jsonPath("$", is(ORDER_NOT_FOUND)));
     }
 
     @Test
     @DisplayName("[200] GET /api/v1/admin/user/122 - Get User by Id")
     public void getUserById() throws Exception {
-        mockMvc.perform(get(URL_ADMIN_GET_USER + USER_ID)
+        mockMvc.perform(get(API_V1_ADMIN + USER_BY_ID, USER_ID)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(USER_ID))
@@ -231,16 +233,16 @@ public class AdminControllerTest {
     @Test
     @DisplayName("[404] GET /api/v1/admin/user/1222 - Should Not Found Get User by Id")
     public void getUserById_ShouldNotFound() throws Exception {
-        mockMvc.perform(get(URL_ADMIN_GET_USER + "1222")
+        mockMvc.perform(get(API_V1_ADMIN + USER_BY_ID, 1222)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$").value("User not found."));
+                .andExpect(jsonPath("$").value(USER_NOT_FOUND));
     }
 
     @Test
     @DisplayName("[200] GET /api/v1/admin/user/all - Get All Users")
     public void getAllUsers() throws Exception {
-        mockMvc.perform(get(URL_ADMIN_GET_USER + "all"))
+        mockMvc.perform(get(API_V1_ADMIN + USER_ALL))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id", hasItem(USER_ID)))
                 .andExpect(jsonPath("$[*].firstName", hasItem(FIRST_NAME)))
@@ -252,7 +254,7 @@ public class AdminControllerTest {
     public void getUserByQuery() throws Exception {
         graphQLRequest.setQuery(GRAPHQL_QUERY_USER);
 
-        mockMvc.perform(post(URL_ADMIN_GRAPHQL + "/user")
+        mockMvc.perform(post(API_V1_ADMIN + GRAPHQL_USER)
                         .content(mapper.writeValueAsString(graphQLRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -275,7 +277,7 @@ public class AdminControllerTest {
     public void getUsersByQuery() throws Exception {
         graphQLRequest.setQuery(GRAPHQL_QUERY_USERS);
 
-        mockMvc.perform(post(URL_ADMIN_GRAPHQL + "/user/all")
+        mockMvc.perform(post(API_V1_ADMIN + GRAPHQL_USER_ALL)
                         .content(mapper.writeValueAsString(graphQLRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -298,7 +300,7 @@ public class AdminControllerTest {
     public void getOrdersByQuery() throws Exception {
         graphQLRequest.setQuery(GRAPHQL_QUERY_ORDERS);
 
-        mockMvc.perform(post(URL_ADMIN_GRAPHQL + "/orders")
+        mockMvc.perform(post(API_V1_ADMIN + GRAPHQL_ORDERS)
                         .content(mapper.writeValueAsString(graphQLRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -320,7 +322,7 @@ public class AdminControllerTest {
     public void getUserOrdersByEmailQuery() throws Exception {
         graphQLRequest.setQuery(GRAPHQL_QUERY_ORDERS_BY_EMAIL);
 
-        mockMvc.perform(post(URL_ADMIN_GRAPHQL + "/order")
+        mockMvc.perform(post(API_V1_ADMIN + GRAPHQL_ORDER)
                         .content(mapper.writeValueAsString(graphQLRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

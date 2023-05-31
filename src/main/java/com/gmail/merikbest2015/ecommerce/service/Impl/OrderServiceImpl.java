@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.gmail.merikbest2015.ecommerce.constants.ErrorMessage.ORDER_NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -36,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order getOrderById(Long orderId) {
         return orderRepository.findById(orderId)
-                .orElseThrow(() -> new ApiRequestException("Order not found.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApiRequestException(ORDER_NOT_FOUND, HttpStatus.NOT_FOUND));
     }
 
     @Override
@@ -57,8 +59,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public Order postOrder(Order validOrder, Map<Long, Long> perfumesId) {
-        Order order = new Order();
+    public Order postOrder(Order order, Map<Long, Long> perfumesId) {
         List<OrderItem> orderItemList = new ArrayList<>();
 
         for (Map.Entry<Long, Long> entry : perfumesId.entrySet()) {
@@ -71,14 +72,6 @@ public class OrderServiceImpl implements OrderService {
             orderItemRepository.save(orderItem);
         }
         order.getOrderItems().addAll(orderItemList);
-        order.setTotalPrice(validOrder.getTotalPrice());
-        order.setFirstName(validOrder.getFirstName());
-        order.setLastName(validOrder.getLastName());
-        order.setCity(validOrder.getCity());
-        order.setAddress(validOrder.getAddress());
-        order.setPostIndex(validOrder.getPostIndex());
-        order.setEmail(validOrder.getEmail());
-        order.setPhoneNumber(validOrder.getPhoneNumber());
         orderRepository.save(order);
 
         String subject = "Order #" + order.getId();
@@ -93,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public String deleteOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new ApiRequestException("Order not found.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApiRequestException(ORDER_NOT_FOUND, HttpStatus.NOT_FOUND));
         orderRepository.delete(order);
         return "Order deleted successfully";
     }

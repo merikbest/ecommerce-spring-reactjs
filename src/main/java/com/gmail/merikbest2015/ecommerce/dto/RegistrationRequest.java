@@ -6,25 +6,27 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import static com.gmail.merikbest2015.ecommerce.constants.ErrorMessage.*;
+
 @Data
 public class RegistrationRequest {
 
     @NotBlank(message = "Fill captcha.")
     private String captcha;
 
-    @NotBlank(message = "First name cannot be empty")
+    @NotBlank(message = EMPTY_FIRST_NAME)
     private String firstName;
 
-    @NotBlank(message = "Last name cannot be empty")
+    @NotBlank(message = EMPTY_LAST_NAME)
     private String lastName;
 
-    @Size(min = 6, max = 16, message = "The password must be between 6 and 16 characters long")
+    @Size(min = 6, max = 16, message = PASSWORD_CHARACTER_LENGTH)
     private String password;
 
-    @Size(min = 6, max = 16, message = "The password confirmation must be between 6 and 16 characters long")
+    @Size(min = 6, max = 16, message = PASSWORD2_CHARACTER_LENGTH)
     private String password2;
 
-    @Email(message = "Incorrect email")
-    @NotBlank(message = "Email cannot be empty")
+    @Email(message = INCORRECT_EMAIL)
+    @NotBlank(message = EMAIL_CANNOT_BE_EMPTY)
     private String email;
 }

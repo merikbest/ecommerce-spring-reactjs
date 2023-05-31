@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import RequestService from "../../utils/request-service";
-import { PERFUMES, PERFUMES_GRAPHQL_PERFUME, PERFUMES_REVIEWS } from "../../constants/urlConstants";
+import {PERFUMES, PERFUMES_GRAPHQL_PERFUME, REVIEW} from "../../constants/urlConstants";
 import { getPerfumeByQuery } from "../../utils/graphql-query/perfume-query";
 import { FullPerfumeResponse, ReviewResponse } from "../../types/types";
 
@@ -20,7 +20,7 @@ export const fetchPerfume = createAsyncThunk<Partial<FullPerfumeResponse>, strin
 export const fetchReviewsByPerfumeId = createAsyncThunk<Array<ReviewResponse>, string>(
     "perfume/fetchReviewsByPerfumeId",
     async (perfumeId) => {
-        const response = await RequestService.get(`${PERFUMES_REVIEWS}/${perfumeId}`);
+        const response = await RequestService.get(`${REVIEW}/${perfumeId}`);
         return response.data;
     }
 );

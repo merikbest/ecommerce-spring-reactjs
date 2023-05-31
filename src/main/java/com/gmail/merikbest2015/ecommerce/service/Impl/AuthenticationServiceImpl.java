@@ -30,6 +30,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.gmail.merikbest2015.ecommerce.constants.ErrorMessage.*;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -55,7 +57,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
             User user = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new ApiRequestException("Email not found.", HttpStatus.NOT_FOUND));
+                    .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
             String userRole = user.getRoles().iterator().next().name();
             String token = jwtProvider.createToken(email, userRole);
             Map<String, Object> response = new HashMap<>();
@@ -63,7 +65,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             response.put("token", token);
             return response;
         } catch (AuthenticationException e) {
-            throw new ApiRequestException("Incorrect password or email", HttpStatus.FORBIDDEN);
+            throw new ApiRequestException(INCORRECT_PASSWORD, HttpStatus.FORBIDDEN);
         }
     }
 
@@ -74,11 +76,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         restTemplate.postForObject(url, Collections.emptyList(), CaptchaResponse.class);
 
         if (user.getPassword() != null && !user.getPassword().equals(password2)) {
-            throw new PasswordException("Passwords do not match.");
+            throw new PasswordException(PASSWORDS_DO_NOT_MATCH);
         }
 
         if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new EmailException("Email is already used.");
+            throw new EmailException(EMAIL_IN_USE);
         }
         user.setActive(false);
         user.setRoles(Collections.singleton(Role.USER));
@@ -116,14 +118,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public String getEmailByPasswordResetCode(String code) {
         return userRepository.getEmailByPasswordResetCode(code)
-                .orElseThrow(() -> new ApiRequestException("Password reset code is invalid!", HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new ApiRequestException(INVALID_PASSWORD_CODE, HttpStatus.BAD_REQUEST));
     }
 
     @Override
     @Transactional
     public String sendPasswordResetCode(String email) {
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ApiRequestException("Email not found.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
         user.setPasswordResetCode(UUID.randomUUID().toString());
         userRepository.save(user);
 
@@ -135,13 +137,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Transactional
     public String passwordReset(String email, String password, String password2) {
         if (StringUtils.isEmpty(password2)) {
-            throw new PasswordConfirmationException("Password confirmation cannot be empty.");
+            throw new PasswordConfirmationException(EMPTY_PASSWORD_CONFIRMATION);
         }
         if (password != null && !password.equals(password2)) {
-            throw new PasswordException("Passwords do not match.");
+            throw new PasswordException(PASSWORDS_DO_NOT_MATCH);
         }
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ApiRequestException("Email not found.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApiRequestException(EMAIL_NOT_FOUND, HttpStatus.NOT_FOUND));
         user.setPassword(passwordEncoder.encode(password));
         user.setPasswordResetCode(null);
         userRepository.save(user);
@@ -152,7 +154,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Transactional
     public String activateUser(String code) {
         User user = userRepository.findByActivationCode(code)
-                .orElseThrow(() -> new ApiRequestException("Activation code not found.", HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ApiRequestException(ACTIVATION_CODE_NOT_FOUND, HttpStatus.NOT_FOUND));
         user.setActivationCode(null);
         user.setActive(true);
         userRepository.save(user);

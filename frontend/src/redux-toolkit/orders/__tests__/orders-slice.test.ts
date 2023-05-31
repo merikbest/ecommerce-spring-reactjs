@@ -10,8 +10,8 @@ import {
     ADMIN_ORDER,
     ADMIN_ORDERS,
     API_BASE_URL,
-    USERS_GRAPHQL_ORDERS,
-    USERS_ORDERS
+    ORDER,
+    ORDER_GRAPHQL
 } from "../../../constants/urlConstants";
 import { mockOrders } from "../../../utils/test/__mocks__/orders-mock";
 import {
@@ -36,7 +36,7 @@ describe("orders slice tests", () => {
         expect(state.orders).toEqual([]);
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onGet(API_BASE_URL + `${USERS_ORDERS}?page=1`).reply(200, mockOrders, {
+        mock.onGet(API_BASE_URL + `${ORDER}?page=1`).reply(200, mockOrders, {
             "page-total-count": "1",
             "page-total-elements": "11"
         });
@@ -90,7 +90,7 @@ describe("orders slice tests", () => {
         expect(state.orders).toEqual([]);
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onPost(API_BASE_URL + USERS_GRAPHQL_ORDERS).reply(200, { data: { ordersByEmail: mockOrders } });
+        mock.onPost(API_BASE_URL + ORDER_GRAPHQL).reply(200, { data: { ordersByEmail: mockOrders } });
         const result = await store.dispatch(fetchUserOrdersByQuery(mockEmail));
 
         state = store.getState().orders;

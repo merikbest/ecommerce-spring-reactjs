@@ -12,11 +12,11 @@ describe("ResetPassword", () => {
     let mockDispatchFn: jest.Mock;
 
     beforeEach(() => {
+        jest.spyOn(ReactRouter, "useParams").mockReturnValue({ code: "test" });
         mockDispatchFn = mockDispatch();
     });
 
     it("should render correctly", () => {
-        jest.spyOn(ReactRouter, "useParams").mockReturnValue({ code: "test" });
         mountWithStore(<ResetPassword />);
         expect(mockDispatchFn).nthCalledWith(1, { type: "auth/resetAuthState" });
         expect(mockDispatchFn).nthCalledWith(2, expect.any(Function));

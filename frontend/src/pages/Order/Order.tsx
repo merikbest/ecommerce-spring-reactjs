@@ -58,7 +58,7 @@ const Order: FC = (): ReactElement => {
 
     const onFormSubmit = (order: OrderFormData): void => {
         const perfumesId = Object.fromEntries(new Map(JSON.parse(localStorage.getItem("perfumes") as string)));
-        dispatch(addOrder({ order: { ...order, perfumesId }, history }));
+        dispatch(addOrder({ order: { ...order, perfumesId, totalPrice }, history }));
     };
 
     return (

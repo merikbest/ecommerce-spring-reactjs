@@ -2,8 +2,13 @@ import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 import { createMemoryHistory } from "history";
 
-import { API_BASE_URL, USERS_ORDER } from "../../../constants/urlConstants";
-import {mockOrder, mockOrderErrors, mockOrderItems, mockOrderRequest} from "../../../utils/test/__mocks__/orders-mock";
+import { API_BASE_URL, ORDER } from "../../../constants/urlConstants";
+import {
+    mockOrder,
+    mockOrderErrors,
+    mockOrderItems,
+    mockOrderRequest
+} from "../../../utils/test/__mocks__/orders-mock";
 import { store } from "../../../store";
 import { LoadingStatus } from "../../../types/types";
 import { addOrder, fetchOrderById, fetchOrderItemsByOrderId } from "../order-thunks";
@@ -24,7 +29,7 @@ describe("order slice tests", () => {
         expect(state.order).toEqual({});
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onGet(API_BASE_URL + `${USERS_ORDER}/1`).reply(200, mockOrder);
+        mock.onGet(API_BASE_URL + `${ORDER}/1`).reply(200, mockOrder);
         const result = await store.dispatch(fetchOrderById("1"));
 
         state = store.getState().order;
@@ -37,7 +42,7 @@ describe("order slice tests", () => {
         expect(state.errorMessage).toEqual("");
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onGet(API_BASE_URL + `${USERS_ORDER}/1`).reply(400, "ERROR");
+        mock.onGet(API_BASE_URL + `${ORDER}/1`).reply(400, "ERROR");
         const result = await store.dispatch(fetchOrderById("1"));
 
         state = store.getState().order;
@@ -49,7 +54,7 @@ describe("order slice tests", () => {
     it("should fetchOrderItemsByOrderId dispatches fulfilled on success", async () => {
         expect(state.orderItems).toEqual([]);
 
-        mock.onGet(API_BASE_URL + `${USERS_ORDER}/1/items`).reply(200, mockOrderItems);
+        mock.onGet(API_BASE_URL + `${ORDER}/1/items`).reply(200, mockOrderItems);
         const result = await store.dispatch(fetchOrderItemsByOrderId("1"));
 
         state = store.getState().order;
@@ -61,7 +66,7 @@ describe("order slice tests", () => {
         expect(state.order).toEqual({});
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onPost(API_BASE_URL + USERS_ORDER).reply(200, mockOrder);
+        mock.onPost(API_BASE_URL + ORDER).reply(200, mockOrder);
         const result = await store.dispatch(addOrder({ order: mockOrderRequest, history: history }));
 
         state = store.getState().order;
@@ -76,7 +81,7 @@ describe("order slice tests", () => {
         expect(state.errors).toEqual({});
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onPost(API_BASE_URL + USERS_ORDER).reply(400, mockOrderErrors);
+        mock.onPost(API_BASE_URL + ORDER).reply(400, mockOrderErrors);
         const result = await store.dispatch(addOrder({ order: mockOrderRequest, history: history }));
 
         state = store.getState().order;

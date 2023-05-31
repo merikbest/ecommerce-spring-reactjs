@@ -27,22 +27,21 @@ export const AUTH_RESET = "/auth/reset";
 export const AUTH_EDIT_PASSWORD = "/auth/edit/password";
 export const REGISTRATION_ACTIVATE = "/registration/activate";
 
+// order
+export const ORDER = "/order";
+export const ORDER_GRAPHQL = "/order/graphql";
+
+// review
+export const REVIEW = "/review";
+
 // user
+export const USERS = "/users";
 export const USERS_CART = "/users/cart";
-export const USERS_ORDER = "/users/order";
-export const USERS_ORDERS = "/users/orders";
-export const USERS_INFO = "/users/info";
-export const USERS_EDIT = "/users/edit";
-export const USERS_REVIEW = "/users/review";
-export const USERS_GRAPHQL_ORDERS = "/users/graphql/review";
-export const USERS_GRAPHQL_INFO = "/users/graphql/info";
+export const USERS_GRAPHQL = "/users/graphql";
 
 // perfumes
 export const PERFUMES_IDS = "/perfumes/ids";
-export const PERFUMES_REVIEWS = "/perfumes/reviews";
 export const PERFUMES_SEARCH = "/perfumes/search";
-export const PERFUMES_SEARCH_GENDER = "/perfumes/search/gender";
-export const PERFUMES_SEARCH_PERFUMER = "/perfumes/search/perfumer";
 export const PERFUMES_SEARCH_TEXT = "/perfumes/search/text";
 export const PERFUMES_GRAPHQL_PERFUME = "/perfumes/graphql/perfume";
 export const PERFUMES_GRAPHQL_PERFUMES = "/perfumes/graphql/perfumes";

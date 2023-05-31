@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.gmail.merikbest2015.ecommerce.constants.PathConstants.ACTIVATE_CODE;
+import static com.gmail.merikbest2015.ecommerce.constants.PathConstants.API_V1_REGISTRATION;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/registration")
+@RequestMapping(API_V1_REGISTRATION)
 public class RegistrationController {
 
     private final AuthenticationMapper authenticationMapper;
@@ -21,7 +24,7 @@ public class RegistrationController {
         return ResponseEntity.ok(authenticationMapper.registerUser(user.getCaptcha(), user, bindingResult));
     }
 
-    @GetMapping("/activate/{code}")
+    @GetMapping(ACTIVATE_CODE)
     public ResponseEntity<String> activateEmailCode(@PathVariable String code) {
         return ResponseEntity.ok(authenticationMapper.activateUser(code));
     }

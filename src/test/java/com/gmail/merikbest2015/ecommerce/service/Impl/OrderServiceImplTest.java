@@ -13,12 +13,15 @@ import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
-import static com.gmail.merikbest2015.ecommerce.util.TestConstants.TOTAL_PRICE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
@@ -44,18 +47,21 @@ public class OrderServiceImplTest {
 
     @Test
     public void findAll() {
+        Pageable pageable = PageRequest.of(0, 20);
         List<Order> orderList = new ArrayList<>();
         orderList.add(new Order());
         orderList.add(new Order());
+        Page<Order> orders = new PageImpl<>(orderList, pageable, 20);
 
-        when(orderRepository.findAllByOrderByIdAsc()).thenReturn(orderList);
-        orderService.getAllOrders();
+        when(orderRepository.findAllByOrderByIdAsc(pageable)).thenReturn(orders);
+        orderService.getAllOrders(pageable);
         assertEquals(2, orderList.size());
-        verify(orderRepository, times(1)).findAllByOrderByIdAsc();
+        verify(orderRepository, times(1)).findAllByOrderByIdAsc(pageable);
     }
 
     @Test
     public void findOrderByEmail() {
+        Pageable pageable = PageRequest.of(0, 20);
         Order order1 = new Order();
         order1.setEmail(ORDER_EMAIL);
         Order order2 = new Order();
@@ -63,11 +69,12 @@ public class OrderServiceImplTest {
         List<Order> orderList = new ArrayList<>();
         orderList.add(order1);
         orderList.add(order2);
+        Page<Order> orders = new PageImpl<>(orderList, pageable, 20);
 
-        when(orderRepository.findOrderByEmail(ORDER_EMAIL)).thenReturn(orderList);
-        orderService.getUserOrders(ORDER_EMAIL);
+        when(orderRepository.findOrderByEmail(ORDER_EMAIL, pageable)).thenReturn(orders);
+        orderService.getUserOrders(ORDER_EMAIL, pageable);
         assertEquals(2, orderList.size());
-        verify(orderRepository, times(1)).findOrderByEmail(ORDER_EMAIL);
+        verify(orderRepository, times(1)).findOrderByEmail(ORDER_EMAIL, pageable);
     }
 
     @Test
@@ -101,7 +108,6 @@ public class OrderServiceImplTest {
         order.setPostIndex(POST_INDEX);
         order.setPhoneNumber(PHONE_NUMBER);
         order.setTotalPrice(TOTAL_PRICE);
-        order.setOrderItems(Arrays.asList(orderItem1, orderItem2));
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("order", order);
 

@@ -1,12 +1,10 @@
 package com.gmail.merikbest2015.ecommerce.service;
 
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
-import com.gmail.merikbest2015.ecommerce.domain.Review;
+import com.gmail.merikbest2015.ecommerce.dto.perfume.PerfumeSearchRequest;
 import com.gmail.merikbest2015.ecommerce.enums.SearchPerfume;
 import com.gmail.merikbest2015.ecommerce.repository.projection.PerfumeProjection;
-
 import graphql.schema.DataFetcher;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,8 +19,7 @@ public interface PerfumeService {
 
     List<PerfumeProjection> getPerfumesByIds(List<Long> perfumesId);
 
-    Page<PerfumeProjection> findPerfumesByFilterParams(List<String> perfumers, List<String> genders, List<Integer> prices, 
-                                             boolean sortByPrice, Pageable pageable);
+    Page<PerfumeProjection> findPerfumesByFilterParams(PerfumeSearchRequest filter, Pageable pageable);
 
     List<Perfume> findByPerfumer(String perfumer);
 
@@ -33,8 +30,6 @@ public interface PerfumeService {
     Perfume savePerfume(Perfume perfume, MultipartFile file);
 
     String deletePerfume(Long perfumeId);
-
-    List<Review> getReviewsByPerfumeId(Long perfumeId);
 
     DataFetcher<Perfume> getPerfumeByQuery();
 

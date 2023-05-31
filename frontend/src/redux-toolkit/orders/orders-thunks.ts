@@ -7,15 +7,15 @@ import {
     ADMIN_GRAPHQL_ORDERS,
     ADMIN_ORDER,
     ADMIN_ORDERS,
-    USERS_GRAPHQL_ORDERS,
-    USERS_ORDERS
+    ORDER,
+    ORDER_GRAPHQL
 } from "../../constants/urlConstants";
 import { ordersByEmailQuery, ordersByQuery } from "../../utils/graphql-query/orders-query";
 
 export const fetchUserOrders = createAsyncThunk<HeaderResponse<OrderResponse>, number>(
     "orders/fetchUserOrders",
     async (page) => {
-        const response = await RequestService.get(`${USERS_ORDERS}?page=${page}`, true);
+        const response = await RequestService.get(`${ORDER}?page=${page}`, true);
         return {
             items: response.data,
             pagesCount: parseInt(response.headers["page-total-count"]),
@@ -52,7 +52,7 @@ export const fetchUserOrdersByEmail = createAsyncThunk<HeaderResponse<OrderRespo
 export const fetchUserOrdersByQuery = createAsyncThunk<Array<OrderResponse>, string>(
     "orders/fetchUserOrdersByQuery",
     async (email) => {
-        const response = await RequestService.post(USERS_GRAPHQL_ORDERS, { query: ordersByEmailQuery(email) }, true);
+        const response = await RequestService.post(ORDER_GRAPHQL, { query: ordersByEmailQuery(email) }, true);
         return response.data.data.ordersByEmail;
     }
 );

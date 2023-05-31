@@ -2,14 +2,7 @@ import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
 
 import { LoadingStatus } from "../../../types/types";
-import {
-    API_BASE_URL,
-    AUTH_EDIT_PASSWORD,
-    USERS_EDIT,
-    USERS_GRAPHQL_INFO,
-    USERS_INFO,
-    USERS_REVIEW
-} from "../../../constants/urlConstants";
+import { API_BASE_URL, AUTH_EDIT_PASSWORD, REVIEW, USERS, USERS_GRAPHQL } from "../../../constants/urlConstants";
 import { mockFullPerfumeResponse } from "../../../utils/test/__mocks__/perfumes-mock";
 import { store } from "../../../store";
 import { initialState } from "../user-slice";
@@ -41,7 +34,7 @@ describe("user slice tests", () => {
         expect(state.user).toEqual(undefined);
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onGet(API_BASE_URL + USERS_INFO).reply(200, userData);
+        mock.onGet(API_BASE_URL + USERS).reply(200, userData);
         const result = await store.dispatch(fetchUserInfo());
 
         state = store.getState().user;
@@ -53,7 +46,7 @@ describe("user slice tests", () => {
     it("should updateUserInfo dispatches fulfilled on success", async () => {
         expect(state.user).toEqual(undefined);
 
-        mock.onPut(API_BASE_URL + USERS_EDIT).reply(200, userData);
+        mock.onPut(API_BASE_URL + USERS).reply(200, userData);
         const result = await store.dispatch(updateUserInfo(userData));
 
         state = store.getState().user;
@@ -64,7 +57,7 @@ describe("user slice tests", () => {
     it("should updateUserInfo dispatches rejected on failure", async () => {
         expect(state.userEditErrors).toEqual({});
 
-        mock.onPut(API_BASE_URL + USERS_EDIT).reply(400, userEditErrorsData);
+        mock.onPut(API_BASE_URL + USERS).reply(400, userEditErrorsData);
         const result = await store.dispatch(updateUserInfo(userData));
 
         state = store.getState().user;
@@ -97,7 +90,7 @@ describe("user slice tests", () => {
     it("should addReviewToPerfume dispatches fulfilled on success", async () => {
         expect(state.isReviewAdded).toEqual(false);
 
-        mock.onPost(API_BASE_URL + USERS_REVIEW).reply(200, mockFullPerfumeResponse);
+        mock.onPost(API_BASE_URL + REVIEW).reply(200, mockFullPerfumeResponse);
         const result = await store.dispatch(addReviewToPerfume(reviewData));
 
         state = store.getState().user;
@@ -108,7 +101,7 @@ describe("user slice tests", () => {
     it("should addReviewToPerfume dispatches rejected on failure", async () => {
         expect(state.reviewErrors).toEqual({});
 
-        mock.onPost(API_BASE_URL + USERS_REVIEW).reply(400, reviewErrorsData);
+        mock.onPost(API_BASE_URL + REVIEW).reply(400, reviewErrorsData);
         const result = await store.dispatch(addReviewToPerfume(reviewData));
 
         state = store.getState().user;
@@ -120,7 +113,7 @@ describe("user slice tests", () => {
         expect(state.user).toEqual(undefined);
         expect(state.loadingState).toEqual(LoadingStatus.LOADING);
 
-        mock.onPost(API_BASE_URL + USERS_GRAPHQL_INFO).reply(200, { data: { user: userData } });
+        mock.onPost(API_BASE_URL + USERS_GRAPHQL).reply(200, { data: { user: userData } });
         const result = await store.dispatch(fetchUserInfoByQuery("1"));
 
         state = store.getState().user;

@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.gmail.merikbest2015.ecommerce.constants.ErrorMessage.PERFUME_NOT_FOUND;
+import static com.gmail.merikbest2015.ecommerce.constants.PathConstants.*;
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -60,13 +62,14 @@ public class PerfumeControllerTest {
         filter.setPerfumers(perfumers);
         filter.setGenders(genders);
         filter.setPrices(prices);
+        filter.setSortByPrice(true);
 
         graphQLRequest = new GraphQLRequest();
     }
 
     @Test
     public void getAllPerfumes() throws Exception {
-        mockMvc.perform(get(URL_PERFUMES_BASIC)
+        mockMvc.perform(get(API_V1_PERFUMES)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*].id").isNotEmpty())
@@ -78,7 +81,7 @@ public class PerfumeControllerTest {
 
     @Test
     public void getPerfumeById() throws Exception {
-        mockMvc.perform(get(URL_PERFUMES_BASIC + "/1")
+        mockMvc.perform(get(API_V1_PERFUMES + PERFUME_ID, 1)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(1)))
@@ -89,28 +92,15 @@ public class PerfumeControllerTest {
 
     @Test
     public void getPerfumeById_ShouldNotFound() throws Exception {
-        mockMvc.perform(get(URL_PERFUMES_BASIC + "/1111")
+        mockMvc.perform(get(API_V1_PERFUMES + PERFUME_ID, 1111)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$", equalTo("Perfume not found.")));
-    }
-
-    @Test
-    public void getReviewsByPerfumeId() throws Exception {
-        mockMvc.perform(get(URL_PERFUMES_BASIC + "/reviews/2")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[*]", hasSize(2)))
-                .andExpect(jsonPath("$[*].id").isNotEmpty())
-                .andExpect(jsonPath("$[*].author").isNotEmpty())
-                .andExpect(jsonPath("$[*].message").isNotEmpty())
-                .andExpect(jsonPath("$[*].rating").isNotEmpty())
-                .andExpect(jsonPath("$[*].date").isNotEmpty());
+                .andExpect(jsonPath("$", equalTo(PERFUME_NOT_FOUND)));
     }
 
     @Test
     public void getPerfumesByIds() throws Exception {
-        mockMvc.perform(post(URL_PERFUMES_BASIC + "/ids")
+        mockMvc.perform(post(API_V1_PERFUMES + IDS)
                         .content(mapper.writeValueAsString(Arrays.asList(3L, 4L, 5L)))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -123,7 +113,7 @@ public class PerfumeControllerTest {
 
     @Test
     public void findPerfumesByFilterParams() throws Exception {
-        mockMvc.perform(post(URL_PERFUMES_SEARCH)
+        mockMvc.perform(post(API_V1_PERFUMES + SEARCH)
                         .content(mapper.writeValueAsString(filter))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -148,7 +138,7 @@ public class PerfumeControllerTest {
         filter.setPrices(prices);
         filter.setSortByPrice(true);
 
-        mockMvc.perform(post(URL_PERFUMES_SEARCH)
+        mockMvc.perform(post(API_V1_PERFUMES + SEARCH)
                         .content(mapper.writeValueAsString(filter))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -164,7 +154,7 @@ public class PerfumeControllerTest {
         PerfumeSearchRequest filter = new PerfumeSearchRequest();
         filter.setPerfumeGender(PERFUME_GENDER);
 
-        mockMvc.perform(post(URL_PERFUMES_SEARCH + "/gender")
+        mockMvc.perform(post(API_V1_PERFUMES + SEARCH_GENDER)
                         .content(mapper.writeValueAsString(filter))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -180,7 +170,7 @@ public class PerfumeControllerTest {
         PerfumeSearchRequest filter = new PerfumeSearchRequest();
         filter.setPerfumer(PERFUMER_CHANEL);
 
-        mockMvc.perform(post(URL_PERFUMES_SEARCH + "/perfumer")
+        mockMvc.perform(post(API_V1_PERFUMES + SEARCH_PERFUMER)
                         .content(mapper.writeValueAsString(filter))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -197,7 +187,7 @@ public class PerfumeControllerTest {
         request.setSearchType(SearchPerfume.COUNTRY);
         request.setText("France");
         
-        mockMvc.perform(post(URL_PERFUMES_SEARCH + "/text")
+        mockMvc.perform(post(API_V1_PERFUMES + SEARCH_TEXT)
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -211,7 +201,7 @@ public class PerfumeControllerTest {
         request.setSearchType(SearchPerfume.BRAND);
         request.setText("Creed");
         
-        mockMvc.perform(post(URL_PERFUMES_SEARCH + "/text")
+        mockMvc.perform(post(API_V1_PERFUMES + SEARCH_TEXT)
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -225,7 +215,7 @@ public class PerfumeControllerTest {
         request.setSearchType(SearchPerfume.PERFUME_TITLE);
         request.setText("Chanel N5");
 
-        mockMvc.perform(post(URL_PERFUMES_SEARCH + "/text")
+        mockMvc.perform(post(API_V1_PERFUMES + SEARCH_TEXT)
                         .content(mapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -241,7 +231,7 @@ public class PerfumeControllerTest {
     public void getPerfumesByIdsQuery() throws Exception {
         graphQLRequest.setQuery(GRAPHQL_QUERY_PERFUMES_BY_IDS);
 
-        mockMvc.perform(post(URL_PERFUMES_GRAPHQL + "/ids")
+        mockMvc.perform(post(API_V1_PERFUMES + GRAPHQL_IDS)
                         .content(mapper.writeValueAsString(graphQLRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -255,7 +245,7 @@ public class PerfumeControllerTest {
     public void getAllPerfumesByQuery() throws Exception {
         graphQLRequest.setQuery(GRAPHQL_QUERY_PERFUMES);
 
-        mockMvc.perform(post(URL_PERFUMES_GRAPHQL + "/perfumes")
+        mockMvc.perform(post(API_V1_PERFUMES + GRAPHQL_PERFUMES)
                         .content(mapper.writeValueAsString(graphQLRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -270,7 +260,7 @@ public class PerfumeControllerTest {
     public void getPerfumeByQuery() throws Exception {
         graphQLRequest.setQuery(GRAPHQL_QUERY_PERFUME);
 
-        mockMvc.perform(post(URL_PERFUMES_GRAPHQL + "/perfume")
+        mockMvc.perform(post(API_V1_PERFUMES + GRAPHQL_PERFUME)
                         .content(mapper.writeValueAsString(graphQLRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())

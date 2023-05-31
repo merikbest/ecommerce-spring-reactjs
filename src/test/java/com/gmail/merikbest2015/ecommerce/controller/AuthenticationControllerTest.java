@@ -16,6 +16,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.gmail.merikbest2015.ecommerce.constants.ErrorMessage.*;
+import static com.gmail.merikbest2015.ecommerce.constants.PathConstants.*;
 import static com.gmail.merikbest2015.ecommerce.util.TestConstants.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -54,7 +56,7 @@ public class AuthenticationControllerTest {
     public void login() throws Exception {
         authenticationRequest.setPassword(USER_PASSWORD);
 
-        mockMvc.perform(post(URL_AUTH_LOGIN)
+        mockMvc.perform(post(API_V1_AUTH + LOGIN)
                         .content(mapper.writeValueAsString(authenticationRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk());
@@ -64,16 +66,16 @@ public class AuthenticationControllerTest {
     public void login_ShouldEmailOrPasswordBeNotValid() throws Exception {
         authenticationRequest.setPassword("123");
 
-        mockMvc.perform(post(URL_AUTH_LOGIN)
+        mockMvc.perform(post(API_V1_AUTH + LOGIN)
                         .content(mapper.writeValueAsString(authenticationRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isForbidden())
-                .andExpect(jsonPath("$", is("Incorrect password or email")));
+                .andExpect(jsonPath("$", is(INCORRECT_PASSWORD)));
     }
 
     @Test
     public void forgotPassword() throws Exception {
-        mockMvc.perform(get(URL_AUTH_FORGOT + "/{email}", USER_EMAIL)
+        mockMvc.perform(get(API_V1_AUTH + FORGOT_EMAIL, USER_EMAIL)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("Reset password code is send to your E-mail")));
@@ -81,15 +83,15 @@ public class AuthenticationControllerTest {
 
     @Test
     public void forgotPassword_ShouldEmailBeNotValid() throws Exception {
-        mockMvc.perform(get(URL_AUTH_FORGOT + "/{email}", EMAIL_FAILURE)
+        mockMvc.perform(get(API_V1_AUTH + FORGOT_EMAIL, EMAIL_FAILURE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$", is("Email not found.")));
+                .andExpect(jsonPath("$", is(EMAIL_NOT_FOUND)));
     }
 
     @Test
     public void getPasswordResetCode() throws Exception {
-        mockMvc.perform(get(URL_AUTH_RESET + "/{code}", USER_PASSWORD_RESET_CODE)
+        mockMvc.perform(get(API_V1_AUTH + RESET_CODE, USER_PASSWORD_RESET_CODE)
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").value(USER2_EMAIL));
@@ -97,7 +99,7 @@ public class AuthenticationControllerTest {
 
     @Test
     public void passwordReset() throws Exception {
-        mockMvc.perform(post(URL_AUTH_RESET)
+        mockMvc.perform(post(API_V1_AUTH + RESET)
                         .content(mapper.writeValueAsString(passwordResetRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -108,22 +110,22 @@ public class AuthenticationControllerTest {
     public void passwordReset_ShouldPasswordsNotMatch() throws Exception {
         passwordResetRequest.setPassword2("12345");
 
-        mockMvc.perform(post(URL_AUTH_RESET)
+        mockMvc.perform(post(API_V1_AUTH + RESET)
                         .content(mapper.writeValueAsString(passwordResetRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.passwordError", is("Passwords do not match.")));
+                .andExpect(jsonPath("$.passwordError", is(PASSWORDS_DO_NOT_MATCH)));
     }
 
     @Test
     public void passwordReset_ShouldPassword2BeEmpty() throws Exception {
         passwordResetRequest.setPassword2("");
 
-        mockMvc.perform(post(URL_AUTH_RESET)
+        mockMvc.perform(post(API_V1_AUTH + RESET)
                         .content(mapper.writeValueAsString(passwordResetRequest))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.password2Error", is("Password confirmation cannot be empty.")));
+                .andExpect(jsonPath("$.password2Error", is(EMPTY_PASSWORD_CONFIRMATION)));
     }
 
     @Test
@@ -133,7 +135,7 @@ public class AuthenticationControllerTest {
         requestDto.setPassword(USER_PASSWORD);
         requestDto.setPassword2(USER_PASSWORD);
 
-        mockMvc.perform(put(URL_AUTH_BASIC + "/edit/password")
+        mockMvc.perform(put(API_V1_AUTH + EDIT_PASSWORD)
                         .content(mapper.writeValueAsString(requestDto))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
@@ -147,11 +149,11 @@ public class AuthenticationControllerTest {
         requestDto.setPassword(USER_PASSWORD);
         requestDto.setPassword2("testpassword");
 
-        mockMvc.perform(put(URL_AUTH_BASIC + "/edit/password")
+        mockMvc.perform(put(API_V1_AUTH + EDIT_PASSWORD)
                         .content(mapper.writeValueAsString(requestDto))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.passwordError", is("Passwords do not match.")));
+                .andExpect(jsonPath("$.passwordError", is(PASSWORDS_DO_NOT_MATCH)));
     }
 
     @Test
@@ -161,11 +163,11 @@ public class AuthenticationControllerTest {
         requestDto.setPassword("");
         requestDto.setPassword2("");
 
-        mockMvc.perform(put(URL_AUTH_BASIC + "/edit/password")
+        mockMvc.perform(put(API_V1_AUTH + EDIT_PASSWORD)
                         .content(mapper.writeValueAsString(requestDto))
                         .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.passwordError", is("The password must be between 6 and 16 characters long")))
-                .andExpect(jsonPath("$.password2Error", is("The password confirmation must be between 6 and 16 characters long")));
+                .andExpect(jsonPath("$.passwordError", is(PASSWORD_CHARACTER_LENGTH)))
+                .andExpect(jsonPath("$.password2Error", is(PASSWORD2_CHARACTER_LENGTH)));
     }
 }

@@ -55,8 +55,7 @@ const Product: FC = (): ReactElement => {
         dispatch(fetchPerfume(params.id));
         dispatch(resetInputForm());
         window.scrollTo(0, 0);
-        const socket = new SockJS(WEBSOCKET_URL);
-        stompClient = Stomp.over(socket);
+        stompClient = Stomp.over(() => new SockJS(WEBSOCKET_URL));
         stompClient.connect({}, () => {
             stompClient?.subscribe("/topic/reviews/" + params.id, (response: any) => {
                 dispatch(setReview(JSON.parse(response.body)));

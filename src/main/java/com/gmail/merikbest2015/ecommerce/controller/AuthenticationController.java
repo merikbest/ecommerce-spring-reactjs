@@ -13,34 +13,36 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.gmail.merikbest2015.ecommerce.constants.PathConstants.*;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/auth")
+@RequestMapping(API_V1_AUTH)
 public class AuthenticationController {
 
     private final AuthenticationMapper authenticationMapper;
 
-    @PostMapping("/login")
+    @PostMapping(LOGIN)
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(authenticationMapper.login(request));
     }
 
-    @GetMapping("/forgot/{email}")
+    @GetMapping(FORGOT_EMAIL)
     public ResponseEntity<String> forgotPassword(@PathVariable String email) {
         return ResponseEntity.ok(authenticationMapper.sendPasswordResetCode(email));
     }
 
-    @GetMapping("/reset/{code}")
+    @GetMapping(RESET_CODE)
     public ResponseEntity<String> getEmailByPasswordResetCode(@PathVariable String code) {
         return ResponseEntity.ok(authenticationMapper.getEmailByPasswordResetCode(code));
     }
 
-    @PostMapping("/reset")
+    @PostMapping(RESET)
     public ResponseEntity<String> passwordReset(@RequestBody PasswordResetRequest passwordReset) {
         return ResponseEntity.ok(authenticationMapper.passwordReset(passwordReset.getEmail(), passwordReset));
     }
 
-    @PutMapping("/edit/password")
+    @PutMapping(EDIT_PASSWORD)
     public ResponseEntity<String> updateUserPassword(@AuthenticationPrincipal UserPrincipal user,
                                                      @Valid @RequestBody PasswordResetRequest passwordReset,
                                                      BindingResult bindingResult) {

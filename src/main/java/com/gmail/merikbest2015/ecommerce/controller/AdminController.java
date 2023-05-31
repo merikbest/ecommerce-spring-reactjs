@@ -25,10 +25,12 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.util.List;
 
+import static com.gmail.merikbest2015.ecommerce.constants.PathConstants.*;
+
 @RestController
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ADMIN')")
-@RequestMapping("/api/v1/admin")
+@RequestMapping(API_V1_ADMIN)
 public class AdminController {
 
     private final UserMapper userMapper;
@@ -36,70 +38,70 @@ public class AdminController {
     private final OrderMapper orderMapper;
     private final GraphQLProvider graphQLProvider;
 
-    @PostMapping("/add")
+    @PostMapping(ADD)
     public ResponseEntity<FullPerfumeResponse> addPerfume(@RequestPart(name = "file", required = false) MultipartFile file,
                                                           @RequestPart("perfume") @Valid PerfumeRequest perfume,
                                                           BindingResult bindingResult) {
         return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, file, bindingResult));
     }
 
-    @PostMapping("/edit")
+    @PostMapping(EDIT)
     public ResponseEntity<FullPerfumeResponse> updatePerfume(@RequestPart(name = "file", required = false) MultipartFile file,
                                                              @RequestPart("perfume") @Valid PerfumeRequest perfume,
                                                              BindingResult bindingResult) {
         return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, file, bindingResult));
     }
 
-    @DeleteMapping("/delete/{perfumeId}")
+    @DeleteMapping(DELETE_BY_PERFUME_ID)
     public ResponseEntity<String> deletePerfume(@PathVariable Long perfumeId) {
         return ResponseEntity.ok(perfumeMapper.deletePerfume(perfumeId));
     }
 
-    @GetMapping("/orders")
+    @GetMapping(ORDERS)
     public ResponseEntity<List<OrderResponse>> getAllOrders(@PageableDefault(size = 10) Pageable pageable) {
         HeaderResponse<OrderResponse> response = orderMapper.getAllOrders(pageable);
         return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
     }
 
-    @GetMapping("/order/{userEmail}")
+    @GetMapping(ORDER_BY_EMAIL)
     public ResponseEntity<List<OrderResponse>> getUserOrdersByEmail(@PathVariable String userEmail, 
                                                                     @PageableDefault(size = 10) Pageable pageable) {
         HeaderResponse<OrderResponse> response = orderMapper.getUserOrders(userEmail, pageable);
         return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
     }
 
-    @DeleteMapping("/order/delete/{orderId}")
+    @DeleteMapping(ORDER_DELETE)
     public ResponseEntity<String> deleteOrder(@PathVariable Long orderId) {
         return ResponseEntity.ok(orderMapper.deleteOrder(orderId));
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping(USER_BY_ID)
     public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
         return ResponseEntity.ok(userMapper.getUserById(userId));
     }
 
-    @GetMapping("/user/all")
+    @GetMapping(USER_ALL)
     public ResponseEntity<List<BaseUserResponse>> getAllUsers(@PageableDefault(size = 10) Pageable pageable) {
         HeaderResponse<BaseUserResponse> response = userMapper.getAllUsers(pageable);
         return ResponseEntity.ok().headers(response.getHeaders()).body(response.getItems());
     }
 
-    @PostMapping("/graphql/user")
+    @PostMapping(GRAPHQL_USER)
     public ResponseEntity<ExecutionResult> getUserByQuery(@RequestBody GraphQLRequest request) {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
-    @PostMapping("/graphql/user/all")
+    @PostMapping(GRAPHQL_USER_ALL)
     public ResponseEntity<ExecutionResult> getAllUsersByQuery(@RequestBody GraphQLRequest request) {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
-    @PostMapping("/graphql/orders")
+    @PostMapping(GRAPHQL_ORDERS)
     public ResponseEntity<ExecutionResult> getAllOrdersQuery(@RequestBody GraphQLRequest request) {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
 
-    @PostMapping("/graphql/order")
+    @PostMapping(GRAPHQL_ORDER)
     public ResponseEntity<ExecutionResult> getUserOrdersByEmailQuery(@RequestBody GraphQLRequest request) {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
     }
