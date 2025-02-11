@@ -9,7 +9,7 @@ describe("OrderItem", () => {
         const wrapper = mountWithStore(<OrderItem perfume={mockPerfumesResponse[0]} quantity={11} />);
         expect(wrapper.text().includes(mockPerfumesResponse[0].perfumer)).toBe(true);
         expect(wrapper.text().includes(mockPerfumesResponse[0].perfumeTitle)).toBe(true);
-        expect(wrapper.text().includes(`Price: $ ${mockPerfumesResponse[0].price}`)).toBe(true);
+        expect(wrapper.text().includes(`Price:  ${mockPerfumesResponse[0].price}`)).toBe(true);
         expect(wrapper.text().includes("Quantity: 11")).toBe(true);
     });
 });

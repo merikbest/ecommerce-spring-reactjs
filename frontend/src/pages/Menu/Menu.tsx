@@ -16,7 +16,7 @@ import SelectSearchData from "../../components/SelectSearchData/SelectSearchData
 import InputSearch from "../../components/InputSearch/InputSearch";
 import Spinner from "../../components/Spinner/Spinner";
 import { MAX_PAGE_VALUE, usePagination } from "../../hooks/usePagination";
-import { gender, perfumer, price } from "./MenuData";
+import { gender, crystalData, price } from "./MenuData";
 import { useSearch } from "../../hooks/useSearch";
 import "./Menu.css";
 
@@ -128,7 +128,7 @@ const Menu: FC = (): ReactElement => {
                         <MenuCheckboxSection
                             title={"Brand"}
                             onChange={onChangeCheckbox}
-                            data={perfumer}
+                            data={crystalData}
                             category={CheckboxCategoryFilter.PERFUMERS}
                             selectedValues={filterParams.perfumers}
                         />

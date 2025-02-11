@@ -1,0 +1,19 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.3
+                              http://maven.apache.org/xsd/assembly-1.1.3.xsd">
+    <id>tar</id>
+    <formats>
+        <format>tar.gz</format> <!-- You can use "tar" if you don't want compression -->
+    </formats>
+    <fileSets>
+        <fileSet>
+            <directory>${project.build.directory}</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>*.jar</include> <!-- Include your built JAR -->
+                <include>config/**</include> <!-- Include config files -->
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>

@@ -13,7 +13,7 @@ describe("PerfumeCardsSlider", () => {
 
     it("should render correctly", () => {
         const wrapper = mountWithStore(<PerfumeCardsSlider />);
-        expect(wrapper.text().includes("PERSONALLY RECOMMENDED")).toBe(true);
+        expect(wrapper.text().includes("Най-продавани")).toBe(true);
         expect(wrapper.find(PerfumeCardsSliderItem).length).toEqual(7);
         expect(mockDispatchFn).nthCalledWith(1, expect.any(Function));
     });

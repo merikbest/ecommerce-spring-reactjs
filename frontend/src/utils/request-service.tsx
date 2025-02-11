@@ -8,7 +8,7 @@ class RequestService {
         return createRequest("GET", url, null, isAuthRequired, contentType);
     };
 
-    post = (url: string, body: any, isAuthRequired: boolean = false, contentType: string = "application/json") => {
+    post = (url: string, body: any, isAuthRequired: boolean = false, contentType: string = "application/json") => { 
         return createRequest("POST", url, body, isAuthRequired, contentType);
     };
 
@@ -22,6 +22,7 @@ class RequestService {
 }
 
 const createRequest = (method: Method, url: string, body: any, isAuthRequired: boolean, contentType: string) => {
+
     return axios({
         method: method,
         url: API_BASE_URL + url,

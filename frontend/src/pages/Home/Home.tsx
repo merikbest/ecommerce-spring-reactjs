@@ -13,10 +13,11 @@ const Home: FC = (): ReactElement => {
     
     return (
         <div>
-            <CarouselImageSlider />
             <SliderBrands />
             <HomePageTheme />
             <PerfumeCardsSlider />
+                        <CarouselImageSlider />
+
         </div>
     );
 };

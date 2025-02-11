@@ -32,5 +32,3 @@ INSERT INTO orders_order_items (order_id, order_items_id) VALUES (4, 8);
 INSERT INTO orders_order_items (order_id, order_items_id) VALUES (4, 9);
 INSERT INTO orders_order_items (order_id, order_items_id) VALUES (5, 10);
 INSERT INTO orders_order_items (order_id, order_items_id) VALUES (5, 11);
-
-

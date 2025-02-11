@@ -8,6 +8,7 @@ import "./SliderBrandsItem.css";
 export type BrandType = {
     name: string;
     url: string;
+    description: string;
 };
 
 type PropsType = {
@@ -21,7 +22,11 @@ const SliderBrandsItem: FC<PropsType> = ({ brands }): ReactElement => {
                 <Col span={4} key={index} className={"slider-brand-item"}>
                     <Link className={"slider-brand-item-link"} to={{ pathname: MENU, state: { id: brand.name } }} />
                     <img style={{ width: "80%" }} src={brand.url} alt={brand.name} />
+            
+                    <h2>{brand.description}</h2>
                 </Col>
+
+              
             ))}
         </Row>
     );

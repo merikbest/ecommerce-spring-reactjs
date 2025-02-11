@@ -15,17 +15,17 @@ describe("NavBar", () => {
 
     it("should render correctly", () => {
         const wrapper = mountWithStore(<NavBar />);
-        expect(wrapper.text().includes("HOME")).toBe(true);
-        expect(wrapper.text().includes("PERFUMES")).toBe(true);
-        expect(wrapper.text().includes("CONTACTS")).toBe(true);
-        expect(wrapper.text().includes("SIGN IN")).toBe(true);
-        expect(wrapper.text().includes("SIGN UP")).toBe(true);
+        expect(wrapper.text().includes("Начало")).toBe(true);
+        expect(wrapper.text().includes("Кристали, Минерали и Сувенири")).toBe(true);
+        expect(wrapper.text().includes("Контакти")).toBe(true);
+        expect(wrapper.text().includes("Вход")).toBe(true);
+        expect(wrapper.text().includes("Регистрация")).toBe(true);
     });
 
     it("should render logged user", () => {
         const mockStore = { ...mockRootStore, user: { ...mockRootStore.user, user: mockUserAdmin } };
         const wrapper = mountWithStore(<NavBar />, mockStore);
-        expect(wrapper.text().includes("MY ACCOUNT")).toBe(true);
+        expect(wrapper.text().includes("Акаунт")).toBe(true);
         expect(wrapper.text().includes("EXIT")).toBe(true);
     });
 

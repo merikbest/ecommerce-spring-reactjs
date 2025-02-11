@@ -7,7 +7,7 @@ import { selectTotalPrice } from "../../redux-toolkit/cart/cart-selector";
 const CartTotalPrice: FC = (): ReactElement => {
     const totalPrice = useSelector(selectTotalPrice);
 
-    return <Typography.Title level={3}>Total: $ {totalPrice}</Typography.Title>;
+    return <Typography.Title level={3}>Total:  {totalPrice} лева</Typography.Title>;
 };
 
 export default CartTotalPrice;

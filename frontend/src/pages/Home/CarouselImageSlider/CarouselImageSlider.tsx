@@ -4,17 +4,20 @@ import { Link } from "react-router-dom";
 
 import { PRODUCT } from "../../../constants/routeConstants";
 import "./CarouselImageSlider.css";
+import cristal7 from "../../../img/Crystals7.jpg";
+import cristal8 from "../../../img/Crystals8.jpg";
 
 export const sliderItems = [
-    {
-        id: "85",
-        name: "Photo 1",
-        url: "https://i.ibb.co/dkpHPXQ/1million-ENG.jpg"
-    },
+
     {
         id: "46",
         name: "Photo 2",
-        url: "https://i.ibb.co/C0vbNcy/dior-ENG.jpg"
+        url: cristal7
+    },
+        {
+        id: "85",
+        name: "Photo 1",
+        url: cristal8
     }
 ];
 
@@ -24,6 +27,7 @@ const CarouselImageSlider: FC = (): ReactElement => {
             {sliderItems.map((item) => (
                 <div key={item.id} className={"carousel-item-wrapper"}>
                     <Link to={`${PRODUCT}/${item.id}`} className={"carousel-link"} />
+
                     <img src={item.url} alt={item.name} />
                 </div>
             ))}

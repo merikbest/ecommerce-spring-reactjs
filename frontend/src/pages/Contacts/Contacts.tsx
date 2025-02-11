@@ -17,27 +17,37 @@ const Contacts: FC = (): ReactElement => {
             <Row gutter={32}>
                 <Col span={12}>
                     <div>
-                        <Typography.Text strong>{"Mobile: "}</Typography.Text>
-                        <Typography.Text>(066) 696-66-23</Typography.Text>
+                        <Typography.Text strong>{"Мобилен номер: "}</Typography.Text>
+                        <Typography.Text>(+359) 897631393</Typography.Text>
+
+
+
+                      
+                    </div>
+                    <div>
+
+                          <Typography.Text strong>{"Адрес: "}</Typography.Text>
+                        <Typography.Text>Кв.Манастирски Ливади Ул.Казбек 57</Typography.Text>
+
                     </div>
                     <div>
                         <Typography.Text strong>{"E-mail: "}</Typography.Text>
-                        <Typography.Text>merikbest2015@gmail.com</Typography.Text>
+                        <Typography.Text>denicristals@gmail.com</Typography.Text>
                     </div>
                     <div style={{ marginTop: 16 }}>
-                        <Typography.Text strong>Working time</Typography.Text>
+                        <Typography.Text strong>Работно време</Typography.Text>
                     </div>
                     <div>
                         <Typography.Text>
-                            The online store is open from 08:00 to 20:00 without breaks and weekends. <br />
-                            Online orders are accepted around the clock.
+                            От 08:00 до 20:00 без Неделя. <br />
+                            Онлайн поръчките се приемат постоянно.
                         </Typography.Text>
                     </div>
                     <div style={{ marginTop: 16 }}>
-                        <Typography.Text strong>Delivery</Typography.Text>
+                        <Typography.Text strong>Доставка</Typography.Text>
                     </div>
                     <div>
-                        <Typography.Text>Delivery of orders come through courier service.</Typography.Text>
+                        <Typography.Text>Доставка с Еконт и Спиди.</Typography.Text>
                     </div>
                 </Col>
             </Row>

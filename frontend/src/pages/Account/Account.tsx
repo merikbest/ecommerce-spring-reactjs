@@ -53,14 +53,14 @@ const Account: FC = (): ReactElement => {
         <ContentWrapper>
             <Row gutter={32}>
                 <Col span={5}>
-                    <ContentTitle title={"My Account"} titleLevel={4} icon={<UserOutlined />} />
-                    <AccountLink link={ACCOUNT_USER_INFO} title={"Personal data"} />
+                    <ContentTitle title={"Акаунт"} titleLevel={4} icon={<UserOutlined />} />
+                    <AccountLink link={ACCOUNT_USER_INFO} title={"Лична информация"} />
                     {isAdmin ? (
                         <>
-                            <AccountLink link={ACCOUNT_ADMIN_ADD} title={"Add perfume"} />
-                            <AccountLink link={ACCOUNT_ADMIN_PERFUMES} title={"List of perfumes"} />
-                            <AccountLink link={ACCOUNT_ADMIN_ORDERS} title={"List of all orders"} />
-                            <AccountLink link={ACCOUNT_ADMIN_USERS} title={"List of all users"} />
+                            <AccountLink link={ACCOUNT_ADMIN_ADD} title={"Добави продукт"} />
+                            <AccountLink link={ACCOUNT_ADMIN_PERFUMES} title={"Покажи всички продукти"} />
+                            <AccountLink link={ACCOUNT_ADMIN_ORDERS} title={"Покажи всички поръчки"} />
+                            <AccountLink link={ACCOUNT_ADMIN_USERS} title={"Покажи всички потребители"} />
                         </>
                     ) : (
                         <>

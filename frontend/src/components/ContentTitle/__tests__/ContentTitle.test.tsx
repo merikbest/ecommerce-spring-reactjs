@@ -5,8 +5,8 @@ import { UserOutlined } from "@ant-design/icons";
 
 describe("ContentTitle", () => {
     it("should render correctly", () => {
-        const wrapper = mountWithStore(<ContentTitle icon={<UserOutlined />} title={"My Account"} titleLevel={1} />);
-        expect(wrapper.text().includes("My Account")).toBe(true);
+        const wrapper = mountWithStore(<ContentTitle icon={<UserOutlined />} title={"Акаунт"} titleLevel={1} />);
+        expect(wrapper.text().includes("Акаунт")).toBe(true);
         expect(wrapper.find(UserOutlined).exists()).toBeTruthy();
     });
 });

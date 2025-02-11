@@ -46,7 +46,7 @@ const PersonalData: FC = (): ReactElement => {
 
     return (
         <>
-            <ContentTitle title={"My Account"} titleLevel={4} icon={<ProfileOutlined />} />
+            <ContentTitle title={"Акаунт"} titleLevel={4} icon={<ProfileOutlined />} />
             <Row>
                 <Col span={12}>
                     <AccountDataItem title={"Email"} text={usersData?.email} />

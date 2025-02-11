@@ -63,6 +63,17 @@ public class Perfume {
     @Column(name = "perfume_rating")
     private Double perfumeRating;
 
+    
+//    @Lob
+    @Column(name = "image_data", columnDefinition = "bytea") // PostgreSQL BLOB type
+    private byte[] imageData;
+
+    private String imageName;
+    private String imageType;
+    
+    
+    
+    
     @OneToMany
     @ToString.Exclude
     private List<Review> reviews;

@@ -43,17 +43,17 @@ const PerfumeCard: FC<PropsType> = ({ perfume, colSpan, edit, onOpenDelete }): R
                               ]
                             : [
                                   <Button icon={<ShoppingCartOutlined />} onClick={onClickAddToCart}>
-                                      Add to cart
+                                      Добави в кошницата
                                   </Button>
                               ]
                     }
                 >
                     <div className={"perfume-card-rate"}>
                         <Rate defaultValue={perfume.perfumeRating === 0 ? 5 : perfume.perfumeRating} disabled />
-                        <Typography.Text>{perfume.reviewsCount} reviews</Typography.Text>
+                        <Typography.Text>{perfume.reviewsCount} отзиви</Typography.Text>
                     </div>
                     <Meta title={perfume.perfumeTitle} description={perfume.perfumer} style={{ textAlign: "center" }} />
-                    <Typography.Text className={"perfume-card-price"}>${perfume.price}.00</Typography.Text>
+                    <Typography.Text className={"perfume-card-price"}>{perfume.price}.00 лева</Typography.Text>
                 </Card>
             </Link>
         </Col>

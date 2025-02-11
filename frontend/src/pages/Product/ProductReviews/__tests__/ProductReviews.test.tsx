@@ -20,7 +20,7 @@ describe("ProductReviews", () => {
         const wrapper = mountWithStore(
             <ProductReviews reviews={[]} reviewErrors={expect.any(Object)} addReview={jest.fn()} />
         );
-        expect(wrapper.text().includes("There are no reviews for this perfume.")).toBe(true);
+        expect(wrapper.text().includes("Няма ревюта за продукта.")).toBe(true);
     });
 
     it("should render review errors", () => {

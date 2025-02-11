@@ -9,6 +9,6 @@ describe("CartTotalPrice", () => {
         const mockRootStore = createMockRootState(LoadingStatus.SUCCESS);
         const mockStore = { ...mockRootStore, cart: { ...mockRootStore.cart, totalPrice: 777 } };
         const wrapper = mountWithStore(<CartTotalPrice />, mockStore);
-        expect(wrapper.text().includes("Total: $ 777")).toBe(true);
+        expect(wrapper.text().includes("Total:  777")).toBe(true);
     });
 });

@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import RequestService from "../../utils/request-service";
 import {
+    CRYSTALS,
     PERFUMES,
     PERFUMES_GRAPHQL_IDS,
     PERFUMES_GRAPHQL_PERFUMES,
@@ -24,10 +25,13 @@ export const fetchPerfumes = createAsyncThunk<HeaderResponse<PerfumeResponse>, n
     }
 );
 
+
+
 export const fetchPerfumesByIds = createAsyncThunk<Array<PerfumeResponse>, Array<number>>(
     "perfumes/fetchPerfumesByIds",
     async (ids) => {
         const response = await RequestService.post(PERFUMES_IDS, ids);
+        console.log(response.data);
         return response.data;
     }
 );

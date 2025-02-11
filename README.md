@@ -1,12 +1,11 @@
 [![Build Status](https://travis-ci.com/merikbest/ecommerce-spring-reactjs.svg?branch=travis-ci-test)](https://travis-ci.com/merikbest/ecommerce-spring-reactjs)
 [![codecov](https://codecov.io/gh/merikbest/ecommerce-spring-reactjs/branch/travis-ci-test/graph/badge.svg?token=sEfOfpBHDX)](https://codecov.io/gh/merikbest/ecommerce-spring-reactjs)
 
-# :hibiscus: Perfume webstore
+# :hibiscus: Crystals, minerals and soivenirs webstore
 
 E-commerce project developed using Spring Boot and React.js.<br>
 
 #### An actual version of frontend build deployed to AWS S3 and backend deployed to Heroku:
-http://perfume-web.tk <br>
 Login: admin@gmail.com <br>
 Password: admin
 

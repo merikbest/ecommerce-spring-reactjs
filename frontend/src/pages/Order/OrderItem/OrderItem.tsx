@@ -19,7 +19,7 @@ const OrderItem: FC<PropsType> = ({ perfume, quantity }): ReactElement => {
                 <div className={"menu-content"}>
                     <Typography.Text strong>{perfume.perfumer}</Typography.Text>
                     <Typography.Text strong>{perfume.perfumeTitle}</Typography.Text>
-                    <Typography.Text strong>Price: $ {perfume.price}</Typography.Text>
+                    <Typography.Text strong>Price: {perfume.price} лева</Typography.Text>
                     <Typography.Text strong>Quantity: {quantity}</Typography.Text>
                 </div>
             </Card>

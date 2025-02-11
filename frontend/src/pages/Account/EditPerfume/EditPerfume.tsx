@@ -72,122 +72,102 @@ const EditPerfume: FC = (): ReactElement => {
     }, [isPerfumeEdited]);
 
     const onFormSubmit = (data: EditPerfumeData): void => {
+        data.perfumeGender = ('male');
+        data.type = ('Eau de Parfum');
+        data.fragranceTopNotes = ('fragranceTopNotes');
+        data.fragranceBaseNotes = ('fragranceBaseNotes');
+
         const bodyFormData: FormData = new FormData();
         // @ts-ignore
+          
+
         bodyFormData.append("file", { file });
         bodyFormData.append(
             "perfume",
             new Blob([JSON.stringify({ ...data, id: perfumeData?.id })], { type: "application/json" })
         );
+            console.log(file);
+            console.log(data);
 
         dispatch(updatePerfume(bodyFormData));
     };
 
     const handleUpload = ({ file }: UploadChangeParam<any>): void => {
+        console.log(file)
         setFile(file);
     };
 
     return (
         <div>
-            <ContentTitle title={"Edit perfume"} titleLevel={4} icon={<EditOutlined />} />
+            <ContentTitle title={"Промени Продукт"} titleLevel={4} icon={<EditOutlined />} />
             <Form onFinish={onFormSubmit} form={form}>
                 <Row gutter={32}>
                     <Col span={12}>
                         <FormInput
-                            title={"Perfume title"}
+                            title={"Име на продукта"}
                             titleSpan={6}
                             wrapperSpan={18}
                             name={"perfumeTitle"}
                             error={errors.perfumeTitleError}
                             disabled={isLoading}
-                            placeholder={"Perfume title"}
+                            placeholder={"Име на продукта"}
                         />
                         <FormInput
-                            title={"Brand"}
+                            title={"Описание"}
                             titleSpan={6}
                             wrapperSpan={18}
                             name={"perfumer"}
                             error={errors.perfumerError}
                             disabled={isLoading}
-                            placeholder={"Brand"}
+                            placeholder={"Описание"}
                         />
                         <FormInput
-                            title={"Release year"}
+                            title={"Година"}
                             titleSpan={6}
                             wrapperSpan={18}
                             name={"year"}
                             error={errors.yearError}
                             disabled={isLoading}
-                            placeholder={"Release year"}
+                            placeholder={"Година"}
                         />
                         <FormInput
-                            title={"Country"}
+                            title={"Държава"}
                             titleSpan={6}
                             wrapperSpan={18}
                             name={"country"}
                             error={errors.countryError}
                             disabled={isLoading}
-                            placeholder={"Country"}
+                            placeholder={"Държава"}
                         />
-                        <EditPerfumeSelect
-                            title={"Perfume type"}
-                            name={"type"}
-                            placeholder={"Perfume type"}
-                            error={errors.typeError}
-                            disabled={isLoading}
-                            values={["Eau de Parfum", "Eau de Toilette"]}
-                        />
-                        <EditPerfumeSelect
-                            title={"Gender"}
-                            name={"perfumeGender"}
-                            placeholder={"Gender"}
-                            disabled={isLoading}
-                            values={["male", "female"]}
-                        />
+                 
                         <FormInput
-                            title={"Volume"}
+                            title={"Количество"}
                             titleSpan={6}
                             wrapperSpan={18}
                             name={"volume"}
                             error={errors.volumeError}
                             disabled={isLoading}
-                            placeholder={"Volume"}
+                            placeholder={"Количество"}
                         />
+                  
                         <FormInput
-                            title={"Top notes"}
-                            titleSpan={6}
-                            wrapperSpan={18}
-                            name={"fragranceTopNotes"}
-                            error={errors.fragranceTopNotesError}
-                            disabled={isLoading}
-                            placeholder={"Top notes"}
-                        />
-                        <FormInput
-                            title={"Heart notes"}
+                            title={"Описание"}
                             titleSpan={6}
                             wrapperSpan={18}
                             name={"fragranceMiddleNotes"}
                             error={errors.fragranceMiddleNotesError}
                             disabled={isLoading}
-                            placeholder={"Heart notes"}
+                            placeholder={"Описание"}
                         />
+                       
                         <FormInput
-                            title={"Base notes"}
-                            titleSpan={6}
-                            wrapperSpan={18}
-                            name={"fragranceBaseNotes"}
-                            error={errors.fragranceBaseNotesError}
-                            disabled={isLoading}
-                            placeholder={"Base notes"}
-                        />
-                        <FormInput
-                            title={"Price"}
+                            title={"Цена"}
                             titleSpan={6}
                             wrapperSpan={18}
                             name={"price"}
                             error={errors.priceError}
                             disabled={isLoading}
-                            placeholder={"Price"}
+                            placeholder={"Цена"}
                         />
                     </Col>
                     <Col span={12}>

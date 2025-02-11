@@ -31,6 +31,9 @@ public class MailSender {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
         helper.setFrom(username);
+//        helper.setCc("van.anastasova@gmail.com");
+      helper.setCc("kirilanastasoff@gmail.com");
+
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(htmlBody, true);
