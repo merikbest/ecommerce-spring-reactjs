@@ -29,6 +29,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/v1/**")
                 .allowedOrigins("http://" + hostname)
+                .allowedOrigins("http://localhost:3000") // Allow frontend
                 .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
                 .exposedHeaders("page-total-count")
                 .exposedHeaders("page-total-elements")

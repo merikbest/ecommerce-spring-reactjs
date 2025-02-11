@@ -26,36 +26,8 @@ export const mockOrder: OrderResponse = {
 };
 
 export const mockOrderItems: Array<OrderItemResponse> = [
-    {
-        id: 1,
-        amount: 384,
-        quantity: 2,
-        perfume: {
-            id: 33,
-            perfumeTitle: "Chanel N5",
-            perfumer: "Chanel",
-            price: 192,
-            perfumeRating: 0,
-            filename: "4b51181b-5551-4321-b5e7-f7612584c9b2.Chanel N5.jpg",
-            reviewsCount: 0,
-            volume: "200"
-        }
-    },
-    {
-        id: 2,
-        amount: 456,
-        quantity: 3,
-        perfume: {
-            id: 34,
-            perfumeTitle: "Aventus",
-            perfumer: "Creed",
-            price: 152,
-            perfumeRating: 0,
-            filename: "bdb203a9-0725-4ed4-a71a-db7eeb915fae.Creed Aventus.jpg",
-            reviewsCount: 0,
-            volume: "100"
-        }
-    }
+    
+   
 ];
 
 export const mockOrders: Array<OrderResponse> = [

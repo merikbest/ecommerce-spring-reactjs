@@ -7,6 +7,9 @@ export interface PerfumeResponse {
     filename: string;
     reviewsCount: number;
     volume: string;
+    imageData: Uint8Array;
+    imageName: string;
+    imageType: string;
 }
 
 export interface FullPerfumeResponse extends PerfumeResponse {
@@ -19,7 +22,35 @@ export interface FullPerfumeResponse extends PerfumeResponse {
     description: string;
     type: string;
     file: any;
+    imageData: Uint8Array;
+    imageName: string;
+    imageType: string;
 }
+
+
+
+export interface CrystalResponse {
+    id: number;
+    crystalTitle: string;
+    price: number;
+    crystalRating: number;
+    filename: string;
+    reviewsCount: number;
+    quantity: string;
+}
+
+export interface FullCrystalResponse extends CrystalResponse {
+    crystalTitle: string;
+    price: number;
+    crystalRating: number;
+    filename: string;
+    reviewsCount: number;
+    quantity: string;
+    description: string;
+    type: string;
+    file: any;
+}
+
 
 export interface HeaderResponse<T> {
     items: Array<T>;
@@ -180,6 +211,15 @@ export interface AuthErrors {
 
 export interface FilterParamsType {
     perfumers: Array<string>;
+    genders: Array<string>;
+    prices: Array<number>;
+    currentPage?: number;
+    sortByPrice?: boolean;
+}
+
+
+export interface FilterParamsTypeCrystals {
+    crystals: Array<string>;
     genders: Array<string>;
     prices: Array<number>;
     currentPage?: number;

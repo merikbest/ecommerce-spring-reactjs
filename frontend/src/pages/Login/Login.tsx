@@ -79,6 +79,7 @@ const Login: FC = (): ReactElement => {
                         <SocialButton socialNetwork={"google"} image={googleLogo} />
                         <SocialButton socialNetwork={"facebook"} image={facebookLogo} />
                         <SocialButton socialNetwork={"github"} image={githubLogo} />
+                        
                     </Space>
                 </Col>
             </Row>

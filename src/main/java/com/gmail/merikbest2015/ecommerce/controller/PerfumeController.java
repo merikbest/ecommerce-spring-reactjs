@@ -1,16 +1,21 @@
 package com.gmail.merikbest2015.ecommerce.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.gmail.merikbest2015.ecommerce.domain.Perfume;
 import com.gmail.merikbest2015.ecommerce.dto.GraphQLRequest;
 import com.gmail.merikbest2015.ecommerce.dto.HeaderResponse;
 import com.gmail.merikbest2015.ecommerce.dto.perfume.*;
 import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
+import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.service.graphql.GraphQLProvider;
 
 import graphql.ExecutionResult;
@@ -25,6 +30,8 @@ public class PerfumeController {
 
     private final PerfumeMapper perfumeMapper;
     private final GraphQLProvider graphQLProvider;
+    private PerfumeRepository perfumeRepository;
+    
 
     @GetMapping
     public ResponseEntity<List<PerfumeResponse>> getAllPerfumes(@PageableDefault(size = 15) Pageable pageable) {
@@ -79,5 +86,18 @@ public class PerfumeController {
     @PostMapping(GRAPHQL_PERFUME)
     public ResponseEntity<ExecutionResult> getPerfumeByQuery(@RequestBody GraphQLRequest request) {
         return ResponseEntity.ok(graphQLProvider.getGraphQL().execute(request.getQuery()));
+    }
+    
+    @GetMapping("PERFUME_ID/image")
+    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
+        Optional<Perfume> perfume = perfumeRepository.findById(id);
+
+        if (perfume.isPresent() && perfume.get().getImageData() != null) {
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_TYPE, perfume.get().getImageType())
+                    .body(perfume.get().getImageData());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 }

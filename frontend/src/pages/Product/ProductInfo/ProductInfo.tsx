@@ -11,11 +11,30 @@ type PropsType = {
     addToCart: () => void;
 };
 
+const PerfumeImage = ({ imageData, imageType }: { imageData: Uint8Array | undefined, imageType: string | undefined  }) => {
+
+    if (!imageData) {
+        return <span>No image available</span>; // Or any fallback content
+    }
+    const type = imageType || 'image/jpeg'; // Provide a fallback value for imageType
+
+    
+
+
+    const imageBlob = new Blob([imageData], { type });
+    const imageUrl = URL.createObjectURL(imageBlob);
+
+    return <img src={imageUrl} alt="Perfume" />;
+};
+
 const ProductInfo: FC<PropsType> = ({ perfume, reviewsLength, addToCart }): ReactElement => {
+    console.log(perfume)
     return (
         <Row>
             <Col span={12} className={"product-image-wrapper"}>
-                <img src={perfume?.filename} alt={perfume?.perfumeTitle} className={"product-image"} />
+            <PerfumeImage imageData={perfume?.imageData} imageType={perfume?.imageType} />
+
+                {/* <img src={perfume?.filename} alt={perfume?.perfumeTitle} className={"product-image"} /> */}
             </Col>
             <Col span={12}>
                 <Row className={"product-header"}>
@@ -32,30 +51,30 @@ const ProductInfo: FC<PropsType> = ({ perfume, reviewsLength, addToCart }): Reac
                     </Col>
                 </Row>
                 <Row>
-                    <Typography.Text type="success">In Stock</Typography.Text>
+                    <Typography.Text type="success">Наличен</Typography.Text>
                 </Row>
                 <Row style={{ marginTop: 16 }}>
                     <Col span={5}>
                         <Space align={"baseline"}>
-                            <Typography.Text>${perfume?.price}.00</Typography.Text>
+                            <Typography.Text>{perfume?.price}.00 лева</Typography.Text>
                         </Space>
                     </Col>
                     <Col span={4}>
                         <Button icon={<ShoppingCartOutlined />} onClick={addToCart}>
-                            Add to cart
+                            Добави в кошницата
                         </Button>
                     </Col>
                 </Row>
                 <Divider />
                 <Row>
                     <Col span={8}>
-                        <Description title={"Gender:"} />
-                        <Description title={"Volume:"} />
-                        <Description title={"Release year:"} />
-                        <Description title={"Manufacturer country:"} />
-                        <Description title={"Top notes:"} />
-                        <Description title={"Heart notes:"} />
-                        <Description title={"Base notes:"} />
+                        <Description title={"Пол:"} />
+                        <Description title={"Грамаж"} />
+                        <Description title={"Година"} />
+                        <Description title={"Страна"} />
+                        <Description title={"Горни записки:"} />
+                        <Description title={"Средни записки: "} />
+                        <Description title={"Основни записки:"} />
                     </Col>
                     <Col span={16}>
                         <Description title={perfume?.perfumeGender} />

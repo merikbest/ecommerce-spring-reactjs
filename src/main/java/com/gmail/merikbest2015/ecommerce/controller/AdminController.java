@@ -10,6 +10,7 @@ import com.gmail.merikbest2015.ecommerce.dto.user.UserResponse;
 import com.gmail.merikbest2015.ecommerce.mapper.OrderMapper;
 import com.gmail.merikbest2015.ecommerce.mapper.PerfumeMapper;
 import com.gmail.merikbest2015.ecommerce.mapper.UserMapper;
+import com.gmail.merikbest2015.ecommerce.service.Impl.PerfumeServiceImpl;
 import com.gmail.merikbest2015.ecommerce.service.graphql.GraphQLProvider;
 import graphql.ExecutionResult;
 import lombok.RequiredArgsConstructor;
@@ -37,11 +38,16 @@ public class AdminController {
     private final PerfumeMapper perfumeMapper;
     private final OrderMapper orderMapper;
     private final GraphQLProvider graphQLProvider;
+    
+    private final PerfumeServiceImpl perfumeServiceImpl;
+
 
     @PostMapping(ADD)
     public ResponseEntity<FullPerfumeResponse> addPerfume(@RequestPart(name = "file", required = false) MultipartFile file,
                                                           @RequestPart("perfume") @Valid PerfumeRequest perfume,
                                                           BindingResult bindingResult) {
+    	
+    	
         return ResponseEntity.ok(perfumeMapper.savePerfume(perfume, file, bindingResult));
     }
 

@@ -18,11 +18,11 @@ describe("PerfumeCard", () => {
         expect(wrapper.text().includes(`$${mockPerfume.price}.00`)).toBe(true);
     });
 
-    it("should render add to cart button", () => {
+    it("should render Добави в кошницата button", () => {
         const wrapper = mountWithStore(
             <PerfumeCard perfume={mockPerfume} colSpan={8} edit={false} onOpenDelete={jest.fn()} />
         );
-        expect(wrapper.find(Button).at(0).text().includes("Add to cart")).toBe(true);
+        expect(wrapper.find(Button).at(0).text().includes("Добави в кошницата")).toBe(true);
         expect(wrapper.text().includes(`${mockPerfume.reviewsCount} reviews`)).toBe(true);
         expect(wrapper.text().includes(`$${mockPerfume.price}.00`)).toBe(true);
     });

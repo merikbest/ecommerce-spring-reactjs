@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { FullPerfumeResponse, LoadingStatus, ReviewResponse } from "../../types/types";
-import { fetchPerfume, fetchPerfumeByQuery, fetchReviewsByPerfumeId } from "./perfume-thunks";
+import {  fetchPerfume, fetchPerfumeByQuery, fetchReviewsByPerfumeId } from "./perfume-thunks";
 
 export interface PerfumeState {
     perfume: Partial<FullPerfumeResponse>;
@@ -9,13 +9,13 @@ export interface PerfumeState {
     errorMessage: string;
     loadingState: LoadingStatus;
 }
-
 export const initialState: PerfumeState = {
     perfume: {},
     reviews: [],
     errorMessage: "",
     loadingState: LoadingStatus.LOADING
 };
+
 
 export const perfumeSlice = createSlice({
     name: "perfume",
@@ -60,6 +60,9 @@ export const perfumeSlice = createSlice({
         });
     }
 });
+
+
+
 
 export const { setPerfume, setReview, resetPerfumeState } = perfumeSlice.actions;
 export default perfumeSlice.reducer;

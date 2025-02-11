@@ -38,6 +38,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/api/v1/users/cart",
                         "/api/v1/order/**",
                         "/api/v1/review/**",
+                        "/api/v1/crystals/**",
+                        "/api/v1/minerals/**",
+                        "/api/v1/onyx/**",
+                        "/api/v1/jewelry/**",
+                        "/api/v1/souvenirs/**",
+                        "/api/v1/witchcraft/**",
                         "/websocket", "/websocket/**",
                         "/img/**",
                         "/static/**").permitAll()

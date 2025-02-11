@@ -19,7 +19,10 @@ export const addPerfume = createAsyncThunk<{}, FormData, { rejectValue: PerfumeE
     "admin/addPerfume",
     async (data, thunkApi) => {
         try {
+                        console.log("in/addPerfume " + data)
+
             const response = await RequestService.post(ADMIN_ADD, data, true, "multipart/form-data");
+            console.log("in/addPerfume " + response.data)
             return response.data;
         } catch (error) {
             return thunkApi.rejectWithValue(error.response.data);

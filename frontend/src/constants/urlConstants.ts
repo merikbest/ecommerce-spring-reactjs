@@ -7,6 +7,9 @@ export const REGISTRATION = "/registration";
 export const CART = "/cart";
 export const PERFUMES = "/perfumes";
 
+export const CRYSTALS = "/crystals";
+
+
 // admin
 export const ADMIN_ADD = "/admin/add";
 export const ADMIN_EDIT = "/admin/edit";
@@ -44,5 +47,9 @@ export const PERFUMES_IDS = "/perfumes/ids";
 export const PERFUMES_SEARCH = "/perfumes/search";
 export const PERFUMES_SEARCH_TEXT = "/perfumes/search/text";
 export const PERFUMES_GRAPHQL_PERFUME = "/perfumes/graphql/perfume";
+export const CRYSTALS_GRAPHQL_CRYSTAL = "/crystals/graphql/crystal";
+
+export const Crystals_SEARCH = "/crystals/search";
+
 export const PERFUMES_GRAPHQL_PERFUMES = "/perfumes/graphql/perfumes";
 export const PERFUMES_GRAPHQL_IDS = "/perfumes/graphql/ids";

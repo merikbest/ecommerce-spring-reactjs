@@ -3,6 +3,8 @@ package com.gmail.merikbest2015.ecommerce.dto.perfume;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -55,4 +57,13 @@ public class PerfumeRequest {
     @NotBlank(message = FILL_IN_THE_INPUT_FIELD)
     @Length(max = 255)
     private String type;
+    
+    
+
+//    @Lob
+//    @Column(name = "image_data", columnDefinition = "bytea") // PostgreSQL BLOB type
+    private byte[] imageData;
+
+    private String imageName;
+    private String imageType;
 }

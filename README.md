@@ -1,12 +1,11 @@
 [![Build Status](https://travis-ci.com/merikbest/ecommerce-spring-reactjs.svg?branch=travis-ci-test)](https://travis-ci.com/merikbest/ecommerce-spring-reactjs)
 [![codecov](https://codecov.io/gh/merikbest/ecommerce-spring-reactjs/branch/travis-ci-test/graph/badge.svg?token=sEfOfpBHDX)](https://codecov.io/gh/merikbest/ecommerce-spring-reactjs)
 
-# :hibiscus: Perfume webstore
+# :hibiscus: Crystals, minerals and soivenirs webstore
 
 E-commerce project developed using Spring Boot and React.js.<br>
 
 #### An actual version of frontend build deployed to AWS S3 and backend deployed to Heroku:
-http://perfume-web.tk <br>
 Login: admin@gmail.com <br>
 Password: admin
 
@@ -38,7 +37,7 @@ Password: admin
 2. Install Java 8: [link](https://www.oracle.com/ru/java/technologies/javase/javase8-archive-downloads.html)
 3. Install Intellij IDEA Ultimate: [link](https://www.jetbrains.com/idea/)
 4. Install Postgresql: [link](https://www.postgresql.org/download/)
-5. Open pgAdmin and create a new DB (name: perfume and perfumetest) in Postgresql: [link](https://www.guru99.com/postgresql-create-database.html#:~:text=PostgreSQL%20Create%20Database%20using%20pgAdmin)
+5. Open pgAdmin and create a new DB (name: crystals and crystalstest) in Postgresql: [link](https://www.guru99.com/postgresql-create-database.html#:~:text=PostgreSQL%20Create%20Database%20using%20pgAdmin)
 6. Add Postgresql properties to the application.properties file: [link](https://i.ibb.co/dL77cZS/prop-postgresql.png)
 7. Add Lombok and GraphQL plugins to the Intellij IDEA (File/Settings/Plugins)
 8. Register new AWS account: [link](https://portal.aws.amazon.com/billing/signup#/start)
@@ -62,7 +61,7 @@ Password: admin
 
 ## Swagger Documentation
 
-https://perfume-websore-api.herokuapp.com/swagger-ui.html <br/>
+https://crystals-websore-api.herokuapp.com/swagger-ui.html <br/>
 Or show local: <br/>
 http://localhost:8080/swagger-ui.html
 
@@ -80,10 +79,10 @@ Email template  |  List of orders
 :------------------------:|:-------------------------:
 ![Email template](https://i.ibb.co/bmKTLPJ/email-template.jpg)  |  ![List of users](https://i.ibb.co/pLTyF25/6-List-of-orders.jpg)
 
-User profile page  |  Add perfume page
+User profile page  |  Add crystals page
 :------------------------:|:-------------------------:
-![User profile page](https://i.ibb.co/qx1Csc8/7-User-profile-page.jpg)  |  ![Add perfume page](https://i.ibb.co/XbsJPQH/8-Add-perfume-page.jpg)
+![User profile page](https://i.ibb.co/qx1Csc8/7-User-profile-page.jpg)  |  ![Add crystals page](https://i.ibb.co/XbsJPQH/8-Add-crystals-page.jpg)
 
-Edit perfume list  |  Edit perfume page
+Edit crystals list  |  Edit crystals page
 :------------------------:|:-------------------------:
-![Edit perfume list](https://i.ibb.co/HFb9wfR/9-Edit-perfume-list.jpg)  |  ![Edit perfume page](https://i.ibb.co/jH8R8xL/10-Edit-perfume-page.jpg)
+![Edit crystals list](https://i.ibb.co/HFb9wfR/9-Edit-crystals-list.jpg)  |  ![Edit crystals page](https://i.ibb.co/jH8R8xL/10-Edit-crystals-page.jpg)

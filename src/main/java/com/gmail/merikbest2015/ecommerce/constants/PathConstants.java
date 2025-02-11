@@ -6,6 +6,8 @@ public class PathConstants {
     public static final String ORDER = "/order";
     public static final String ORDERS = "/orders";
     public static final String PERFUMES = "/perfumes";
+    public static final String CRYSTALS = "/crystals";
+
     public static final String USER = "/user";
     public static final String GRAPHQL = "/graphql";
 
@@ -16,6 +18,9 @@ public class PathConstants {
     public static final String API_V1_REGISTRATION = API_V1 + "/registration";
     public static final String API_V1_REVIEW = API_V1 + "/review";
     public static final String API_V1_USERS = API_V1 + "/users";
+    
+    public static final String API_V1_CRYSTALS = API_V1 + CRYSTALS;
+
 
     public static final String ADD = "/add";
     public static final String EDIT = "/edit";
@@ -41,6 +46,9 @@ public class PathConstants {
     public static final String ORDER_ID = "/{orderId}";
     public static final String ORDER_ID_ITEMS = ORDER_ID + "/items";
 
+    public static final String CRYSTAL_ID = "/{crystalId}";
+
+    
     public static final String PERFUME_ID = "/{perfumeId}";
     public static final String IDS = "/ids";
     public static final String SEARCH = "/search";

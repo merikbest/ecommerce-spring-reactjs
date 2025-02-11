@@ -21,13 +21,13 @@ const ProductReviews: FC<PropType> = ({ reviews, reviewErrors, addReview, form }
         <>
             <Row>
                 <Col span={24} className={"product-reviews-title"}>
-                    <Typography.Title level={3}>Reviews</Typography.Title>
+                    <Typography.Title level={3}>Ревюта</Typography.Title>
                 </Col>
             </Row>
             <Row>
                 {reviews.length === 0 ? (
                     <Col span={24} className={"product-reviews-title"}>
-                        <Typography.Text>There are no reviews for this perfume.</Typography.Text>
+                        <Typography.Text>Няма ревюта за продукта.</Typography.Text>
                     </Col>
                 ) : (
                     <Col span={24}>
@@ -43,7 +43,7 @@ const ProductReviews: FC<PropType> = ({ reviews, reviewErrors, addReview, form }
                         <Card>
                             <Row gutter={32}>
                                 <Col span={6}>
-                                    <Typography.Text>Your name</Typography.Text>
+                                    <Typography.Text>Име</Typography.Text>
                                     <Typography.Text type="danger"> *</Typography.Text>
                                     <Form.Item
                                         name={"author"}
@@ -54,7 +54,7 @@ const ProductReviews: FC<PropType> = ({ reviews, reviewErrors, addReview, form }
                                     </Form.Item>
                                 </Col>
                                 <Col span={12}>
-                                    <Typography.Text>Your mark</Typography.Text>
+                                    <Typography.Text>Оценка</Typography.Text>
                                     <Typography.Text type="danger"> *</Typography.Text>
                                     <div>
                                         <Form.Item
@@ -69,7 +69,7 @@ const ProductReviews: FC<PropType> = ({ reviews, reviewErrors, addReview, form }
                             </Row>
                             <Row className={"product-reviews-wrapper"}>
                                 <Col span={24}>
-                                    <Typography.Text>Message text</Typography.Text>
+                                    <Typography.Text>Информация</Typography.Text>
                                     <Typography.Text type="danger"> *</Typography.Text>
                                     <Form.Item
                                         name={"message"}
@@ -83,7 +83,7 @@ const ProductReviews: FC<PropType> = ({ reviews, reviewErrors, addReview, form }
                             <Row className={"product-reviews-wrapper"}>
                                 <Col span={24}>
                                     <Button type={"primary"} htmlType={"submit"} icon={<SendOutlined />}>
-                                        Post a review
+                                        Добави Ревю
                                     </Button>
                                 </Col>
                             </Row>

@@ -145,7 +145,7 @@ const Order: FC = (): ReactElement => {
                         </Row>
                         <Row gutter={[32, 32]} style={{ marginTop: 16 }}>
                             <Col span={12}>
-                                <Typography.Title level={3}>To pay : $ {totalPrice}.00</Typography.Title>
+                                <Typography.Title level={3}>To pay :  {totalPrice}.00</Typography.Title>
                             </Col>
                             <Col>
                                 <Button

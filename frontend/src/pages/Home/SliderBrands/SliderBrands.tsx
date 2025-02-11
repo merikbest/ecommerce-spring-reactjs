@@ -9,9 +9,10 @@ const SliderBrands: FC = (): ReactElement => {
     return (
         <div className={"brands-wrapper"}>
             <Typography.Title level={3} className={"brands-wrapper-title"}>
-                BRANDS
+                Видове Кристали, Минерали и Сувенири
             </Typography.Title>
             <Carousel className={"brands-carousel"} autoplay>
+               
                 <SliderBrandsItem brands={brandsItem.slice(0, 6)} />
                 <SliderBrandsItem brands={brandsItem.slice(6, 12)} />
                 <SliderBrandsItem brands={brandsItem.slice(12, 18)} />

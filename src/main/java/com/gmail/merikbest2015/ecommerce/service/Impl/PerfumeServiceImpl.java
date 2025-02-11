@@ -1,5 +1,24 @@
 package com.gmail.merikbest2015.ecommerce.service.Impl;
 
+import static com.gmail.merikbest2015.ecommerce.constants.ErrorMessage.PERFUME_NOT_FOUND;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.gmail.merikbest2015.ecommerce.domain.Perfume;
@@ -9,24 +28,9 @@ import com.gmail.merikbest2015.ecommerce.exception.ApiRequestException;
 import com.gmail.merikbest2015.ecommerce.repository.PerfumeRepository;
 import com.gmail.merikbest2015.ecommerce.repository.projection.PerfumeProjection;
 import com.gmail.merikbest2015.ecommerce.service.PerfumeService;
+
 import graphql.schema.DataFetcher;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import static com.gmail.merikbest2015.ecommerce.constants.ErrorMessage.PERFUME_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +38,9 @@ public class PerfumeServiceImpl implements PerfumeService {
 
     private final PerfumeRepository perfumeRepository;
     private final AmazonS3 amazonS3client;
+    
+    @Value("${upload.dir}") // Define this in application.properties
+    private String uploadDir;
 
     @Value("${amazon.s3.bucket.name}")
     private String bucketName;
@@ -89,22 +96,29 @@ public class PerfumeServiceImpl implements PerfumeService {
     @Override
     @Transactional
     public Perfume savePerfume(Perfume perfume, MultipartFile multipartFile) {
-        if (multipartFile == null) {
-            perfume.setFilename(amazonS3client.getUrl(bucketName, "empty.jpg").toString());
-        } else {
-            File file = new File(multipartFile.getOriginalFilename());
-            try (FileOutputStream fos = new FileOutputStream(file)) {
-                fos.write(multipartFile.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            if (multipartFile == null || multipartFile.isEmpty()) {
+                // No file provided, set default image as null or a placeholder
+                perfume.setImageData(null);
+                perfume.setImageName("empty.jpg");
+                perfume.setImageType("image/jpeg");
+            } else {
+                // Convert file to byte array
+                byte[] imageBytes = multipartFile.getBytes();
+                String fileName = UUID.randomUUID().toString() + "_" + multipartFile.getOriginalFilename();
+
+                // Save image in the database
+                perfume.setImageData(imageBytes);
+                perfume.setImageName(fileName);
+                perfume.setImageType(multipartFile.getContentType());
             }
-            String fileName = UUID.randomUUID().toString() + "." + multipartFile.getOriginalFilename();
-            amazonS3client.putObject(new PutObjectRequest(bucketName, fileName, file));
-            perfume.setFilename(amazonS3client.getUrl(bucketName, fileName).toString());
-            file.delete();
+        } catch (IOException e) {
+            throw new RuntimeException("Error saving image", e);
         }
+
         return perfumeRepository.save(perfume);
     }
+
 
     @Override
     @Transactional
