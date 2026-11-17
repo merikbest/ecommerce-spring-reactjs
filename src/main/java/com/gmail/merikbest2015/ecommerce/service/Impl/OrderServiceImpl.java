@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,8 +39,15 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order getOrderById(Long orderId) {
-        return orderRepository.findById(orderId)
+        Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ApiRequestException(ORDER_NOT_FOUND, HttpStatus.NOT_FOUND));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = authentication != null && authentication.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ADMIN"));
+        if (!isAdmin && (authentication == null || !order.getEmail().equals(authentication.getName()))) {
+            throw new ApiRequestException(ORDER_NOT_FOUND, HttpStatus.NOT_FOUND);
+        }
+        return order;
     }
 
     @Override
